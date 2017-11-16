@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Automatically adds branch name to the begin of every commit message if the branch is a "Jira branch"
+
+ISSUE_CODE=$(git branch | grep '*' | sed 's/.*\([A-Z]\{3\}-[[:digit:]]*\).*/\1/')
+
+if [[ ${ISSUE_CODE} =~ ^[A-Z]{3}-[0-9]+$ ]]; then
+    echo "$ISSUE_CODE" $(cat "$1") > "$1"
+fi
