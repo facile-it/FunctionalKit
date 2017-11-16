@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
+		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
 		38F179951FBDA3F500243994 /* FunctionalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38F1799C1FBDA50700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; };
 		38F1799D1FBDA50700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; };
@@ -90,6 +91,7 @@
 /* Begin PBXFileReference section */
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
+		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F179931FBDA3F500243994 /* FunctionalKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionalKit.h; sourceTree = "<group>"; };
 		38F179941FBDA3F500243994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				38F179CD1FBDA85100243994 /* CombinatorsTests.swift */,
 				3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */,
 				3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */,
+				3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -411,6 +414,7 @@
 			files = (
 				38F179D21FBDA85200243994 /* Assertion.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
+				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
 				3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */,
 				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
 				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,

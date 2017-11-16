@@ -12,6 +12,17 @@ func ==! <A> (lhs: A, rhs: A) where A: Equatable {
 	XCTAssertEqual(lhs, rhs)
 }
 
+func ==! <A,B> (lhs: (A,B), rhs: (A,B)) where A: Equatable, B: Equatable {
+	XCTAssertEqual(lhs.0, rhs.0)
+	XCTAssertEqual(lhs.1, rhs.1)
+}
+
+func ==! <A,B,C> (lhs: (A,B,C), rhs: (A,B,C)) where A: Equatable, B: Equatable, C: Equatable {
+	XCTAssertEqual(lhs.0, rhs.0)
+	XCTAssertEqual(lhs.1, rhs.1)
+	XCTAssertEqual(lhs.2, rhs.2)
+}
+
 func ==! <A> (lhs: [A], rhs: [A]) where A: Equatable {
 	XCTAssertEqual(lhs, rhs)
 }
