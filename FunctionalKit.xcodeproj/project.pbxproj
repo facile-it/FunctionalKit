@@ -26,10 +26,31 @@
 		38F1799D1FBDA50700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; };
 		38F1799F1FBDA51700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799E1FBDA51700243994 /* Operadics.framework */; };
 		38F179A11FBDA57700243994 /* Operadics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38F179B71FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
+		38F179B81FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
+		38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AD1FBDA7B400243994 /* Coproduct.swift */; };
+		38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AD1FBDA7B400243994 /* Coproduct.swift */; };
+		38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AE1FBDA7B400243994 /* Boolean.swift */; };
+		38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AE1FBDA7B400243994 /* Boolean.swift */; };
+		38F179BD1FBDA7B500243994 /* Combinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AF1FBDA7B400243994 /* Combinators.swift */; };
+		38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AF1FBDA7B400243994 /* Combinators.swift */; };
+		38F179BF1FBDA7B500243994 /* Curry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B01FBDA7B400243994 /* Curry.swift */; };
+		38F179C01FBDA7B500243994 /* Curry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B01FBDA7B400243994 /* Curry.swift */; };
+		38F179C11FBDA7B500243994 /* Fixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B11FBDA7B500243994 /* Fixed.swift */; };
+		38F179C21FBDA7B500243994 /* Fixed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B11FBDA7B500243994 /* Fixed.swift */; };
+		38F179C31FBDA7B500243994 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B21FBDA7B500243994 /* Operators.swift */; };
+		38F179C41FBDA7B500243994 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B21FBDA7B500243994 /* Operators.swift */; };
+		38F179C51FBDA7B500243994 /* Exponential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B31FBDA7B500243994 /* Exponential.swift */; };
+		38F179C61FBDA7B500243994 /* Exponential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B31FBDA7B500243994 /* Exponential.swift */; };
+		38F179C71FBDA7B500243994 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B41FBDA7B500243994 /* Product.swift */; };
+		38F179C81FBDA7B500243994 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B41FBDA7B500243994 /* Product.swift */; };
+		38F179C91FBDA7B500243994 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B51FBDA7B500243994 /* Reference.swift */; };
+		38F179CA1FBDA7B500243994 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B51FBDA7B500243994 /* Reference.swift */; };
+		38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B61FBDA7B500243994 /* Typealiases.swift */; };
+		38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B61FBDA7B500243994 /* Typealiases.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_27 /* FunctionalKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* FunctionalKitTests.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
-		OBJ_36 /* FunctionalKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* FunctionalKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,11 +95,21 @@
 		38F179A91FBDA6D900243994 /* codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = codecov.yml; sourceTree = "<group>"; };
 		38F179AA1FBDA6D900243994 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		38F179AB1FBDA77900243994 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		38F179AC1FBDA7B400243994 /* Weakly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weakly.swift; sourceTree = "<group>"; };
+		38F179AD1FBDA7B400243994 /* Coproduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coproduct.swift; sourceTree = "<group>"; };
+		38F179AE1FBDA7B400243994 /* Boolean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boolean.swift; sourceTree = "<group>"; };
+		38F179AF1FBDA7B400243994 /* Combinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Combinators.swift; sourceTree = "<group>"; };
+		38F179B01FBDA7B400243994 /* Curry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curry.swift; sourceTree = "<group>"; };
+		38F179B11FBDA7B500243994 /* Fixed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixed.swift; sourceTree = "<group>"; };
+		38F179B21FBDA7B500243994 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		38F179B31FBDA7B500243994 /* Exponential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exponential.swift; sourceTree = "<group>"; };
+		38F179B41FBDA7B500243994 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		38F179B51FBDA7B500243994 /* Reference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reference.swift; sourceTree = "<group>"; };
+		38F179B61FBDA7B500243994 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* FunctionalKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalKitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_9 /* FunctionalKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +224,17 @@
 		OBJ_8 /* FunctionalKit */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* FunctionalKit.swift */,
+				38F179AE1FBDA7B400243994 /* Boolean.swift */,
+				38F179AF1FBDA7B400243994 /* Combinators.swift */,
+				38F179AD1FBDA7B400243994 /* Coproduct.swift */,
+				38F179B01FBDA7B400243994 /* Curry.swift */,
+				38F179B31FBDA7B500243994 /* Exponential.swift */,
+				38F179B11FBDA7B500243994 /* Fixed.swift */,
+				38F179B21FBDA7B500243994 /* Operators.swift */,
+				38F179B41FBDA7B500243994 /* Product.swift */,
+				38F179B51FBDA7B500243994 /* Reference.swift */,
+				38F179B61FBDA7B500243994 /* Typealiases.swift */,
+				38F179AC1FBDA7B400243994 /* Weakly.swift */,
 			);
 			name = FunctionalKit;
 			path = Sources/FunctionalKit;
@@ -290,6 +331,7 @@
 					38F179901FBDA3F500243994 = {
 						CreatedOnToolsVersion = 9.1;
 						DevelopmentTeam = 5MTJLVM7R2;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -330,6 +372,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38F179C21FBDA7B500243994 /* Fixed.swift in Sources */,
+				38F179C01FBDA7B500243994 /* Curry.swift in Sources */,
+				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
+				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
+				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
+				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
+				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
+				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
+				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
+				38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +406,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_36 /* FunctionalKit.swift in Sources */,
+				38F179BD1FBDA7B500243994 /* Combinators.swift in Sources */,
+				38F179C31FBDA7B500243994 /* Operators.swift in Sources */,
+				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
+				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
+				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
+				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
+				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
+				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
+				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
+				38F179C51FBDA7B500243994 /* Exponential.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,7 +493,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FunctionalKit-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.FunctionalKit-iOS";
@@ -439,6 +501,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -499,7 +562,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "FunctionalKit-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "it.broomburgo.FunctionalKit-iOS";
@@ -583,6 +645,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DXcode";
@@ -652,6 +715,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
