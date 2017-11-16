@@ -1,0 +1,87 @@
+import XCTest
+import Operadics
+
+precedencegroup AssertionPrecedence {
+	associativity: left
+	lowerThan: LeftApplyPrecedence
+}
+
+infix operator ==! : AssertionPrecedence
+
+func ==! <A> (lhs: A, rhs: A) where A: Equatable {
+	XCTAssertEqual(lhs, rhs)
+}
+
+func ==! <A> (lhs: [A], rhs: [A]) where A: Equatable {
+	XCTAssertEqual(lhs, rhs)
+}
+
+func ==! <A> (lhs: A?, rhs: A?) where A: Equatable {
+	XCTAssertEqual(lhs, rhs)
+}
+
+func ==! <K,A> (lhs: [K:A], rhs: [K:A]) where A: Equatable {
+	XCTAssertEqual(lhs, rhs)
+}
+
+postfix operator ==!
+
+postfix func ==! <A> (_ a: A?) {
+	XCTAssertNotNil(a)
+}
+
+postfix operator ==?
+
+postfix func ==? <A> (_ a: A?) {
+	XCTAssertNil(a)
+}
+
+protocol ExpectationProvider {
+	func getExpectation(_ description: String) -> XCTestExpectation
+	func checkExpectations()
+}
+
+extension XCTestCase: ExpectationProvider {
+	func getExpectation(_ description: String) -> XCTestExpectation {
+		return expectation(description: description)
+	}
+
+	func checkExpectations() {
+		waitForExpectations(timeout: 1, handler: nil)
+	}
+}
+
+extension ExpectationProvider {
+	func expecting(_ description: String, expectationFunction: (() -> ()) -> ()) {
+		let a = getExpectation(description)
+		expectationFunction({
+			a.fulfill()
+		})
+		checkExpectations()
+	}
+
+	func expecting(_ description1: String, _ description2: String, expectationFunction: (() -> (),() -> ()) -> ()) {
+		let a = getExpectation(description1)
+		let b = getExpectation(description2)
+		expectationFunction({
+			a.fulfill()
+		},{
+			b.fulfill()
+		})
+		checkExpectations()
+	}
+
+	func expecting(_ description1: String, _ description2: String, _ description3: String, expectationFunction: (() -> (),() -> (),() -> ()) -> ()) {
+		let a = getExpectation(description1)
+		let b = getExpectation(description2)
+		let c = getExpectation(description3)
+		expectationFunction({
+			a.fulfill()
+		},{
+			b.fulfill()
+		},{
+			c.fulfill()
+		})
+		checkExpectations()
+	}
+}

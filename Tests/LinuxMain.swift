@@ -2,5 +2,6 @@ import XCTest
 @testable import FunctionalKitTests
 
 XCTMain([
-    testCase(FunctionalKitTests.allTests),
+    testCase(BooleanTests.allTests),
+	testCase(CombinatorsTests.allTests),
 ])

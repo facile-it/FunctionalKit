@@ -48,8 +48,10 @@
 		38F179CA1FBDA7B500243994 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B51FBDA7B500243994 /* Reference.swift */; };
 		38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B61FBDA7B500243994 /* Typealiases.swift */; };
 		38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179B61FBDA7B500243994 /* Typealiases.swift */; };
+		38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179CD1FBDA85100243994 /* CombinatorsTests.swift */; };
+		38F179D21FBDA85200243994 /* Assertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179CE1FBDA85100243994 /* Assertion.swift */; };
+		38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179D01FBDA85200243994 /* BooleanTests.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_27 /* FunctionalKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* FunctionalKitTests.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -106,9 +108,11 @@
 		38F179B41FBDA7B500243994 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		38F179B51FBDA7B500243994 /* Reference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reference.swift; sourceTree = "<group>"; };
 		38F179B61FBDA7B500243994 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
+		38F179CD1FBDA85100243994 /* CombinatorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinatorsTests.swift; sourceTree = "<group>"; };
+		38F179CE1FBDA85100243994 /* Assertion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertion.swift; sourceTree = "<group>"; };
+		38F179D01FBDA85200243994 /* BooleanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanTests.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_12 /* FunctionalKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalKitTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,7 +187,9 @@
 		OBJ_11 /* FunctionalKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_12 /* FunctionalKitTests.swift */,
+				38F179CE1FBDA85100243994 /* Assertion.swift */,
+				38F179D01FBDA85200243994 /* BooleanTests.swift */,
+				38F179CD1FBDA85100243994 /* CombinatorsTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -398,7 +404,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_27 /* FunctionalKitTests.swift in Sources */,
+				38F179D21FBDA85200243994 /* Assertion.swift in Sources */,
+				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
+				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
