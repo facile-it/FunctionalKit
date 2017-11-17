@@ -2,7 +2,6 @@ import XCTest
 @testable import FunctionalKit
 
 class ReferenceTests: XCTestCase {
-
 	func testNotifySingleListener() {
 		let ref = Ref<Int>.init(0)
 		let key = "key"
@@ -10,8 +9,8 @@ class ReferenceTests: XCTestCase {
 
 		expecting("listener is notified") { fulfill in
 			ref.add(listener: key) { (x: Int) in
-					x ==! expected
-					fulfill()
+				x ==! expected
+				fulfill()
 			}
 
 			ref.value = expected
@@ -83,4 +82,11 @@ class ReferenceTests: XCTestCase {
 			fulfill()
 		}
 	}
+
+	static var allTests = [
+		("testNotifySingleListener", testNotifySingleListener),
+		("testNotifyMultipleListeners", testNotifyMultipleListeners),
+		("testNotifySingleListenerRemovingOther", testNotifySingleListenerRemovingOther),
+		("testNotifyNoListener", testNotifyNoListener),
+		]
 }

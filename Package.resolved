@@ -2,12 +2,39 @@
   "object": {
     "pins": [
       {
+        "package": "Abstract",
+        "repositoryURL": "https://github.com/typelift/Abstract.git",
+        "state": {
+          "branch": null,
+          "revision": "2db616224c8b49366e7bbb561cbcdc9712a0acbc",
+          "version": "0.0.1"
+        }
+      },
+      {
+        "package": "FileCheck",
+        "repositoryURL": "https://github.com/trill-lang/FileCheck.git",
+        "state": {
+          "branch": null,
+          "revision": "083073480112406580f0242036a079f9f8b170ad",
+          "version": "0.0.4"
+        }
+      },
+      {
         "package": "Operadics",
         "repositoryURL": "https://github.com/typelift/Operadics.git",
         "state": {
           "branch": null,
           "revision": "c2a14919b3653a39a9bf268c1ae0bf71ad6833fe",
           "version": "0.3.0"
+        }
+      },
+      {
+        "package": "SwiftCheck",
+        "repositoryURL": "https://github.com/typelift/SwiftCheck.git",
+        "state": {
+          "branch": null,
+          "revision": "df82fb889864945c64458f38846702af729b3ee4",
+          "version": "0.9.1"
         }
       }
     ]

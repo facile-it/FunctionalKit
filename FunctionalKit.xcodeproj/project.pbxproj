@@ -25,10 +25,6 @@
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
 		38F179951FBDA3F500243994 /* FunctionalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38F1799C1FBDA50700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; };
-		38F1799D1FBDA50700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; };
-		38F1799F1FBDA51700243994 /* Operadics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1799E1FBDA51700243994 /* Operadics.framework */; };
-		38F179A11FBDA57700243994 /* Operadics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F1799B1FBDA50700243994 /* Operadics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38F179B71FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
 		38F179B81FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
 		38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AD1FBDA7B400243994 /* Coproduct.swift */; };
@@ -61,6 +57,10 @@
 		38F3C81F1FBEF71E0014D30D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* Result.swift */; };
 		38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
 		38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
+		38F3C8251FBF40650014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; };
+		38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; };
+		38F3C8271FBF406A0014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8231FBF40600014D30D /* Abstract.framework */; };
+		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -89,7 +89,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				38F179A11FBDA57700243994 /* Operadics.framework in CopyFiles */,
+				38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +102,6 @@
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F179931FBDA3F500243994 /* FunctionalKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionalKit.h; sourceTree = "<group>"; };
 		38F179941FBDA3F500243994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		38F1799B1FBDA50700243994 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/Mac/Operadics.framework; sourceTree = "<group>"; };
-		38F1799E1FBDA51700243994 /* Operadics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operadics.framework; path = Carthage/Build/iOS/Operadics.framework; sourceTree = "<group>"; };
 		38F179A41FBDA62500243994 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
 		38F179A81FBDA6D900243994 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		38F179A91FBDA6D900243994 /* codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = codecov.yml; sourceTree = "<group>"; };
@@ -129,6 +127,8 @@
 		38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaklyTests.swift; sourceTree = "<group>"; };
 		38F3C81D1FBEF71D0014D30D /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		38F3C8201FBF2B370014D30D /* Inclusive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inclusive.swift; sourceTree = "<group>"; };
+		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
+		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F1799F1FBDA51700243994 /* Operadics.framework in Frameworks */,
+				38F3C8271FBF406A0014D30D /* Abstract.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,8 +147,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */,
 				OBJ_29 /* FunctionalKit.framework in Frameworks */,
-				38F1799C1FBDA50700243994 /* Operadics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				38F1799D1FBDA50700243994 /* Operadics.framework in Frameworks */,
+				38F3C8251FBF40650014D30D /* Abstract.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,8 +175,8 @@
 		38F1799A1FBDA4EE00243994 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				38F1799B1FBDA50700243994 /* Operadics.framework */,
-				38F1799E1FBDA51700243994 /* Operadics.framework */,
+				38F3C8241FBF40600014D30D /* Abstract.framework */,
+				38F3C8231FBF40600014D30D /* Abstract.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

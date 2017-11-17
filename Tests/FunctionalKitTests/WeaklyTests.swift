@@ -29,4 +29,10 @@ class WeaklyTests: XCTestCase {
 			value ==! this.value
 		}
 	}
+
+	static var allTests = [
+		("testWeaklyNone", testWeaklyNone),
+		("testWeaklyNoneIO", testWeaklyNoneIO),
+		("testWeaklySomeIO", testWeaklySomeIO),
+		]
 }
