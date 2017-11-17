@@ -11,29 +11,33 @@ public enum Coproduct<A,B>: CoproductType {
 
 	public func fold<T>(onLeft: @escaping (A) -> T, onRight: @escaping (B) -> T) -> T {
 		switch self {
-		case .left(let value):
-			return onLeft(value)
-		case .right(let value):
-			return onRight(value)
+		case .left(let a):
+			return onLeft(a)
+		case .right(let b):
+			return onRight(b)
 		}
 	}
 }
 
-extension Coproduct where A: Equatable, B: Equatable {
-	public static func == (lhs: Coproduct, rhs: Coproduct) -> Bool {
+// MARK: - Equatable
+
+extension CoproductType where LeftType: Equatable, RightType: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
 		return lhs.fold(
 			onLeft: { left in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onRight: { _ in false })
+					onRight: constant(false))
 		},
 			onRight: { right in
 				rhs.fold(
-					onLeft: { _ in false },
+					onLeft: constant(false),
 					onRight: { right == $0 })
 		})
 	}
 }
+
+// MARK: - Projections
 
 extension CoproductType {
 	public var toCoproduct: Coproduct<LeftType,RightType> {
@@ -55,7 +59,17 @@ extension CoproductType {
 	public func foldToRight(_ transform: @escaping (LeftType) -> RightType) -> RightType {
 		return fold(onLeft: transform, onRight: identity)
 	}
+}
 
+extension CoproductType where LeftType == RightType {
+	public var merged: LeftType {
+		return fold(onLeft: identity, onRight: identity)
+	}
+}
+
+// MARK: - Functor
+
+extension CoproductType {
 	public func bimap<T,U>(onLeft: @escaping (LeftType) -> T, onRight: @escaping (RightType) -> U) -> Coproduct<T,U> {
 		return fold(
 			onLeft: { Coproduct<T,U>.left(onLeft($0)) },

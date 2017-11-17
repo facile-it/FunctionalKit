@@ -57,6 +57,10 @@
 		38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8151FBEC9B10014D30D /* ProductTests.swift */; };
 		38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */; };
 		38F3C81C1FBEDC5D0014D30D /* WeaklyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */; };
+		38F3C81E1FBEF71E0014D30D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* Result.swift */; };
+		38F3C81F1FBEF71E0014D30D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* Result.swift */; };
+		38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
+		38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -123,6 +127,8 @@
 		38F3C8151FBEC9B10014D30D /* ProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTests.swift; sourceTree = "<group>"; };
 		38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceTests.swift; sourceTree = "<group>"; };
 		38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaklyTests.swift; sourceTree = "<group>"; };
+		38F3C81D1FBEF71D0014D30D /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		38F3C8201FBF2B370014D30D /* Inclusive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inclusive.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -253,9 +259,11 @@
 				38F179B01FBDA7B400243994 /* Curry.swift */,
 				38F179B31FBDA7B500243994 /* Exponential.swift */,
 				38F179B11FBDA7B500243994 /* Fixed.swift */,
+				38F3C8201FBF2B370014D30D /* Inclusive.swift */,
 				38F179B21FBDA7B500243994 /* Operators.swift */,
 				38F179B41FBDA7B500243994 /* Product.swift */,
 				38F179B51FBDA7B500243994 /* Reference.swift */,
+				38F3C81D1FBEF71D0014D30D /* Result.swift */,
 				38F179B61FBDA7B500243994 /* Typealiases.swift */,
 				38F179AC1FBDA7B400243994 /* Weakly.swift */,
 			);
@@ -401,6 +409,8 @@
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
 				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
+				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
+				38F3C81F1FBEF71E0014D30D /* Result.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
@@ -443,6 +453,8 @@
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
 				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
+				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
+				38F3C81E1FBEF71E0014D30D /* Result.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,

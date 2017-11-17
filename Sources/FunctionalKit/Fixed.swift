@@ -14,6 +14,14 @@ public func constant <A,B> (_ a : A) -> (B) -> A {
 	return { _ in a }
 }
 
+public func constant <A,B,C> (_ a : A) -> (B,C) -> A {
+	return { _, _ in a }
+}
+
+public func constant <A,B,C,D> (_ a : A) -> (B,C,D) -> A {
+	return { _, _, _ in a }
+}
+
 public func destructure <A,B,T> (_ function: @escaping (A,B) -> T) -> ((A,B)) -> T {
 	return { tuple in function(tuple.0,tuple.1) }
 }
