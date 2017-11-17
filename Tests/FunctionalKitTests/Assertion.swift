@@ -47,6 +47,10 @@ postfix func ==? <A> (_ a: A?) {
 	XCTAssertNil(a)
 }
 
+func notExpected(_ message: String? = nil) {
+	XCTFail(message ?? "")
+}
+
 protocol ExpectationProvider {
 	func getExpectation(_ description: String) -> XCTestExpectation
 	func checkExpectations()
@@ -63,7 +67,7 @@ extension XCTestCase: ExpectationProvider {
 }
 
 extension ExpectationProvider {
-	func expecting(_ description: String, expectationFunction: (() -> ()) -> ()) {
+	func expecting(_ description: String, expectationFunction: (@escaping () -> ()) -> ()) {
 		let a = getExpectation(description)
 		expectationFunction({
 			a.fulfill()
@@ -71,7 +75,7 @@ extension ExpectationProvider {
 		checkExpectations()
 	}
 
-	func expecting(_ description1: String, _ description2: String, expectationFunction: (() -> (),() -> ()) -> ()) {
+	func expecting(_ description1: String, _ description2: String, expectationFunction: (@escaping () -> (), @escaping () -> ()) -> ()) {
 		let a = getExpectation(description1)
 		let b = getExpectation(description2)
 		expectationFunction({
@@ -82,7 +86,7 @@ extension ExpectationProvider {
 		checkExpectations()
 	}
 
-	func expecting(_ description1: String, _ description2: String, _ description3: String, expectationFunction: (() -> (),() -> (),() -> ()) -> ()) {
+	func expecting(_ description1: String, _ description2: String, _ description3: String, expectationFunction: (@escaping () -> (), @escaping () -> (), @escaping () -> ()) -> ()) {
 		let a = getExpectation(description1)
 		let b = getExpectation(description2)
 		let c = getExpectation(description3)
