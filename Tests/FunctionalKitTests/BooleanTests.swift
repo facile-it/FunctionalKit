@@ -32,6 +32,9 @@ class BooleanTests: XCTestCase {
 
 	func testIfTrue() {
 		expecting("ifTrue works as expected") { fulfill in
+			true.ifFalse {
+				notExpected()
+			}
 			true.ifTrue {
 				fulfill()
 			}
@@ -40,6 +43,9 @@ class BooleanTests: XCTestCase {
 
 	func testIfFalse() {
 		expecting("ifFalse works as expected") { fulfill in
+			false.ifTrue {
+				notExpected()
+			}
 			false.ifFalse {
 				fulfill()
 			}

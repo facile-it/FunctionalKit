@@ -50,11 +50,11 @@ public func third <A,B,C> (_ a: A, _ b: B, _ c: C) -> C {
 	return c
 }
 
-public func flatten <A,B,C> (_ ab: (A,B), c: C) -> (A,B,C) {
+public func flatten <A,B,C> (_ ab: (A,B), _ c: C) -> (A,B,C) {
 	return (ab.0, ab.1, c)
 }
 
-public func flatten <A,B,C> (_ a: A, bc: (B,C)) -> (A,B,C) {
+public func flatten <A,B,C> (_ a: A, _ bc: (B,C)) -> (A,B,C) {
 	return (a, bc.0, bc.1)
 }
 
