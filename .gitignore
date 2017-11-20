@@ -4,3 +4,4 @@
 FunctionalKit.xcodeproj/xcuserdata
 FunctionalKit.xcodeproj/project.xcworkspace/xcuserdata
 Carthage/Checkouts
+*.bcsymbolmap

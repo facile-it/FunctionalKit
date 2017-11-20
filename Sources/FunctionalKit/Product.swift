@@ -19,11 +19,15 @@ public struct Product<A,B>: ProductType {
 	}
 }
 
-extension Product where A: Equatable, B: Equatable {
-	public static func == (lhs: Product, rhs: Product) -> Bool {
+// MARK: - Equatable
+
+extension ProductType where FirstType: Equatable, SecondType: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
 		return lhs.fold(identity) == rhs.fold(identity)
 	}
 }
+
+// MARK: - Projections
 
 extension ProductType {
 	public var toProduct: Product<FirstType,SecondType> {
@@ -41,7 +45,29 @@ extension ProductType {
 	public var unwrap: (FirstType,SecondType) {
 		return fold(identity)
 	}
+}
 
+// MARK: - Evaluation
+
+extension ProductType where FirstType: ExponentialType, FirstType.SourceType == SecondType {
+	public var eval: FirstType.TargetType {
+		return fold { (exponential, value) -> FirstType.TargetType in
+			exponential.call(value)
+		}
+	}
+}
+
+extension ProductType where SecondType: ExponentialType, SecondType.SourceType == FirstType {
+	public var eval: SecondType.TargetType {
+		return fold { (value, exponential) -> SecondType.TargetType in
+			exponential.call(value)
+		}
+	}
+}
+
+// MARK: - Functor
+
+extension ProductType {
 	public func bimap<T,U>(onFirst: @escaping (FirstType) -> T, onSecond: @escaping (SecondType) -> U) -> Product<T,U> {
 		return fold { first, second in Product<T,U>.init(onFirst(first), onSecond(second)) }
 	}

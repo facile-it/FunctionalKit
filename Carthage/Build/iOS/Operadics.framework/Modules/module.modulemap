@@ -1,11 +1,4 @@
 framework module Operadics {
-  umbrella header "Operadics.h"
-
-  export *
-  module * { export * }
-}
-
-module Operadics.Swift {
     header "Operadics-Swift.h"
     requires objc
 }

@@ -30,4 +30,10 @@ class CoproductTests: XCTestCase {
 		TestType.right("42").mapLeft { $0*2 }.tryRight! ==! "42"
 		TestType.right("42").mapRight { $0 + "!" }.tryRight! ==! "42!"
 	}
+
+	static var allTests = [
+		("testTry", testTry),
+		("testFold", testFold),
+		("testMap", testMap),
+		]
 }

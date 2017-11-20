@@ -80,18 +80,14 @@ public prefix func .. <B,C> (function: @escaping (B) throws -> C) -> (@escaping 
 	return { ab in compose(ab, function) }
 }
 
-public func apply <A,B> (_ function: (A) throws -> B, _ value: A) rethrows -> B {
+public func § <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
 	return try function(value)
 }
 
-public func § <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
-	return try apply(function, value)
-}
-
 public func |> <A,B> (value: A, function: (A) throws -> B) rethrows -> B {
-	return try apply(function, value)
+	return try function(value)
 }
 
 public func <| <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
-	return try apply(function, value)
+	return try function(value)
 }

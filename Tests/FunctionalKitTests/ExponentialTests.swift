@@ -32,4 +32,10 @@ class ExponentialTests: XCTestCase {
 		let mapped = exp.dimap(source: plus3, target: minus3)
 		mapped.call(42) ==! 87
 	}
+
+	static var allTests = [
+		("testMap", testMap),
+		("testContramap", testContramap),
+		("testDimap", testDimap),
+		]
 }

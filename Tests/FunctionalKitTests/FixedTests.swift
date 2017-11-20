@@ -30,4 +30,11 @@ class FixedTests: XCTestCase {
 		flatten((42,43),44) ==! (42,43,44)
 		flatten(42,(43,44)) ==! (42,43,44)
 	}
+
+	static var allTests = [
+		("testIdentity", testIdentity),
+		("testConstant", testConstant),
+		("testDestructure", testDestructure),
+		("testFlatten", testFlatten),
+		]
 }

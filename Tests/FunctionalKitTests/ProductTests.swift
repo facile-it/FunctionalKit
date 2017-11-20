@@ -13,4 +13,9 @@ class ProductTests: XCTestCase {
 		Product.init(42, "42").mapSecond { $0 + "!" }.first ==! 42
 		Product.init(42, "42").mapSecond { $0 + "!" }.second ==! "42!"
 	}
+
+	static var allTests = [
+		("testFold", testFold),
+		("testMap", testMap),
+		]
 }
