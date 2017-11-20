@@ -1,5 +1,7 @@
 import Abstract
 
+// MARK: - Definiton
+
 public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
@@ -15,6 +17,8 @@ extension ResultType {
 		return fold(onSuccess: onRight, onFailure: onLeft)
 	}
 }
+
+// MARK: - Data
 
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
