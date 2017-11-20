@@ -55,8 +55,8 @@
 		38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8151FBEC9B10014D30D /* ProductTests.swift */; };
 		38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */; };
 		38F3C81C1FBEDC5D0014D30D /* WeaklyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */; };
-		38F3C81E1FBEF71E0014D30D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* Result.swift */; };
-		38F3C81F1FBEF71E0014D30D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* Result.swift */; };
+		38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* ResultType.swift */; };
+		38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C81D1FBEF71D0014D30D /* ResultType.swift */; };
 		38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
 		38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3C8201FBF2B370014D30D /* Inclusive.swift */; };
 		38F3C8251FBF40650014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; };
@@ -128,7 +128,7 @@
 		38F3C8151FBEC9B10014D30D /* ProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTests.swift; sourceTree = "<group>"; };
 		38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceTests.swift; sourceTree = "<group>"; };
 		38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaklyTests.swift; sourceTree = "<group>"; };
-		38F3C81D1FBEF71D0014D30D /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		38F3C81D1FBEF71D0014D30D /* ResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		38F3C8201FBF2B370014D30D /* Inclusive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inclusive.swift; sourceTree = "<group>"; };
 		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 				38F179B41FBDA7B500243994 /* Product.swift */,
 				38939BA01FC2DC3100012794 /* Protocols.swift */,
 				38F179B51FBDA7B500243994 /* Reference.swift */,
-				38F3C81D1FBEF71D0014D30D /* Result.swift */,
+				38F3C81D1FBEF71D0014D30D /* ResultType.swift */,
 				38F179B61FBDA7B500243994 /* Typealiases.swift */,
 				38F179AC1FBDA7B400243994 /* Weakly.swift */,
 			);
@@ -414,7 +414,7 @@
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
 				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
-				38F3C81F1FBEF71E0014D30D /* Result.swift in Sources */,
+				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
@@ -459,7 +459,7 @@
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
 				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
-				38F3C81E1FBEF71E0014D30D /* Result.swift in Sources */,
+				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
