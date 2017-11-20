@@ -1,6 +1,6 @@
 import Abstract
 
-public protocol ResultType: TypeConstructor, Reducible, CoproductType {
+public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
 	init(success: ParameterType)
@@ -13,12 +13,6 @@ public protocol ResultType: TypeConstructor, Reducible, CoproductType {
 extension ResultType {
 	public func fold<U>(onLeft: @escaping (ErrorType) -> U, onRight: @escaping (ParameterType) -> U) -> U {
 		return fold(onSuccess: onRight, onFailure: onLeft)
-	}
-}
-
-extension ResultType where LeftType == ErrorType, RightType == ParameterType {
-	public func reduce<Reduced>(_ initial: Reduced, _ nextPartial: (Reduced, Coproduct<ErrorType, ParameterType>) throws -> Reduced) rethrows -> Reduced {
-		return try nextPartial(initial,toCoproduct)
 	}
 }
 
@@ -54,6 +48,12 @@ public enum Result<E,T>: ResultType where E: Error {
 			return onFailure(error)
 		}
 	}
+}
+
+// MARK: - Concrete
+
+extension ResultType {
+	public typealias Concrete = Result<ErrorType,ParameterType>
 }
 
 // MARK: - Equatable
@@ -131,9 +131,9 @@ extension ResultType {
 			.mapError { $0.left }
 	}
 
-	public static func <*> <R,T> (lhs: Self, rhs: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	public static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(lhs, rhs)
-			.map { value, function in function(value) }
+			.map { function, value in function(value) }
 			.mapError { $0.left }
 	}
 }
@@ -145,10 +145,28 @@ extension ResultType where ErrorType: Semigroup {
 			.mapError { $0.merged() }
 	}
 
-	public static func <*> <R,T> (lhs: Self, rhs: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	public static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(lhs, rhs)
-			.map { value, function in function(value) }
+			.map { function, value in function(value) }
 			.mapError { $0.merged() }
+	}
+}
+
+// MARK: - Traversable
+
+extension ResultType {
+	public typealias Traversed<A> = Result<ErrorType,A.ParameterType> where A: TypeConstructor
+
+	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
+		typealias Returned = Result<R.ErrorType,Traversed<R>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				transform(value).map(Traversed<R>.success)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<R>.failure(error))
+		})
 	}
 }
 
