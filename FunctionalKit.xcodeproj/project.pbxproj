@@ -24,6 +24,8 @@
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
+		38939BA11FC2DC3100012794 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* Protocols.swift */; };
+		38939BA21FC2DC3100012794 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* Protocols.swift */; };
 		38F179951FBDA3F500243994 /* FunctionalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38F179B71FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
 		38F179B81FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
@@ -99,6 +101,7 @@
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
+		38939BA01FC2DC3100012794 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F179931FBDA3F500243994 /* FunctionalKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionalKit.h; sourceTree = "<group>"; };
 		38F179941FBDA3F500243994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -262,6 +265,7 @@
 				38F3C8201FBF2B370014D30D /* Inclusive.swift */,
 				38F179B21FBDA7B500243994 /* Operators.swift */,
 				38F179B41FBDA7B500243994 /* Product.swift */,
+				38939BA01FC2DC3100012794 /* Protocols.swift */,
 				38F179B51FBDA7B500243994 /* Reference.swift */,
 				38F3C81D1FBEF71D0014D30D /* Result.swift */,
 				38F179B61FBDA7B500243994 /* Typealiases.swift */,
@@ -414,6 +418,7 @@
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
+				38939BA21FC2DC3100012794 /* Protocols.swift in Sources */,
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
 				38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */,
 			);
@@ -458,6 +463,7 @@
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				38939BA11FC2DC3100012794 /* Protocols.swift in Sources */,
 				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
 				38F179C51FBDA7B500243994 /* Exponential.swift in Sources */,
 			);

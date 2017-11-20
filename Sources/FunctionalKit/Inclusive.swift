@@ -1,3 +1,5 @@
+import Abstract
+
 public protocol InclusiveType {
 	associatedtype LeftType
 	associatedtype RightType
@@ -108,6 +110,12 @@ extension InclusiveType {
 extension InclusiveType where LeftType == RightType {
 	public func merged(composing: @escaping (LeftType,LeftType) -> LeftType) -> LeftType {
 		return fold(onLeft: identity, onCenter: composing, onRight: identity)
+	}
+}
+
+extension InclusiveType where LeftType == RightType, LeftType: Semigroup {
+	public func merged() -> LeftType {
+		return merged(composing: <>)
 	}
 }
 

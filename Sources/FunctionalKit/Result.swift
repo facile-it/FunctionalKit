@@ -1,8 +1,6 @@
-public protocol TypeConstructor {
-	associatedtype ParameterType
-}
+import Abstract
 
-public protocol ResultType: TypeConstructor {
+public protocol ResultType: TypeConstructor, Reducible, CoproductType {
 	associatedtype ErrorType: Error
 
 	init(success: ParameterType)
@@ -10,6 +8,18 @@ public protocol ResultType: TypeConstructor {
 
 	func run() throws -> ParameterType
 	func fold <A> (onSuccess: @escaping (ParameterType) -> A, onFailure: @escaping (ErrorType) -> A) -> A
+}
+
+extension ResultType {
+	public func fold<U>(onLeft: @escaping (ErrorType) -> U, onRight: @escaping (ParameterType) -> U) -> U {
+		return fold(onSuccess: onRight, onFailure: onLeft)
+	}
+}
+
+extension ResultType where LeftType == ErrorType, RightType == ParameterType {
+	public func reduce<Reduced>(_ initial: Reduced, _ nextPartial: (Reduced, Coproduct<ErrorType, ParameterType>) throws -> Reduced) rethrows -> Reduced {
+		return try nextPartial(initial,toCoproduct)
+	}
 }
 
 public enum Result<E,T>: ResultType where E: Error {
@@ -64,14 +74,6 @@ extension ResultType where ErrorType: Equatable, ParameterType: Equatable {
 	}
 }
 
-// MARK: - Coproduct
-
-extension Result: CoproductType {
-	public func fold<U>(onLeft: @escaping (E) -> U, onRight: @escaping (T) -> U) -> U {
-		return fold(onSuccess: onRight, onFailure: onLeft)
-	}
-}
-
 // MARK: - Functor
 
 extension ResultType {
@@ -115,3 +117,54 @@ extension ResultType {
 		})
 	}
 }
+
+// MARK: - Applicative
+
+extension ResultType {
+	public static func pure(_ value: ParameterType) -> Result<ErrorType,ParameterType> {
+		return Result<ErrorType,ParameterType>.success(value)
+	}
+
+	public func apply<R,T>(_ transform: R) -> Result<InclusiveError<ErrorType,R.ErrorType>,T> where R: ResultType, R.ParameterType == (ParameterType) -> T {
+		return Result.zip(self, transform)
+			.map { value, function in function(value) }
+	}
+}
+
+extension ResultType where ErrorType: Semigroup {
+	public func apply<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+		return Result.zip(self, transform)
+			.map { value, function in function(value) }
+			.mapError { $0.merged() }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
