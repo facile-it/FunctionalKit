@@ -108,6 +108,14 @@ extension InclusiveType {
 }
 
 extension InclusiveType where LeftType == RightType {
+	public var left: LeftType {
+		return fold(onLeft: identity, onCenter: first, onRight: identity)
+	}
+
+	public var right: RightType {
+		return fold(onLeft: identity, onCenter: second, onRight: identity)
+	}
+
 	public func merged(composing: @escaping (LeftType,LeftType) -> LeftType) -> LeftType {
 		return fold(onLeft: identity, onCenter: composing, onRight: identity)
 	}

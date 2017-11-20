@@ -125,46 +125,51 @@ extension ResultType {
 		return Result<ErrorType,ParameterType>.success(value)
 	}
 
-	public func apply<R,T>(_ transform: R) -> Result<InclusiveError<ErrorType,R.ErrorType>,T> where R: ResultType, R.ParameterType == (ParameterType) -> T {
+	public func apply<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(self, transform)
 			.map { value, function in function(value) }
+			.mapError { $0.left }
+	}
+
+	public static func <*> <R,T> (lhs: Self, rhs: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+		return Result.zip(lhs, rhs)
+			.map { value, function in function(value) }
+			.mapError { $0.left }
 	}
 }
 
 extension ResultType where ErrorType: Semigroup {
-	public func apply<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	public func applyMerge<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(self, transform)
+			.map { value, function in function(value) }
+			.mapError { $0.merged() }
+	}
+
+	public static func <*> <R,T> (lhs: Self, rhs: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+		return Result.zip(lhs, rhs)
 			.map { value, function in function(value) }
 			.mapError { $0.merged() }
 	}
 }
 
+// MARK: - Monad
 
+extension ResultType where ParameterType: ResultType, ParameterType.ErrorType == ErrorType {
+	public var joined: Result<ErrorType,ParameterType.ParameterType> {
+		return fold(
+			onSuccess: { subresult in
+				subresult.fold(
+					onSuccess: { value in Result.success(value) },
+					onFailure: { error in Result.failure(error) })
+		},
+			onFailure: { error in
+				Result.failure(error)
+		})
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+extension ResultType {
+	public func flatMap<R>(_ transform: @escaping (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
+		return map(transform).joined
+	}
+}
