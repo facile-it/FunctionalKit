@@ -5,9 +5,6 @@ import Abstract
 public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
-	init(success: ParameterType)
-	init(failure: ErrorType)
-
 	func run() throws -> ParameterType
 	func fold <A> (onSuccess: @escaping (ParameterType) -> A, onFailure: @escaping (ErrorType) -> A) -> A
 }
@@ -170,6 +167,18 @@ extension ResultType {
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<R>.failure(error))
+		})
+	}
+
+	public func traverse<O>(_ transform: @escaping (ParameterType) -> O) -> Optional<Traversed<O>> where O: OptionalType {
+		typealias Returned = Optional<Traversed<O>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				transform(value).map(Traversed<O>.success)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<O>.failure(error))
 		})
 	}
 }
