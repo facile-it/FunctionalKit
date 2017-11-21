@@ -8,12 +8,32 @@ public protocol ExponentialType {
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B
 
-	init(_ call: @escaping (A) -> B) {
+	public init(_ call: @escaping (A) -> B) {
 		self._call = call
 	}
 
 	public func call(_ source: A) -> B {
 		return _call(source)
+	}
+}
+
+public struct Isomorphism<A,B>: ExponentialType {
+	public let direct: (A) -> B
+	public let inverse: (B) -> A
+
+	public init(direct: @escaping (A) -> B, inverse: @escaping (B) -> A) {
+		self.direct = direct
+		self.inverse = inverse
+	}
+
+	public func call(_ source: A) -> B {
+		return direct(source)
+	}
+}
+
+extension Isomorphism where A == B {
+	public static var identity: Isomorphism<A,B> {
+		return Isomorphism.init(direct: { $0 }, inverse: { $0 })
 	}
 }
 
@@ -32,11 +52,5 @@ extension ExponentialType {
 
 	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Exponential<T,TargetType> {
 		return dimap(source: transform, target: { $0 })
-	}
-}
-
-extension ExponentialType where SourceType == TargetType {
-	public static var identity: Exponential<SourceType,TargetType> {
-		return Exponential<SourceType,TargetType>.init { $0 }
 	}
 }

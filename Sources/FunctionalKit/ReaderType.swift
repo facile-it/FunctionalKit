@@ -45,7 +45,9 @@ extension ReaderType {
 
 extension ReaderType where ParameterType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Reader<EnvironmentType,Bool> {
-		return Reader.unfold { e in lhs.run(e) == rhs.run(e) }
+		return Reader.unfold { e in
+			lhs.run(e) == rhs.run(e)
+		}
 	}
 }
 

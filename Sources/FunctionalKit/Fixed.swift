@@ -82,8 +82,12 @@ public func duplicate<A> (_ a: A) -> (A,A) {
 	return (a,a)
 }
 
+public func duplicate <A1,A2,B1,B2> (_ f1: @escaping (A1) -> B1, _ f2: @escaping (A2) -> B2) -> (A1,A2) -> (B1,B2) {
+	return { (a1,a2) in (f1(a1),f2(a2)) }
+}
+
 public func duplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A) -> (B,B) {
-	return { (a1,a2)  in (f(a1),f(a2)) }
+	return duplicate(f, f)
 }
 
 public func triplicate <A> (_ a: A) -> (A,A,A) {
