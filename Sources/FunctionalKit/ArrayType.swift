@@ -61,6 +61,10 @@ extension ArrayType {
 	public func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
 		return Array.zip(self, transform).map { value, function in function(value) }
 	}
+
+	public static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
+		return Array.zip(lhs, rhs).map { function, value in function(value) }
+	}
 }
 
 // MARK: - Traversable
@@ -72,7 +76,15 @@ extension ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
+		}
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+		typealias Returned = Future<Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
@@ -80,7 +92,7 @@ extension ArrayType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
@@ -88,7 +100,7 @@ extension ArrayType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
@@ -96,7 +108,7 @@ extension ArrayType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
@@ -104,11 +116,10 @@ extension ArrayType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 }
-
 
 // MARK: - Monad
 

@@ -94,6 +94,14 @@ extension WriterType {
 		}
 	}
 
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+		typealias Returned = Future<Traversed<Applicative>>
+
+		return fold { log, value in
+			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+		}
+	}
+
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 

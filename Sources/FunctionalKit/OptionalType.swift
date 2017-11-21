@@ -115,6 +115,18 @@ extension OptionalType {
 		})
 	}
 
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+		typealias Returned = Future<Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
