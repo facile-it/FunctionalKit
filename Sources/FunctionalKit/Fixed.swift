@@ -10,6 +10,10 @@ public func identity <A,B,C> (_ a: A, _ b: B, _ c: C) -> (A,B,C) {
 	return (a,b,c)
 }
 
+public func constant <A> (_ a : A) -> () -> A {
+	return { a }
+}
+
 public func constant <A,B> (_ a : A) -> (B) -> A {
 	return { _ in a }
 }
