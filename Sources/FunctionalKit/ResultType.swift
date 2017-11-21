@@ -156,41 +156,53 @@ extension ResultType where ErrorType: Semigroup {
 // MARK: - Traversable
 
 extension ResultType {
-	public typealias Traversed<A> = Result<ErrorType,A.ParameterType> where A: TypeConstructor
+	public typealias Traversed<Applicative> = Result<ErrorType,Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<A>(_ transform: @escaping (ParameterType) -> A) -> [Traversed<A>] where A: ArrayType {
-		typealias Returned = [Traversed<A>]
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+		typealias Returned = [Traversed<Applicative>]
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<A>.success)
+				transform(value).map(Traversed<Applicative>.success)
 		},
 			onFailure: { (error) -> Returned in
-				Returned.pure(Traversed<A>.failure(error))
+				Returned.pure(Traversed<Applicative>.failure(error))
 		})
 	}
 
-	public func traverse<O>(_ transform: @escaping (ParameterType) -> O) -> Optional<Traversed<O>> where O: OptionalType {
-		typealias Returned = Optional<Traversed<O>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<O>.success)
+				transform(value).map(Traversed<Applicative>.success)
 		},
 			onFailure: { (error) -> Returned in
-				Returned.pure(Traversed<O>.failure(error))
+				Returned.pure(Traversed<Applicative>.failure(error))
 		})
 	}
 
-	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
-		typealias Returned = Result<R.ErrorType,Traversed<R>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<R>.success)
+				transform(value).map(Traversed<Applicative>.success)
 		},
 			onFailure: { (error) -> Returned in
-				Returned.pure(Traversed<R>.failure(error))
+				Returned.pure(Traversed<Applicative>.failure(error))
+		})
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.success)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<Applicative>.failure(error))
 		})
 	}
 }
