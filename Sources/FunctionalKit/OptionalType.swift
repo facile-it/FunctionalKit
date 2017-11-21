@@ -103,15 +103,15 @@ extension OptionalType {
 extension OptionalType {
 	public typealias Traversed<A> = Optional<A.ParameterType> where A: TypeConstructor
 
-	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
-		typealias Returned = Result<R.ErrorType,Traversed<R>>
+	public func traverse<A>(_ transform: @escaping (ParameterType) -> A) -> [Traversed<A>] where A: ArrayType {
+		typealias Returned = [Traversed<A>]
 
 		return fold(
 			onNone: { () -> Returned in
-				Returned.pure(Traversed<R>.none)
+				Returned.pure(Traversed<A>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<R>.some)
+				transform(value).map(Traversed<A>.some)
 		})
 	}
 
@@ -124,6 +124,18 @@ extension OptionalType {
 		},
 			onSome: { (value) -> Returned in
 				transform(value).map(Traversed<O>.some)
+		})
+	}
+
+	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
+		typealias Returned = Result<R.ErrorType,Traversed<R>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<R>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<R>.some)
 		})
 	}
 }

@@ -158,15 +158,15 @@ extension ResultType where ErrorType: Semigroup {
 extension ResultType {
 	public typealias Traversed<A> = Result<ErrorType,A.ParameterType> where A: TypeConstructor
 
-	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
-		typealias Returned = Result<R.ErrorType,Traversed<R>>
+	public func traverse<A>(_ transform: @escaping (ParameterType) -> A) -> [Traversed<A>] where A: ArrayType {
+		typealias Returned = [Traversed<A>]
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<R>.success)
+				transform(value).map(Traversed<A>.success)
 		},
 			onFailure: { (error) -> Returned in
-				Returned.pure(Traversed<R>.failure(error))
+				Returned.pure(Traversed<A>.failure(error))
 		})
 	}
 
@@ -179,6 +179,18 @@ extension ResultType {
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<O>.failure(error))
+		})
+	}
+
+	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
+		typealias Returned = Result<R.ErrorType,Traversed<R>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				transform(value).map(Traversed<R>.success)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<R>.failure(error))
 		})
 	}
 }
