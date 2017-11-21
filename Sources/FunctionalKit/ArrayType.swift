@@ -84,6 +84,14 @@ extension ArrayType {
 		}
 	}
 
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			previous.apply § transform(element).map { value in { $0 + [value] } }
+		}
+	}
+
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 

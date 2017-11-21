@@ -21,3 +21,6 @@ public protocol TypeConstructor {
 // MARK: - Traversable
 
 // MARK: - Monad
+
+// MARK: - Utility
+

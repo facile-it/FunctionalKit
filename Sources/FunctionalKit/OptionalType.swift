@@ -127,6 +127,18 @@ extension OptionalType {
 		})
 	}
 
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 

@@ -24,14 +24,6 @@ public enum Result<E,T>: ResultType where E: Error {
 	case success(T)
 	case failure(E)
 
-	public init(success: ParameterType) {
-		self = .success(success)
-	}
-
-	public init(failure: ErrorType) {
-		self = .failure(failure)
-	}
-
 	public func run() throws -> T {
 		switch self {
 		case .success(let value):
@@ -172,6 +164,18 @@ extension ResultType {
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.success)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<Applicative>.failure(error))
+		})
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(
 			onSuccess: { (value) -> Returned in

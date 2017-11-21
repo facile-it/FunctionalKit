@@ -17,6 +17,11 @@ public struct Writer<L,A>: WriterType where L: Monoid {
 	fileprivate let log: L
 	fileprivate let value: A
 
+	public init(log: L, value: A) {
+		self.log = log
+		self.value = value
+	}
+
 	public var run: (L,A) {
 		return (log,value)
 	}
@@ -70,6 +75,10 @@ extension WriterType {
 	public func apply <W,T> (_ transform: W) -> Writer<LogType,T> where W: WriterType, W.ParameterType == (ParameterType) -> T, W.LogType == LogType {
 		return Writer.zipMerge(self, transform).map { value, function in function(value) }
 	}
+
+	public static func <*> <W,T> (lhs: W, rhs: Self) -> Writer<LogType,T> where W: WriterType, W.ParameterType == (ParameterType) -> T, W.LogType == LogType {
+		return Writer.zipMerge(lhs, rhs).map { function, value in function(value) }
+	}
 }
 
 // MARK: - Traversable
@@ -87,6 +96,14 @@ extension WriterType {
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
+
+		return fold { log, value in
+			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+		}
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold { log, value in
 			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
