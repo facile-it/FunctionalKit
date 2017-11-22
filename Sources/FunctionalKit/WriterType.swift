@@ -152,3 +152,8 @@ extension WriterType {
 		return map(transform).joined
 	}
 }
+
+// MARK: - Utility
+
+/// check other implementations
+

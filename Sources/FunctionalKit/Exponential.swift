@@ -17,26 +17,6 @@ public struct Exponential<A,B>: ExponentialType {
 	}
 }
 
-public struct Isomorphism<A,B>: ExponentialType {
-	public let direct: (A) -> B
-	public let inverse: (B) -> A
-
-	public init(direct: @escaping (A) -> B, inverse: @escaping (B) -> A) {
-		self.direct = direct
-		self.inverse = inverse
-	}
-
-	public func call(_ source: A) -> B {
-		return direct(source)
-	}
-}
-
-extension Isomorphism where A == B {
-	public static var identity: Isomorphism<A,B> {
-		return Isomorphism.init(direct: { $0 }, inverse: { $0 })
-	}
-}
-
 extension ExponentialType {
 	public func dimap<A,B>(source: @escaping (A) -> SourceType, target: @escaping (TargetType) -> B) -> Exponential<A,B> {
 		return Exponential<A,B>.init { value in target(self.call(source(value))) }

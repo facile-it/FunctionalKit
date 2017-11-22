@@ -54,40 +54,68 @@ extension StateType where StateParameterType: Equatable, ParameterType: Equatabl
 // MARK: - Functor
 
 extension StateType {
-	public func dimap <A,B> (from: Isomorphism<A,StateParameterType>, to: @escaping (ParameterType) -> B) -> State<A,B> {
-		return State.unfold(from.direct..self.run..duplicate(from.inverse, to))
-	}
-
 	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> State<StateParameterType,T> {
-		return dimap(from: .identity, to: transform)
+		return State.unfold { s in
+			let (newS,v) = self.run(s)
+			return (newS,transform(v))
+		}
 	}
 
-	public func contramap <T> (_ transform: Isomorphism<T,StateParameterType>) -> State<T, ParameterType> {
-		return dimap(from: transform, to: identity)
+	public func mapState <T> (from: @escaping (T) -> StateParameterType, to: @escaping (StateParameterType) -> T) -> State<T,ParameterType> {
+		return State.unfold { t in
+			let (newS,v) = self.run(from(t))
+			return (to(newS),v)
+		}
 	}
 }
 
 // MARK: - Cartesian
 
 extension StateType {
-	public static func zip <S1,S2> (_ first: S1, _ second: S2) -> State<(S1.StateParameterType,S2.StateParameterType),(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, StateParameterType == (S1.StateParameterType,S2.StateParameterType), ParameterType == (S1.ParameterType,S2.ParameterType) {
+	public static func zip <S1,S2> (_ sm1: S1, _ sm2: S2) -> State<(S1.StateParameterType,S2.StateParameterType),(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, StateParameterType == (S1.StateParameterType,S2.StateParameterType), ParameterType == (S1.ParameterType,S2.ParameterType) {
 		return State.unfold { s1, s2 in
-			let (newS1,v1) = first.run(s1)
-			let (newS2,v2) = second.run(s2)
+			let (newS1,v1) = sm1.run(s1)
+			let (newS2,v2) = sm2.run(s2)
 			return ((newS1,newS2),(v1,v2))
 		}
 	}
 
-	public static func zipCommon <S1,S2> (_ first: S1, _ second: S2) -> State<StateParameterType,(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, S1.StateParameterType == StateParameterType, S2.StateParameterType == StateParameterType, ParameterType == (S1.ParameterType,S2.ParameterType) {
-		return State.zip(first, second)
-			.contramap(Isomorphism.init(direct: duplicate, inverse: { s1, _ in s1 }))
+	public static func zipCommon <S1,S2> (_ sm1: S1, _ sm2: S2) -> State<StateParameterType,(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, S1.StateParameterType == StateParameterType, S2.StateParameterType == StateParameterType, ParameterType == (S1.ParameterType,S2.ParameterType) {
+		return State.zip(sm1, sm2).mapState(from: duplicate, to: first)
 	}
 }
 
 // MARK: - Applicative
 
-// MARK: - Traversable
+extension StateType {
+	public static func pure(_ value: ParameterType) -> State<StateParameterType,ParameterType> {
+		return State.unfold { s in (s,value) }
+	}
+
+	public func apply <S,T> (_ transform: S) -> State<StateParameterType,T> where S: StateType, S.ParameterType == (ParameterType) -> T, S.StateParameterType == StateParameterType {
+		return State.zipCommon(self, transform).map { value, function in function(value) }
+	}
+
+	public static func <*> <S,T> (lhs: S, rhs: Self) -> State<StateParameterType,T> where S: StateType, S.ParameterType == (ParameterType) -> T, S.StateParameterType == StateParameterType {
+		return State.zipCommon(lhs, rhs).map { function, value in function(value) }
+	}
+}
 
 // MARK: - Monad
 
+extension StateType where ParameterType: StateType, ParameterType.StateParameterType == StateParameterType {
+	public var joined: State<StateParameterType,ParameterType.ParameterType> {
+		return State.unfold { externalS in
+			let (internalS, v) = self.run(externalS)
+			return v.run(internalS)
+		}
+	}
+
+	public func flatMap <S> (_ transform: @escaping (ParameterType) -> S) -> State<StateParameterType,S.ParameterType> where S: StateType, S.StateParameterType == StateParameterType {
+		return map(transform).joined
+	}
+}
+
 // MARK: - Utility
+
+/// check other implementations
