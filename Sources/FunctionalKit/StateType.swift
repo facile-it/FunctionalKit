@@ -5,8 +5,8 @@ import Abstract
 public protocol StateType: TypeConstructor, ExponentialType {
 	associatedtype StateParameterType
 
+	static func from(concrete: Concrete) -> Self
 	func run(_ state: StateParameterType) -> (StateParameterType,ParameterType)
-
 	static func unfold(_ transform: @escaping (StateParameterType) -> (StateParameterType,ParameterType)) -> Self
 }
 
@@ -26,6 +26,10 @@ public struct State<S,A>: StateType {
 		self._call = _call
 	}
 
+	public static func from(concrete: State<S, A>) -> State<S, A> {
+		return concrete
+	}
+	
 	public func run(_ state: S) -> (S, A) {
 		return _call(state)
 	}
@@ -38,7 +42,7 @@ public struct State<S,A>: StateType {
 // MARK: - Concrete
 
 extension StateType {
-	public typealias Concrete = State<StateParameterType,StateType>
+	public typealias Concrete = State<StateParameterType,ParameterType>
 }
 
 // MARK: - Equatable

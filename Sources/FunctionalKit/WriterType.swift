@@ -5,6 +5,7 @@ import Abstract
 public protocol WriterType: TypeConstructor, ProductType {
 	associatedtype LogType: Monoid
 
+	static func from(concrete: Concrete) -> Self
 	var run: (LogType,ParameterType) { get }
 	func fold <T> (_ transform: @escaping (LogType,ParameterType) -> T) -> T
 }
@@ -22,6 +23,10 @@ public struct Writer<L,A>: WriterType where L: Monoid {
 		self.value = value
 	}
 
+	public static func from(concrete: Writer<L, A>) -> Writer<L, A> {
+		return concrete
+	}
+	
 	public var run: (L,A) {
 		return (log,value)
 	}

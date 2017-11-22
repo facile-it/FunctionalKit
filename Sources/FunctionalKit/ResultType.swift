@@ -5,6 +5,7 @@ import Abstract
 public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
+	static func from(concrete: Concrete) -> Self
 	func run() throws -> ParameterType
 	func fold <A> (onSuccess: @escaping (ParameterType) -> A, onFailure: @escaping (ErrorType) -> A) -> A
 }
@@ -24,6 +25,10 @@ public enum Result<E,T>: ResultType where E: Error {
 	case success(T)
 	case failure(E)
 
+	public static func from(concrete: Result<E, T>) -> Result<E, T> {
+		return concrete
+	}
+	
 	public func run() throws -> T {
 		switch self {
 		case .success(let value):

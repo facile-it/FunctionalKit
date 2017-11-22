@@ -3,8 +3,8 @@ import Abstract
 // MARK: - Definiton
 
 public protocol FutureType: TypeConstructor {
+	static func from(concrete: Concrete) -> Self
 	func run (_ callback: @escaping (ParameterType) -> ())
-
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self
 }
 
@@ -26,6 +26,10 @@ public final class Future<A>: FutureType {
 
 	private var callbacks: [(A) -> ()] = []
 	private var currentState = State<A>.idle
+
+	public static func from(concrete: Future<A>) -> Future<A> {
+		return concrete
+	}
 
 	@discardableResult
 	public func start() -> Future<A> {

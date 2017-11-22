@@ -3,6 +3,7 @@ import Abstract
 // MARK: - Definiton
 
 public protocol ArrayType: TypeConstructor {
+	static func from(concrete: Concrete) -> Self
 	var run: [ParameterType] { get }
 	func fold<T>(_ starting: T, _ accumulate: @escaping (T,ParameterType) -> T) -> T
 }
@@ -11,6 +12,10 @@ public protocol ArrayType: TypeConstructor {
 
 extension Array: ArrayType {
 	public typealias ParameterType = Element
+
+	public static func from(concrete: Array<Element>) -> Array<Element> {
+		return concrete
+	}
 
 	public var run: [Element] {
 		return self

@@ -3,6 +3,7 @@ import Abstract
 // MARK: - Definiton
 
 public protocol OptionalType: TypeConstructor, CoproductType {
+	static func from(concrete: Concrete) -> Self
 	func run() -> ParameterType?
 	func fold <T> (onNone: @escaping () -> T, onSome: @escaping (ParameterType) -> T) -> T
 }
@@ -18,6 +19,10 @@ extension OptionalType {
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 
+	public static func from(concrete: Optional<Wrapped>) -> Optional<Wrapped> {
+		return concrete
+	}
+	
 	public func run() -> Wrapped? {
 		return self
 	}

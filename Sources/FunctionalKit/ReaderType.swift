@@ -5,8 +5,8 @@ import Abstract
 public protocol ReaderType: TypeConstructor, ExponentialType {
 	associatedtype EnvironmentType
 
+	static func from(concrete: Concrete) -> Self
 	func run(_ environment: EnvironmentType) -> ParameterType
-
 	static func unfold(_ function: @escaping (EnvironmentType) -> ParameterType) -> Self
 }
 
@@ -24,6 +24,10 @@ public struct Reader<E,A>: ReaderType {
 	private let _call: (E) -> A
 	private init (_ _call: @escaping (E) -> A) {
 		self._call = _call
+	}
+
+	public static func from(concrete: Reader<E, A>) -> Reader<E, A> {
+		return concrete
 	}
 
 	public func run(_ environment: E) -> A {
