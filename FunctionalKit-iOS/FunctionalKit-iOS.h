@@ -5,7 +5,7 @@
 //  Created by Elviro Rocca on 16/11/17.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for FunctionalKit_iOS.
 FOUNDATION_EXPORT double FunctionalKit_iOSVersionNumber;

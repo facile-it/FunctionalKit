@@ -38,7 +38,7 @@
 		38939BA51FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
 		38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
-		38F179951FBDA3F500243994 /* FunctionalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38F179951FBDA3F500243994 /* FunctionalKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38F179B71FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
 		38F179B81FBDA7B500243994 /* Weakly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AC1FBDA7B400243994 /* Weakly.swift */; };
 		38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F179AD1FBDA7B400243994 /* Coproduct.swift */; };
@@ -121,7 +121,7 @@
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		38DEDC6C1FC33BDB00D7984C /* WriterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterType.swift; sourceTree = "<group>"; };
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38F179931FBDA3F500243994 /* FunctionalKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionalKit.h; sourceTree = "<group>"; };
+		38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FunctionalKit-iOS.h"; sourceTree = "<group>"; };
 		38F179941FBDA3F500243994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38F179A41FBDA62500243994 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LinuxMain.swift; path = Tests/LinuxMain.swift; sourceTree = "<group>"; };
 		38F179A81FBDA6D900243994 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 		38F179921FBDA3F500243994 /* FunctionalKit-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				38F179931FBDA3F500243994 /* FunctionalKit.h */,
+				38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */,
 				38F179941FBDA3F500243994 /* Info.plist */,
 			);
 			path = "FunctionalKit-iOS";
@@ -306,7 +306,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F179951FBDA3F500243994 /* FunctionalKit.h in Headers */,
+				38F179951FBDA3F500243994 /* FunctionalKit-iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
