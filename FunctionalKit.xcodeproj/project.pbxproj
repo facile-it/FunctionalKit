@@ -23,6 +23,12 @@
 /* Begin PBXBuildFile section */
 		385370691FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
 		3853706A1FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
+		3853706C1FC44178004096EB /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706B1FC44178004096EB /* ReaderType.swift */; };
+		3853706D1FC44178004096EB /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706B1FC44178004096EB /* ReaderType.swift */; };
+		3853706F1FC46BA4004096EB /* FutureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706E1FC46BA4004096EB /* FutureType.swift */; };
+		385370701FC46BA4004096EB /* FutureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706E1FC46BA4004096EB /* FutureType.swift */; };
+		385370721FC48927004096EB /* StateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370711FC48927004096EB /* StateType.swift */; };
+		385370731FC48927004096EB /* StateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370711FC48927004096EB /* StateType.swift */; };
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
@@ -105,6 +111,9 @@
 
 /* Begin PBXFileReference section */
 		385370681FC40D86004096EB /* ArrayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayType.swift; sourceTree = "<group>"; };
+		3853706B1FC44178004096EB /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
+		3853706E1FC46BA4004096EB /* FutureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureType.swift; sourceTree = "<group>"; };
+		385370711FC48927004096EB /* StateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateType.swift; sourceTree = "<group>"; };
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
@@ -272,13 +281,16 @@
 				38F179B01FBDA7B400243994 /* Curry.swift */,
 				38F179B31FBDA7B500243994 /* Exponential.swift */,
 				38F179B11FBDA7B500243994 /* Fixed.swift */,
+				3853706E1FC46BA4004096EB /* FutureType.swift */,
 				38F3C8201FBF2B370014D30D /* Inclusive.swift */,
 				38F179B21FBDA7B500243994 /* Operators.swift */,
 				38939BA31FC32CB200012794 /* OptionalType.swift */,
 				38F179B41FBDA7B500243994 /* Product.swift */,
 				38939BA01FC2DC3100012794 /* Protocols.swift */,
+				3853706B1FC44178004096EB /* ReaderType.swift */,
 				38F179B51FBDA7B500243994 /* Reference.swift */,
 				38F3C81D1FBEF71D0014D30D /* ResultType.swift */,
+				385370711FC48927004096EB /* StateType.swift */,
 				38F179B61FBDA7B500243994 /* Typealiases.swift */,
 				38F179AC1FBDA7B400243994 /* Weakly.swift */,
 				38DEDC6C1FC33BDB00D7984C /* WriterType.swift */,
@@ -423,13 +435,16 @@
 				38F179C01FBDA7B500243994 /* Curry.swift in Sources */,
 				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
+				385370701FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
 				3853706A1FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
+				3853706D1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38939BA21FC2DC3100012794 /* Protocols.swift in Sources */,
@@ -471,13 +486,16 @@
 				38F179C31FBDA7B500243994 /* Operators.swift in Sources */,
 				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
+				3853706F1FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
 				385370691FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
+				3853706C1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
+				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38939BA11FC2DC3100012794 /* Protocols.swift in Sources */,

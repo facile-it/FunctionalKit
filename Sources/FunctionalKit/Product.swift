@@ -1,3 +1,5 @@
+import Abstract
+
 public protocol ProductType {
 	associatedtype FirstType
 	associatedtype SecondType
@@ -16,6 +18,28 @@ public struct Product<A,B>: ProductType {
 
 	public func fold<T>(_ transform: @escaping (A, B) -> T) -> T {
 		return transform(_first,_second)
+	}
+}
+
+public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
+	private let _first: A
+	private let _second: B
+
+	public init(_ first: A, _ second: B) {
+		self._first = first
+		self._second = second
+	}
+
+	public func fold<T>(_ transform: @escaping (A, B) -> T) -> T {
+		return transform(_first,_second)
+	}
+
+	public static var empty: ProductM<A, B> {
+		return ProductM.init(.empty, .empty)
+	}
+
+	public static func <> (lhs: ProductM, rhs: ProductM) -> ProductM {
+		return ProductM.init(lhs._first <> rhs._first, rhs._second <> rhs._second)
 	}
 }
 

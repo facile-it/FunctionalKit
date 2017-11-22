@@ -101,43 +101,80 @@ extension OptionalType {
 // MARK: - Traversable
 
 extension OptionalType {
-	public typealias Traversed<A> = Optional<A.ParameterType> where A: TypeConstructor
+	public typealias Traversed<Applicative> = Optional<Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<A>(_ transform: @escaping (ParameterType) -> A) -> [Traversed<A>] where A: ArrayType {
-		typealias Returned = [Traversed<A>]
-
-		return fold(
-			onNone: { () -> Returned in
-				Returned.pure(Traversed<A>.none)
-		},
-			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<A>.some)
-		})
-	}
-
-	public func traverse<O>(_ transform: @escaping (ParameterType) -> O) -> Optional<Traversed<O>> where O: OptionalType {
-		typealias Returned = Optional<Traversed<O>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+		typealias Returned = [Traversed<Applicative>]
 
 		return fold(
 			onNone: { () -> Returned in
-				Returned.pure(Traversed<O>.none)
+				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<O>.some)
+				transform(value).map(Traversed<Applicative>.some)
 		})
 	}
 
-	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
-		typealias Returned = Result<R.ErrorType,Traversed<R>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(
 			onNone: { () -> Returned in
-				Returned.pure(Traversed<R>.none)
+				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<R>.some)
+				transform(value).map(Traversed<Applicative>.some)
 		})
 	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+		typealias Returned = Optional<Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				transform(value).map(Traversed<Applicative>.some)
+		})
+	}
+
 }
 
 // MARK: - Monad
@@ -159,3 +196,8 @@ extension OptionalType {
 		return map(transform).joined
 	}
 }
+
+// MARK: - Utility
+
+/// check other implementations
+

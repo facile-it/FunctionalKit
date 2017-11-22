@@ -3,7 +3,7 @@ import Abstract
 // MARK: - Definiton
 
 public protocol ArrayType: TypeConstructor {
-	func run() -> [ParameterType]
+	var run: [ParameterType] { get }
 	func fold<T>(_ starting: T, _ accumulate: @escaping (T,ParameterType) -> T) -> T
 }
 
@@ -12,7 +12,7 @@ public protocol ArrayType: TypeConstructor {
 extension Array: ArrayType {
 	public typealias ParameterType = Element
 
-	public func run() -> [Element] {
+	public var run: [Element] {
 		return self
 	}
 
@@ -61,38 +61,65 @@ extension ArrayType {
 	public func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
 		return Array.zip(self, transform).map { value, function in function(value) }
 	}
+
+	public static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
+		return Array.zip(lhs, rhs).map { function, value in function(value) }
+	}
 }
 
 // MARK: - Traversable
 
 extension ArrayType {
-	public typealias Traversed<A> = [A.ParameterType] where A: TypeConstructor
+	public typealias Traversed<Applicative> = [Applicative.ParameterType] where Applicative: TypeConstructor
 
-	public func traverse<A>(_ transform: @escaping (ParameterType) -> A) -> [Traversed<A>] where A: ArrayType {
-		typealias Returned = [Traversed<A>]
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
-	public func traverse<O>(_ transform: @escaping (ParameterType) -> O) -> Optional<Traversed<O>> where O: OptionalType {
-		typealias Returned = Optional<Traversed<O>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 
-	public func traverse<R>(_ transform: @escaping (ParameterType) -> R) -> Result<R.ErrorType,Traversed<R>> where R: ResultType {
-		typealias Returned = Result<R.ErrorType,Traversed<R>>
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			previous.apply § transform(element).map { value in { $0 + [value] } }
+			transform(element).map { value in { $0 + [value] } } <*> previous
+		}
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			transform(element).map { value in { $0 + [value] } } <*> previous
+		}
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			transform(element).map { value in { $0 + [value] } } <*> previous
+		}
+	}
+
+	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			transform(element).map { value in { $0 + [value] } } <*> previous
 		}
 	}
 }
-
 
 // MARK: - Monad
 
