@@ -35,7 +35,6 @@ class ResultTests: XCTestCase {
     
     
     func testApply() {
-        
         let ricardo = User(name: "Ricardo")
         let userResult:Result<ResultError, User> = Result.success(ricardo)
         
@@ -46,7 +45,6 @@ class ResultTests: XCTestCase {
     }
     
     func testLiftA(){
-        
         let ricardo = User(name: "Ricardo")
         let userResult:Result<ResultError, User> = Result.success(ricardo)
         

@@ -136,12 +136,10 @@ extension ResultType {
 	}
     
     public static func liftA<B>(_ f : @escaping (ParameterType) -> B) -> (Result<ErrorType, ParameterType>) -> Result<ErrorType, B> {
-        let resultFunction: (Result<ErrorType, ParameterType>) -> Result<ErrorType, B> = { result -> Result<ErrorType, B> in
+        return { result -> Result<ErrorType, B> in
             let fResult:Result<ErrorType, (ParameterType) -> B> = Result.success(f)
             return result.apply(fResult)
         }
-        
-        return resultFunction
     }
 }
 
