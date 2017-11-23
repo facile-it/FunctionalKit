@@ -134,6 +134,15 @@ extension ResultType {
 			.map { function, value in function(value) }
 			.mapError { $0.left }
 	}
+    
+    public static func liftA<B>(_ f : @escaping (ParameterType) -> B) -> (Result<ErrorType, ParameterType>) -> Result<ErrorType, B> {
+        let resultFunction: (Result<ErrorType, ParameterType>) -> Result<ErrorType, B> = { result -> Result<ErrorType, B> in
+            let fResult:Result<ErrorType, (ParameterType) -> B> = Result.success(f)
+            return result.apply(fResult)
+        }
+        
+        return resultFunction
+    }
 }
 
 extension ResultType where ErrorType: Semigroup {
