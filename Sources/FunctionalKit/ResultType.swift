@@ -86,6 +86,10 @@ extension ResultType {
 			onSuccess: Result.success,
 			onFailure: transform..Result.failure)
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Result<ErrorType,ParameterType>) -> Result<ErrorType,A> {
+        return { $0.map(function) }
+    }
 }
 
 // MARK: - Cartesian
@@ -135,12 +139,6 @@ extension ResultType {
 			.mapError { $0.left }
 	}
     
-    public static func liftA<B>(_ f : @escaping (ParameterType) -> B) -> (Result<ErrorType, ParameterType>) -> Result<ErrorType, B> {
-        return { result -> Result<ErrorType, B> in
-            let fResult:Result<ErrorType, (ParameterType) -> B> = Result.success(f)
-            return result.apply(fResult)
-        }
-    }
 }
 
 extension ResultType where ErrorType: Semigroup {

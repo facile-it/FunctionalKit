@@ -20,12 +20,15 @@ class ResultTests: XCTestCase {
         return user.name
     }
     
-    func testMap() {
-        
+    typealias MyResult<T> = Result<ResultError, T>
+
+    override func setUp() {
         enum ResultError: Error {
             case invalidResult
         }
-        
+    }
+
+    func testMap() {
         let result1:Result<ResultError, String> = Result.success("Result 1")
         let result12 = result1.map { value in
             return value + "2"
@@ -33,12 +36,11 @@ class ResultTests: XCTestCase {
         XCTAssert(result12.tryRight! == "Result 12")
     }
     
-    
     func testApply() {
         let ricardo = User(name: "Ricardo")
-        let userResult:Result<ResultError, User> = Result.success(ricardo)
+        let userResult = MyResult.success(ricardo)
         
-        let printUserResult:Result<ResultError, (User) -> (String)> = Result.success(getUserName)
+        let printUserResult = MyResult.success(getUserName)
         let userNameResult = userResult.apply(printUserResult)
         
         XCTAssert(userNameResult.tryRight! == "Ricardo")
@@ -46,9 +48,9 @@ class ResultTests: XCTestCase {
     
     func testLiftA(){
         let ricardo = User(name: "Ricardo")
-        let userResult:Result<ResultError, User> = Result.success(ricardo)
         
-        let liftedGetUserName:(Result<ResultError, User>) -> Result<ResultError, String> = Result.liftA(getUserName)
+        let userResult = MyResult.success(ricardo)
+        let liftedGetUserName = MyResult.lift(getUserName)
         
         let userNameResult = liftedGetUserName(userResult)
         XCTAssert(userNameResult.tryRight! == "Ricardo")
