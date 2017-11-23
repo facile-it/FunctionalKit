@@ -1,4 +1,4 @@
-public func curry<A, B, C>(_ function: @escaping (A, B) -> C) -> (A) -> (B) -> C {
+public func fcurry<A, B, C>(_ function: @escaping (A, B) -> C) -> (A) -> (B) -> C {
 	return { (a: A) -> (B) -> C in
 		{ (b: B) -> C in
 			function(a, b)
@@ -6,13 +6,13 @@ public func curry<A, B, C>(_ function: @escaping (A, B) -> C) -> (A) -> (B) -> C
 	}
 }
 
-public func uncurry<A, B, C>(_ function: @escaping (A) -> (B) -> C) -> (A ,B) -> C {
+public func funcurry<A, B, C>(_ function: @escaping (A) -> (B) -> C) -> (A ,B) -> C {
 	return { (a: A, b: B) -> C in
 		function(a)(b)
 	}
 }
 
-public func curry<A, B, C, D>(_ function: @escaping (A, B, C) -> D) -> (A) -> (B) -> (C) -> D {
+public func fcurry<A, B, C, D>(_ function: @escaping (A, B, C) -> D) -> (A) -> (B) -> (C) -> D {
 	return { (a: A) -> (B) -> (C) -> D in
 		{ (b: B) -> (C) -> D in
 			{ (c: C) -> D in
@@ -22,13 +22,13 @@ public func curry<A, B, C, D>(_ function: @escaping (A, B, C) -> D) -> (A) -> (B
 	}
 }
 
-public func uncurry<A, B, C, D>(_ function: @escaping (A) -> (B) -> (C) -> D) -> (A, B, C) -> D {
+public func funcurry<A, B, C, D>(_ function: @escaping (A) -> (B) -> (C) -> D) -> (A, B, C) -> D {
 	return { (a: A, b: B, c: C) -> D in
 		function(a)(b)(c)
 	}
 }
 
-public func curry<A, B, C, D, E>(_ function: @escaping (A, B, C, D) -> E) -> (A) -> (B) -> (C) -> (D) -> E {
+public func fcurry<A, B, C, D, E>(_ function: @escaping (A, B, C, D) -> E) -> (A) -> (B) -> (C) -> (D) -> E {
 	return { (a: A) -> (B) -> (C) -> (D) -> E in
 		{ (b: B) -> (C) -> (D) -> E in
 			{ (c: C) -> (D) -> E in
@@ -40,13 +40,13 @@ public func curry<A, B, C, D, E>(_ function: @escaping (A, B, C, D) -> E) -> (A)
 	}
 }
 
-public func uncurry<A, B, C, D, E>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> E) -> (A, B, C, D) -> E {
+public func funcurry<A, B, C, D, E>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> E) -> (A, B, C, D) -> E {
 	return { (a: A, b: B, c: C, d: D) -> E in
 		function(a)(b)(c)(d)
 	}
 }
 
-public func curry<A, B, C, D, E, F>(_ function: @escaping (A, B, C, D, E) -> F) -> (A) -> (B) -> (C) -> (D) -> (E) -> F {
+public func fcurry<A, B, C, D, E, F>(_ function: @escaping (A, B, C, D, E) -> F) -> (A) -> (B) -> (C) -> (D) -> (E) -> F {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> F in
 		{ (b: B) -> (C) -> (D) -> (E) -> F in
 			{ (c: C) -> (D) -> (E) -> F in
@@ -61,13 +61,13 @@ public func curry<A, B, C, D, E, F>(_ function: @escaping (A, B, C, D, E) -> F) 
 }
 
 
-public func uncurry<A, B, C, D, E, F>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> F) -> (A, B, C, D, E) -> F {
+public func funcurry<A, B, C, D, E, F>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> F) -> (A, B, C, D, E) -> F {
 	return { (a: A, b: B, c: C, d: D, e: E) -> F in
 		function(a)(b)(c)(d)(e)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G>(_ function: @escaping (A, B, C, D, E, F) -> G) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G {
+public func fcurry<A, B, C, D, E, F, G>(_ function: @escaping (A, B, C, D, E, F) -> G) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> G in
 			{ (c: C) -> (D) -> (E) -> (F) -> G in
@@ -83,13 +83,13 @@ public func curry<A, B, C, D, E, F, G>(_ function: @escaping (A, B, C, D, E, F) 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G) -> (A, B, C, D, E, F) -> G {
+public func funcurry<A, B, C, D, E, F, G>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G) -> (A, B, C, D, E, F) -> G {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F) -> G in
 		function(a)(b)(c)(d)(e)(f)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H>(_ function: @escaping (A, B, C, D, E, F, G) -> H) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H {
+public func fcurry<A, B, C, D, E, F, G, H>(_ function: @escaping (A, B, C, D, E, F, G) -> H) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> H in
@@ -107,13 +107,13 @@ public func curry<A, B, C, D, E, F, G, H>(_ function: @escaping (A, B, C, D, E, 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H) -> (A, B, C, D, E, F, G) -> H {
+public func funcurry<A, B, C, D, E, F, G, H>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> H) -> (A, B, C, D, E, F, G) -> H {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G) -> H in
 		function(a)(b)(c)(d)(e)(f)(g)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I>(_ function: @escaping (A, B, C, D, E, F, G, H) -> I) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I {
+public func fcurry<A, B, C, D, E, F, G, H, I>(_ function: @escaping (A, B, C, D, E, F, G, H) -> I) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I in
@@ -133,13 +133,13 @@ public func curry<A, B, C, D, E, F, G, H, I>(_ function: @escaping (A, B, C, D, 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I) -> (A, B, C, D, E, F, G, H) -> I {
+public func funcurry<A, B, C, D, E, F, G, H, I>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> I) -> (A, B, C, D, E, F, G, H) -> I {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) -> I in
 		function(a)(b)(c)(d)(e)(f)(g)(h)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J>(_ function: @escaping (A, B, C, D, E, F, G, H, I) -> J) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J {
+public func fcurry<A, B, C, D, E, F, G, H, I, J>(_ function: @escaping (A, B, C, D, E, F, G, H, I) -> J) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J in
@@ -161,14 +161,14 @@ public func curry<A, B, C, D, E, F, G, H, I, J>(_ function: @escaping (A, B, C, 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J) -> (A, B, C, D, E, F, G, H, I) -> J {
+public func funcurry<A, B, C, D, E, F, G, H, I, J>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> J) -> (A, B, C, D, E, F, G, H, I) -> J {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) -> J in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)
 	}
 }
 
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J) -> K) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J) -> K) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K in
@@ -192,13 +192,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K>(_ function: @escaping (A, B, 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K) -> (A, B, C, D, E, F, G, H, I, J) -> K {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> K) -> (A, B, C, D, E, F, G, H, I, J) -> K {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J) -> K in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K) -> L) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K) -> L) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L in
@@ -224,13 +224,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L>(_ function: @escaping (A, 
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L) -> (A, B, C, D, E, F, G, H, I, J, K) -> L {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> L) -> (A, B, C, D, E, F, G, H, I, J, K) -> L {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K) -> L in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L) -> M) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L) -> M) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M in
@@ -258,13 +258,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M>(_ function: @escaping (
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M) -> (A, B, C, D, E, F, G, H, I, J, K, L) -> M {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> M) -> (A, B, C, D, E, F, G, H, I, J, K, L) -> M {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L) -> M in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M) -> N) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M) -> N) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N in
@@ -294,13 +294,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(_ function: @escapin
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N) -> (A, B, C, D, E, F, G, H, I, J, K, L, M) -> N {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> N) -> (A, B, C, D, E, F, G, H, I, J, K, L, M) -> N {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L, m: M) -> N in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N) -> O) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N) -> O) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O in
@@ -332,13 +332,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(_ function: @esca
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N) -> O {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> O) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N) -> O {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L, m: M, n: N) -> O in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O) -> P) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O) -> P) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P in
@@ -372,13 +372,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(_ function: @e
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O) -> P {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> P) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O) -> P {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L, m: M, n: N, o: O) -> P in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P) -> Q) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P) -> Q) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q in
@@ -414,13 +414,13 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(_ function:
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P) -> Q {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> Q) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P) -> Q {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L, m: M, n: N, o: O, p: P) -> Q in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)(p)
 	}
 }
 
-public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q) -> R) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R {
+public func fcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(_ function: @escaping (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q) -> R) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R {
 	return { (a: A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R in
 		{ (b: B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R in
 			{ (c: C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R in
@@ -458,7 +458,7 @@ public func curry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(_ functi
 	}
 }
 
-public func uncurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q) -> R {
+public func funcurry<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(_ function: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> (O) -> (P) -> (Q) -> R) -> (A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q) -> R {
 	return { (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I, j: J, k: K, l: L, m: M, n: N, o: O, p: P, q: Q) -> R in
 		function(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)(p)(q)
 	}

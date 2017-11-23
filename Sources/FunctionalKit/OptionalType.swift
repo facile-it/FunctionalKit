@@ -50,12 +50,12 @@ extension OptionalType where ParameterType: Equatable {
 		return lhs.fold(
 			onNone: {
 				rhs.fold(
-					onNone: constant(true),
-					onSome: constant(false))
+					onNone: fconstant(true),
+					onSome: fconstant(false))
 		},
 			onSome: { value in
 				rhs.fold(
-					onNone: constant(false),
+					onNone: fconstant(false),
 					onSome: { value == $0 })
 		})
 	}
@@ -66,7 +66,7 @@ extension OptionalType where ParameterType: Equatable {
 extension OptionalType {
 	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Optional<T> {
 		return fold(
-			onNone: constant(Optional<T>.none),
+			onNone: fconstant(Optional<T>.none),
 			onSome: transform..Optional<T>.some)
 	}
 }
@@ -78,10 +78,10 @@ extension OptionalType {
 
 	public static func zip <O1,O2> (_ first: O1, _ second: O2) -> Zipped<O1,O2> where O1: OptionalType, O2: OptionalType, ParameterType == (O1.ParameterType, O2.ParameterType) {
 		return first.fold(
-			onNone: constant(Zipped<O1,O2>.none),
+			onNone: fconstant(Zipped<O1,O2>.none),
 			onSome: { value in
 				second.fold(
-					onNone: constant(Zipped<O1,O2>.none),
+					onNone: fconstant(Zipped<O1,O2>.none),
 					onSome: { Zipped<O1,O2>.some((value,$0)) })
 		})
 	}
@@ -187,10 +187,10 @@ extension OptionalType {
 extension OptionalType where ParameterType: OptionalType {
 	public var joined: Optional<ParameterType.ParameterType> {
 		return fold(
-			onNone: constant(Optional<ParameterType.ParameterType>.none),
+			onNone: fconstant(Optional<ParameterType.ParameterType>.none),
 			onSome: { value in
 				value.fold(
-					onNone: constant(Optional<ParameterType.ParameterType>.none),
+					onNone: fconstant(Optional<ParameterType.ParameterType>.none),
 					onSome: Optional<ParameterType.ParameterType>.some)
 		})
 	}

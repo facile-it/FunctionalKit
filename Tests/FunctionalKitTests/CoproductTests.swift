@@ -13,16 +13,16 @@ class CoproductTests: XCTestCase {
 	}
 
 	func testFold() {
-		TestType.left(42).fold(onLeft: constant(true), onRight: constant(false)) ==! true
-		TestType.right("42").fold(onLeft: constant(false), onRight: constant(true)) ==! true
+		TestType.left(42).fold(onLeft: fconstant(true), onRight: fconstant(false)) ==! true
+		TestType.right("42").fold(onLeft: fconstant(false), onRight: fconstant(true)) ==! true
 
 		TestType.left(42).foldToLeft { Int($0)! } ==! 42
 		TestType.right("42").foldToRight { "\($0)" } ==! "42"
 	}
 
 	func testMap() {
-		TestType.left(42).bimap(onLeft: identity, onRight: { Int($0)! }).tryLeft! ==! 42
-		TestType.right("42").bimap(onLeft: { "\($0)" }, onRight: identity).tryRight! ==! "42"
+		TestType.left(42).bimap(onLeft: fidentity, onRight: { Int($0)! }).tryLeft! ==! 42
+		TestType.right("42").bimap(onLeft: { "\($0)" }, onRight: fidentity).tryRight! ==! "42"
 
 		TestType.left(42).mapLeft { $0*2 }.tryLeft! ==! 84
 		TestType.left(42).mapRight { $0 + "!" }.tryLeft! ==! 42
