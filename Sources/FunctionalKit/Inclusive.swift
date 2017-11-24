@@ -1,3 +1,4 @@
+import Operadics
 import Abstract
 
 public protocol InclusiveType {
