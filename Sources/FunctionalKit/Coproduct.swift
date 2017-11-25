@@ -27,11 +27,11 @@ extension CoproductType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { left in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onRight: constant(false))
+					onRight: fconstant(false))
 		},
 			onRight: { right in
 				rhs.fold(
-					onLeft: constant(false),
+					onLeft: fconstant(false),
 					onRight: { right == $0 })
 		})
 	}
@@ -45,25 +45,25 @@ extension CoproductType {
 	}
 
 	public var tryLeft: LeftType? {
-		return fold(onLeft: identity, onRight: { _ in nil })
+		return fold(onLeft: fidentity, onRight: { _ in nil })
 	}
 
 	public var tryRight: RightType? {
-		return fold(onLeft: { _ in nil }, onRight: identity)
+		return fold(onLeft: { _ in nil }, onRight: fidentity)
 	}
 
 	public func foldToLeft(_ transform: @escaping (RightType) -> LeftType) -> LeftType {
-		return fold(onLeft: identity, onRight: transform)
+		return fold(onLeft: fidentity, onRight: transform)
 	}
 
 	public func foldToRight(_ transform: @escaping (LeftType) -> RightType) -> RightType {
-		return fold(onLeft: transform, onRight: identity)
+		return fold(onLeft: transform, onRight: fidentity)
 	}
 }
 
 extension CoproductType where LeftType == RightType {
 	public var merged: LeftType {
-		return fold(onLeft: identity, onRight: identity)
+		return fold(onLeft: fidentity, onRight: fidentity)
 	}
 }
 

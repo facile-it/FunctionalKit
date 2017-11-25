@@ -34,3 +34,9 @@ extension ExponentialType {
 		return dimap(source: transform, target: { $0 })
 	}
 }
+
+extension ExponentialType where SourceType == TargetType {
+	public static var identity: Exponential<SourceType,TargetType> {
+		return Exponential.init { $0 }
+	}
+}

@@ -13,6 +13,8 @@ let package = Package(
     ],
     dependencies: [
 		.package(url: "https://github.com/typelift/Abstract.git",
+				 from: Version(0,0,0)),
+		.package(url: "https://github.com/typelift/Operadics.git",
 				 from: Version(0,0,0))
     ],
     targets: [
@@ -20,9 +22,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "FunctionalKit",
-            dependencies: ["Abstract"]),
+            dependencies: ["Abstract","Operadics"]),
         .testTarget(
             name: "FunctionalKitTests",
-            dependencies: ["FunctionalKit","Abstract"]),
+            dependencies: ["FunctionalKit","Abstract","Operadics"]),
     ]
 )

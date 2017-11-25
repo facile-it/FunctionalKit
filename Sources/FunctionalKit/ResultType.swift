@@ -1,3 +1,6 @@
+#if !XCODE_BUILD
+	import Operadics
+#endif
 import Abstract
 
 // MARK: - Definiton
@@ -258,4 +261,3 @@ extension ResultType {
 // MARK: - Utility
 
 /// check other implementations
-

@@ -1,3 +1,4 @@
+import Operadics
 import Abstract
 
 public protocol InclusiveType {
@@ -50,19 +51,19 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { (left) -> Bool in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onCenter: constant(false),
-					onRight: constant(false))
+					onCenter: fconstant(false),
+					onRight: fconstant(false))
 		},
 			onCenter: { (left, right) -> Bool in
 				rhs.fold(
-					onLeft: constant(false),
+					onLeft: fconstant(false),
 					onCenter: { left == $0 && right == $1 },
-					onRight: constant(false))
+					onRight: fconstant(false))
 		},
 			onRight: { (right) -> Bool in
 				rhs.fold(
-					onLeft: constant(false),
-					onCenter: constant(false),
+					onLeft: fconstant(false),
+					onCenter: fconstant(false),
 					onRight: { right == $0 })
 		})
 	}
@@ -73,51 +74,51 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 extension InclusiveType {
 	public var tryToProduct: Product<LeftType,RightType>? {
 		return fold(
-			onLeft: constant(nil),
+			onLeft: fconstant(nil),
 			onCenter: Product.init,
-			onRight: constant(nil))
+			onRight: fconstant(nil))
 	}
 
 	public var tryToCoproduct: Coproduct<LeftType,RightType>? {
 		return fold(
 			onLeft: Coproduct.left,
-			onCenter: constant(nil),
+			onCenter: fconstant(nil),
 			onRight: Coproduct.right)
 	}
 
 	public var tryLeft: LeftType? {
 		return fold(
-			onLeft: identity,
-			onCenter: first,
-			onRight: constant(nil))
+			onLeft: fidentity,
+			onCenter: ffirst,
+			onRight: fconstant(nil))
 	}
 
 	public var tryRight: RightType? {
 		return fold(
-			onLeft: constant(nil),
-			onCenter: second,
-			onRight: identity)
+			onLeft: fconstant(nil),
+			onCenter: fsecond,
+			onRight: fidentity)
 	}
 
 	public var tryBoth: (LeftType,RightType)? {
 		return fold(
-			onLeft: constant(nil),
-			onCenter: identity,
-			onRight: constant(nil))
+			onLeft: fconstant(nil),
+			onCenter: fidentity,
+			onRight: fconstant(nil))
 	}
 }
 
 extension InclusiveType where LeftType == RightType {
 	public var left: LeftType {
-		return fold(onLeft: identity, onCenter: first, onRight: identity)
+		return fold(onLeft: fidentity, onCenter: ffirst, onRight: fidentity)
 	}
 
 	public var right: RightType {
-		return fold(onLeft: identity, onCenter: second, onRight: identity)
+		return fold(onLeft: fidentity, onCenter: fsecond, onRight: fidentity)
 	}
 
 	public func merged(composing: @escaping (LeftType,LeftType) -> LeftType) -> LeftType {
-		return fold(onLeft: identity, onCenter: composing, onRight: identity)
+		return fold(onLeft: fidentity, onCenter: composing, onRight: fidentity)
 	}
 }
 

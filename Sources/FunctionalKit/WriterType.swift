@@ -1,3 +1,6 @@
+#if !XCODE_BUILD
+	import Operadics
+#endif
 import Abstract
 
 // MARK: - Definiton
@@ -32,7 +35,7 @@ public struct Writer<L,A>: WriterType where L: Monoid {
 	}
 
 	public func fold<T>(_ transform: @escaping (L, A) -> T) -> T {
-		return destructure(transform) § run
+		return fdestructure(transform) § run
 	}
 }
 

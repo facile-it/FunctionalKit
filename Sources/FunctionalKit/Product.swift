@@ -1,3 +1,6 @@
+#if !XCODE_BUILD
+	import Operadics
+#endif
 import Abstract
 
 public protocol ProductType {
@@ -47,7 +50,7 @@ public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 
 extension ProductType where FirstType: Equatable, SecondType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(identity) == rhs.fold(identity)
+		return lhs.fold(fidentity) == rhs.fold(fidentity)
 	}
 }
 
@@ -67,7 +70,7 @@ extension ProductType {
 	}
 
 	public var unwrap: (FirstType,SecondType) {
-		return fold(identity)
+		return fold(fidentity)
 	}
 }
 

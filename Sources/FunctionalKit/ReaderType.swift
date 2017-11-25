@@ -1,4 +1,4 @@
-import Abstract
+import Operadics
 
 // MARK: - Definiton
 
@@ -87,7 +87,7 @@ extension ReaderType {
 
 extension ReaderType {
 	public static func pure(_ value: ParameterType) -> Reader<EnvironmentType,ParameterType> {
-		return Reader.unfold(constant(value))
+		return Reader.unfold(fconstant(value))
 	}
 
 	public func apply <R,T> (_ transform: R) -> Reader<EnvironmentType,T> where R: ReaderType, R.ParameterType == (ParameterType) -> T, R.EnvironmentType == EnvironmentType {

@@ -1,4 +1,4 @@
-import Abstract
+import Operadics
 
 // MARK: - Definiton
 
@@ -85,7 +85,7 @@ extension StateType {
 	}
 
 	public static func zipCommon <S1,S2> (_ sm1: S1, _ sm2: S2) -> State<StateParameterType,(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, S1.StateParameterType == StateParameterType, S2.StateParameterType == StateParameterType, ParameterType == (S1.ParameterType,S2.ParameterType) {
-		return State.zip(sm1, sm2).mapState(from: duplicate, to: first)
+		return State.zip(sm1, sm2).mapState(from: fduplicate, to: ffirst)
 	}
 }
 
