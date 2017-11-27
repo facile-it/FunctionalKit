@@ -75,6 +75,8 @@
 		38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; };
 		38F3C8271FBF406A0014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8231FBF40600014D30D /* Abstract.framework */; };
 		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
+		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -104,6 +106,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */,
+				AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +153,8 @@
 		38F3C8201FBF2B370014D30D /* Inclusive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inclusive.swift; sourceTree = "<group>"; };
 		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
+		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
+		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -170,6 +175,7 @@
 			files = (
 				38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */,
 				OBJ_29 /* FunctionalKit.framework in Frameworks */,
+				AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +202,8 @@
 		38F1799A1FBDA4EE00243994 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */,
+				AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */,
 				38F3C8241FBF40600014D30D /* Abstract.framework */,
 				38F3C8231FBF40600014D30D /* Abstract.framework */,
 			);
@@ -690,6 +698,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = FunctionalKit.xcodeproj/FunctionalKitTests_Info.plist;
@@ -710,6 +719,7 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = FunctionalKit.xcodeproj/FunctionalKitTests_Info.plist;

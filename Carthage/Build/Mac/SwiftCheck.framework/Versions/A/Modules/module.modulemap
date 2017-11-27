@@ -1,0 +1,11 @@
+framework module SwiftCheck {
+  umbrella header "SwiftCheck.h"
+
+  export *
+  module * { export * }
+}
+
+module SwiftCheck.Swift {
+    header "SwiftCheck-Swift.h"
+    requires objc
+}

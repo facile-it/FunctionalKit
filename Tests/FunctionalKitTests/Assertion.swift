@@ -1,5 +1,6 @@
 import XCTest
 import Operadics
+import SwiftCheck
 
 precedencegroup AssertionPrecedence {
 	associativity: left
