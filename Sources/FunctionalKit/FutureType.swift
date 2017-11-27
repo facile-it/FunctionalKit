@@ -66,6 +66,23 @@ extension FutureType {
 	public typealias Concrete = Future<ParameterType>
 }
 
+// MARK: - Equatable
+
+extension Future where A: Equatable {
+    public static func == (lhs: Future, rhs: Future) -> Bool {
+        switch (lhs.currentState,rhs.currentState) {
+        case (.idle,.idle):
+            return true
+        case (.running,.running):
+            return true
+        case(.done(let left),.done(let right)):
+            return left == right
+        default:
+            return false
+        }
+    }
+}
+
 // MARK: - Functor
 
 extension FutureType {
