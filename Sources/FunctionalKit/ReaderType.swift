@@ -5,7 +5,7 @@ import Operadics
 public protocol ReaderType: TypeConstructor, ExponentialType {
 	associatedtype EnvironmentType
 
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<EnvironmentType,ParameterType>) -> Self
 	func run(_ environment: EnvironmentType) -> ParameterType
 	static func unfold(_ function: @escaping (EnvironmentType) -> ParameterType) -> Self
 }
@@ -42,7 +42,7 @@ public struct Reader<E,A>: ReaderType {
 // MARK: - Concrete
 
 extension ReaderType {
-	public typealias Concrete = Reader<EnvironmentType,ParameterType>
+	public typealias Concrete<E,T> = Reader<E,T>
 }
 
 // MARK: - Equatable
