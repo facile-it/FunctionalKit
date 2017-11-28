@@ -1,5 +1,6 @@
 import XCTest
 @testable import FunctionalKit
+import SwiftCheck
 
 class ExponentialTests: XCTestCase {
 	func testMap() {
@@ -32,6 +33,13 @@ class ExponentialTests: XCTestCase {
 		let mapped = exp.dimap(source: plus3, target: minus3)
 		mapped.call(42) ==! 87
 	}
+    
+    func testFunctorLaws() {
+        property("Exponential - Functor Laws - Identity") <- forAll { (x: ArrowOf<Int,String>, context: Int) in
+            let value = Exponential.init(x.getArrow)
+            return (value.map(fidentity) == fidentity(value)).run(context)
+        }
+    }
 
 	static var allTests = [
 		("testMap", testMap),

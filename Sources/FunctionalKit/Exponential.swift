@@ -40,3 +40,11 @@ extension ExponentialType where SourceType == TargetType {
 		return Exponential.init { $0 }
 	}
 }
+
+extension ExponentialType where TargetType: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Reader<SourceType,Bool> {
+        return Reader<SourceType,Bool>.unfold { source in
+            lhs.call(source) == rhs.call(source)
+        }
+    }
+}

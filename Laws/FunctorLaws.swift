@@ -1,5 +1,6 @@
 @testable import FunctionalKit
 import Abstract
+import SwiftCheck
 
 extension Law {
     enum Functor {
@@ -22,9 +23,11 @@ extension Law {
         }
         
 //MARK: Exponential
-        // Problems to create identity law for Exponential:
-        //      1. We have 2 generic parameters
-        //      2. How can we code == function for this type?
+//        enum OnExponential {
+//            static func identity<A,B> (_ value: @escaping(A) -> B, _ context: A) -> Bool where {
+//                return Exponentia
+//            }
+//        }
         
 //MARK: Future
         enum OnFuture {
@@ -71,13 +74,31 @@ extension Law {
         }
         
 //MARK: Reader
-        
+        enum OnReader {
+            static func identity<A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+                return (Reader<String,A>.pure(value).map(fidentity) == fidentity(Reader<String,A>.pure(value))).run(context)
+            }
+        }
         
 //MARK: Result
+        enum OnResult {
+            static func identity<A> (_ value: A, _ context: Error) -> Bool where A: Equatable {
+                return (Reader<Error,A>.pure(value).map(fidentity) == fidentity(Reader<Error,A>.pure(value))).run(context)
+            }
+        }
         
 //MARK: State
+        enum OnState {
+            static func identity<A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+                return (State<String,A>.pure(value).map(fidentity) == fidentity(State<String,A>.pure(value))).run(context)
+            }
+        }
         
 //MARK: Writer
-        
+        enum OnWriter {
+            static func identity<A> (_ value: A, _ context: String) -> Bool where A: Equatable {
+                return Writer<String,A>.pure(value).map(fidentity) == fidentity(Writer<String,A>.pure(value))
+            }
+        }
     }
 }
