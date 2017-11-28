@@ -3,7 +3,7 @@ import Operadics
 // MARK: - Definiton
 
 public protocol OptionalType: TypeConstructor, CoproductType {
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType?
 	func fold <T> (onNone: @escaping () -> T, onSome: @escaping (ParameterType) -> T) -> T
 }
@@ -40,7 +40,7 @@ extension Optional: OptionalType {
 // MARK: - Concrete
 
 extension OptionalType {
-	public typealias Concrete = Optional<ParameterType>
+	public typealias Concrete<T> = Optional<T>
 }
 
 // MARK: - Equatable
@@ -116,7 +116,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 
@@ -128,7 +128,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 
@@ -140,7 +140,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 
@@ -152,7 +152,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 
@@ -164,7 +164,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 
@@ -176,7 +176,7 @@ extension OptionalType {
 				Returned.pure(Traversed<Applicative>.none)
 		},
 			onSome: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.some)
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
 

@@ -18,3 +18,5 @@ prefix operator ..
 postfix operator ..
 
 infix operator => : LogicalImplicationPrecedence
+
+infix operator ++: AdditionPrecedence

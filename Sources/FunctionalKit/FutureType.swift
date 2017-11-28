@@ -3,7 +3,7 @@ import Operadics
 // MARK: - Definiton
 
 public protocol FutureType: TypeConstructor {
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run (_ callback: @escaping (ParameterType) -> ())
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self
 }
@@ -63,7 +63,7 @@ public final class Future<A>: FutureType {
 // MARK: - Concrete
 
 extension FutureType {
-	public typealias Concrete = Future<ParameterType>
+	public typealias Concrete<T> = Future<T>
 }
 
 // MARK: - Functor
