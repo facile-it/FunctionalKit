@@ -1,3 +1,7 @@
+{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}Int{% else %}{{ type.name }}Of<Int>{% endif %}){% endmacro %}
+
+{% macro valueOfType type %}{% ifnot type|annotated:"swiftCheckTypeOf"%}{{ type.name }}.unfold({ $0(x) }){% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -5,11 +9,13 @@ import SwiftCheck
 class FunctorLawsTests: XCTestCase {
 
 {% for type in types.all|annotated:"functor"|annotated:"simpleFunctor" %}
+
 //MARK: {{ type.name }}
+
 // Identity Law
     func test{{ type.name }}Identity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: {% if type.name|contains:"Array" %}ArrayOf<Int>{% else %}Int{% endif %}) in
-            return {% if type.name|contains:"Array" %}x.getArray{% else %}{{ type.name }}.unfold({ $0(x) }){% endif %}.map(fidentity) == fidentity({% if type.name|contains:"Array" %}x.getArray{% else %}{{ type.name }}.unfold({ $0(x) }){% endif %})
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { {% call forAllParameters type %} in
+            return {% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %})
         }
     }
 {% endfor %}
