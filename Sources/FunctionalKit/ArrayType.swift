@@ -3,7 +3,7 @@ import Operadics
 // MARK: - Definiton
 
 public protocol ArrayType: TypeConstructor {
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
 	func fold<T>(_ starting: T, _ accumulate: @escaping (T,ParameterType) -> T) -> T
 }
@@ -29,7 +29,7 @@ extension Array: ArrayType {
 // MARK: - Concrete
 
 extension ArrayType {
-	public typealias Concrete = Array<ParameterType>
+	public typealias Concrete<T> = Array<T>
 }
 
 // MARK: - Functor
@@ -47,7 +47,7 @@ extension ArrayType {
 extension ArrayType {
 	public typealias Zipped<A1,A2> = [(A1.ParameterType,A2.ParameterType)] where A1: ArrayType, A2: ArrayType
 
-	public static func zip <A1,A2> (_ first: A1, _ second: A2) -> Zipped<A1,A2> where A1: ArrayType, A2: ArrayType, ParameterType == (A1.ParameterType, A2.ParameterType) {
+	public static func cartesian <A1,A2> (_ first: A1, _ second: A2) -> Zipped<A1,A2> where A1: ArrayType, A2: ArrayType, ParameterType == (A1.ParameterType, A2.ParameterType) {
 		return first.fold(Zipped<A1,A2>.init()) { externalPrevious, firstElement in
 			externalPrevious + second.fold(Zipped<A1,A2>.init()) { internalPrevious, secondElement in
 				internalPrevious + [(firstElement,secondElement)]
@@ -64,11 +64,11 @@ extension ArrayType {
 	}
 
 	public func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
-		return Array.zip(self, transform).map { value, function in function(value) }
+		return Array.cartesian(self, transform).map { value, function in function(value) }
 	}
 
 	public static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
-		return Array.zip(lhs, rhs).map { function, value in function(value) }
+		return Array.cartesian(lhs, rhs).map { function, value in function(value) }
 	}
 }
 
@@ -81,7 +81,7 @@ extension ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -89,7 +89,7 @@ extension ArrayType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -97,7 +97,7 @@ extension ArrayType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -105,7 +105,7 @@ extension ArrayType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -113,7 +113,7 @@ extension ArrayType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -121,7 +121,7 @@ extension ArrayType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			transform(element).map { value in { $0 + [value] } } <*> previous
+			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
 }
@@ -142,5 +142,15 @@ extension ArrayType where ParameterType: ArrayType {
 extension ArrayType {
 	public func flatMap <A> (_ transform: @escaping (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
 		return map(transform).joined
+	}
+}
+
+// MARK: - Utility
+
+extension ArrayType {
+	public static func ++ (lhs: Self, rhs: ParameterType) -> Array<ParameterType> {
+		var m = lhs.run
+		m.append(rhs)
+		return m
 	}
 }

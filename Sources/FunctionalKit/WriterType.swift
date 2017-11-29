@@ -8,7 +8,7 @@ import Abstract
 public protocol WriterType: TypeConstructor, ProductType {
 	associatedtype LogType: Monoid
 
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<LogType,ParameterType>) -> Self
 	var run: (LogType,ParameterType) { get }
 	func fold <T> (_ transform: @escaping (LogType,ParameterType) -> T) -> T
 }
@@ -42,7 +42,7 @@ public struct Writer<L,A>: WriterType where L: Monoid {
 // MARK: - Concrete
 
 extension WriterType {
-	public typealias Concrete = Writer<LogType,ParameterType>
+	public typealias Concrete<L,T> = Writer<L,T> where L: Monoid
 }
 
 // MARK: - Equatable
@@ -95,50 +95,38 @@ extension WriterType {
 	public typealias Traversed<Applicative> = Writer<LogType,Applicative.ParameterType> where Applicative: TypeConstructor
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
-		typealias Returned = [Traversed<Applicative>]
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
-		typealias Returned = Future<Traversed<Applicative>>
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
-		typealias Returned = Optional<Traversed<Applicative>>
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
-		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
-		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
 	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
-		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
-
 		return fold { log, value in
-			transform(value).map { Traversed<Applicative>.init(log: log, value: $0) }
+			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 }

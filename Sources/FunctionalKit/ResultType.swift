@@ -8,7 +8,7 @@ import Abstract
 public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<ErrorType,ParameterType>) -> Self
 	func run() throws -> ParameterType
 	func fold <A> (onSuccess: @escaping (ParameterType) -> A, onFailure: @escaping (ErrorType) -> A) -> A
 }
@@ -54,7 +54,7 @@ public enum Result<E,T>: ResultType where E: Error {
 // MARK: - Concrete
 
 extension ResultType {
-	public typealias Concrete = Result<ErrorType,ParameterType>
+	public typealias Concrete<E,T> = Result<E,T> where E: Error
 }
 
 // MARK: - Equatable
@@ -168,7 +168,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -180,7 +180,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -192,7 +192,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -204,7 +204,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -216,7 +216,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -228,7 +228,7 @@ extension ResultType {
 
 		return fold(
 			onSuccess: { (value) -> Returned in
-				transform(value).map(Traversed<Applicative>.success)
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
@@ -261,3 +261,12 @@ extension ResultType {
 // MARK: - Utility
 
 /// check other implementations
+
+extension ResultType {
+	public static func ++ (lhs: Self, rhs: ParameterType) -> Result<ErrorType,ParameterType> {
+		return lhs.fold(
+			onSuccess: Result.success,
+			onFailure: fconstant(Result.success(rhs)))
+	}
+}
+

@@ -5,7 +5,7 @@ import Operadics
 public protocol StateType: TypeConstructor, ExponentialType {
 	associatedtype StateParameterType
 
-	static func from(concrete: Concrete) -> Self
+	static func from(concrete: Concrete<StateParameterType,ParameterType>) -> Self
 	func run(_ state: StateParameterType) -> (StateParameterType,ParameterType)
 	static func unfold(_ transform: @escaping (StateParameterType) -> (StateParameterType,ParameterType)) -> Self
 }
@@ -42,7 +42,7 @@ public struct State<S,A>: StateType {
 // MARK: - Concrete
 
 extension StateType {
-	public typealias Concrete = State<StateParameterType,ParameterType>
+	public typealias Concrete<S,T> = State<S,T>
 }
 
 // MARK: - Equatable
