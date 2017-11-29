@@ -9,7 +9,7 @@ public protocol FutureType: TypeConstructor {
 }
 
 // MARK: - Data
-// sourcery: functor, easyFunctor
+// sourcery: functor, simpleFunctor
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
 

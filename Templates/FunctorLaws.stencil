@@ -1,5 +1,13 @@
-{% for type in types.all|annotated:"functor"|annotated:"easyFunctor" %}
-    // sourcery:inline:auto:{{ type.name }}LawsTests.FunctorLaws
+import XCTest
+@testable import FunctionalKit
+import SwiftCheck
 
-    // sourcery:end
+{% for type in types.all|annotated:"functor"|annotated:"simpleFunctor" %}
+//MARK: {{ type.name }}
+// Identity Law
+    func testIdentity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: Int) in
+            return {{ type.name }}.unfold({ $0(x) }).map(fidentity) == fidentity({{ type.name }}.unfold({ $0(x) }))
+        }
+    }
 {% endfor %}

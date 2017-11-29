@@ -77,19 +77,8 @@
 		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
 		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AAAE2E141FCC530400D0D861 /* Law.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE2E131FCC530400D0D861 /* Law.swift */; };
-		AAAE2E171FCC565900D0D861 /* FunctorLaws.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE2E151FCC536200D0D861 /* FunctorLaws.swift */; };
-		AADBF5761FCEBCE600A4C470 /* ReaderLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5751FCEBCE600A4C470 /* ReaderLawsTests.swift */; };
-		AADBF5781FCECE9A00A4C470 /* FutureLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5771FCECE9A00A4C470 /* FutureLawsTests.swift */; };
-		AADBF57B1FCECF5300A4C470 /* ArrayLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5791FCECF5000A4C470 /* ArrayLawsTests.swift */; };
-		AADBF57D1FCECF6600A4C470 /* CoproductLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF57C1FCECF6600A4C470 /* CoproductLawsTests.swift */; };
-		AADBF57F1FCECF7200A4C470 /* ExponentialLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF57E1FCECF7200A4C470 /* ExponentialLawsTests.swift */; };
-		AADBF5811FCECF7E00A4C470 /* InclusiveLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5801FCECF7E00A4C470 /* InclusiveLawsTests.swift */; };
-		AADBF5831FCECF8800A4C470 /* OptionalLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5821FCECF8800A4C470 /* OptionalLawsTests.swift */; };
-		AADBF5851FCECF9700A4C470 /* ProductLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5841FCECF9700A4C470 /* ProductLawsTests.swift */; };
-		AADBF5871FCECFA400A4C470 /* ResultLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5861FCECFA400A4C470 /* ResultLawsTests.swift */; };
-		AADBF5891FCECFB300A4C470 /* StateLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF5881FCECFB300A4C470 /* StateLawsTests.swift */; };
-		AADBF58B1FCECFBB00A4C470 /* WriterLawsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF58A1FCECFBB00A4C470 /* WriterLawsTests.swift */; };
+		AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE2E131FCC530400D0D861 /* Law.swift */; };
+		AADBF58E1FCEF20500A4C470 /* FunctorLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -170,18 +159,7 @@
 		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E131FCC530400D0D861 /* Law.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Law.swift; sourceTree = "<group>"; };
-		AAAE2E151FCC536200D0D861 /* FunctorLaws.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctorLaws.swift; sourceTree = "<group>"; };
-		AADBF5751FCEBCE600A4C470 /* ReaderLawsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5771FCECE9A00A4C470 /* FutureLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5791FCECF5000A4C470 /* ArrayLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayLawsTests.swift; sourceTree = "<group>"; };
-		AADBF57C1FCECF6600A4C470 /* CoproductLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductLawsTests.swift; sourceTree = "<group>"; };
-		AADBF57E1FCECF7200A4C470 /* ExponentialLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5801FCECF7E00A4C470 /* InclusiveLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InclusiveLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5821FCECF8800A4C470 /* OptionalLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5841FCECF9700A4C470 /* ProductLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5861FCECFA400A4C470 /* ResultLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultLawsTests.swift; sourceTree = "<group>"; };
-		AADBF5881FCECFB300A4C470 /* StateLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateLawsTests.swift; sourceTree = "<group>"; };
-		AADBF58A1FCECFBB00A4C470 /* WriterLawsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterLawsTests.swift; sourceTree = "<group>"; };
+		AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorLaws.generated.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -260,19 +238,8 @@
 		AAAE2E121FCC52F000D0D861 /* Laws */ = {
 			isa = PBXGroup;
 			children = (
-				AADBF5791FCECF5000A4C470 /* ArrayLawsTests.swift */,
-				AADBF57C1FCECF6600A4C470 /* CoproductLawsTests.swift */,
-				AADBF57E1FCECF7200A4C470 /* ExponentialLawsTests.swift */,
-				AAAE2E151FCC536200D0D861 /* FunctorLaws.swift */,
-				AADBF5771FCECE9A00A4C470 /* FutureLawsTests.swift */,
-				AADBF5801FCECF7E00A4C470 /* InclusiveLawsTests.swift */,
+				AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */,
 				AAAE2E131FCC530400D0D861 /* Law.swift */,
-				AADBF5821FCECF8800A4C470 /* OptionalLawsTests.swift */,
-				AADBF5841FCECF9700A4C470 /* ProductLawsTests.swift */,
-				AADBF5751FCEBCE600A4C470 /* ReaderLawsTests.swift */,
-				AADBF5861FCECFA400A4C470 /* ResultLawsTests.swift */,
-				AADBF5881FCECFB300A4C470 /* StateLawsTests.swift */,
-				AADBF58A1FCECFBB00A4C470 /* WriterLawsTests.swift */,
 			);
 			path = Laws;
 			sourceTree = SOURCE_ROOT;
@@ -541,7 +508,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AAAE2E141FCC530400D0D861 /* Law.swift in Sources */,
 				OBJ_21 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,23 +520,13 @@
 				38F179D21FBDA85200243994 /* Assertion.swift in Sources */,
 				38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
-				AAAE2E171FCC565900D0D861 /* FunctorLaws.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
-				AADBF5761FCEBCE600A4C470 /* ReaderLawsTests.swift in Sources */,
+				AADBF58E1FCEF20500A4C470 /* FunctorLaws.generated.swift in Sources */,
 				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
-				AADBF5871FCECFA400A4C470 /* ResultLawsTests.swift in Sources */,
-				AADBF58B1FCECFBB00A4C470 /* WriterLawsTests.swift in Sources */,
+				AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */,
 				3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */,
-				AADBF5781FCECE9A00A4C470 /* FutureLawsTests.swift in Sources */,
-				AADBF57F1FCECF7200A4C470 /* ExponentialLawsTests.swift in Sources */,
-				AADBF5831FCECF8800A4C470 /* OptionalLawsTests.swift in Sources */,
 				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
 				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,
-				AADBF5851FCECF9700A4C470 /* ProductLawsTests.swift in Sources */,
-				AADBF57D1FCECF6600A4C470 /* CoproductLawsTests.swift in Sources */,
-				AADBF57B1FCECF5300A4C470 /* ArrayLawsTests.swift in Sources */,
-				AADBF5891FCECFB300A4C470 /* StateLawsTests.swift in Sources */,
-				AADBF5811FCECF7E00A4C470 /* InclusiveLawsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
