@@ -4,6 +4,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -28,16 +29,28 @@ class FunctorLawsTests: XCTestCase {
 
 // Left Identity Law
     func testCoproductLeftIdentity() {
-        property("Coproduct - Functor Laws - Left Identity") <- forAll { (x: Int, context: Int) in
+        property("Coproduct - Functor Laws - Left Identity") <- forAll { (x: Int) in
             return Coproduct<Int,Int>.left(x).mapLeft(fidentity) == fidentity(Coproduct<Int,Int>.left(x))
         }
     }
 
     func testCoproductRightIdentity() {
-        property("Coproduct - Functor Laws - Right Identity") <- forAll { (x: Int, context: Int) in
+        property("Coproduct - Functor Laws - Right Identity") <- forAll { (x: Int) in
             return Coproduct<Int,Int>.right(x).mapLeft(fidentity) == fidentity(Coproduct<Int,Int>.right(x))
         }
     }
+
+
+//MARK: Exponential
+
+// Identity Law
+    func testExponentialIdentity() {
+        property("Exponential - Functor Laws - Identity") <- forAll { (x: ArrowOf<Int,Int>, context: Int) in
+            return (Exponential.init(x.getArrow).map(fidentity) == fidentity(Exponential.init(x.getArrow))).run(context)
+        }
+    }
+
+
 
 
 //MARK: Future

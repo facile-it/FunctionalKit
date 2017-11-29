@@ -1,6 +1,8 @@
-{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}Int{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}){% endmacro %}
+{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}Int{% else %}ArrowOf<Int,Int>{% endif %}{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}){% endmacro %}
 
-{% macro valueOfType type %}{% ifnot type|annotated:"swiftCheckTypeOf"%}{{ type.name }}.unfold({ $0(x) }){% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+{% macro valueOfType type %}{% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf" %}{{ type.name }}.unfold({ $0(x) }){% else %}{{ type.name }}.init(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+
+{% macro equal type %}{% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %}){% endmacro %}
 
 import XCTest
 @testable import FunctionalKit
@@ -12,11 +14,11 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: {{ type.name }}
 
-{% if type|annotated:"simpleFunctor" %}
+{% if type|annotated:"simpleMap" %}
 // Identity Law
     func test{{ type.name }}Identity() {
         property("{{ type.name }} - Functor Laws - Identity") <- forAll { {% call forAllParameters type %} in
-            return {% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %})
+            return {% if type|annotated:"needContext"%}({% call equal type %}).run(context){% else %}{% call equal type %}{% endif %}
         }
     }
 {% endif %}
