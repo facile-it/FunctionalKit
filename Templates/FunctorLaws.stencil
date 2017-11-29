@@ -1,4 +1,4 @@
-{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}Int{% else %}{{ type.name }}Of<Int>{% endif %}){% endmacro %}
+{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}Int{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}){% endmacro %}
 
 {% macro valueOfType type %}{% ifnot type|annotated:"swiftCheckTypeOf"%}{{ type.name }}.unfold({ $0(x) }){% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
 
@@ -8,16 +8,35 @@ import SwiftCheck
 
 class FunctorLawsTests: XCTestCase {
 
-{% for type in types.all|annotated:"functor"|annotated:"simpleFunctor" %}
+{% for type in types.all|annotated:"functor" %}
 
 //MARK: {{ type.name }}
 
+{% if type|annotated:"simpleFunctor" %}
 // Identity Law
     func test{{ type.name }}Identity() {
         property("{{ type.name }} - Functor Laws - Identity") <- forAll { {% call forAllParameters type %} in
             return {% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %})
         }
     }
-{% endfor %}
+{% endif %}
 
+{% if type|annotated:"left" %}
+// Left Identity Law
+    func test{{ type.name }}LeftIdentity() {
+        property("{{ type.name }} - Functor Laws - Left Identity") <- forAll { {% call forAllParameters type %} in
+            return {{ type.name }}<Int,Int>.left(x).mapLeft(fidentity) == fidentity({{ type.name }}<Int,Int>.left(x))
+        }
+    }
+{% endif %}
+
+{% if type|annotated:"right" %}
+    func test{{ type.name }}RightIdentity() {
+        property("{{ type.name }} - Functor Laws - Right Identity") <- forAll { {% call forAllParameters type %} in
+            return {{ type.name }}<Int,Int>.right(x).mapLeft(fidentity) == fidentity({{ type.name }}<Int,Int>.right(x))
+        }
+    }
+{% endif %}
+
+{% endfor %}
 }

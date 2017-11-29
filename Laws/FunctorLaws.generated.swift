@@ -20,6 +20,26 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+
+
+
+//MARK: Coproduct
+
+
+// Left Identity Law
+    func testCoproductLeftIdentity() {
+        property("Coproduct - Functor Laws - Left Identity") <- forAll { (x: Int, context: Int) in
+            return Coproduct<Int,Int>.left(x).mapLeft(fidentity) == fidentity(Coproduct<Int,Int>.left(x))
+        }
+    }
+
+    func testCoproductRightIdentity() {
+        property("Coproduct - Functor Laws - Right Identity") <- forAll { (x: Int, context: Int) in
+            return Coproduct<Int,Int>.right(x).mapLeft(fidentity) == fidentity(Coproduct<Int,Int>.right(x))
+        }
+    }
+
+
 //MARK: Future
 
 // Identity Law
@@ -29,6 +49,9 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+
+
+
 //MARK: Optional
 
 // Identity Law
@@ -37,5 +60,7 @@ class FunctorLawsTests: XCTestCase {
             return x.getOptional.map(fidentity) == fidentity(x.getOptional)
         }
     }
+
+
 
 }
