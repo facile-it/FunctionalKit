@@ -1,0 +1,5 @@
+{% for type in types.all|annotated:"functor" %}
+    // sourcery:inline:auto:{{ type.name }}LawsTests.FunctorLaws
+    let hello = "HELLo 😀"
+    // sourcery:end
+{% endfor %}
