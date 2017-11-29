@@ -2,12 +2,16 @@ import XCTest
 @testable import FunctionalKit
 import SwiftCheck
 
+class FunctorLawsTests: XCTestCase {
+
 {% for type in types.all|annotated:"functor"|annotated:"simpleFunctor" %}
 //MARK: {{ type.name }}
 // Identity Law
-    func testIdentity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: Int) in
-            return {{ type.name }}.unfold({ $0(x) }).map(fidentity) == fidentity({{ type.name }}.unfold({ $0(x) }))
+    func test{{ type.name }}Identity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: {% if type.name|contains:"Array" %}ArrayOf<Int>{% else %}Int{% endif %}) in
+            return {% if type.name|contains:"Array" %}x.getArray{% else %}{{ type.name }}.unfold({ $0(x) }){% endif %}.map(fidentity) == fidentity({% if type.name|contains:"Array" %}x.getArray{% else %}{{ type.name }}.unfold({ $0(x) }){% endif %})
         }
     }
 {% endfor %}
+
+}

@@ -10,6 +10,7 @@ public protocol ArrayType: TypeConstructor {
 
 // MARK: - Data
 
+// sourcery: functor, simpleFunctor
 extension Array: ArrayType {
 	public typealias ParameterType = Element
 

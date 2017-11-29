@@ -5,10 +5,21 @@ import XCTest
 @testable import FunctionalKit
 import SwiftCheck
 
+class FunctorLawsTests: XCTestCase {
+
+//MARK: Array
+// Identity Law
+    func testArrayIdentity() {
+        property("Array - Functor Laws - Identity") <- forAll { (x: ArrayOf<Int>) in
+            return x.getArray.map(fidentity) == fidentity(x.getArray)
+        }
+    }
 //MARK: Future
 // Identity Law
-    func testIdentity() {
+    func testFutureIdentity() {
         property("Future - Functor Laws - Identity") <- forAll { (x: Int) in
             return Future.unfold({ $0(x) }).map(fidentity) == fidentity(Future.unfold({ $0(x) }))
         }
     }
+
+}
