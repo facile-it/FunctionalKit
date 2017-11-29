@@ -5,6 +5,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -20,6 +21,7 @@ class FunctorLawsTests: XCTestCase {
             return x.getArray.map(fidentity) == fidentity(x.getArray)
         }
     }
+
 
 
 
@@ -41,6 +43,7 @@ class FunctorLawsTests: XCTestCase {
     }
 
 
+
 //MARK: Exponential
 
 // Identity Law
@@ -49,6 +52,7 @@ class FunctorLawsTests: XCTestCase {
             return (Exponential.init(x.getArrow).map(fidentity) == fidentity(Exponential.init(x.getArrow))).run(context)
         }
     }
+
 
 
 
@@ -65,6 +69,30 @@ class FunctorLawsTests: XCTestCase {
 
 
 
+
+//MARK: Inclusive
+
+
+// Left Identity Law
+    func testInclusiveLeftIdentity() {
+        property("Inclusive - Functor Laws - Left Identity") <- forAll { (x: Int, y: Int) in
+            return Inclusive<Int,Int>.left(x).mapLeft(fidentity) == fidentity(Inclusive<Int,Int>.left(x))
+        }
+    }
+
+    func testInclusiveRightIdentity() {
+        property("Inclusive - Functor Laws - Right Identity") <- forAll { (x: Int, y: Int) in
+            return Inclusive<Int,Int>.right(x).mapLeft(fidentity) == fidentity(Inclusive<Int,Int>.right(x))
+        }
+    }
+
+    func testInclusiveCenterIdentity() {
+        property("Inclusive - Functor Laws - Center Identity") <- forAll { (x: Int, y: Int) in
+            return Inclusive<Int,Int>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity(Inclusive<Int,Int>.center(x,y))
+        }
+    }
+
+
 //MARK: Optional
 
 // Identity Law
@@ -73,6 +101,7 @@ class FunctorLawsTests: XCTestCase {
             return x.getOptional.map(fidentity) == fidentity(x.getOptional)
         }
     }
+
 
 
 

@@ -1,8 +1,9 @@
-{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}Int{% else %}ArrowOf<Int,Int>{% endif %}{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}){% endmacro %}
+{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}Int{% else %}ArrowOf<Int,Int>{% endif %}{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}{% if type|annotated:"center"%}, y: Int{% endif%}){% endmacro %}
 
 {% macro valueOfType type %}{% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf" %}{{ type.name }}.unfold({ $0(x) }){% else %}{{ type.name }}.init(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
 
 {% macro equal type %}{% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %}){% endmacro %}
+
 
 import XCTest
 @testable import FunctionalKit
@@ -36,6 +37,14 @@ class FunctorLawsTests: XCTestCase {
     func test{{ type.name }}RightIdentity() {
         property("{{ type.name }} - Functor Laws - Right Identity") <- forAll { {% call forAllParameters type %} in
             return {{ type.name }}<Int,Int>.right(x).mapLeft(fidentity) == fidentity({{ type.name }}<Int,Int>.right(x))
+        }
+    }
+{% endif %}
+
+{% if type|annotated:"center" %}
+    func test{{ type.name }}CenterIdentity() {
+        property("{{ type.name }} - Functor Laws - Center Identity") <- forAll { {% call forAllParameters type %} in
+            return {{ type.name }}<Int,Int>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity({{ type.name }}<Int,Int>.center(x,y))
         }
     }
 {% endif %}
