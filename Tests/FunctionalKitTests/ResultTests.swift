@@ -13,11 +13,20 @@ class ResultTests: XCTestCase {
     struct User {
         var name: String
     }
+    
+    struct Street {
+        var name: String
+    }
+    
     enum ResultError: Error {
         case invalidResult
     }
     func getUserName(user: User) -> String{
         return user.name
+    }
+    
+    func getNames(user: User, street: Street) -> [String] {
+        return [user.name, street.name]
     }
     
     typealias MyResult<T> = Result<ResultError, T>
@@ -46,7 +55,7 @@ class ResultTests: XCTestCase {
         XCTAssert(userNameResult.tryRight! == "Ricardo")
     }
     
-    func testLiftA(){
+    func testLift(){
         let ricardo = User(name: "Ricardo")
         
         let userResult = MyResult.success(ricardo)
@@ -54,6 +63,17 @@ class ResultTests: XCTestCase {
         
         let userNameResult = liftedGetUserName(userResult)
         XCTAssert(userNameResult.tryRight! == "Ricardo")
+    }
+    
+    func testLift2(){
+        let userResult = MyResult.success(User(name: "Ricardo"))
+        let streetResult = MyResult.success(Street(name: "Fake Street"))
+        
+        let liftedGetUserNames = MyResult.lift2(getNames)
+        
+        let namesResult = liftedGetUserNames(userResult, streetResult)
+        
+        XCTAssert(namesResult.tryRight! == ["Ricardo", "Fake Street"])
     }
 
     
