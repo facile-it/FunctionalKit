@@ -2,7 +2,7 @@ import XCTest
 @testable import FunctionalKit
 import SwiftCheck
 
-class ReaderLawsTests: XCTestCase {
+class OptionalLawsTests: XCTestCase {
     
 }
 
