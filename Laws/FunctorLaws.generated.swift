@@ -171,4 +171,18 @@ class FunctorLawsTests: XCTestCase {
 
 
 
+
+//MARK: State
+
+// Identity Law
+    func testStateIdentity() {
+        property("State - Functor Laws - Identity") <- forAll { (x: Int, context: Int) in
+            return (State<Int,Int>.unfold{ s in (s,x)}.map(fidentity) == fidentity(State<Int,Int>.unfold{ s in (s,x)})).run(context)
+        }
+    }
+
+
+
+
+
 }
