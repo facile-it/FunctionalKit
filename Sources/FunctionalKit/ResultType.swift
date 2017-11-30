@@ -107,6 +107,7 @@ extension ResultType {
             return result3.apply(result2.apply(result1.map(fn)))
         }
     }
+
 }
 
 // MARK: - Cartesian
