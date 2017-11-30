@@ -143,4 +143,18 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+
+//MARK: Reader
+
+// Identity Law
+    func testReaderIdentity() {
+        property("Reader - Functor Laws - Identity") <- forAll { (x: ArrowOf<Int,Int>, context: Int) in
+            return (Reader.unfold(x.getArrow).map(fidentity) == fidentity(Reader.unfold(x.getArrow))).run(context)
+        }
+    }
+
+
+
+
+
 }
