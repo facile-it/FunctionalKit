@@ -13,7 +13,7 @@ public protocol FutureType: TypeConstructor {
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
 
-	private enum State<T> {
+	private indirect enum State<T> {
 		case idle
 		case running
 		case done(T)

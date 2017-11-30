@@ -69,11 +69,36 @@ class ResultTests: XCTestCase {
         let userResult = MyResult.success(User(name: "Ricardo"))
         let streetResult = MyResult.success(Street(name: "Fake Street"))
         
-        let liftedGetUserNames = MyResult.lift2(getNames)
+        let liftedGetNames = MyResult.lift2(getNames)
         
-        let namesResult = liftedGetUserNames(userResult, streetResult)
+        let namesResult = liftedGetNames(userResult, streetResult)
         
         XCTAssert(namesResult.tryRight! == ["Ricardo", "Fake Street"])
+    }
+    
+    func testLift2Future() {
+        let expect = expectation(description: "Future")
+
+        let userFuture = Future<User>.unfold { callback in
+            callback(User(name: "Ricardo"))
+        }
+        
+        
+        let streetFuture = Future<Street>.unfold { callback in
+            callback(Street(name: "Fake Street"))
+        }
+        
+        let liftedGetNames = Future.lift2(getNames)
+        
+        let namesFuture = liftedGetNames(userFuture, streetFuture)
+        
+        namesFuture.run { names in
+            XCTAssert(names == ["Ricardo", "Fake Street"])
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 30, handler: nil)
+
     }
 
     
