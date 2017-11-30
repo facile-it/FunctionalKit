@@ -8,16 +8,16 @@ public protocol FutureType: TypeConstructor {
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self
 }
 
+fileprivate enum FutureState<T> {
+    case idle
+    case running
+    case done(T)
+}
+
 // MARK: - Data
 // sourcery: functor, simpleMap
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
-
-	private enum State<T> {
-		case idle
-		case running
-		case done(T)
-	}
 
 	private let continuation: (@escaping (A) -> ()) -> ()
 	private init(_ continuation: @escaping (@escaping (A) -> ()) -> ()) {
@@ -25,7 +25,7 @@ public final class Future<A>: FutureType {
 	}
 
 	private var callbacks: [(A) -> ()] = []
-	private var currentState = State<A>.idle
+    private var currentState = FutureState<A>.idle
 
 	public static func from(concrete: Future<A>) -> Future<A> {
 		return concrete

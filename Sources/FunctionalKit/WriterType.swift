@@ -14,7 +14,7 @@ public protocol WriterType: TypeConstructor, ProductType {
 }
 
 // MARK: - Data
-
+// sourcery: functor, simpleMap, writer, stringContext
 public struct Writer<L,A>: WriterType where L: Monoid {
 	public typealias ParameterType = A
 

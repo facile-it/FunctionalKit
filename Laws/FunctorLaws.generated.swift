@@ -8,6 +8,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -178,6 +179,20 @@ class FunctorLawsTests: XCTestCase {
     func testStateIdentity() {
         property("State - Functor Laws - Identity") <- forAll { (x: Int, context: Int) in
             return (State<Int,Int>.unfold{ s in (s,x)}.map(fidentity) == fidentity(State<Int,Int>.unfold{ s in (s,x)})).run(context)
+        }
+    }
+
+
+
+
+
+
+//MARK: Writer
+
+// Identity Law
+    func testWriterIdentity() {
+        property("Writer - Functor Laws - Identity") <- forAll { (x: Int, context: String) in
+            return Writer<String,Int>.init(log: context, value: x).map(fidentity) == fidentity(Writer<String,Int>.init(log: context, value: x))
         }
     }
 
