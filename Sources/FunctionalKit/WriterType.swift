@@ -59,6 +59,24 @@ extension WriterType {
 	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Writer<LogType,T> {
 		return fold { log, value in Writer<LogType,T>.init(log: log, value: transform(value)) }
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Writer<LogType, ParameterType>) -> Writer<LogType, A> {
+        return { $0.map(function) }
+    }
+    
+    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Writer<LogType, ParameterType>, Writer<LogType, B>) -> Writer<LogType,A> {
+        return { (writer1, writer2) in
+            let fn = fcurry(function)
+            return writer2.apply(writer1.map(fn))
+        }
+    }
+    
+    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Writer<LogType, ParameterType>, Writer<LogType, B>, Writer<LogType, C>) -> Writer<LogType, A> {
+        return { (writer1, writer2, writer3) in
+            let fn = fcurry(function)
+            return writer3.apply(writer2.apply(writer1.map(fn)))
+        }
+    }
 }
 
 // MARK: - Cartesian
