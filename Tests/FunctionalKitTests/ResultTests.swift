@@ -68,9 +68,8 @@ class ResultTests: XCTestCase {
     func testLift2(){
         let userResult = MyResult.success(User(name: "Ricardo"))
         let streetResult = MyResult.success(Street(name: "Fake Street"))
-        
+
         let liftedGetNames = MyResult.lift2(getNames)
-        
         let namesResult = liftedGetNames(userResult, streetResult)
         
         XCTAssert(namesResult.tryRight! == ["Ricardo", "Fake Street"])
@@ -83,13 +82,11 @@ class ResultTests: XCTestCase {
             callback(User(name: "Ricardo"))
         }
         
-        
         let streetFuture = Future<Street>.unfold { callback in
             callback(Street(name: "Fake Street"))
         }
         
         let liftedGetNames = Future.lift2(getNames)
-        
         let namesFuture = liftedGetNames(userFuture, streetFuture)
         
         namesFuture.run { names in
@@ -97,8 +94,7 @@ class ResultTests: XCTestCase {
             expect.fulfill()
         }
         
-        waitForExpectations(timeout: 30, handler: nil)
-
+        waitForExpectations(timeout: 2, handler: nil)
     }
 
     
