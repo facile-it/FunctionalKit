@@ -100,6 +100,13 @@ extension ResultType {
             return result2.apply(result1.map(fn))
         }
     }
+    
+    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Result<ErrorType, ParameterType>, Result<ErrorType, B>, Result<ErrorType, C>) -> Result<ErrorType, A> {
+        return { (result1, result2, result3) in
+            let fn = fcurry(function)
+            return result3.apply(result2.apply(result1.map(fn)))
+        }
+    }
 }
 
 // MARK: - Cartesian
