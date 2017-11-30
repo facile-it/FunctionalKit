@@ -38,14 +38,14 @@ class FunctorLawsTests: XCTestCase {
 
 // Left Identity Law
     func testCoproductLeftIdentity() {
-        property("Coproduct - Functor Laws - Identity") <- forAll { (x: String, y: String) in
+        property("Coproduct - Functor Laws - Left Identity") <- forAll { (x: String, y: String) in
             return Coproduct<String,String>.left(x) == fidentity(Coproduct<String,String>.left(x))
         }
     }
 
 // Right Identity Law
     func testCoproductRightIdentity() {
-        property("Coproduct - Functor Laws - Identity") <- forAll { (x: String, y: String) in
+        property("Coproduct - Functor Laws - Right Identity") <- forAll { (x: String, y: String) in
             return Coproduct<String,String>.right(x) == fidentity(Coproduct<String,String>.right(x))
         }
     }

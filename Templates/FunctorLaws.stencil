@@ -51,6 +51,14 @@
 {% macro internalEqual type mapType %}{% call distinguishInit type mapType %}{% call distinguishMap mapType %} == {{ identity }}({% call distinguishInit type mapType %}){% endmacro %}
 {% macro externalEqual type mapType %}{% if type|annotated:"needContext" %}({% call internalEqual type mapType %}){{ run }}{% else %}{% call internalEqual type mapType %}{% endif %}{% endmacro %}
 {% macro forAllArgs type %}{% if type|annotated:"simpleValue" %}{{ oneSimpleArg }}{% endif %}{% if type|annotated:"arrayOfValue" %}{{ arrayOfArg }}{% endif %}{% if type|annotated:"optionalValue" %}{{ optionalOfArg }}{% endif %}{% if type|annotated:"arrowOfValue" %}{{ arrowOfArg }}{% endif %}{% if type|annotated:"secondValue" %}, {{ secondArg }}{% endif %}{% if type|annotated:"needContext" %}, {{ contextArg }}{% endif %}{% endmacro %}
+{% macro complexIdentity type mapType id %}
+// {{ id|capitalize }} Identity Law
+    func test{{ type.name }}{{ id|capitalize }}Identity() {
+        property("{{ type.name }} - Functor Laws - {{ id|capitalize }} Identity") <- forAll { ({% call forAllArgs type %}) in
+            return {% call externalEqual type mapType %}
+        }
+    }
+{% endmacro %}
 
 {# IMPLEMENTATION #}
 import XCTest
@@ -73,23 +81,9 @@ class FunctorLawsTests: XCTestCase {
     }
 {% endif %}
 
-{% if type|annotated:"leftMap" %}
-// Left Identity Law
-    func test{{ type.name }}LeftIdentity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
-            return {% call externalEqual type "leftMap" %}
-        }
-    }
-{% endif %}
+{% if type|annotated:"leftMap" %}{% call complexIdentity type "leftMap" "left" %}{% endif %}
 
-{% if type|annotated:"rightMap" %}
-// Right Identity Law
-    func test{{ type.name }}RightIdentity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
-            return {% call externalEqual type "rightMap" %}
-        }
-    }
-{% endif %}
+{% if type|annotated:"rightMap" %}{% call complexIdentity type "rightMap" "right" %}{% endif %}
 
 {% endfor %}
 }
