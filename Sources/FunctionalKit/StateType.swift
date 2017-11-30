@@ -71,6 +71,24 @@ extension StateType {
 			return (to(newS),v)
 		}
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (State<StateParameterType, ParameterType>) -> State<StateParameterType, A> {
+        return { $0.map(function) }
+    }
+    
+    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (State<StateParameterType, ParameterType>, State<StateParameterType, B>) -> State<StateParameterType,A> {
+        return { (state1, state2) in
+            let fn = fcurry(function)
+            return state2.apply(state1.map(fn))
+        }
+    }
+    
+    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (State<StateParameterType, ParameterType>, State<StateParameterType, B>, State<StateParameterType, C>) -> State<StateParameterType, A> {
+        return { (state1, state2, state3) in
+            let fn = fcurry(function)
+            return state3.apply(state2.apply(state1.map(fn)))
+        }
+    }
 }
 
 // MARK: - Cartesian
