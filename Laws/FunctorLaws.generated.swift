@@ -162,8 +162,8 @@ class FunctorLawsTests: XCTestCase {
 
 // Identity Law
     func testResultIdentity() {
-        property("Result - Functor Laws - Identity") <- forAll { (x: Int, context: AnyError) in
-            return (Reader<AnyError,Int>.unfold{ _ in x }.map(fidentity) == fidentity(Reader<AnyError,Int>.unfold{ _ in x })).run(context)
+        property("Result - Functor Laws - Identity") <- forAll { (x: Int) in
+            return Result<AnyError,Int>.success(x).map(fidentity) == fidentity(Result<AnyError,Int>.success(x))
         }
     }
 

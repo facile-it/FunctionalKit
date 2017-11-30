@@ -20,7 +20,7 @@ extension ResultType {
 }
 
 // MARK: - Data
-// sourcery: functor, simpleMap, reader, needContext, errorContext
+// sourcery: functor, simpleMap, result
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
 	public typealias ParameterType = T

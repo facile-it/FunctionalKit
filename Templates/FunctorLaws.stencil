@@ -1,6 +1,6 @@
 {% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}Int{% else %}ArrowOf<Int,Int>{% endif %}{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: {% if type|annotated:"errorContext"%}AnyError{% else %}Int{% endif %}{% endif %}{% if type|annotated:"center"%}, y: Int{% endif%}{% if type|annotated:"product"%}, y: Int{% endif%}){% endmacro %}
 
-{% macro valueOfType type %}{% if not type|annotated:"swiftCheckTypeOf"%}{% if not type|annotated:"arrowOf" %}{% if not type|annotated:"reader" %}{{ type.name }}.unfold({ $0(x) }){% else %}Reader<AnyError,Int>.unfold{ _ in x }{% endif %}{% else %}{{ type.name }}{% if type|annotated:"needUnfold"%}.unfold{% else %}.init{% endif %}(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+{% macro valueOfType type %}{% if not type|annotated:"swiftCheckTypeOf"%}{% if not type|annotated:"arrowOf" %}{% if not type|annotated:"result" %}{{ type.name }}.unfold({ $0(x) }){% else %}Result<AnyError,Int>.success(x){% endif %}{% else %}{{ type.name }}{% if type|annotated:"needUnfold"%}.unfold{% else %}.init{% endif %}(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
 
 {% macro equal type %}{% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %}){% endmacro %}
 
