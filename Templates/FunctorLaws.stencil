@@ -1,16 +1,16 @@
-{% macro forAllParameters type %}(x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}Int{% else %}ArrowOf<Int,Int>{% endif %}{% else %}{{ type.name }}Of<Int>{% endif %}{% if type|annotated:"needContext" %}, context: Int{% endif %}{% if type|annotated:"stringContext"%}, context: String{% endif %}{% if type|annotated:"center"%}, y: Int{% endif%}{% if type|annotated:"product"%}, y: Int{% endif%}){% endmacro %}
+{% macro forAllParameters type %}x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}String{% else %}ArrowOf<String,String>{% endif %}{% else %}{{ type.name }}Of<String>{% endif %}{% if type|annotated:"needContext" %}, context: String{% endif %}{% if type|annotated:"stringContext"%}, context: String{% endif %}{% if type|annotated:"center"%}, y: String{% endif%}{% if type|annotated:"product"%}, y: String{% endif%}{% endmacro %}
 
-{% macro generalValueOfType type %}{% if not type|annotated:"swiftCheckTypeOf"%}{% if not type|annotated:"arrowOf" %}{% if not type|annotated:"result" %}{% if not type|annotated:"state" %}{{ type.name }}.unfold({ $0(x) }){% else %}State<Int,Int>.unfold{ s in (s,x)}{% endif %}{% else %}Result<AnyError,Int>.success(x){% endif %}{% else %}{{ type.name }}{% if type|annotated:"needUnfold"%}.unfold{% else %}.init{% endif %}(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+{% macro generalValueOfType type %}{% if not type|annotated:"swiftCheckTypeOf"%}{% if not type|annotated:"arrowOf" %}{% if not type|annotated:"result" %}{% if not type|annotated:"state" %}{{ type.name }}.unfold({ $0(x) }){% else %}State<String,String>.unfold{ s in (s,x)}{% endif %}{% else %}Result<AnyError,String>.success(x){% endif %}{% else %}{{ type.name }}{% if type|annotated:"needUnfold"%}.unfold{% else %}.init{% endif %}(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
 
-{% macro valueOfType type %}{% if type|annotated:"writer"%}Writer<String,Int>.init(log: context, value: x){% else %}{% call generalValueOfType type %}{% endif %}{% endmacro %}
+{% macro valueOfType type %}{% if type|annotated:"writer"%}Writer<String,String>.init(log: context, value: x){% else %}{% call generalValueOfType type %}{% endif %}{% endmacro %}
 
 {% macro equal type %}{% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %}){% endmacro %}
 
 {% macro identitySideFor type side %}
 // {{ side|capitalize }} Identity Law
     func test{{ type.name }}{{ side|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ side|capitalize }} Identity") <- forAll { {% call forAllParameters type %} in
-            return {{ type.name }}<Int,Int>.{{ side }}(x).map{{ side|capitalize }}(fidentity) == fidentity({{ type.name }}<Int,Int>.{{ side }}(x))
+        property("{{ type.name }} - Functor Laws - {{ side|capitalize }} Identity") <- forAll { ({% call forAllParameters type %}) in
+            return {{ type.name }}<String,String>.{{ side }}(x).map{{ side|capitalize }}(fidentity) == fidentity({{ type.name }}<String,String>.{{ side }}(x))
         }
     }
 {% endmacro %}
@@ -20,8 +20,8 @@
 {% macro identityProduct position %}
 // {{ position|capitalize }} Identity Law
     func test{{ type.name }}{{ position|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ position|capitalize }} Identity") <- forAll { {% call forAllParameters type %} in
-            return {{ type.name }}<Int,Int>.init(x,y).{% call productMapFor position %} == fidentity({{ type.name }}<Int,Int>.init(x,y))
+        property("{{ type.name }} - Functor Laws - {{ position|capitalize }} Identity") <- forAll { ({% call forAllParameters type %}) in
+            return {{ type.name }}<String,String>.init(x,y).{% call productMapFor position %} == fidentity({{ type.name }}<String,String>.init(x,y))
         }
     }
 {% endmacro %}
@@ -29,6 +29,7 @@
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
+import Abstract
 
 class FunctorLawsTests: XCTestCase {
 
@@ -39,10 +40,11 @@ class FunctorLawsTests: XCTestCase {
 {% if type|annotated:"simpleMap" %}
 // Identity Law
     func test{{ type.name }}Identity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { {% call forAllParameters type %} in
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllParameters type %}) in
             return {% if type|annotated:"needContext"%}({% call equal type %}).run(context){% else %}{% call equal type %}{% endif %}
         }
     }
+
 {% endif %}
 
 {% if type|annotated:"left" %}{% call identitySideFor type "left" %}{% endif %}
@@ -51,8 +53,8 @@ class FunctorLawsTests: XCTestCase {
 
 {% if type|annotated:"center" %}
     func test{{ type.name }}CenterIdentity() {
-        property("{{ type.name }} - Functor Laws - Center Identity") <- forAll { {% call forAllParameters type %} in
-            return {{ type.name }}<Int,Int>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity({{ type.name }}<Int,Int>.center(x,y))
+        property("{{ type.name }} - Functor Laws - Center Identity") <- forAll { ({% call forAllParameters type %}) in
+            return {{ type.name }}<String,String>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity({{ type.name }}<String,String>.center(x,y))
         }
     }
 {% endif %}
