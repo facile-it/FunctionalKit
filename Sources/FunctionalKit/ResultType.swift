@@ -93,6 +93,13 @@ extension ResultType {
     public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Result<ErrorType,ParameterType>) -> Result<ErrorType,A> {
         return { $0.map(function) }
     }
+    
+    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Result<ErrorType, ParameterType>, Result<ErrorType, B>) -> Result<ErrorType, A> {
+        return { (result1, result2) in
+            let fn = fcurry(function)
+            return result2.apply(result1.map(fn))
+        }
+    }
 }
 
 // MARK: - Cartesian
