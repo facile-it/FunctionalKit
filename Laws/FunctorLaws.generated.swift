@@ -6,6 +6,8 @@
 
 
 
+
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -26,6 +28,7 @@ class FunctorLawsTests: XCTestCase {
 
 
 
+
 //MARK: Coproduct
 
 
@@ -36,11 +39,13 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// Right Identity Law
     func testCoproductRightIdentity() {
         property("Coproduct - Functor Laws - Right Identity") <- forAll { (x: Int) in
-            return Coproduct<Int,Int>.right(x).mapLeft(fidentity) == fidentity(Coproduct<Int,Int>.right(x))
+            return Coproduct<Int,Int>.right(x).mapRight(fidentity) == fidentity(Coproduct<Int,Int>.right(x))
         }
     }
+
 
 
 
@@ -52,6 +57,7 @@ class FunctorLawsTests: XCTestCase {
             return (Exponential.init(x.getArrow).map(fidentity) == fidentity(Exponential.init(x.getArrow))).run(context)
         }
     }
+
 
 
 
@@ -70,6 +76,7 @@ class FunctorLawsTests: XCTestCase {
 
 
 
+
 //MARK: Inclusive
 
 
@@ -80,9 +87,10 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 
+// Right Identity Law
     func testInclusiveRightIdentity() {
         property("Inclusive - Functor Laws - Right Identity") <- forAll { (x: Int, y: Int) in
-            return Inclusive<Int,Int>.right(x).mapLeft(fidentity) == fidentity(Inclusive<Int,Int>.right(x))
+            return Inclusive<Int,Int>.right(x).mapRight(fidentity) == fidentity(Inclusive<Int,Int>.right(x))
         }
     }
 
@@ -91,6 +99,7 @@ class FunctorLawsTests: XCTestCase {
             return Inclusive<Int,Int>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity(Inclusive<Int,Int>.center(x,y))
         }
     }
+
 
 
 //MARK: Optional
@@ -104,5 +113,34 @@ class FunctorLawsTests: XCTestCase {
 
 
 
+
+
+
+//MARK: Product
+
+
+
+
+
+// First Identity Law
+    func testProductFirstIdentity() {
+        property("Product - Functor Laws - First Identity") <- forAll { (x: Int, y: Int) in
+            return Product<Int,Int>.init(x,y).mapFirst(fidentity) == fidentity(Product<Int,Int>.init(x,y))
+        }
+    }
+
+// Second Identity Law
+    func testProductSecondIdentity() {
+        property("Product - Functor Laws - Second Identity") <- forAll { (x: Int, y: Int) in
+            return Product<Int,Int>.init(x,y).mapSecond(fidentity) == fidentity(Product<Int,Int>.init(x,y))
+        }
+    }
+
+// Both Identity Law
+    func testProductBothIdentity() {
+        property("Product - Functor Laws - Both Identity") <- forAll { (x: Int, y: Int) in
+            return Product<Int,Int>.init(x,y).bimap(onFirst: fidentity, onSecond: fidentity) == fidentity(Product<Int,Int>.init(x,y))
+        }
+    }
 
 }
