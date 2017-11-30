@@ -69,6 +69,24 @@ extension OptionalType {
 			onNone: fconstant(Optional<T>.none),
 			onSome: transform..Optional<T>.some)
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Optional<ParameterType>) -> Optional<A> {
+        return { $0.map(function) }
+    }
+    
+    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Optional<ParameterType>, Optional<B>) -> Optional<A> {
+        return { (optional1, optional2) in
+            let fn = fcurry(function)
+            return optional2.apply(optional1.map(fn))
+        }
+    }
+    
+    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Optional<ParameterType>, Optional<B>, Optional<C>) -> Optional<A> {
+        return { (optional1, optional2, optional3) in
+            let fn = fcurry(function)
+            return optional3.apply(optional2.apply(optional1.map(fn)))
+        }
+    }
 }
 
 // MARK: - Cartesian
