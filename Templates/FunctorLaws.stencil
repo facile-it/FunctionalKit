@@ -1,32 +1,32 @@
-{# SET #}
+{# SET - Args #}
 {% set arg1 %}x{% endset %}
 {% set arg2 %}y{% endset %}
 {% set context %}c{% endset %}
-
+{# SET - Type #}
 {% set T %}String{% endset %}
-
+{# SET - Fidentity #}
 {% set identity %}fidentity{% endset%}
-
+{# SET - Bimap #}
 {% set bimapFirstSecond %}.bimap(onFirst: {{ identity }}, onSecond: {{ identity }}){% endset %}
 {% set bimapLeftRight %}.bimap(onLeft: {{ identity }}, onRight: {{ identity }}){% endset %}
-
+{# SET - Left & Right #}
 {% set mapLeft %}.mapLeft({{ identity }}){% endset %}
 {% set mapRight %}.mapRight({{ identity }}){% endset %}
-
+{# SET - First & Second #}
 {% set mapFrist %}.mapFirst({{ identity }}){% endset %}
 {% set mapSecond %}.mapSecond({{ identity }}){% endset %}
-
+{# SET - Map #}
 {% set map %}.map({{ identity }}){% endset%}
-
+{# SET - Args Types #}
 {% set oneSimpleArg %}{{ arg1 }}: {{ T }}{% endset%}
 {% set arrayOfArg %}{{ arg1 }}: ArrayOf<{{ T }}>{% endset%}
 {% set optionalOfArg %}{{ arg1 }}: OptionalOf<{{ T }}>{% endset%}
 {% set arrowOfArg %}{{ arg1 }}: ArrowOf<{{ T }},{{ T }}>{% endset%}
 {% set secondArg %}{{ arg2 }}: {{ T }}{% endset%}
 {% set contextArg %}{{ context }}: {{ T }}{% endset%}
-
+{# SET - Run #}
 {% set run %}.run({{ context }}){% endset%}
-
+{# SET - Init #}
 {% set init1Arg %}<{{ T }}>.init({{ arg1 }}){% endset %}
 {% set init2Args %}<{{ T }},{{ T }}>.init({{ arg1 }},{{ arg2 }}){% endset %}
 {% set initLeft %}<{{ T }},{{ T }}>.left({{ arg1 }}){% endset %}
@@ -42,16 +42,19 @@
 {% set unfoldState %}<{{ T }},{{ T }}>.unfold{ s in (s,{{ arg1 }})}{% endset %}
 {% set noInitArray %}{{ arg1 }}.getArray{% endset %}
 {% set noInitOptional %}{{ arg1 }}.getOptional{% endset %}
-
-{# MACROS #}
+{# MACROS - Distinguish #}
 {% macro distinguishMap mapType %}{% if mapType|contains:"simpleMap" %}{{ map }}{% endif %}{% if mapType|contains:"mapSecond" %}{{ mapSecond }}{% endif %}{% if mapType|contains:"mapFirst" %}{{ mapFirst }}{% endif %}{% if mapType|contains:"mapRight" %}{{ mapRight }}{% endif %}{% if mapType|contains:"mapSecond" %}{{ mapSecond }}{% endif %}{% if mapType|contains:"center" %}bimapLeftRight{% endif %}{% if mapType|contains:"both" %}bimapFirstSecond{% endif %}{% endmacro %}
 {% macro distinguishWithoutInit type %}{% if type|annotated:"noInitArray"%}{{ noInitArray }}{% endif %}{% if type|annotated:"noInitOptional"%}{{ noInitOptional }}{% endif %}{% endmacro %}
 {% macro distinguishWithInit type mapType %}{{ type.name }}{% if mapType|contains:"init1Arg" %}{{ init1Arg }}{% endif %}{% if mapType|contains:"init2Args" %}{{ init2Args }}{% endif %}{% if mapType|contains:"leftMap" %}{{ initLeft }}{% endif %}{% if mapType|contains:"rightMap" %}{{ initRight }}{% endif %}{% if mapType|contains:"initCenter" %}{{ initCenter }}{% endif %}{% if mapType|contains:"initFirst" %}{{ initFirst }}{% endif %}{% if mapType|contains:"initSecond" %}{{ initSecond }}{% endif %}{% if mapType|contains:"initBoth" %}{{ initBoth }}{% endif %}{% if type|annotated:"initExponential" %}{{ initExponential }}{% endif %}{% if type|annotated:"initWriter" %}{{ initWriter }}{% endif %}{% if mapType|contains:"unfoldFuture" %}{{ unfoldFuture }}{% endif %}{% if mapType|contains:"unfoldReader" %}{{ unfoldReader }}{% endif %}{% if mapType|contains:"unfoldState" %}{{ unfoldState }}{% endif %}{% endmacro %}
 {% macro distinguishInit type mapType %}{% if type|annotated:"noInit"%}{% call distinguishWithoutInit type %}{% else %}{% call distinguishWithInit type mapType %}{% endif %}{% endmacro %}
+{# MACROS - Internal #}
 {% macro internalEqual type mapType %}{% call distinguishInit type mapType %}{% call distinguishMap mapType %} == {{ identity }}({% call distinguishInit type mapType %}){% endmacro %}
 {% macro externalEqual type mapType %}{% if type|annotated:"needContext" %}({% call internalEqual type mapType %}){{ run }}{% else %}{% call internalEqual type mapType %}{% endif %}{% endmacro %}
+{# MACROS - Args #}
 {% macro forAllArgs type %}{% if type|annotated:"simpleValue" %}{{ oneSimpleArg }}{% endif %}{% if type|annotated:"arrayOfValue" %}{{ arrayOfArg }}{% endif %}{% if type|annotated:"optionalValue" %}{{ optionalOfArg }}{% endif %}{% if type|annotated:"arrowOfValue" %}{{ arrowOfArg }}{% endif %}{% if type|annotated:"secondValue" %}, {{ secondArg }}{% endif %}{% if type|annotated:"needContext" %}, {{ contextArg }}{% endif %}{% endmacro %}
+{# MACROS - Identity #}
 {% macro complexIdentity type mapType id %}
+
 // {{ id|capitalize }} Identity Law
     func test{{ type.name }}{{ id|capitalize }}Identity() {
         property("{{ type.name }} - Functor Laws - {{ id|capitalize }} Identity") <- forAll { ({% call forAllArgs type %}) in
@@ -59,7 +62,6 @@
         }
     }
 {% endmacro %}
-
 {# IMPLEMENTATION #}
 import XCTest
 @testable import FunctionalKit
@@ -80,10 +82,12 @@ class FunctorLawsTests: XCTestCase {
         }
     }
 {% endif %}
-
 {% if type|annotated:"leftMap" %}{% call complexIdentity type "leftMap" "left" %}{% endif %}
-
 {% if type|annotated:"rightMap" %}{% call complexIdentity type "rightMap" "right" %}{% endif %}
+{% if type|annotated:"centerMap" %}{% call complexIdentity type "centerMap" "center" %}{% endif %}
+{% if type|annotated:"firstMap" %}{% call complexIdentity type "firstMap" "first" %}{% endif %}
+{% if type|annotated:"secondMap" %}{% call complexIdentity type "secondMap" "second" %}{% endif %}
+{% if type|annotated:"bothMap" %}{% call complexIdentity type "bothMap" "both" %}{% endif %}
 
 {% endfor %}
 }

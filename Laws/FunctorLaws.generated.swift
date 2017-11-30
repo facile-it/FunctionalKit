@@ -2,17 +2,6 @@
 // DO NOT EDIT
 
 
-
-
-
-
-
-
-
-
-
-
-
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -29,8 +18,6 @@ class FunctorLawsTests: XCTestCase {
             return x.getArray.map(fidentity) == fidentity(x.getArray)
         }
     }
-
-
 
 
 //MARK: Coproduct
@@ -61,11 +48,7 @@ class FunctorLawsTests: XCTestCase {
     }
 
 
-
-
 //MARK: Future
-
-
 
 
 
@@ -73,11 +56,7 @@ class FunctorLawsTests: XCTestCase {
 
 
 
-
-
 //MARK: Optional
-
-
 
 
 
@@ -85,11 +64,7 @@ class FunctorLawsTests: XCTestCase {
 
 
 
-
-
 //MARK: Reader
-
-
 
 
 
@@ -97,17 +72,11 @@ class FunctorLawsTests: XCTestCase {
 
 
 
-
-
 //MARK: State
 
 
 
-
-
 //MARK: Writer
-
-
 
 
 }
