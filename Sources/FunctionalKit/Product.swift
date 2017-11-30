@@ -10,7 +10,7 @@ public protocol ProductType {
 	func fold<T>(_ transform: @escaping (FirstType,SecondType) -> T) -> T
 }
 
-// sourcery: functor, product
+// sourcery: functor
 public struct Product<A,B>: ProductType {
 	private let _first: A
 	private let _second: B

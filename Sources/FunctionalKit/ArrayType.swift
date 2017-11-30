@@ -10,7 +10,7 @@ public protocol ArrayType: TypeConstructor {
 
 // MARK: - Data
 
-// sourcery: functor, simpleMap, swiftCheckTypeOf
+// sourcery: functor, simpleMap, arrayOfValue, noInit, noInitArray
 extension Array: ArrayType {
 	public typealias ParameterType = Element
 

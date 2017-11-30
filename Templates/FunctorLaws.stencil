@@ -1,31 +1,58 @@
-{% macro forAllParameters type %}x: {% ifnot type|annotated:"swiftCheckTypeOf"%}{% ifnot type|annotated:"arrowOf"%}String{% else %}ArrowOf<String,String>{% endif %}{% else %}{{ type.name }}Of<String>{% endif %}{% if type|annotated:"needContext" %}, context: String{% endif %}{% if type|annotated:"stringContext"%}, context: String{% endif %}{% if type|annotated:"center"%}, y: String{% endif%}{% if type|annotated:"product"%}, y: String{% endif%}{% endmacro %}
+{# SET #}
+{% set arg1 %}x{% endset %}
+{% set arg2 %}y{% endset %}
+{% set context %}c{% endset %}
 
-{% macro generalValueOfType type %}{% if not type|annotated:"swiftCheckTypeOf"%}{% if not type|annotated:"arrowOf" %}{% if not type|annotated:"result" %}{% if not type|annotated:"state" %}{{ type.name }}.unfold({ $0(x) }){% else %}State<String,String>.unfold{ s in (s,x)}{% endif %}{% else %}Result<AnyError,String>.success(x){% endif %}{% else %}{{ type.name }}{% if type|annotated:"needUnfold"%}.unfold{% else %}.init{% endif %}(x.getArrow){% endif %}{% else %}x.get{{ type.name }}{% endif %}{% endmacro %}
+{% set T %}String{% endset %}
 
-{% macro valueOfType type %}{% if type|annotated:"writer"%}Writer<String,String>.init(log: context, value: x){% else %}{% call generalValueOfType type %}{% endif %}{% endmacro %}
+{% set identity %}fidentity{% endset%}
 
-{% macro equal type %}{% call valueOfType type %}.map(fidentity) == fidentity({% call valueOfType type %}){% endmacro %}
+{% set bimapFirstSecond %}.bimap(onFirst: {{ identity }}, onSecond: {{ identity }}){% endset %}
+{% set bimapLeftRight %}.bimap(onLeft: {{ identity }}, onRight: {{ identity }}){% endset %}
 
-{% macro identitySideFor type side %}
-// {{ side|capitalize }} Identity Law
-    func test{{ type.name }}{{ side|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ side|capitalize }} Identity") <- forAll { ({% call forAllParameters type %}) in
-            return {{ type.name }}<String,String>.{{ side }}(x).map{{ side|capitalize }}(fidentity) == fidentity({{ type.name }}<String,String>.{{ side }}(x))
-        }
-    }
-{% endmacro %}
+{% set mapLeft %}.mapLeft({{ identity }}){% endset %}
+{% set mapRight %}.mapRight({{ identity }}){% endset %}
 
-{% macro productMapFor position %}{% if position|contains:"both" %}bimap(onFirst: fidentity, onSecond: fidentity){% else %}map{{ position|capitalize }}(fidentity){% endif %}{% endmacro %}
+{% set mapFrist %}.mapFirst({{ identity }}){% endset %}
+{% set mapSecond %}.mapSecond({{ identity }}){% endset %}
 
-{% macro identityProduct position %}
-// {{ position|capitalize }} Identity Law
-    func test{{ type.name }}{{ position|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ position|capitalize }} Identity") <- forAll { ({% call forAllParameters type %}) in
-            return {{ type.name }}<String,String>.init(x,y).{% call productMapFor position %} == fidentity({{ type.name }}<String,String>.init(x,y))
-        }
-    }
-{% endmacro %}
+{% set map %}.map({{ identity }}){% endset%}
 
+{% set oneSimpleArg %}{{ arg1 }}: {{ T }}{% endset%}
+{% set arrayOfArg %}{{ arg1 }}: ArrayOf<{{ T }}>{% endset%}
+{% set optionalOfArg %}{{ arg1 }}: OptionalOf<{{ T }}>{% endset%}
+{% set arrowOfArg %}{{ arg1 }}: ArrowOf<{{ T }},{{ T }}>{% endset%}
+{% set secondArg %}{{ arg2 }}: {{ T }}{% endset%}
+{% set contextArg %}{{ context }}: {{ T }}{% endset%}
+
+{% set run %}.run({{ context }}){% endset%}
+
+{% set init1Arg %}<{{ T }}>.init({{ arg1 }}){% endset %}
+{% set init2Args %}<{{ T }},{{ T }}>.init({{ arg1 }},{{ arg2 }}){% endset %}
+{% set initLeft %}<{{ T }},{{ T }}>.left({{ arg1 }}){% endset %}
+{% set initRight %}<{{ T }},{{ T }}>.right({{ arg1 }}){% endset %}
+{% set initCenter %}<{{ T }},{{ T }}>.center({{ arg1 }},{{ arg1 }}){% endset %}
+{% set initFirst %}<{{ T }},{{ T }}>.first({{ arg1 }}){% endset %}
+{% set initSecond %}<{{ T }},{{ T }}>.second({{ arg1 }}){% endset %}
+{% set initBoth %}<{{ T }},{{ T }}>.both({{ arg1 }},{{ arg1 }}){% endset %}
+{% set initExponential %}<{{ T }},{{ T }}>.init({{ arg1 }}.getArrow){% endset %}
+{% set initWriter %}<{{ T }},{{ T }}>.init(log:{{ arg2 }},value:{{ arg2 }}){% endset %}
+{% set unfoldFuture %}<{{ T }}>.unfold({ $0({{ arg1 }}) }){% endset %}
+{% set unfoldReader %}<{{ T }},{{ T }}>.unfold({{ arg1 }}.getArrow){% endset %}
+{% set unfoldState %}<{{ T }},{{ T }}>.unfold{ s in (s,{{ arg1 }})}{% endset %}
+{% set noInitArray %}{{ arg1 }}.getArray{% endset %}
+{% set noInitOptional %}{{ arg1 }}.getOptional{% endset %}
+
+{# MACROS #}
+{% macro distinguishMap mapType %}{% if mapType|contains:"simpleMap" %}{{ map }}{% endif %}{% if mapType|contains:"mapSecond" %}{{ mapSecond }}{% endif %}{% if mapType|contains:"mapFirst" %}{{ mapFirst }}{% endif %}{% if mapType|contains:"mapRight" %}{{ mapRight }}{% endif %}{% if mapType|contains:"mapSecond" %}{{ mapSecond }}{% endif %}{% if mapType|contains:"center" %}bimapLeftRight{% endif %}{% if mapType|contains:"both" %}bimapFirstSecond{% endif %}{% endmacro %}
+{% macro distinguishWithoutInit type %}{% if type|annotated:"noInitArray"%}{{ noInitArray }}{% endif %}{% if type|annotated:"noInitOptional"%}{{ noInitOptional }}{% endif %}{% endmacro %}
+{% macro distinguishWithInit type mapType %}{{ type.name }}{% if mapType|contains:"init1Arg" %}{{ init1Arg }}{% endif %}{% if mapType|contains:"init2Args" %}{{ init2Args }}{% endif %}{% if mapType|contains:"leftMap" %}{{ initLeft }}{% endif %}{% if mapType|contains:"rightMap" %}{{ initRight }}{% endif %}{% if mapType|contains:"initCenter" %}{{ initCenter }}{% endif %}{% if mapType|contains:"initFirst" %}{{ initFirst }}{% endif %}{% if mapType|contains:"initSecond" %}{{ initSecond }}{% endif %}{% if mapType|contains:"initBoth" %}{{ initBoth }}{% endif %}{% if type|annotated:"initExponential" %}{{ initExponential }}{% endif %}{% if type|annotated:"initWriter" %}{{ initWriter }}{% endif %}{% if mapType|contains:"unfoldFuture" %}{{ unfoldFuture }}{% endif %}{% if mapType|contains:"unfoldReader" %}{{ unfoldReader }}{% endif %}{% if mapType|contains:"unfoldState" %}{{ unfoldState }}{% endif %}{% endmacro %}
+{% macro distinguishInit type mapType %}{% if type|annotated:"noInit"%}{% call distinguishWithoutInit type %}{% else %}{% call distinguishWithInit type mapType %}{% endif %}{% endmacro %}
+{% macro internalEqual type mapType %}{% call distinguishInit type mapType %}{% call distinguishMap mapType %} == {{ identity }}({% call distinguishInit type mapType %}){% endmacro %}
+{% macro externalEqual type mapType %}{% if type|annotated:"needContext" %}({% call internalEqual type mapType %}){{ run }}{% else %}{% call internalEqual type mapType %}{% endif %}{% endmacro %}
+{% macro forAllArgs type %}{% if type|annotated:"simpleValue" %}{{ oneSimpleArg }}{% endif %}{% if type|annotated:"arrayOfValue" %}{{ arrayOfArg }}{% endif %}{% if type|annotated:"optionalValue" %}{{ optionalOfArg }}{% endif %}{% if type|annotated:"arrowOfValue" %}{{ arrowOfArg }}{% endif %}{% if type|annotated:"secondValue" %}, {{ secondArg }}{% endif %}{% if type|annotated:"needContext" %}, {{ contextArg }}{% endif %}{% endmacro %}
+
+{# IMPLEMENTATION #}
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -40,32 +67,55 @@ class FunctorLawsTests: XCTestCase {
 {% if type|annotated:"simpleMap" %}
 // Identity Law
     func test{{ type.name }}Identity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllParameters type %}) in
-            return {% if type|annotated:"needContext"%}({% call equal type %}).run(context){% else %}{% call equal type %}{% endif %}
-        }
-    }
-
-{% endif %}
-
-{% if type|annotated:"left" %}{% call identitySideFor type "left" %}{% endif %}
-
-{% if type|annotated:"right" %}{% call identitySideFor type "right" %}{% endif %}
-
-{% if type|annotated:"center" %}
-    func test{{ type.name }}CenterIdentity() {
-        property("{{ type.name }} - Functor Laws - Center Identity") <- forAll { ({% call forAllParameters type %}) in
-            return {{ type.name }}<String,String>.center(x,y).bimap(onLeft: fidentity, onRight: fidentity) == fidentity({{ type.name }}<String,String>.center(x,y))
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
+            return {% call externalEqual type "simpleMap" %}
         }
     }
 {% endif %}
 
-{% if type|annotated:"product" %}
-{% call identityProduct "first" %}
+{% if type|annotated:"leftMap" %}
+// Left Identity Law
+    func test{{ type.name }}LeftIdentity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
+            return {% call externalEqual type "leftMap" %}
+        }
+    }
+{% endif %}
 
-{% call identityProduct "second" %}
-
-{% call identityProduct "both" %}
+{% if type|annotated:"rightMap" %}
+// Right Identity Law
+    func test{{ type.name }}RightIdentity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
+            return {% call externalEqual type "rightMap" %}
+        }
+    }
 {% endif %}
 
 {% endfor %}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

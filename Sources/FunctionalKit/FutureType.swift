@@ -15,7 +15,7 @@ fileprivate enum FutureState<T> {
 }
 
 // MARK: - Data
-// sourcery: functor, simpleMap
+// sourcery: functor
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
 

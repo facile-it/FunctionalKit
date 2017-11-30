@@ -15,7 +15,7 @@ extension OptionalType {
 }
 
 // MARK: - Data
-// sourcery: functor, simpleMap, swiftCheckTypeOf
+// sourcery: functor
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 

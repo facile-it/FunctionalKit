@@ -8,7 +8,7 @@ public protocol InclusiveType {
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onCenter: @escaping (LeftType,RightType) -> T, onRight: @escaping (RightType) -> T) -> T
 }
 
-// sourcery: functor, left, right, center
+// sourcery: functor
 public enum Inclusive<A,B>: InclusiveType {
 	case left(A)
 	case center(A,B)

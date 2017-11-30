@@ -5,7 +5,7 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
-// sourcery: functor, simpleMap, needContext, arrowOf
+// sourcery: functor, simpleMap, arrowOfValue, needContext, initExponential
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B
 
