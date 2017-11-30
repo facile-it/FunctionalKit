@@ -40,6 +40,24 @@ extension ArrayType {
 			previous + [transform(element)]
 		}
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> ([ParameterType]) -> [A] {
+        return { $0.map(function) }
+    }
+    
+    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> ([ParameterType], [B]) -> [A] {
+        return { (array1, array2) in
+            let fn = fcurry(function)
+            return array2.apply(array1.map(fn))
+        }
+    }
+    
+    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> ([ParameterType], [B], [C]) -> [A] {
+        return { (array1, array2, array3) in
+            let fn = fcurry(function)
+            return array3.apply(array2.apply(array1.map(fn)))
+        }
+    }
 }
 
 // MARK: - Cartesian
