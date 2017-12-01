@@ -18,6 +18,12 @@ public struct Exponential<A,B>: ExponentialType {
 	}
 }
 
+// MARK: - Concrete
+
+extension ExponentialType {
+    public typealias Concrete<A,B> = Exponential<A,B>
+}
+
 extension ExponentialType {
 	public func dimap<A,B>(source: @escaping (A) -> SourceType, target: @escaping (TargetType) -> B) -> Exponential<A,B> {
 		return Exponential<A,B>.init { value in target(self.call(source(value))) }

@@ -251,8 +251,8 @@
 		AAAE2E121FCC52F000D0D861 /* Laws */ = {
 			isa = PBXGroup;
 			children = (
-				AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */,
 				AAAE2E131FCC530400D0D861 /* Law.swift */,
+				AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */,
 			);
 			path = Laws;
 			sourceTree = SOURCE_ROOT;

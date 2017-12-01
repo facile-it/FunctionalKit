@@ -68,6 +68,12 @@ extension CoproductType where LeftType == RightType {
 	}
 }
 
+// MARK: - Concrete
+
+extension CoproductType {
+    public typealias Concrete<A,B> = Coproduct<A,B>
+}
+
 // MARK: - Functor
 
 extension CoproductType {
