@@ -61,6 +61,10 @@ extension WriterType {
 	public func map <T> (_ transform: (ParameterType) -> T) -> Writer<LogType,T> {
 		return fold { log, value in Writer<LogType,T>.init(log: log, value: transform(value)) }
 	}
+
+	public func mapLog <T> (_ transform: (LogType) -> T) -> Writer<T,ParameterType> where T: Monoid {
+		return fold { log, value in Writer<T,ParameterType>.init(log: transform(log), value: value) }
+	}
 }
 
 // MARK: - Cartesian
@@ -153,5 +157,24 @@ extension WriterType {
 
 // MARK: - Utility
 
-/// check other implementations
+extension WriterType {
+	public func tell(_ newLog: LogType) -> Writer<LogType,ParameterType> {
+		let (oldLog,value) = run
+		return Writer.init(log: oldLog <> newLog, value: value)
+	}
 
+	public func remember(_ oldLog: LogType) -> Writer<LogType,ParameterType> {
+		let (newLog,value) = run
+		return Writer.init(log: oldLog <> newLog, value: value)
+	}
+
+	public func read(_ transform: (ParameterType) -> LogType) -> Writer<LogType,ParameterType> {
+		let (log,value) = run
+		return Writer.init(log: log <> transform(value), value: value)
+	}
+
+	public var listen: Writer<LogType,(LogType,ParameterType)> {
+		let (log,value) = run
+		return Writer(log: log, value: (log,value))
+	}
+}

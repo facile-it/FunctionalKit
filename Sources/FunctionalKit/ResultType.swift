@@ -259,13 +259,22 @@ extension ResultType {
 
 // MARK: - Utility
 
-/// check other implementations
-
 extension ResultType {
-	public static func ++ (lhs: Self, rhs: ParameterType) -> Result<ErrorType,ParameterType> {
-		return lhs.fold(
+	public var toOptionalError: ErrorType? {
+		return fold(
+			onSuccess: fconstant(nil),
+			onFailure: fidentity)
+	}
+
+	public var toOptionalValue: ParameterType? {
+		return fold(
+			onSuccess: fidentity,
+			onFailure: fconstant(nil))
+	}
+
+	public func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result<ErrorType,ParameterType> {
+		return fold(
 			onSuccess: Result.success,
-			onFailure: fconstant(Result.success(rhs)))
+			onFailure: { _ in Result.success(defaultValue()) })
 	}
 }
-
