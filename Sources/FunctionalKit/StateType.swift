@@ -17,7 +17,7 @@ extension StateType {
 }
 
 // MARK: - Data
-// sourcery: functor
+// sourcery: functor, simpleMap, simpleValue, unfoldState, needContext
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A
 

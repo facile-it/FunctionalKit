@@ -117,14 +117,42 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: Reader
 
+// Identity Law
+    func testReaderIdentity() {
+        property("Reader - Functor Laws - Identity") <- forAll { (x: ArrowOf<String,String>, c: String) in
+            return (Reader<String,String>.unfold(x.getArrow).map(fidentity) == fidentity(Reader<String,String>.unfold(x.getArrow))).run(c)
+        }
+    }
+
 
 //MARK: Result
+
+// Identity Law
+    func testResultIdentity() {
+        property("Result - Functor Laws - Identity") <- forAll { (x: String) in
+            return Result<String,String>.success(x).map(fidentity) == fidentity(Result<String,String>.success(x))
+        }
+    }
 
 
 //MARK: State
 
+// Identity Law
+    func testStateIdentity() {
+        property("State - Functor Laws - Identity") <- forAll { (x: String, c: String) in
+            return (State<String,String>.unfold{ s in (s,x)}.map(fidentity) == fidentity(State<String,String>.unfold{ s in (s,x)})).run(c)
+        }
+    }
+
 
 //MARK: Writer
+
+// Identity Law
+    func testWriterIdentity() {
+        property("Writer - Functor Laws - Identity") <- forAll { (x: String, y: String) in
+            return Writer<String,String>.init(log:y,value:y).map(fidentity) == fidentity(Writer<String,String>.init(log:y,value:y))
+        }
+    }
 
 }
 

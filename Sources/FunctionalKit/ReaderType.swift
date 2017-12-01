@@ -17,7 +17,7 @@ extension ReaderType {
 }
 
 // MARK: - Data
-// sourcery: functor
+// sourcery: functor, simpleMap, arrowOfValue, needContext, unfoldReader
 public struct Reader<E,A>: ReaderType {
 	public typealias ParameterType = A
 
