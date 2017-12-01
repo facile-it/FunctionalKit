@@ -55,7 +55,7 @@
 
 // {{ id|capitalize }} Identity Law
     func test{{ type.name }}{{ id|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ id|capitalize }} Identity") <- forAll { ({% call forAllArgs type %}) in
+        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { ({% call forAllArgs type %}) in
             return {% call externalEqual type mapType %}
         }
     }
@@ -71,15 +71,7 @@ class FunctorLawsTests: XCTestCase {
 {% for type in types.all|annotated:"functor" %}
 
 //MARK: {{ type.name }}
-{% if type|annotated:"simpleMap" %}
-
-// Identity Law
-    func test{{ type.name }}Identity() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { ({% call forAllArgs type %}) in
-            return {% call externalEqual type "simpleMap" %}
-        }
-    }
-{% endif %}
+{% if type|annotated:"simpleMap" %}{% call complexIdentity type "simpleMap" "" %}{% endif %}
 {% if type|annotated:"mapLeft" %}{% call complexIdentity type "mapLeft" "left" %}{% endif %}
 {% if type|annotated:"mapRight" %}{% call complexIdentity type "mapRight" "right" %}{% endif %}
 {% if type|annotated:"mapCenter" %}{% call complexIdentity type "mapCenter" "center" %}{% endif %}
