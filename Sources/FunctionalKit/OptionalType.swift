@@ -222,30 +222,22 @@ extension OptionalType {
 			onSome: fidentity)
 	}
 
-//	public func get(orError getError: @autoclosure () -> Error) throws -> ParameterType {
-//		return try fold(
-//			ifSome: F.identity,
-//			ifNone: { throw getError() })
-//	}
-//
-//	public func toResult<E>(getError: @autoclosure () -> E) -> Result<ParameterType,E> where E: Error {
-//		return fold(
-//			ifSome: { .success($0) },
-//			ifNone: { .failure(getError()) })
-//	}
-//
-//	public var isNil: Bool {
-//		return fold(
-//			ifSome: { _ in false },
-//			ifNone: { true })
-//	}
-//
-//	public var isNotNil: Bool {
-//		return isNil.not
-//	}
-//
-//	public func ifNotNil(_ action: @escaping (ParameterType) -> ()) {
-//		fold(ifSome: action,
-//			 ifNone: {})
-//	}
+	public func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+		return fold(
+			onNone: { Result.failure(getError()) },
+			onSome: Result.success)
+	}
+
+	public var isNil: Bool {
+		return fold(
+			onNone: fconstant(true),
+			onSome: fconstant(false))
+	}
+
+
+	public func ifNotNil(_ action: (ParameterType) -> ()) {
+		_ = fold(
+			onNone: fignore,
+			onSome: action)
+	}
 }
