@@ -5,7 +5,7 @@ public protocol CoproductType {
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onRight: @escaping (RightType) -> T) -> T
 }
 
-// sourcery: functor, leftMap, rightMap, simpleValue, secondValue
+// sourcery: functor, mapLeft, mapRight, simpleValue, secondValue
 public enum Coproduct<A,B>: CoproductType {
 	case left(A)
 	case right(B)
