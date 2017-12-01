@@ -18,9 +18,11 @@ extension StateType {
 
 // MARK: - Data
 // sourcery: functor
+// sourcery: applicative
 // sourcery: needContext
 // sourcery: testArgs = "x: String, c: String"
 // sourcery: concrete = "State<String,String>"
+// sourcery: applicativeConcrete = "State<String,(String)->String>"
 // sourcery: create = "unfold"
 // sourcery: createParams = "{ s in (s,x)}"
 // sourcery: map = "map"

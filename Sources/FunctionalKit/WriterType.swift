@@ -15,8 +15,10 @@ public protocol WriterType: TypeConstructor, ProductType {
 
 // MARK: - Data
 // sourcery: functor
+// sourcery: applicative
 // sourcery: testArgs = "x: String, y: String"
 // sourcery: concrete = "Writer<String,String>"
+// sourcery: applicativeConcrete = "Writer<String,(String)->String>"
 // sourcery: create = "init"
 // sourcery: createParams = "(log: y, value: x)"
 // sourcery: map = "map"

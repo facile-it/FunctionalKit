@@ -11,8 +11,10 @@ public protocol ArrayType: TypeConstructor {
 // MARK: - Data
 
 // sourcery: functor
+// sourcery: applicative
 // sourcery: testArgs = "x: ArrayOf<String>"
 // sourcery: concrete = "Array<String>"
+// sourcery: applicativeConcrete = "Array<(String)->String>"
 // sourcery: needConcreteValue = "x"
 // sourcery: create = "getArray"
 // sourcery: concreteParams = ""

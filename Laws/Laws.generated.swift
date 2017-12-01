@@ -28,6 +28,14 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testArrayApplicativeIdentity() {
+        property("Array - Applicative Laws - Identity") <- forAll { (x: String) in
+            let a_a = Array<(String)->String>.pure(fidentity)
+            let a = Array<String>.pure(x)
+            return (a_a <*> a) == a 
+        }
+    }
+
 
 //MARK: Coproduct
     func testCoproductFunctorMapleftIdentity() {
@@ -57,6 +65,7 @@ class LawsTests: XCTestCase {
     }
 
 
+
 //MARK: Exponential
     func testExponentialFunctorMapIdentity() {
         property("Exponential - Functor Laws - Identity") <- forAll { (x: ArrowOf<String,String>, c: String) in
@@ -73,6 +82,7 @@ class LawsTests: XCTestCase {
     }
 
 
+
 //MARK: Future
     func testFutureFunctorMapIdentity() {
         property("Future - Functor Laws - Identity") <- forAll { (x: String) in
@@ -85,6 +95,14 @@ class LawsTests: XCTestCase {
             let fLifted = fflip(Future<String>.map)(f.getArrow)
             let gLifted = fflip(Future<String>.map)(g.getArrow)
             return Future<String>.unfold({ $0(x) }).map(g.getArrow • f.getArrow)  == (gLifted • fLifted § Future<String>.unfold({ $0(x) }))
+        }
+    }
+
+    func testFutureApplicativeIdentity() {
+        property("Future - Applicative Laws - Identity") <- forAll { (x: String) in
+            let a_a = Future<(String)->String>.pure(fidentity)
+            let a = Future<String>.pure(x)
+            return (a_a <*> a) == a 
         }
     }
 
@@ -122,6 +140,7 @@ class LawsTests: XCTestCase {
     }
 
 
+
 //MARK: Product
     func testProductFunctorMapfirstIdentity() {
         property("Product - Functor Laws - Identity") <- forAll { (x: String, y: String) in
@@ -155,6 +174,7 @@ class LawsTests: XCTestCase {
     }
 
 
+
 //MARK: Reader
     func testReaderFunctorMapIdentity() {
         property("Reader - Functor Laws - Identity") <- forAll { (x: ArrowOf<String,String>, c: String) in
@@ -167,6 +187,14 @@ class LawsTests: XCTestCase {
             let fLifted = fflip(Reader<String,String>.map)(f.getArrow)
             let gLifted = fflip(Reader<String,String>.map)(g.getArrow)
             return (Reader<String,String>.unfold(x.getArrow).map(g.getArrow • f.getArrow)  == (gLifted • fLifted § Reader<String,String>.unfold(x.getArrow))).run(c)
+        }
+    }
+
+    func testReaderApplicativeIdentity() {
+        property("Reader - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
+            let a_a = Reader<String,(String)->String>.pure(fidentity)
+            let a = Reader<String,String>.pure(x)
+            return ((a_a <*> a) == a).run(c)
         }
     }
 
@@ -186,6 +214,14 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testResultApplicativeIdentity() {
+        property("Result - Applicative Laws - Identity") <- forAll { (x: String) in
+            let a_a = Result<String,(String)->String>.pure(fidentity)
+            let a = Result<String,String>.pure(x)
+            return (a_a <*> a) == a 
+        }
+    }
+
 
 //MARK: State
     func testStateFunctorMapIdentity() {
@@ -202,6 +238,14 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testStateApplicativeIdentity() {
+        property("State - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
+            let a_a = State<String,(String)->String>.pure(fidentity)
+            let a = State<String,String>.pure(x)
+            return ((a_a <*> a) == a).run(c)
+        }
+    }
+
 
 //MARK: Writer
     func testWriterFunctorMapIdentity() {
@@ -215,6 +259,14 @@ class LawsTests: XCTestCase {
             let fLifted = fflip(Writer<String,String>.map)(f.getArrow)
             let gLifted = fflip(Writer<String,String>.map)(g.getArrow)
             return Writer<String,String>.init(log: y, value: x).map(g.getArrow • f.getArrow)  == (gLifted • fLifted § Writer<String,String>.init(log: y, value: x))
+        }
+    }
+
+    func testWriterApplicativeIdentity() {
+        property("Writer - Applicative Laws - Identity") <- forAll { (x: String) in
+            let a_a = Writer<String,(String)->String>.pure(fidentity)
+            let a = Writer<String,String>.pure(x)
+            return (a_a <*> a) == a 
         }
     }
 
