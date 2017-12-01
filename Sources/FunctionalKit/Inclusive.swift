@@ -8,7 +8,21 @@ public protocol InclusiveType {
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onCenter: @escaping (LeftType,RightType) -> T, onRight: @escaping (RightType) -> T) -> T
 }
 
-// sourcery: functor, mapLeft, mapRight, mapCenter, simpleValue, secondValue
+// sourcery: functor
+// sourcery: testArgs = "(x: String, y: String)"
+// sourcery: concrete = "Inclusive<String,String>"
+// sourcery: createLeft = "left"
+// sourcery: createLeftParams = "(x)"
+// sourcery: mapLeft = "mapLeft"
+// sourcery: mapLeftParams = "(fidentity)"
+// sourcery: createRight = "right"
+// sourcery: createRightParams = "(x)"
+// sourcery: mapRight = "mapRight"
+// sourcery: mapRightParams = "(fidentity)"
+// sourcery: createCenter = "center"
+// sourcery: createCenterParams = "(x,y)"
+// sourcery: mapCenter = "bimap"
+// sourcery: mapCenterParams = "(onLeft: fidentity, onRight: fidentity)"
 public enum Inclusive<A,B>: InclusiveType {
 	case left(A)
 	case center(A,B)

@@ -80,7 +80,6 @@
 		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
 		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE2E131FCC530400D0D861 /* Law.swift */; };
-		AADBF58E1FCEF20500A4C470 /* FunctorLaws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */; };
 		AAE18DC71FD19E5E00F84C8D /* Laws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
@@ -160,11 +159,9 @@
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
 		AA680CD01FD0152400151027 /* AnyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
 		AA680CD21FD0155000151027 /* CustomArbitraryDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomArbitraryDefinitions.swift; sourceTree = "<group>"; };
-		AA8E1E1E1FCDCFAC003692E5 /* FunctorLaws.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = FunctorLaws.stencil; sourceTree = "<group>"; };
 		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E131FCC530400D0D861 /* Law.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Law.swift; sourceTree = "<group>"; };
-		AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorLaws.generated.swift; sourceTree = "<group>"; };
 		AAE18DC51FD1970600F84C8D /* Laws.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Laws.stencil; sourceTree = "<group>"; };
 		AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laws.generated.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,7 +243,6 @@
 		AA8E1E1D1FCDC944003692E5 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
-				AA8E1E1E1FCDCFAC003692E5 /* FunctorLaws.stencil */,
 				AAE18DC51FD1970600F84C8D /* Laws.stencil */,
 			);
 			path = Templates;
@@ -257,7 +253,6 @@
 			children = (
 				AAAE2E131FCC530400D0D861 /* Law.swift */,
 				AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */,
-				AADBF58D1FCEF20500A4C470 /* FunctorLaws.generated.swift */,
 			);
 			path = Laws;
 			sourceTree = SOURCE_ROOT;
@@ -541,7 +536,6 @@
 				AA680CD11FD0152400151027 /* AnyError.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
-				AADBF58E1FCEF20500A4C470 /* FunctorLaws.generated.swift in Sources */,
 				AA680CD31FD0155000151027 /* CustomArbitraryDefinitions.swift in Sources */,
 				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
 				AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */,

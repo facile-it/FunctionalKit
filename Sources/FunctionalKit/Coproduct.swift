@@ -5,7 +5,17 @@ public protocol CoproductType {
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onRight: @escaping (RightType) -> T) -> T
 }
 
-// sourcery: functor, mapLeft, mapRight, simpleValue, secondValue
+// sourcery: functor
+// sourcery: testArgs = "(x: String, y: String)"
+// sourcery: concrete = "Coproduct<String,String>"
+// sourcery: createLeft = "left"
+// sourcery: createLeftParams = "(x)"
+// sourcery: mapLeft = "mapLeft"
+// sourcery: mapLeftParams = "(fidentity)"
+// sourcery: createRight = "right"
+// sourcery: createRightParams = "(x)"
+// sourcery: mapRight = "mapRight"
+// sourcery: mapRightParams = "(fidentity)"
 public enum Coproduct<A,B>: CoproductType {
 	case left(A)
 	case right(B)

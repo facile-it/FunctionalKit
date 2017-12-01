@@ -10,7 +10,21 @@ public protocol ProductType {
 	func fold<T>(_ transform: @escaping (FirstType,SecondType) -> T) -> T
 }
 
-// sourcery: functor, mapFirst, mapSecond, mapBoth, simpleValue, secondValue, init2Args
+// sourcery: functor
+// sourcery: testArgs = "(x: String, y: String)"
+// sourcery: concrete = "Product<String,String>"
+// sourcery: createFirst = "init"
+// sourcery: createFirstParams = "(x,y)"
+// sourcery: mapFirst = "mapFirst"
+// sourcery: mapFirstParams = "(fidentity)"
+// sourcery: createSecond = "init"
+// sourcery: createSecondParams = "(x,y)"
+// sourcery: mapSecond = "mapSecond"
+// sourcery: mapSecondParams = "(fidentity)"
+// sourcery: createBoth = "init"
+// sourcery: createBothParams = "(x,y)"
+// sourcery: mapBoth = "bimap"
+// sourcery: mapBothParams = "(onFirst: fidentity, onSecond: fidentity)"
 public struct Product<A,B>: ProductType {
 	private let _first: A
 	private let _second: B
