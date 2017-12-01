@@ -32,22 +32,8 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: Exponential
 
-//  Identity Law
-    func testExponentialIdentity() {
-        property("Exponential - Functor Laws - Identity") <- forAll { (x: ArrowOf<String,String>, c: String) in
-            return (Exponential<String,String>.init(x.getArrow).map(fidentity) == fidentity(Exponential<String,String>.init(x.getArrow))).run(c)
-        }
-    }
-
 
 //MARK: Future
-
-//  Identity Law
-    func testFutureIdentity() {
-        property("Future - Functor Laws - Identity") <- forAll { (x: String) in
-            return Future<String>.unfold({ $0(x) }).map(fidentity) == fidentity(Future<String>.unfold({ $0(x) }))
-        }
-    }
 
 
 //MARK: Inclusive
@@ -76,13 +62,6 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: Optional
 
-//  Identity Law
-    func testOptionalIdentity() {
-        property("Optional - Functor Laws - Identity") <- forAll { (x: OptionalOf<String>) in
-            return x.getOptional.map(fidentity) == fidentity(x.getOptional)
-        }
-    }
-
 
 //MARK: Product
 
@@ -110,42 +89,14 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: Reader
 
-//  Identity Law
-    func testReaderIdentity() {
-        property("Reader - Functor Laws - Identity") <- forAll { (x: ArrowOf<String,String>, c: String) in
-            return (Reader<String,String>.unfold(x.getArrow).map(fidentity) == fidentity(Reader<String,String>.unfold(x.getArrow))).run(c)
-        }
-    }
-
 
 //MARK: Result
-
-//  Identity Law
-    func testResultIdentity() {
-        property("Result - Functor Laws - Identity") <- forAll { (x: String) in
-            return Result<String,String>.success(x).map(fidentity) == fidentity(Result<String,String>.success(x))
-        }
-    }
 
 
 //MARK: State
 
-//  Identity Law
-    func testStateIdentity() {
-        property("State - Functor Laws - Identity") <- forAll { (x: String, c: String) in
-            return (State<String,String>.unfold{ s in (s,x)}.map(fidentity) == fidentity(State<String,String>.unfold{ s in (s,x)})).run(c)
-        }
-    }
-
 
 //MARK: Writer
-
-//  Identity Law
-    func testWriterIdentity() {
-        property("Writer - Functor Laws - Identity") <- forAll { (x: String, y: String) in
-            return Writer<String,String>.init(log:y,value:y).map(fidentity) == fidentity(Writer<String,String>.init(log:y,value:y))
-        }
-    }
 
 }
 

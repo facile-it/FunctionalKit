@@ -20,7 +20,13 @@ extension ResultType {
 }
 
 // MARK: - Data
-// sourcery: functor, simpleMap, initResult, simpleValue
+// sourcery: functor
+// sourcery: testArgs = "(x: String)"
+// sourcery: concrete = "Result<String,String>"
+// sourcery: create = "success"
+// sourcery: createParams = "(x)"
+// sourcery: map = "map"
+// sourcery: mapParams = "(fidentity)"
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
 	public typealias ParameterType = T

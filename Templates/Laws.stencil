@@ -7,20 +7,18 @@
 {% set arg1 %}x{% endset%}
 {% set arg2 %}y{% endset%}
 {% set argError %}error{% endset%}
-{% set argContext %}context{% endset%}
 
 {% set identity %}fidentity{% endset%}
 
 
 {# MACROS #}
-{% macro equality type %}{{ type.annotations.concrete }}.{{ type.annotations.create }}{{ type.annotations.createParams }}.{{ type.annotations.map }}{{ type.annotations.mapParams }}  == {{ identity }}({{ type.annotations.concrete }}.{{ type.annotations.create }}{{ type.annotations.createParams }})
-{% endmacro %}
+{% macro equality type concrete create createParams map mapParams %}{{ concrete }}.{{ create }}{{ createParams }}.{{ map }}{{ mapParams }}  == {{ identity }}({{ concrete }}.{{ create }}{{ createParams }}){% endmacro %}
 
 
-{% macro identityLaw type id %}
+{% macro identityLaw type concrete create createParams map mapParams %}
     func test{{ type.name }}Functor{{ id|capitalize }}Identity() {
         property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { {{ type.annotations.testArgs }} in
-            return {% if type|annotated:"needContext" %}({% call equality type%}).run({{ argContext }}){% else %}{% call equality type %}{% endif%}
+            return {% if type|annotated:"needContext" %}({% call equality type concrete create createParams map mapParams %}).run(c){% else %}{% call equality type concrete create createParams map mapParams %}{% endif%}
         }
     }
 {% endmacro %}
@@ -35,7 +33,8 @@ class LawsTests: XCTestCase {
 {% for type in types.all|annotated:"functor" %}
 
 //MARK: {{ type.name }}
-{% if type|annotated:"map" %}{% call identityLaw type "map" %}{% endif %}
+{% if type|annotated:"map" %}{% call identityLaw type type.annotations.concrete type.annotations.create type.annotations.createParams type.annotations.map type.annotations.mapParams %}{% endif %}
+{% if type|annotated:"leftMap" %}{% call identityLaw type type.annotations.leftMap %}{% endif %}
 
 {% endfor %}
 

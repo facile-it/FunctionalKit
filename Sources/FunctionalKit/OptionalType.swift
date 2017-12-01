@@ -15,7 +15,13 @@ extension OptionalType {
 }
 
 // MARK: - Data
-// sourcery: functor, simpleMap, optionalOfValue, noInit, noInitOptional
+// sourcery: functor
+// sourcery: testArgs = "(x: OptionalOf<String>)"
+// sourcery: concrete = "x"
+// sourcery: create = "getOptional"
+// sourcery: concreteParams = ""
+// sourcery: map = "map"
+// sourcery: mapParams = "(fidentity)"
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 
