@@ -93,12 +93,6 @@ extension ProductType where SecondType: ExponentialType, SecondType.SourceType =
 	}
 }
 
-// MARK: - Concrete
-
-extension ProductType {
-    public typealias Concrete<A,B> = Product<A,B>
-}
-
 // MARK: - Functor
 
 extension ProductType {

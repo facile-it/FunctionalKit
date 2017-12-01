@@ -1,0 +1,42 @@
+{# SETS #}
+{% set T1 %}String{% endset%}
+{% set T2 %}String{% endset%}
+{% set TError %}String{% endset%}
+{% set TContext %}String{% endset%}
+
+{% set arg1 %}x{% endset%}
+{% set arg2 %}y{% endset%}
+{% set argError %}error{% endset%}
+{% set argContext %}context{% endset%}
+
+{% set identity %}fidentity{% endset%}
+
+
+{# MACROS #}
+{% macro equality type %}{{ type.annotations.concrete }}.{{ type.annotations.create }}{{ type.annotations.createParams }}.{{ type.annotations.map }}{{ type.annotations.mapParams }}  == {{ identity }}({{ type.annotations.concrete }}.{{ type.annotations.create }}{{ type.annotations.createParams }})
+{% endmacro %}
+
+
+{% macro identityLaw type id %}
+    func test{{ type.name }}Functor{{ id|capitalize }}Identity() {
+        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { {{ type.annotations.testArgs }} in
+            return {% if type|annotated:"needContext" %}({% call equality type%}).run({{ argContext }}){% else %}{% call equality type %}{% endif%}
+        }
+    }
+{% endmacro %}
+
+{# IMPLEMENTATION #}
+import XCTest
+@testable import FunctionalKit
+import SwiftCheck
+import Abstract
+
+class LawsTests: XCTestCase {
+{% for type in types.all|annotated:"functor" %}
+
+//MARK: {{ type.name }}
+{% if type|annotated:"map" %}{% call identityLaw type "map" %}{% endif %}
+
+{% endfor %}
+
+}

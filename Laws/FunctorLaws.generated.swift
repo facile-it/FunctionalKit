@@ -12,13 +12,6 @@ class FunctorLawsTests: XCTestCase {
 
 //MARK: Array
 
-//  Identity Law
-    func testArrayIdentity() {
-        property("Array - Functor Laws - Identity") <- forAll { (x: ArrayOf<String>) in
-            return x.getArray.map(fidentity) == fidentity(x.getArray)
-        }
-    }
-
 
 //MARK: Coproduct
 

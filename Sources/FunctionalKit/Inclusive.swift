@@ -129,12 +129,6 @@ extension InclusiveType where LeftType == RightType, LeftType: Semigroup {
 	}
 }
 
-// MARK: - Concrete
-
-extension InclusiveType {
-    public typealias Concrete<A,B> = Inclusive<A,B>
-}
-
 // MARK: - Functor
 
 extension InclusiveType {
