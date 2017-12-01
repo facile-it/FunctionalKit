@@ -1,11 +1,22 @@
 {# MACROS #}
-{% macro equality type concrete create createParams map mapParams %}{{ concrete }}.{{ create }}{{ createParams }}.{{ map }}{{ mapParams }}  == fidentity({{ concrete }}.{{ create }}{{ createParams }}){% endmacro %}
-
+{% macro identityEquality type concrete create createParams map mapParams %}{% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}.{{ map }}({{ mapParams }})  == fidentity({% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}){% endmacro %}
 
 {% macro identityLaw type concrete create createParams map mapParams %}
     func test{{ type.name }}Functor{{ map|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { {{ type.annotations.testArgs }} in
-            return {% if type|annotated:"needContext" %}({% call equality type concrete create createParams map mapParams %}).run(c){% else %}{% call equality type concrete create createParams map mapParams %}{% endif%}
+        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { ({{ type.annotations.testArgs }}) in
+            return {% if type|annotated:"needContext" %}({% call identityEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call identityEquality type concrete create createParams map mapParams %}{% endif%}
+        }
+    }
+{% endmacro %}
+
+{% macro compositionEquality type concrete create createParams map mapParams %}{% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}.{{ map }}(g.getArrow • f.getArrow)  == (gLifted • fLifted § {% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}){% endmacro %}
+
+{% macro compositionLaw type concrete create createParams map mapParams %}
+    func test{{ type.name }}Functor{{ map|capitalize }}Composition() {
+        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Composition") <- forAll { ({{ type.annotations.testArgs }}, f: ArrowOf<String,String>, g: ArrowOf<String,String>) in
+            let fLifted = fflip({{ concrete }}.{{ map }})(f.getArrow)
+            let gLifted = fflip({{ concrete }}.{{ map }})(g.getArrow)
+            return {% if type|annotated:"needContext" %}({% call compositionEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call compositionEquality type concrete create createParams map mapParams %}{% endif%}
         }
     }
 {% endmacro %}
@@ -27,6 +38,12 @@ class LawsTests: XCTestCase {
 {% if type|annotated:"mapFirst" %}{% call identityLaw type type.annotations.concrete type.annotations.createFirst type.annotations.createFirstParams type.annotations.mapFirst type.annotations.mapFirstParams %}{% endif %}
 {% if type|annotated:"mapSecond" %}{% call identityLaw type type.annotations.concrete type.annotations.createSecond type.annotations.createSecondParams type.annotations.mapSecond type.annotations.mapSecondParams %}{% endif %}
 {% if type|annotated:"mapBoth" %}{% call identityLaw type type.annotations.concrete type.annotations.createBoth type.annotations.createBothParams type.annotations.mapBoth type.annotations.mapBothParams %}{% endif %}
+
+{% if type|annotated:"map" %}{% call compositionLaw type type.annotations.concrete type.annotations.create type.annotations.createParams type.annotations.map type.annotations.mapParams %}{% endif %}
+{% if type|annotated:"mapLeft" %}{% call compositionLaw type type.annotations.concrete type.annotations.createLeft type.annotations.createLeftParams type.annotations.mapLeft type.annotations.mapLeftParams %}{% endif %}
+{% if type|annotated:"mapRight" %}{% call compositionLaw type type.annotations.concrete type.annotations.createRight type.annotations.createRightParams type.annotations.mapRight type.annotations.mapRightParams %}{% endif %}
+{% if type|annotated:"mapFirst" %}{% call compositionLaw type type.annotations.concrete type.annotations.createFirst type.annotations.createFirstParams type.annotations.mapFirst type.annotations.mapFirstParams %}{% endif %}
+{% if type|annotated:"mapSecond" %}{% call compositionLaw type type.annotations.concrete type.annotations.createSecond type.annotations.createSecondParams type.annotations.mapSecond type.annotations.mapSecondParams %}{% endif %}
 
 {% endfor %}
 

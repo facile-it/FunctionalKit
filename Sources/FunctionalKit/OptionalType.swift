@@ -15,13 +15,13 @@ extension OptionalType {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: testArgs = "(x: OptionalOf<String>)"
-// sourcery: concrete = "x"
+// sourcery: testArgs = "x: OptionalOf<String>"
+// sourcery: concrete = "Optional<String>"
+// sourcery: needConcreteValue = "x"
 // sourcery: create = "getOptional"
 // sourcery: concreteParams = ""
 // sourcery: map = "map"
-// sourcery: mapParams = "(fidentity)"
+// sourcery: mapParams = "fidentity"
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 
@@ -70,11 +70,11 @@ extension OptionalType where ParameterType: Equatable {
 // MARK: - Functor
 
 extension OptionalType {
-	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Optional<T> {
-		return fold(
-			onNone: fconstant(Optional<T>.none),
-			onSome: transform..Optional<T>.some)
-	}
+    public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Optional<T> {
+        return fold(
+            onNone: fconstant(Optional<T>.none),
+            onSome: transform..Optional<T>.some)
+    }
 }
 
 // MARK: - Cartesian

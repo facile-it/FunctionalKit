@@ -6,16 +6,16 @@ public protocol CoproductType {
 }
 
 // sourcery: functor
-// sourcery: testArgs = "(x: String, y: String)"
+// sourcery: testArgs = "x: String, y: String"
 // sourcery: concrete = "Coproduct<String,String>"
 // sourcery: createLeft = "left"
 // sourcery: createLeftParams = "(x)"
 // sourcery: mapLeft = "mapLeft"
-// sourcery: mapLeftParams = "(fidentity)"
+// sourcery: mapLeftParams = "fidentity"
 // sourcery: createRight = "right"
 // sourcery: createRightParams = "(x)"
 // sourcery: mapRight = "mapRight"
-// sourcery: mapRightParams = "(fidentity)"
+// sourcery: mapRightParams = "fidentity"
 public enum Coproduct<A,B>: CoproductType {
 	case left(A)
 	case right(B)
