@@ -41,21 +41,19 @@ extension ArrayType {
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> ([ParameterType]) -> [A] {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> [A] {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> ([ParameterType], [B]) -> [A] {
-        return { (array1, array2) in
-            let fn = fcurry(function)
-            return array2.apply(array1.map(fn))
+    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> [A] where Applicative2: ArrayType {
+        return { (ap1, ap2) in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> ([ParameterType], [B], [C]) -> [A] {
-        return { (array1, array2, array3) in
-            let fn = fcurry(function)
-            return array3.apply(array2.apply(array1.map(fn)))
+    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> [A] where Applicative2: ArrayType, Applicative3: ArrayType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
