@@ -70,21 +70,19 @@ extension ReaderType {
 		return dimap(from: transform, to: { $0 })
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Reader<EnvironmentType, ParameterType>) -> Reader<EnvironmentType, A> {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Reader<EnvironmentType, A> {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Reader<EnvironmentType, ParameterType>, Reader<EnvironmentType, B>) -> Reader<EnvironmentType,A> {
-        return { (reader1, reader2) in
-            let fn = fcurry(function)
-            return reader2.apply(reader1.map(fn))
+    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Reader<EnvironmentType, A> where Applicative2: ReaderType, Applicative2.EnvironmentType == EnvironmentType {
+        return { ap1, ap2 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
-    
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Reader<EnvironmentType, ParameterType>, Reader<EnvironmentType, B>, Reader<EnvironmentType, C>) -> Reader<EnvironmentType, A> {
-        return { (reader1, reader2, reader3) in
-            let fn = fcurry(function)
-            return reader3.apply(reader2.apply(reader1.map(fn)))
+  
+    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Reader<EnvironmentType, A> where Applicative2: ReaderType, Applicative3: ReaderType, Applicative2.EnvironmentType == EnvironmentType, Applicative3.EnvironmentType == EnvironmentType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
