@@ -78,6 +78,7 @@
 		960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989211FD2F8310062ACDC /* OptionalTests.swift */; };
 		960989241FD305440062ACDC /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989231FD305440062ACDC /* ArrayTests.swift */; };
 		960989261FD3064A0062ACDC /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989251FD3064A0062ACDC /* ResultTests.swift */; };
+		960989281FD3079E0062ACDC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989271FD3079E0062ACDC /* FutureTests.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -156,6 +157,7 @@
 		960989211FD2F8310062ACDC /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		960989231FD305440062ACDC /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		960989251FD3064A0062ACDC /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
+		960989271FD3079E0062ACDC /* FutureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				960989211FD2F8310062ACDC /* OptionalTests.swift */,
 				960989231FD305440062ACDC /* ArrayTests.swift */,
 				960989251FD3064A0062ACDC /* ResultTests.swift */,
+				960989271FD3079E0062ACDC /* FutureTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -479,6 +482,7 @@
 				38F179D21FBDA85200243994 /* Assertion.swift in Sources */,
 				38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
+				960989281FD3079E0062ACDC /* FutureTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
 				960989241FD305440062ACDC /* ArrayTests.swift in Sources */,
 				960989261FD3064A0062ACDC /* ResultTests.swift in Sources */,
