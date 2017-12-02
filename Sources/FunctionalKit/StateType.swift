@@ -72,21 +72,19 @@ extension StateType {
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (State<StateParameterType, ParameterType>) -> State<StateParameterType, A> {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> State<StateParameterType, A> {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (State<StateParameterType, ParameterType>, State<StateParameterType, B>) -> State<StateParameterType,A> {
-        return { (state1, state2) in
-            let fn = fcurry(function)
-            return state2.apply(state1.map(fn))
+    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> State<StateParameterType, A> where Applicative2: StateType, Applicative2.StateParameterType == StateParameterType {
+        return { ap1, ap2 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (State<StateParameterType, ParameterType>, State<StateParameterType, B>, State<StateParameterType, C>) -> State<StateParameterType, A> {
-        return { (state1, state2, state3) in
-            let fn = fcurry(function)
-            return state3.apply(state2.apply(state1.map(fn)))
+    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> State<StateParameterType, A> where Applicative2: StateType, Applicative3: StateType, Applicative2.StateParameterType == StateParameterType, Applicative3.StateParameterType == StateParameterType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
