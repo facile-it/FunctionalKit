@@ -60,21 +60,19 @@ extension WriterType {
 		return fold { log, value in Writer<LogType,T>.init(log: log, value: transform(value)) }
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Writer<LogType, ParameterType>) -> Writer<LogType, A> {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Writer<LogType, A> {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Writer<LogType, ParameterType>, Writer<LogType, B>) -> Writer<LogType,A> {
-        return { (writer1, writer2) in
-            let fn = fcurry(function)
-            return writer2.apply(writer1.map(fn))
+    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Writer<LogType, A> where Applicative2: WriterType, Applicative2.LogType == LogType {
+        return { ap1, ap2 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Writer<LogType, ParameterType>, Writer<LogType, B>, Writer<LogType, C>) -> Writer<LogType, A> {
-        return { (writer1, writer2, writer3) in
-            let fn = fcurry(function)
-            return writer3.apply(writer2.apply(writer1.map(fn)))
+    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Writer<LogType, A> where Applicative2: WriterType, Applicative3: WriterType, Applicative2.LogType == LogType, Applicative3.LogType == LogType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }

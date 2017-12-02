@@ -76,13 +76,13 @@ extension StateType {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> State<StateParameterType, A> where Applicative2: StateType, Applicative2.StateParameterType == StateParameterType {
+    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> State<StateParameterType, A> where Applicative2: StateType, Applicative2.StateParameterType == StateParameterType {
         return { ap1, ap2 in
             Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> State<StateParameterType, A> where Applicative2: StateType, Applicative3: StateType, Applicative2.StateParameterType == StateParameterType, Applicative3.StateParameterType == StateParameterType {
+    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> State<StateParameterType, A> where Applicative2: StateType, Applicative3: StateType, Applicative2.StateParameterType == StateParameterType, Applicative3.StateParameterType == StateParameterType {
         return { ap1, ap2, ap3 in
             Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
