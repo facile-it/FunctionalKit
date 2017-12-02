@@ -90,24 +90,21 @@ extension ResultType {
 			onFailure: transform..Result.failure)
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Result<ErrorType,ParameterType>) -> Result<ErrorType,A> {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Result<ErrorType,A> {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Result<ErrorType, ParameterType>, Result<ErrorType, B>) -> Result<ErrorType, A> {
-        return { (result1, result2) in
-            let fn = fcurry(function)
-            return result2.apply(result1.map(fn))
+    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative2.ErrorType == ErrorType {
+        return { ap1, ap2 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Result<ErrorType, ParameterType>, Result<ErrorType, B>, Result<ErrorType, C>) -> Result<ErrorType, A> {
-        return { (result1, result2, result3) in
-            let fn = fcurry(function)
-            return result3.apply(result2.apply(result1.map(fn)))
+    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative3: ResultType, Applicative2.ErrorType == ErrorType, Applicative3.ErrorType == ErrorType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
-
 }
 
 // MARK: - Cartesian
