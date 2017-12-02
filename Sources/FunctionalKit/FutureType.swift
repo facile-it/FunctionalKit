@@ -75,21 +75,19 @@ extension FutureType {
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Future<ParameterType>) -> Future<A> {
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Future<A> {
         return { $0.map(function) }
     }
     
-    public static func lift2<A,B>(_ function: @escaping (ParameterType, B) -> A) -> (Future<ParameterType>, Future<B>) -> Future<A> {
-        return { (future1, future2) in
-            let fn = fcurry(function)
-            return future2.applyParallel(future1.map(fn))
+    public static func lift2<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Future<A> where Applicative2: FutureType {
+        return { (ap1, ap2) in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift3<A,B,C>(_ function: @escaping (ParameterType, B, C) -> A) -> (Future<ParameterType>, Future<B>, Future<C>) -> Future<A> {
-        return { (future1, future2, future3) in
-            let fn = fcurry(function)
-            return future3.applyParallel(future2.applyParallel(future1.map(fn)))
+    public static func lift3<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Future<A> where Applicative2: FutureType, Applicative3: FutureType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
