@@ -4,13 +4,12 @@ import Operadics
 
 class ArrayTests: XCTestCase {
     
-    
     func testLiftOneArg() {
         let id: (Int) -> Int = {$0}
         let ap1 = Array.pure(1)
         
-        XCTAssert(Array.lift(id)(ap1) == (Array.pure(id) <*> ap1))
-        XCTAssert(Array.lift(id)(ap1) == Array.pure(1))
+        Array.lift(id)(ap1) ==! Array.pure(id) <*> ap1
+        Array.lift(id)(ap1) ==! Array.pure(1)
     }
     
     func testLiftTwoArgs() {
@@ -18,8 +17,8 @@ class ArrayTests: XCTestCase {
         let ap1 = Array.pure(1)
         let ap2 = Array.pure(2)
         
-        XCTAssert(Array.lift(sum)(ap1, ap2) == (Array.pure(fcurry(sum)) <*> ap1 <*> ap2))
-        XCTAssert(Array.lift(sum)(ap1, ap2) == Array.pure(3))
+        Array.lift(sum)(ap1, ap2) ==! Array.pure(fcurry(sum)) <*> ap1 <*> ap2
+        Array.lift(sum)(ap1, ap2) ==! Array.pure(3)
     }
     
     func testLiftThreeArgs(){
@@ -28,8 +27,8 @@ class ArrayTests: XCTestCase {
         let ap2 = Array.pure(2)
         let ap3 = Array.pure(3)
         
-        XCTAssert(Array.lift(sum)(ap1, ap2, ap3) == (Array.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3))
-        XCTAssert(Array.lift(sum)(ap1, ap2, ap3) == Array.pure(6))
+        Array.lift(sum)(ap1, ap2, ap3) ==! Array.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3
+        Array.lift(sum)(ap1, ap2, ap3) ==! Array.pure(6)
     }
     
     static var allTests = [

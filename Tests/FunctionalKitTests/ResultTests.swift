@@ -14,8 +14,8 @@ class ResultTests: XCTestCase {
         let id: (Int) -> Int = {$0}
         let ap1 = TestResultType.pure(1)
         
-        XCTAssert(TestResultType.lift(id)(ap1) == (TestResultType.pure(id) <*> ap1))
-        XCTAssert(TestResultType.lift(id)(ap1) == TestResultType.pure(1))
+        TestResultType.lift(id)(ap1) ==! TestResultType.pure(id) <*> ap1
+        TestResultType.lift(id)(ap1) ==! TestResultType.pure(1)
     }
     
     func testLiftTwoArgs() {
@@ -23,8 +23,8 @@ class ResultTests: XCTestCase {
         let ap1 = TestResultType.pure(1)
         let ap2 = TestResultType.pure(2)
         
-        XCTAssert(TestResultType.lift(sum)(ap1, ap2) == (TestResultType.pure(fcurry(sum)) <*> ap1 <*> ap2))
-        XCTAssert(TestResultType.lift(sum)(ap1, ap2) == TestResultType.pure(3))
+        TestResultType.lift(sum)(ap1, ap2) ==! TestResultType.pure(fcurry(sum)) <*> ap1 <*> ap2
+        TestResultType.lift(sum)(ap1, ap2) ==! TestResultType.pure(3)
     }
     
     func testLiftThreeArgs(){
@@ -33,8 +33,8 @@ class ResultTests: XCTestCase {
         let ap2 = TestResultType.pure(2)
         let ap3 = TestResultType.pure(3)
         
-        XCTAssert(TestResultType.lift(sum)(ap1, ap2, ap3) == (TestResultType.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3))
-        XCTAssert(TestResultType.lift(sum)(ap1, ap2, ap3) == TestResultType.pure(6))
+        TestResultType.lift(sum)(ap1, ap2, ap3) ==! TestResultType.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3
+        TestResultType.lift(sum)(ap1, ap2, ap3) ==! TestResultType.pure(6)
     }
     
     static var allTests = [
