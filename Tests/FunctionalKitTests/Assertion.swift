@@ -40,6 +40,10 @@ func ==!<E,A> (lhs: Result<E,A>, rhs: Result<E,A>) where E:Equatable, A:Equatabl
     XCTAssert(lhs == rhs)
 }
 
+func ==!<L,A> (lhs: Writer<L,A>, rhs: Writer<L,A>) where L:Equatable, A:Equatable {
+    XCTAssert(lhs == rhs)
+}
+
 postfix operator ==!
 
 postfix func ==! <A> (_ a: A?) {
