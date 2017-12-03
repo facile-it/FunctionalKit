@@ -80,6 +80,7 @@
 		960989261FD3064A0062ACDC /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989251FD3064A0062ACDC /* ResultTests.swift */; };
 		960989281FD3079E0062ACDC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989271FD3079E0062ACDC /* FutureTests.swift */; };
 		960989301FD43F180062ACDC /* WriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609892F1FD43F180062ACDC /* WriterTests.swift */; };
+		960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989311FD443EA0062ACDC /* ReaderTests.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -160,6 +161,7 @@
 		960989251FD3064A0062ACDC /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		960989271FD3079E0062ACDC /* FutureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		9609892F1FD43F180062ACDC /* WriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterTests.swift; sourceTree = "<group>"; };
+		960989311FD443EA0062ACDC /* ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTests.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				960989251FD3064A0062ACDC /* ResultTests.swift */,
 				960989271FD3079E0062ACDC /* FutureTests.swift */,
 				9609892F1FD43F180062ACDC /* WriterTests.swift */,
+				960989311FD443EA0062ACDC /* ReaderTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -488,6 +491,7 @@
 				960989301FD43F180062ACDC /* WriterTests.swift in Sources */,
 				960989281FD3079E0062ACDC /* FutureTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
+				960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */,
 				960989241FD305440062ACDC /* ArrayTests.swift in Sources */,
 				960989261FD3064A0062ACDC /* ResultTests.swift in Sources */,
 				960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */,
