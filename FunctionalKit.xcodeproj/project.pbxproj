@@ -81,6 +81,7 @@
 		960989281FD3079E0062ACDC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989271FD3079E0062ACDC /* FutureTests.swift */; };
 		960989301FD43F180062ACDC /* WriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609892F1FD43F180062ACDC /* WriterTests.swift */; };
 		960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989311FD443EA0062ACDC /* ReaderTests.swift */; };
+		960989341FD449010062ACDC /* StateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989331FD449010062ACDC /* StateTests.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -162,6 +163,7 @@
 		960989271FD3079E0062ACDC /* FutureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
 		9609892F1FD43F180062ACDC /* WriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterTests.swift; sourceTree = "<group>"; };
 		960989311FD443EA0062ACDC /* ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTests.swift; sourceTree = "<group>"; };
+		960989331FD449010062ACDC /* StateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTests.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				960989271FD3079E0062ACDC /* FutureTests.swift */,
 				9609892F1FD43F180062ACDC /* WriterTests.swift */,
 				960989311FD443EA0062ACDC /* ReaderTests.swift */,
+				960989331FD449010062ACDC /* StateTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -499,6 +502,7 @@
 				3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */,
 				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
 				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,
+				960989341FD449010062ACDC /* StateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

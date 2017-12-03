@@ -19,7 +19,6 @@ class ReaderTests: XCTestCase {
         let id: (Int) -> Int = {$0}
         let ap1 = TestReaderType.pure(1)
         
-        
         XCTAssertTrue((TestReaderType.lift(id)(ap1) == (TestReaderType.pure(id) <*> ap1)).run(environment))
         XCTAssertTrue((TestReaderType.lift(id)(ap1) == TestReaderType.pure(1)).run(environment))
     }
