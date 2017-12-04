@@ -19,6 +19,7 @@ extension ReaderType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "unfold { _ in x }"
 // sourcery: needsContext
 // sourcery: needsSecondary

@@ -5,6 +5,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -12,7 +13,9 @@ import Abstract
 
 class LawsTests: XCTestCase {
 
-//MARK: Array
+//MARK: - Array
+
+//MARK: Functor
 
     func testArrayFunctorIdentity() {
         property("Array - Functor Laws - Identity") <- forAll { (x: String) in
@@ -24,11 +27,13 @@ class LawsTests: XCTestCase {
     func testArrayFunctorComposition() {
         property("Array - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Array<String>.init([x])
-            let fLifted = fflip(Array<String>.map)(f.getArrow)
-            let gLifted = fflip(Array<String>.map)(g.getArrow)
-            return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow))
+            let fLifted = fflip(Array<String>.fmap)(f.getArrow)
+            let gLifted = fflip(Array<String>.fmap)(g.getArrow)
+            return ((fLifted..gLifted)(a) == a.fmap(f.getArrow..g.getArrow))
         }
     }
+
+//MARK: Applicative
 
     func testArrayApplicativeIdentity() {
         property("Array - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -66,8 +71,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: Future
+    func testArrayMonadLeftIdentity() {
+        property("Array - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a = Array<String>.pure(x)
+            let a_ma: (String) -> Array<String> = { y in Array<String>.pure(af.getArrow(y)) }
+            return (a.bind(a_ma) == a_ma(x))
+        }
+    }
+
+    func testArrayMonadRightIdentity() {
+        property("Array - Monad Laws - Right Identity") <- forAll { (x: String) in
+            let a = Array<String>.pure(x)
+            return (a.bind(Array<String>.pure) == a)
+        }
+    }
+
+    func testArrayMonadAssociativity() {
+        property("Array - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Array<String>.pure(x)
+            let a_ma1: (String) -> Array<String> = { y in Array<String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Array<String> = { y in Array<String>.pure(ag.getArrow(y)) }
+            return (a.bind(a_ma1).bind(a_ma2) == a.bind{ y in a_ma1(y).bind(a_ma2) })
+        }
+    }
+
+
+//MARK: - Future
+
+//MARK: Functor
 
     func testFutureFunctorIdentity() {
         property("Future - Functor Laws - Identity") <- forAll { (x: String) in
@@ -84,6 +117,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a).start() == a.map(f.getArrow..g.getArrow).start())
         }
     }
+
+//MARK: Applicative
 
     func testFutureApplicativeIdentity() {
         property("Future - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -121,8 +156,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: Optional
+    func testFutureMonadLeftIdentity() {
+        property("Future - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a = Future<String>.pure(x)
+            let a_ma: (String) -> Future<String> = { y in Future<String>.pure(af.getArrow(y)) }
+            return (a.flatMap(a_ma).start() == a_ma(x).start())
+        }
+    }
+
+    func testFutureMonadRightIdentity() {
+        property("Future - Monad Laws - Right Identity") <- forAll { (x: String) in
+            let a = Future<String>.pure(x)
+            return (a.flatMap(Future<String>.pure).start() == a.start())
+        }
+    }
+
+    func testFutureMonadAssociativity() {
+        property("Future - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Future<String>.pure(x)
+            let a_ma1: (String) -> Future<String> = { y in Future<String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Future<String> = { y in Future<String>.pure(ag.getArrow(y)) }
+            return (a.flatMap(a_ma1).flatMap(a_ma2).start() == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) }.start())
+        }
+    }
+
+
+//MARK: - Optional
+
+//MARK: Functor
 
     func testOptionalFunctorIdentity() {
         property("Optional - Functor Laws - Identity") <- forAll { (x: String) in
@@ -139,6 +202,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.fmap(f.getArrow..g.getArrow))
         }
     }
+
+//MARK: Applicative
 
     func testOptionalApplicativeIdentity() {
         property("Optional - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -176,8 +241,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: Reader
+    func testOptionalMonadLeftIdentity() {
+        property("Optional - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a = Optional<String>.pure(x)
+            let a_ma: (String) -> Optional<String> = { y in Optional<String>.pure(af.getArrow(y)) }
+            return (a.bind(a_ma) == a_ma(x))
+        }
+    }
+
+    func testOptionalMonadRightIdentity() {
+        property("Optional - Monad Laws - Right Identity") <- forAll { (x: String) in
+            let a = Optional<String>.pure(x)
+            return (a.bind(Optional<String>.pure) == a)
+        }
+    }
+
+    func testOptionalMonadAssociativity() {
+        property("Optional - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Optional<String>.pure(x)
+            let a_ma1: (String) -> Optional<String> = { y in Optional<String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Optional<String> = { y in Optional<String>.pure(ag.getArrow(y)) }
+            return (a.bind(a_ma1).bind(a_ma2) == a.bind{ y in a_ma1(y).bind(a_ma2) })
+        }
+    }
+
+
+//MARK: - Reader
+
+//MARK: Functor
 
     func testReaderFunctorIdentity() {
         property("Reader - Functor Laws - Identity") <- forAll { (x: String, c: String) in
@@ -194,6 +287,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow)).run(c)
         }
     }
+
+//MARK: Applicative
 
     func testReaderApplicativeIdentity() {
         property("Reader - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
@@ -231,8 +326,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: Result
+    func testReaderMonadLeftIdentity() {
+        property("Reader - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a = Reader<String,String>.pure(x)
+            let a_ma: (String) -> Reader<String,String> = { y in Reader<String,String>.pure(af.getArrow(y)) }
+            return (a.flatMap(a_ma) == a_ma(x)).run(c)
+        }
+    }
+
+    func testReaderMonadRightIdentity() {
+        property("Reader - Monad Laws - Right Identity") <- forAll { (x: String, c: String) in
+            let a = Reader<String,String>.pure(x)
+            return (a.flatMap(Reader<String,String>.pure) == a).run(c)
+        }
+    }
+
+    func testReaderMonadAssociativity() {
+        property("Reader - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
+            let a = Reader<String,String>.pure(x)
+            let a_ma1: (String) -> Reader<String,String> = { y in Reader<String,String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Reader<String,String> = { y in Reader<String,String>.pure(ag.getArrow(y)) }
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) }).run(c)
+        }
+    }
+
+
+//MARK: - Result
+
+//MARK: Functor
 
     func testResultFunctorIdentity() {
         property("Result - Functor Laws - Identity") <- forAll { (x: String) in
@@ -249,6 +372,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow))
         }
     }
+
+//MARK: Applicative
 
     func testResultApplicativeIdentity() {
         property("Result - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -286,8 +411,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: State
+    func testResultMonadLeftIdentity() {
+        property("Result - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a = Result<String,String>.pure(x)
+            let a_ma: (String) -> Result<String,String> = { y in Result<String,String>.pure(af.getArrow(y)) }
+            return (a.flatMap(a_ma) == a_ma(x))
+        }
+    }
+
+    func testResultMonadRightIdentity() {
+        property("Result - Monad Laws - Right Identity") <- forAll { (x: String) in
+            let a = Result<String,String>.pure(x)
+            return (a.flatMap(Result<String,String>.pure) == a)
+        }
+    }
+
+    func testResultMonadAssociativity() {
+        property("Result - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Result<String,String>.pure(x)
+            let a_ma1: (String) -> Result<String,String> = { y in Result<String,String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Result<String,String> = { y in Result<String,String>.pure(ag.getArrow(y)) }
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
+        }
+    }
+
+
+//MARK: - State
+
+//MARK: Functor
 
     func testStateFunctorIdentity() {
         property("State - Functor Laws - Identity") <- forAll { (x: String, c: String) in
@@ -304,6 +457,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow)).run(c)
         }
     }
+
+//MARK: Applicative
 
     func testStateApplicativeIdentity() {
         property("State - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
@@ -341,8 +496,36 @@ class LawsTests: XCTestCase {
         }
     }
 
+//MARK: Monad
 
-//MARK: Writer
+    func testStateMonadLeftIdentity() {
+        property("State - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a = State<String,String>.pure(x)
+            let a_ma: (String) -> State<String,String> = { y in State<String,String>.pure(af.getArrow(y)) }
+            return (a.flatMap(a_ma) == a_ma(x)).run(c)
+        }
+    }
+
+    func testStateMonadRightIdentity() {
+        property("State - Monad Laws - Right Identity") <- forAll { (x: String, c: String) in
+            let a = State<String,String>.pure(x)
+            return (a.flatMap(State<String,String>.pure) == a).run(c)
+        }
+    }
+
+    func testStateMonadAssociativity() {
+        property("State - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
+            let a = State<String,String>.pure(x)
+            let a_ma1: (String) -> State<String,String> = { y in State<String,String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> State<String,String> = { y in State<String,String>.pure(ag.getArrow(y)) }
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) }).run(c)
+        }
+    }
+
+
+//MARK: - Writer
+
+//MARK: Functor
 
     func testWriterFunctorIdentity() {
         property("Writer - Functor Laws - Identity") <- forAll { (x: String) in
@@ -359,6 +542,8 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow))
         }
     }
+
+//MARK: Applicative
 
     func testWriterApplicativeIdentity() {
         property("Writer - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -393,6 +578,32 @@ class LawsTests: XCTestCase {
             let a_a2 = Writer<String,Endo<String>>.pure(ag.getArrow)
             let a_a_a = Writer<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(fcurry(fcompose))
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
+        }
+    }
+
+//MARK: Monad
+
+    func testWriterMonadLeftIdentity() {
+        property("Writer - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a = Writer<String,String>.pure(x)
+            let a_ma: (String) -> Writer<String,String> = { y in Writer<String,String>.pure(af.getArrow(y)) }
+            return (a.flatMap(a_ma) == a_ma(x))
+        }
+    }
+
+    func testWriterMonadRightIdentity() {
+        property("Writer - Monad Laws - Right Identity") <- forAll { (x: String) in
+            let a = Writer<String,String>.pure(x)
+            return (a.flatMap(Writer<String,String>.pure) == a)
+        }
+    }
+
+    func testWriterMonadAssociativity() {
+        property("Writer - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Writer<String,String>.pure(x)
+            let a_ma1: (String) -> Writer<String,String> = { y in Writer<String,String>.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> Writer<String,String> = { y in Writer<String,String>.pure(ag.getArrow(y)) }
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
 

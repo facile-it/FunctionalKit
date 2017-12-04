@@ -1,12 +1,15 @@
 {# GLOBAL MACROS #}
 {% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"needsSecondary" %}String,{% endif %}{{ parameter }}>{% endmacro %}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+{% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
 {% macro getCommandCall type %}{% if type|annotated:"needsCommand" %}.{{ type.annotations.needsCommand }}{% endif %}{% endmacro %}
 {% macro getContextCall type %}{% if type|annotated:"needsContext" %}.run(c){% endif %}{% endmacro %}
 {% macro getContextParam type %}{% if type|annotated:"needsContext" %}, c: String{% endif %}{% endmacro %}
 
 {# FUNCTOR MACROS #}
 {% macro functorLaws type %}
+//MARK: Functor
+
     func test{{ type.name }}FunctorIdentity() {
         property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: String{% call getContextParam type %}) in
             let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
@@ -26,6 +29,8 @@
 
 {# APPLICATIVE MACROS #}
 {% macro applicativeLaws type %}
+//MARK: Applicative
+
     func test{{ type.name }}ApplicativeIdentity() {
         property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(fidentity)
@@ -63,6 +68,35 @@
     }
 {% endmacro %}
 
+{# MONAD MACROS #}
+{% macro monadLaws type %}
+//MARK: Monad
+
+    func test{{ type.name }}MonadLeftIdentity() {
+        property("{{ type.name }} - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_ma: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
+            return (a.{% call getFlatMapName type %}(a_ma){% call getCommandCall type %} == a_ma(x){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}MonadRightIdentity() {
+        property("{{ type.name }} - Monad Laws - Right Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            return (a.{% call getFlatMapName type %}({% call getTypeName type "String" %}.pure){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}MonadAssociativity() {
+        property("{{ type.name }} - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_ma1: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(ag.getArrow(y)) }
+            return (a.{% call getFlatMapName type %}(a_ma1).{% call getFlatMapName type %}(a_ma2){% call getCommandCall type %} == a.{% call getFlatMapName type %}{ y in a_ma1(y).{% call getFlatMapName type %}(a_ma2) }{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
 {# IMPLEMENTATION #}
 import XCTest
 @testable import FunctionalKit
@@ -72,11 +106,13 @@ import Abstract
 class LawsTests: XCTestCase {
 {% for type in types.all|annotated:"functor" %}
 
-//MARK: {{ type.name }}
+//MARK: - {{ type.name }}
 
 {% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
 
 {% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
+
+{% if type|annotated:"monad" %}{% call monadLaws type %}{% endif %}
 
 {% endfor %}
 

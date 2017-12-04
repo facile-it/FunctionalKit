@@ -12,7 +12,10 @@ public protocol ArrayType: TypeConstructor {
 
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "init([x])"
+// sourcery: customMap = "fmap"
+// sourcery: customFlatMap = "bind"
 extension Array: ArrayType {
 	public typealias ParameterType = Element
 
@@ -38,7 +41,7 @@ extension ArrayType {
 // MARK: - Functor
 
 extension ArrayType {
-	public func map<T>(_ transform: (ParameterType) -> T) -> [T] {
+	public func fmap<T>(_ transform: (ParameterType) -> T) -> [T] {
 		return fold([T].init()) { previous, element in
 			previous + [transform(element)]
 		}
@@ -67,11 +70,11 @@ extension ArrayType {
 	}
 
 	public func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
-		return Array.cartesian(self, transform).map { value, function in function(value) }
+		return Array.cartesian(self, transform).fmap { value, function in function(value) }
 	}
 
 	public static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
-		return Array.cartesian(lhs, rhs).map { function, value in function(value) }
+		return Array.cartesian(lhs, rhs).fmap { function, value in function(value) }
 	}
 }
 
@@ -143,8 +146,8 @@ extension ArrayType where ParameterType: ArrayType {
 }
 
 extension ArrayType {
-	public func flatMap <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
-		return map(transform).joined
+	public func bind <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
+		return fmap(transform).joined
 	}
 }
 

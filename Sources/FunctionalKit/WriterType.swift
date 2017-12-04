@@ -16,6 +16,7 @@ public protocol WriterType: TypeConstructor, ProductType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "init(log: .empty, value: x)"
 // sourcery: needsSecondary
 public struct Writer<L,A>: WriterType where L: Monoid {

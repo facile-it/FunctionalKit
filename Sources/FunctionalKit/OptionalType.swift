@@ -17,8 +17,10 @@ extension OptionalType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "init(x)"
 // sourcery: customMap = "fmap"
+// sourcery: customFlatMap = "bind"
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 

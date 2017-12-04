@@ -17,6 +17,7 @@ fileprivate enum FutureState<T> {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "unfold { $0(x) }"
 // sourcery: needsCommand = "start()"
 public final class Future<A>: FutureType {
@@ -140,8 +141,10 @@ extension FutureType where ParameterType: FutureType {
 	public var joined: Future<ParameterType.ParameterType> {
 		return Future.unfold { done in self.run { $0.run(done) } }
 	}
+}
 
-	public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
-		return map(transform).joined
-	}
+extension FutureType {
+    public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
+        return map(transform).joined
+    }
 }

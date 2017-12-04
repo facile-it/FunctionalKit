@@ -22,6 +22,7 @@ extension ResultType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: monad
 // sourcery: construct = "success(x)"
 // sourcery: needsSecondary
 public enum Result<E,T>: ResultType where E: Error {
