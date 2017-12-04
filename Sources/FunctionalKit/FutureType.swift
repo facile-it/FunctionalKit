@@ -98,6 +98,22 @@ extension FutureType {
 			self.run { value in done(transform(value)) }
 		}
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Future<A> {
+        return { $0.map(function) }
+    }
+    
+    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Future<A> where Applicative2: FutureType {
+        return { (ap1, ap2) in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
+        }
+    }
+    
+    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Future<A> where Applicative2: FutureType, Applicative3: FutureType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
+        }
+    }
 }
 
 // MARK: - Cartesian

@@ -4,6 +4,7 @@ import XCTest
 #endif
 import Abstract
 import SwiftCheck
+import FunctionalKit
 
 precedencegroup AssertionPrecedence {
 	associativity: left
@@ -37,6 +38,14 @@ func ==! <A> (lhs: A?, rhs: A?) where A: Equatable {
 
 func ==! <K,A> (lhs: [K:A], rhs: [K:A]) where A: Equatable {
 	XCTAssertEqual(lhs, rhs)
+}
+
+func ==!<E,A> (lhs: Result<E,A>, rhs: Result<E,A>) where E:Equatable, A:Equatable {
+    XCTAssert(lhs == rhs)
+}
+
+func ==!<L,A> (lhs: Writer<L,A>, rhs: Writer<L,A>) where L:Equatable, A:Equatable {
+    XCTAssert(lhs == rhs)
 }
 
 postfix operator ==!

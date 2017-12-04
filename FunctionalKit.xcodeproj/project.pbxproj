@@ -79,6 +79,13 @@
 		38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; };
 		38F3C8271FBF406A0014D30D /* Abstract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F3C8231FBF40600014D30D /* Abstract.framework */; };
 		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989211FD2F8310062ACDC /* OptionalTests.swift */; };
+		960989241FD305440062ACDC /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989231FD305440062ACDC /* ArrayTests.swift */; };
+		960989261FD3064A0062ACDC /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989251FD3064A0062ACDC /* ResultTests.swift */; };
+		960989281FD3079E0062ACDC /* FutureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989271FD3079E0062ACDC /* FutureTests.swift */; };
+		960989301FD43F180062ACDC /* WriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609892F1FD43F180062ACDC /* WriterTests.swift */; };
+		960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989311FD443EA0062ACDC /* ReaderTests.swift */; };
+		960989341FD449010062ACDC /* StateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989331FD449010062ACDC /* StateTests.swift */; };
 		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
 		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -163,6 +170,13 @@
 		38F3C8201FBF2B370014D30D /* Inclusive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inclusive.swift; sourceTree = "<group>"; };
 		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
+		960989211FD2F8310062ACDC /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
+		960989231FD305440062ACDC /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		960989251FD3064A0062ACDC /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
+		960989271FD3079E0062ACDC /* FutureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureTests.swift; sourceTree = "<group>"; };
+		9609892F1FD43F180062ACDC /* WriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterTests.swift; sourceTree = "<group>"; };
+		960989311FD443EA0062ACDC /* ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTests.swift; sourceTree = "<group>"; };
+		960989331FD449010062ACDC /* StateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTests.swift; sourceTree = "<group>"; };
 		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +280,13 @@
 				38F3C8151FBEC9B10014D30D /* ProductTests.swift */,
 				38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */,
 				38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */,
+				960989211FD2F8310062ACDC /* OptionalTests.swift */,
+				960989231FD305440062ACDC /* ArrayTests.swift */,
+				960989251FD3064A0062ACDC /* ResultTests.swift */,
+				960989271FD3079E0062ACDC /* FutureTests.swift */,
+				9609892F1FD43F180062ACDC /* WriterTests.swift */,
+				960989311FD443EA0062ACDC /* ReaderTests.swift */,
+				960989331FD449010062ACDC /* StateTests.swift */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
@@ -522,13 +543,20 @@
 				38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */,
 				38DA20881FD5A2930010AAEC /* Random.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
+				960989301FD43F180062ACDC /* WriterTests.swift in Sources */,
+				960989281FD3079E0062ACDC /* FutureTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
+				960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */,
+				960989241FD305440062ACDC /* ArrayTests.swift in Sources */,
+				960989261FD3064A0062ACDC /* ResultTests.swift in Sources */,
+				960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */,
 				38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */,
 				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
 				3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */,
 				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
 				38DA208B1FD5A2930010AAEC /* Assertion.swift in Sources */,
 				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,
+				960989341FD449010062ACDC /* StateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

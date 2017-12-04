@@ -97,6 +97,22 @@ extension ResultType {
 				onFailure: transform..Result.failure)
 		}
 	}
+    
+    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Result<ErrorType,A> {
+        return { $0.map(function) }
+    }
+    
+    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative2.ErrorType == ErrorType {
+        return { ap1, ap2 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
+        }
+    }
+    
+    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative3: ResultType, Applicative2.ErrorType == ErrorType, Applicative3.ErrorType == ErrorType {
+        return { ap1, ap2, ap3 in
+            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
+        }
+    }
 }
 
 // MARK: - Cartesian
@@ -145,6 +161,7 @@ extension ResultType {
 			.map { function, value in function(value) }
 			.mapError { $0.left }
 	}
+    
 }
 
 extension ResultType where ErrorType: Semigroup {
