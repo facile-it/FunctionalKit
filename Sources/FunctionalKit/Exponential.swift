@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 public protocol ExponentialType {
 	associatedtype SourceType
 	associatedtype TargetType
@@ -5,6 +10,9 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
+// sourcery: profunctor
+// sourcery: construct = "init(x)"
+// sourcery: needsContext
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B
 
@@ -18,20 +26,20 @@ public struct Exponential<A,B>: ExponentialType {
 }
 
 extension ExponentialType {
-	public func dimap<A,B>(source: @escaping (A) -> SourceType, target: @escaping (TargetType) -> B) -> Exponential<A,B> {
+	public func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Exponential<A,B> {
 		return Exponential<A,B>.init { value in target(self.call(source(value))) }
 	}
 
 	public var toExponential: Exponential<SourceType,TargetType> {
-		return dimap(source: { $0 }, target: { $0 })
+		return dimap({ $0 }, { $0 })
 	}
 
 	public func map<T>(_ transform: @escaping (TargetType) -> T) -> Exponential<SourceType,T> {
-		return dimap(source: { $0 }, target: transform)
+		return dimap({ $0 }, transform)
 	}
 
 	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Exponential<T,TargetType> {
-		return dimap(source: transform, target: { $0 })
+		return dimap(transform, { $0 })
 	}
 }
 
@@ -39,4 +47,12 @@ extension ExponentialType where SourceType == TargetType {
 	public static var identity: Exponential<SourceType,TargetType> {
 		return Exponential.init { $0 }
 	}
+}
+
+extension ExponentialType where TargetType: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Reader<SourceType,Bool> {
+        return Reader<SourceType,Bool>.unfold { source in
+            lhs.call(source) == rhs.call(source)
+        }
+    }
 }

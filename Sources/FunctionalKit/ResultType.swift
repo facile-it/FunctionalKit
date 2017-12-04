@@ -10,17 +10,21 @@ public protocol ResultType: TypeConstructor, CoproductType {
 
 	static func from(concrete: Concrete<ErrorType,ParameterType>) -> Self
 	func run() throws -> ParameterType
-	func fold <A> (onSuccess: @escaping (ParameterType) -> A, onFailure: @escaping (ErrorType) -> A) -> A
+	func fold <A> (onSuccess: (ParameterType) -> A, onFailure: (ErrorType) -> A) -> A
 }
 
 extension ResultType {
-	public func fold<U>(onLeft: @escaping (ErrorType) -> U, onRight: @escaping (ParameterType) -> U) -> U {
+	public func fold<U>(onLeft: (ErrorType) -> U, onRight: (ParameterType) -> U) -> U {
 		return fold(onSuccess: onRight, onFailure: onLeft)
 	}
 }
 
 // MARK: - Data
-
+// sourcery: functor
+// sourcery: applicative
+// sourcery: monad
+// sourcery: construct = "success(x)"
+// sourcery: needsSecondary
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
 	public typealias ParameterType = T
@@ -41,7 +45,7 @@ public enum Result<E,T>: ResultType where E: Error {
 		}
 	}
 
-	public func fold<A>(onSuccess: @escaping (T) -> A, onFailure: @escaping (E) -> A) -> A {
+	public func fold<A>(onSuccess: (T) -> A, onFailure: (E) -> A) -> A {
 		switch self {
 		case .success(let value):
 			return onSuccess(value)
@@ -78,16 +82,20 @@ extension ResultType where ErrorType: Equatable, ParameterType: Equatable {
 // MARK: - Functor
 
 extension ResultType {
-	public func map <A> (_ transform: @escaping (ParameterType) -> A) -> Result<ErrorType,A> {
-		return fold(
-			onSuccess: transform..Result.success,
-			onFailure: Result.failure)
+	public func map <A> (_ transform: (ParameterType) -> A) -> Result<ErrorType,A> {
+		return withoutActuallyEscaping(transform) { transform in
+			fold(
+				onSuccess: transform..Result.success,
+				onFailure: Result.failure)
+		}
 	}
 
-	public func mapError <A> (_ transform: @escaping (ErrorType) -> A) -> Result<A,ParameterType> {
-		return fold(
-			onSuccess: Result.success,
-			onFailure: transform..Result.failure)
+	public func mapError <A> (_ transform: (ErrorType) -> A) -> Result<A,ParameterType> {
+		return withoutActuallyEscaping(transform) { transform in
+			fold(
+				onSuccess: Result.success,
+				onFailure: transform..Result.failure)
+		}
 	}
     
     public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Result<ErrorType,A> {
@@ -175,7 +183,7 @@ extension ResultType where ErrorType: Semigroup {
 extension ResultType {
 	public typealias Traversed<Applicative> = Result<ErrorType,Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(
@@ -187,7 +195,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(
@@ -199,7 +207,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(
@@ -211,7 +219,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(
@@ -223,7 +231,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(
@@ -235,7 +243,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(
@@ -265,20 +273,29 @@ extension ResultType where ParameterType: ResultType, ParameterType.ErrorType ==
 }
 
 extension ResultType {
-	public func flatMap<R>(_ transform: @escaping (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
+	public func flatMap<R>(_ transform: (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
 		return map(transform).joined
 	}
 }
 
 // MARK: - Utility
 
-/// check other implementations
-
 extension ResultType {
-	public static func ++ (lhs: Self, rhs: ParameterType) -> Result<ErrorType,ParameterType> {
-		return lhs.fold(
+	public var toOptionalError: ErrorType? {
+		return fold(
+			onSuccess: fconstant(nil),
+			onFailure: fidentity)
+	}
+
+	public var toOptionalValue: ParameterType? {
+		return fold(
+			onSuccess: fidentity,
+			onFailure: fconstant(nil))
+	}
+
+	public func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result<ErrorType,ParameterType> {
+		return fold(
 			onSuccess: Result.success,
-			onFailure: fconstant(Result.success(rhs)))
+			onFailure: { _ in Result.success(defaultValue()) })
 	}
 }
-

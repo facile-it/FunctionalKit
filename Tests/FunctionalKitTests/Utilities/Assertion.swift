@@ -1,5 +1,9 @@
 import XCTest
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+import SwiftCheck
 import FunctionalKit
 
 precedencegroup AssertionPrecedence {

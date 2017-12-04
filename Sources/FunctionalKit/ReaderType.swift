@@ -1,4 +1,7 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 // MARK: - Definiton
 
@@ -17,7 +20,12 @@ extension ReaderType {
 }
 
 // MARK: - Data
-
+// sourcery: functor
+// sourcery: applicative
+// sourcery: monad
+// sourcery: construct = "unfold { _ in x }"
+// sourcery: needsContext
+// sourcery: needsSecondary
 public struct Reader<E,A>: ReaderType {
 	public typealias ParameterType = A
 
@@ -131,6 +139,12 @@ extension ReaderType {
 
 // MARK: - Utility
 
+extension ReaderType {
+	public static var ask: Reader<ParameterType,ParameterType> {
+		return Reader<ParameterType,ParameterType>.unfold(fidentity)
+	}
+}
+
 // MARK: Effect
 
 public typealias Effect<A> = Reader<(),A>
@@ -158,5 +172,3 @@ extension ReaderType where ParameterType == () {
 		run(value)
 	}
 }
-
-/// check other implementations

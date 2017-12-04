@@ -21,8 +21,8 @@ class CoproductTests: XCTestCase {
 	}
 
 	func testMap() {
-		TestType.left(42).bimap(onLeft: fidentity, onRight: { Int($0)! }).tryLeft! ==! 42
-		TestType.right("42").bimap(onLeft: { "\($0)" }, onRight: fidentity).tryRight! ==! "42"
+		TestType.left(42).bimap(fidentity, { Int($0)! }).tryLeft! ==! 42
+		TestType.right("42").bimap({ "\($0)" }, fidentity).tryRight! ==! "42"
 
 		TestType.left(42).mapLeft { $0*2 }.tryLeft! ==! 84
 		TestType.left(42).mapRight { $0 + "!" }.tryLeft! ==! 42

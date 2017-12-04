@@ -1,6 +1,9 @@
 import XCTest
 @testable import FunctionalKit
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 class FixedTests: XCTestCase {
 	func testIdentity() {
