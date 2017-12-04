@@ -7,6 +7,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -30,6 +31,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.fmap(f.getArrow..g.getArrow))
         }
     }
+
 
 
 //MARK: - Array - Applicative
@@ -101,6 +103,7 @@ class LawsTests: XCTestCase {
 
 
 
+
 //MARK: - Coproduct - Bifunctor
 
     func testCoproductBifunctorIdentity() {
@@ -111,18 +114,38 @@ class LawsTests: XCTestCase {
     }
 
     func testCoproductBifunctorComposition() {
-        property("Coproduct - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+        property("Coproduct - Bifunctor Laws - Composition") <- forAll { (x: String, y: String, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>) in
             let a = Coproduct<String,String>.random(x,y)
             let fLifted: Endo<Coproduct<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Coproduct<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+        }
     }
-}
 
 
 
 
 
+
+//MARK: - Exponential - Profunctor
+
+    func testExponentialProfunctorIdentity() {
+        property("Exponential - Profunctor Laws - Identity") <- forAll { (ax: ArrowOf<String,String>, c: String) in
+            let x = ax.getArrow
+            let a = Exponential<String,String>.init(x)
+            return (a.dimap(fidentity,fidentity) == a).run(c)
+        }
+    }
+
+    func testExponentialProfunctorComposition() {
+        property("Exponential - Profunctor Laws - Composition") <- forAll { (ax: ArrowOf<String,String>, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, c: String) in
+            let x = ax.getArrow
+            let a = Exponential<String,String>.init(x)
+            let fLifted: Endo<Exponential<String,String>> = { t in t.dimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<Exponential<String,String>> = { t in t.dimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a) == a.dimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow)).run(c)
+        }
+    }
 
 
 
@@ -143,6 +166,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a).start() == a.map(f.getArrow..g.getArrow).start())
         }
     }
+
 
 
 //MARK: - Future - Applicative
@@ -214,6 +238,7 @@ class LawsTests: XCTestCase {
 
 
 
+
 //MARK: - Inclusive - Bifunctor
 
     func testInclusiveBifunctorIdentity() {
@@ -224,13 +249,14 @@ class LawsTests: XCTestCase {
     }
 
     func testInclusiveBifunctorComposition() {
-        property("Inclusive - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+        property("Inclusive - Bifunctor Laws - Composition") <- forAll { (x: String, y: String, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>) in
             let a = Inclusive<String,String>.random(x,y)
             let fLifted: Endo<Inclusive<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Inclusive<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+        }
     }
-}
+
 
 
 
@@ -256,6 +282,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.fmap(f.getArrow..g.getArrow))
         }
     }
+
 
 
 //MARK: - Optional - Applicative
@@ -333,13 +360,14 @@ class LawsTests: XCTestCase {
     }
 
     func testProductBifunctorComposition() {
-        property("Product - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+        property("Product - Bifunctor Laws - Composition") <- forAll { (x: String, y: String, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>) in
             let a = Product<String,String>.init(x,y)
             let fLifted: Endo<Product<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Product<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+        }
     }
-}
+
 
 
 
@@ -365,6 +393,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow)).run(c)
         }
     }
+
 
 
 //MARK: - Reader - Applicative
@@ -435,6 +464,7 @@ class LawsTests: XCTestCase {
 
 
 
+
 //MARK: - Result - Functor
 
     func testResultFunctorIdentity() {
@@ -452,6 +482,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow))
         }
     }
+
 
 
 //MARK: - Result - Applicative
@@ -537,6 +568,7 @@ class LawsTests: XCTestCase {
     }
 
 
+
 //MARK: - State - Applicative
 
     func testStateApplicativeIdentity() {
@@ -618,6 +650,7 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.map(f.getArrow..g.getArrow))
         }
     }
+
 
 
 //MARK: - Writer - Applicative

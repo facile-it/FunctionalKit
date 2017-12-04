@@ -39,14 +39,36 @@
     }
 
     func test{{ type.name }}BifunctorComposition() {
-        property("{{ type.name }} - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String{% call getContextParam type %}) in
+        property("{{ type.name }} - Bifunctor Laws - Composition") <- forAll { (x: String, y: String, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>{% call getContextParam type %}) in
             let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
             let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(g1.getArrow, g2.getArrow) }
             return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+        }
     }
-}
+{% endmacro %}
 
+{# PROFUNCTOR MACROS #}
+{% macro profunctorLaws type %}
+//MARK: - {{ type.name }} - Profunctor
+
+    func test{{ type.name }}ProfunctorIdentity() {
+        property("{{ type.name }} - Profunctor Laws - Identity") <- forAll { (ax: ArrowOf<String,String>{% call getContextParam type %}) in
+            let x = ax.getArrow
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            return (a.dimap(fidentity,fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}ProfunctorComposition() {
+        property("{{ type.name }} - Profunctor Laws - Composition") <- forAll { (ax: ArrowOf<String,String>, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>{% call getContextParam type %}) in
+            let x = ax.getArrow
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.dimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
 {% endmacro %}
 
 {# APPLICATIVE MACROS #}
@@ -130,6 +152,8 @@ class LawsTests: XCTestCase {
 {% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
 
 {% if type|annotated:"bifunctor" %}{% call bifunctorLaws type %}{% endif %}
+
+{% if type|annotated:"profunctor" %}{% call profunctorLaws type %}{% endif %}
 
 {% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
 
