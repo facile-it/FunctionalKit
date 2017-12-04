@@ -46,6 +46,15 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testArrayApplicativeInterchange() {
+        property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Array<Endo<String>>.pure(af.getArrow)
+            let a = Array<String>.pure(x)
+            let a_a_a = Array<(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
 
 //MARK: Future
     func testFutureFunctorIdentity() {
@@ -78,6 +87,15 @@ class LawsTests: XCTestCase {
             let a1 = Future<String>.pure(x)
             let a2 = Future<String>.pure(af.getArrow(x))
             return ((a_a <*> a1).start() == a2.start())
+        }
+    }
+
+    func testFutureApplicativeInterchange() {
+        property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Future<Endo<String>>.pure(af.getArrow)
+            let a = Future<String>.pure(x)
+            let a_a_a = Future<(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a).start() == (a_a_a <*> a_a).start())
         }
     }
 
@@ -116,6 +134,15 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testOptionalApplicativeInterchange() {
+        property("Optional - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Optional<Endo<String>>.pure(af.getArrow)
+            let a = Optional<String>.pure(x)
+            let a_a_a = Optional<(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
 
 //MARK: Reader
     func testReaderFunctorIdentity() {
@@ -148,6 +175,15 @@ class LawsTests: XCTestCase {
             let a1 = Reader<String,String>.pure(x)
             let a2 = Reader<String,String>.pure(af.getArrow(x))
             return ((a_a <*> a1) == a2).run(c)
+        }
+    }
+
+    func testReaderApplicativeInterchange() {
+        property("Reader - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a_a = Reader<String,Endo<String>>.pure(af.getArrow)
+            let a = Reader<String,String>.pure(x)
+            let a_a_a = Reader<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a)).run(c)
         }
     }
 
@@ -186,6 +222,15 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testResultApplicativeInterchange() {
+        property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
+            let a = Result<String,String>.pure(x)
+            let a_a_a = Result<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
 
 //MARK: State
     func testStateFunctorIdentity() {
@@ -221,6 +266,15 @@ class LawsTests: XCTestCase {
         }
     }
 
+    func testStateApplicativeInterchange() {
+        property("State - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a_a = State<String,Endo<String>>.pure(af.getArrow)
+            let a = State<String,String>.pure(x)
+            let a_a_a = State<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a)).run(c)
+        }
+    }
+
 
 //MARK: Writer
     func testWriterFunctorIdentity() {
@@ -253,6 +307,15 @@ class LawsTests: XCTestCase {
             let a1 = Writer<String,String>.pure(x)
             let a2 = Writer<String,String>.pure(af.getArrow(x))
             return ((a_a <*> a1) == a2)
+        }
+    }
+
+    func testWriterApplicativeInterchange() {
+        property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Writer<String,Endo<String>>.pure(af.getArrow)
+            let a = Writer<String,String>.pure(x)
+            let a_a_a = Writer<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
         }
     }
 
