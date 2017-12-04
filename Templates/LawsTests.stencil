@@ -18,7 +18,7 @@
     }
 
     func test{{ type.name }}FunctorComposition() {
-        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String{% call getContextParam type %}) in
+        property("{{ type.name }} - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String{% call getContextParam type %}) in
             let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
             let fLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(f.getArrow)
             let gLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(g.getArrow)

@@ -472,7 +472,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ./sourcery;
+			shellScript = "echo \"Checking for Sourcery...\"\nif [ -f \"./sourcery\" ]; then\n    echo \"Sourcery found, will generate files.\"\n    ./sourcery\nelse\n    echo \"Sourcery is not installed, ignoring.\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

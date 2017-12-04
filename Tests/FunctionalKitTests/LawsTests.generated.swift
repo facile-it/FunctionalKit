@@ -28,7 +28,7 @@ class LawsTests: XCTestCase {
     }
 
     func testArrayFunctorComposition() {
-        property("Array - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
+        property("Array - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Array<String>.init([x])
             let fLifted = fflip(Array<String>.fmap)(f.getArrow)
             let gLifted = fflip(Array<String>.fmap)(g.getArrow)
@@ -163,7 +163,7 @@ class LawsTests: XCTestCase {
     }
 
     func testFutureFunctorComposition() {
-        property("Future - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
+        property("Future - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Future<String>.unfold { $0(x) }
             let fLifted = fflip(Future<String>.map)(f.getArrow)
             let gLifted = fflip(Future<String>.map)(g.getArrow)
@@ -279,7 +279,7 @@ class LawsTests: XCTestCase {
     }
 
     func testOptionalFunctorComposition() {
-        property("Optional - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
+        property("Optional - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Optional<String>.init(x)
             let fLifted = fflip(Optional<String>.fmap)(f.getArrow)
             let gLifted = fflip(Optional<String>.fmap)(g.getArrow)
@@ -390,7 +390,7 @@ class LawsTests: XCTestCase {
     }
 
     func testReaderFunctorComposition() {
-        property("Reader - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String, c: String) in
+        property("Reader - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String, c: String) in
             let a = Reader<String,String>.unfold { _ in x }
             let fLifted = fflip(Reader<String,String>.map)(f.getArrow)
             let gLifted = fflip(Reader<String,String>.map)(g.getArrow)
@@ -479,7 +479,7 @@ class LawsTests: XCTestCase {
     }
 
     func testResultFunctorComposition() {
-        property("Result - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
+        property("Result - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Result<String,String>.success(x)
             let fLifted = fflip(Result<String,String>.map)(f.getArrow)
             let gLifted = fflip(Result<String,String>.map)(g.getArrow)
@@ -563,7 +563,7 @@ class LawsTests: XCTestCase {
     }
 
     func testStateFunctorComposition() {
-        property("State - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String, c: String) in
+        property("State - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String, c: String) in
             let a = State<String,String>.unfold { s in (s,x) }
             let fLifted = fflip(State<String,String>.map)(f.getArrow)
             let gLifted = fflip(State<String,String>.map)(g.getArrow)
@@ -647,7 +647,7 @@ class LawsTests: XCTestCase {
     }
 
     func testWriterFunctorComposition() {
-        property("Writer - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
+        property("Writer - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String) in
             let a = Writer<String,String>.init(log: .empty, value: x)
             let fLifted = fflip(Writer<String,String>.map)(f.getArrow)
             let gLifted = fflip(Writer<String,String>.map)(g.getArrow)
