@@ -22,7 +22,6 @@
             return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.{% call getMapName type %}(f.getArrow..g.getArrow){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
-
 {% endmacro %}
 
 {# APPLICATIVE MACROS #}
@@ -52,6 +51,16 @@
             return ((a_a <*> a){% call getCommandCall type %} == (a_a_a <*> a_a){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
+
+    func test{{ type.name }}ApplicativeComposition() {
+        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_a1 = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
+            let a_a2 = {% call getTypeName type "Endo<String>" %}.pure(ag.getArrow)
+            let a_a_a = {% call getTypeName type "(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>" %}.pure(fcurry(fcompose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a){% call getCommandCall type %} == (a_a2 <*> (a_a1 <*> a)){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
 {% endmacro %}
 
 {# IMPLEMENTATION #}
@@ -64,7 +73,9 @@ class LawsTests: XCTestCase {
 {% for type in types.all|annotated:"functor" %}
 
 //MARK: {{ type.name }}
+
 {% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
+
 {% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
 
 {% endfor %}
