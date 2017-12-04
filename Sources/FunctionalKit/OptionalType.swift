@@ -5,11 +5,11 @@ import Operadics
 public protocol OptionalType: TypeConstructor, CoproductType {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType?
-	func fold <T> (onNone: @escaping () -> T, onSome: @escaping (ParameterType) -> T) -> T
+	func fold <T> (onNone: () -> T, onSome: (ParameterType) -> T) -> T
 }
 
 extension OptionalType {
-	public func fold<T>(onLeft: @escaping (()) -> T, onRight: @escaping (ParameterType) -> T) -> T {
+	public func fold<T>(onLeft: (()) -> T, onRight: (ParameterType) -> T) -> T {
 		return fold(onNone: { onLeft(()) }, onSome: onRight)
 	}
 }
@@ -33,7 +33,7 @@ extension Optional: OptionalType {
 		return self
 	}
 
-	public func fold<T>(onNone: @escaping () -> T, onSome: @escaping (Wrapped) -> T) -> T {
+	public func fold<T>(onNone: () -> T, onSome: (Wrapped) -> T) -> T {
 		switch self {
 		case .none:
 			return onNone()
@@ -70,11 +70,13 @@ extension OptionalType where ParameterType: Equatable {
 // MARK: - Functor
 
 extension OptionalType {
-    public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Optional<T> {
-        return fold(
-            onNone: fconstant(Optional<T>.none),
-            onSome: transform..Optional<T>.some)
-    }
+	public func map <T> (_ transform: (ParameterType) -> T) -> Optional<T> {
+		return withoutActuallyEscaping(transform) { transform in
+			fold(
+				onNone: fconstant(Optional<T>.none),
+				onSome: transform..Optional<T>.some)
+		}
+	}
 }
 
 // MARK: - Cartesian
@@ -114,7 +116,7 @@ extension OptionalType {
 extension OptionalType {
 	public typealias Traversed<Applicative> = Optional<Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(
@@ -126,7 +128,7 @@ extension OptionalType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(
@@ -138,7 +140,7 @@ extension OptionalType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(
@@ -150,7 +152,7 @@ extension OptionalType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(
@@ -162,7 +164,7 @@ extension OptionalType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(
@@ -174,7 +176,7 @@ extension OptionalType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(
@@ -185,7 +187,6 @@ extension OptionalType {
 				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
 		})
 	}
-
 }
 
 // MARK: - Monad
@@ -203,12 +204,46 @@ extension OptionalType where ParameterType: OptionalType {
 }
 
 extension OptionalType {
-	public func flatMap<O>(_ transform: @escaping (ParameterType) -> O) -> Optional<O.ParameterType> where O: OptionalType {
+	public func flatMap<O>(_ transform: (ParameterType) -> O) -> Optional<O.ParameterType> where O: OptionalType {
 		return map(transform).joined
 	}
 }
 
 // MARK: - Utility
 
-/// check other implementations
+extension OptionalType {
+	public func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
+		return flatMap { (element) -> Optional<ParameterType> in
+			if predicate(element) {
+				return .some(element)
+			} else {
+				return .none
+			}
+		}
+	}
 
+	public func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
+		return fold(
+			onNone: getElseValue,
+			onSome: fidentity)
+	}
+
+	public func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+		return fold(
+			onNone: { Result.failure(getError()) },
+			onSome: Result.success)
+	}
+
+	public var isNil: Bool {
+		return fold(
+			onNone: fconstant(true),
+			onSome: fconstant(false))
+	}
+
+
+	public func ifNotNil(_ action: (ParameterType) -> ()) {
+		_ = fold(
+			onNone: fignore,
+			onSome: action)
+	}
+}

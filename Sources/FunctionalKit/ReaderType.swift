@@ -124,6 +124,12 @@ extension ReaderType {
 
 // MARK: - Utility
 
+extension ReaderType {
+	public static var ask: Reader<ParameterType,ParameterType> {
+		return Reader<ParameterType,ParameterType>.unfold(fidentity)
+	}
+}
+
 // MARK: Effect
 
 public typealias Effect<A> = Reader<(),A>
@@ -151,5 +157,3 @@ extension ReaderType where ParameterType == () {
 		run(value)
 	}
 }
-
-/// check other implementations
