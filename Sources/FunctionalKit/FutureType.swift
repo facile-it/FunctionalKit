@@ -24,6 +24,7 @@ fileprivate enum FutureState<T> {
 // sourcery: createParams = "({ $0(x) })"
 // sourcery: map = "map"
 // sourcery: mapParams = "fidentity"
+// sourcery: needsCommand = "start()"
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
 

@@ -19,7 +19,7 @@ extension ReaderType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
-// sourcery: needContext
+// sourcery: needsContext
 // sourcery: testArgs = "x: ArrowOf<String,String>, c: String"
 // sourcery: concrete = "Reader<String,String>"
 // sourcery: applicativeConcrete = "Reader<String,(String)->String>"

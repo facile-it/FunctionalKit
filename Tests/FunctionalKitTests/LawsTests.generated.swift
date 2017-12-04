@@ -102,7 +102,7 @@ class LawsTests: XCTestCase {
         property("Future - Applicative Laws - Identity") <- forAll { (x: String) in
             let a_a = Future<(String)->String>.pure(fidentity)
             let a = Future<String>.pure(x)
-            return (a_a <*> a) == a 
+            return (a_a <*> a).start() == a.start() 
         }
     }
 

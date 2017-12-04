@@ -4,7 +4,7 @@
 {% macro functorIdentityLaw type concrete create createParams map mapParams %}
     func test{{ type.name }}Functor{{ map|capitalize }}Identity() {
         property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { ({{ type.annotations.testArgs }}) in
-            return {% if type|annotated:"needContext" %}({% call identityEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call identityEquality type concrete create createParams map mapParams %}{% endif%}
+            return {% if type|annotated:"needsContext" %}({% call identityEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call identityEquality type concrete create createParams map mapParams %}{% endif%}
         }
     }
 {% endmacro %}
@@ -16,17 +16,17 @@
         property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Composition") <- forAll { ({{ type.annotations.testArgs }}, f: ArrowOf<String,String>, g: ArrowOf<String,String>) in
             let fLifted = fflip({{ concrete }}.{{ map }})(f.getArrow)
             let gLifted = fflip({{ concrete }}.{{ map }})(g.getArrow)
-            return {% if type|annotated:"needContext" %}({% call compositionEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call compositionEquality type concrete create createParams map mapParams %}{% endif%}
+            return {% if type|annotated:"needsContext" %}({% call compositionEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call compositionEquality type concrete create createParams map mapParams %}{% endif%}
         }
     }
 {% endmacro %}
 {# APPLICATIVE MACROS #}
 {% macro applicativeIdentityLaw type concrete applicativeConcrete %}
     func test{{ type.name }}ApplicativeIdentity() {
-        property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
             let a_a = {{ applicativeConcrete }}.pure(fidentity)
             let a = {{ concrete }}.pure(x)
-            return {% if type|annotated:"needContext" %}((a_a <*> a) == a).run(c){% else %}(a_a <*> a) == a {% endif %}
+            return {% if type|annotated:"needsContext" %}((a_a <*> a) == a).run(c){% elif type|annotated:"needsCommand" %}(a_a <*> a).{{ type.annotations.needsCommand }} == a.{{ type.annotations.needsCommand }} {% else %}(a_a <*> a) == a {% endif %}
         }
     }
 {% endmacro %}

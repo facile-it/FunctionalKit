@@ -6,7 +6,7 @@ public protocol ExponentialType {
 }
 
 // sourcery: functor
-// sourcery: needContext
+// sourcery: needsContext
 // sourcery: testArgs = "x: ArrowOf<String,String>, c: String"
 // sourcery: concrete = "Exponential<String,String>"
 // sourcery: create = "init"

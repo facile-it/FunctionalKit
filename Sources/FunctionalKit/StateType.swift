@@ -19,7 +19,7 @@ extension StateType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
-// sourcery: needContext
+// sourcery: needsContext
 // sourcery: testArgs = "x: String, c: String"
 // sourcery: concrete = "State<String,String>"
 // sourcery: applicativeConcrete = "State<String,(String)->String>"
