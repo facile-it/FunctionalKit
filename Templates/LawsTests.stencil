@@ -141,10 +141,40 @@
     }
 {% endmacro %}
 
+{# ALLTESTS MACROS #}
+{% macro allTests type %}
+{% if type|annotated:"functor" %}
+        ("test{{ type.name }}FunctorIdentity",test{{ type.name }}FunctorIdentity),
+        ("test{{ type.name }}FunctorComposition",test{{ type.name }}FunctorComposition),
+{% endif %}
+{% if type|annotated:"bifunctor" %}
+        ("test{{ type.name }}BifunctorIdentity",test{{ type.name }}BifunctorIdentity),
+        ("test{{ type.name }}BifunctorComposition",test{{ type.name }}BifunctorComposition),
+{% endif %}
+{% if type|annotated:"profunctor" %}
+        ("test{{ type.name }}ProfunctorIdentity",test{{ type.name }}ProfunctorIdentity),
+        ("test{{ type.name }}ProfunctorComposition",test{{ type.name }}ProfunctorComposition),
+{% endif %}
+{% if type|annotated:"applicative" %}
+        ("test{{ type.name }}ApplicativeIdentity",test{{ type.name }}ApplicativeIdentity),
+        ("test{{ type.name }}ApplicativeHomomorphism",test{{ type.name }}ApplicativeHomomorphism),
+        ("test{{ type.name }}ApplicativeInterchange",test{{ type.name }}ApplicativeInterchange),
+        ("test{{ type.name }}ApplicativeComposition",test{{ type.name }}ApplicativeComposition),
+{% endif %}
+{% if type|annotated:"monad" %}
+        ("test{{ type.name }}MonadLeftIdentity",test{{ type.name }}MonadLeftIdentity),
+        ("test{{ type.name }}MonadRightIdentity",test{{ type.name }}MonadRightIdentity),
+        ("test{{ type.name }}MonadAssociativity",test{{ type.name }}MonadAssociativity),
+{% endif %}
+{% endmacro %}
+
 {# IMPLEMENTATION #}
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
+#if !XCODE_BUILD
+    import Operadics
+#endif
 import Abstract
 
 class LawsTests: XCTestCase {
@@ -160,5 +190,11 @@ class LawsTests: XCTestCase {
 {% if type|annotated:"monad" %}{% call monadLaws type %}{% endif %}
 
 {% endfor %}
+
+    static var allTests = [
+{% for type in types.all %}
+{% call allTests type %}
+{% endfor %}
+    ]
 
 }

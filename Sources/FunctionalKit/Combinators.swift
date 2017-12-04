@@ -1,4 +1,7 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 public func fcompose <A,B,C> (_ first: @escaping (A) -> B, _ second: @escaping (B) -> C) -> (A) -> C {
 	return { second(first($0)) }

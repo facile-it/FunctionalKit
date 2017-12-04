@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 public func weakly<T,I,O>(_ reference: T?, onNil onNilValue: @autoclosure @escaping () -> O, closure: @escaping (T,I) -> O) -> (I) -> O where T: AnyObject {
 	return { [weak reference] input in
 		guard let some = reference else { return onNilValue() }

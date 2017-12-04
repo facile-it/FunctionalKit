@@ -8,9 +8,13 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
+#if !XCODE_BUILD
+    import Operadics
+#endif
 import Abstract
 
 class LawsTests: XCTestCase {
@@ -717,5 +721,79 @@ class LawsTests: XCTestCase {
         }
     }
 
+
+    static var allTests = [
+        ("testArrayFunctorIdentity",testArrayFunctorIdentity),
+        ("testArrayFunctorComposition",testArrayFunctorComposition),
+        ("testArrayApplicativeIdentity",testArrayApplicativeIdentity),
+        ("testArrayApplicativeHomomorphism",testArrayApplicativeHomomorphism),
+        ("testArrayApplicativeInterchange",testArrayApplicativeInterchange),
+        ("testArrayApplicativeComposition",testArrayApplicativeComposition),
+        ("testArrayMonadLeftIdentity",testArrayMonadLeftIdentity),
+        ("testArrayMonadRightIdentity",testArrayMonadRightIdentity),
+        ("testArrayMonadAssociativity",testArrayMonadAssociativity),
+        ("testCoproductBifunctorIdentity",testCoproductBifunctorIdentity),
+        ("testCoproductBifunctorComposition",testCoproductBifunctorComposition),
+        ("testExponentialProfunctorIdentity",testExponentialProfunctorIdentity),
+        ("testExponentialProfunctorComposition",testExponentialProfunctorComposition),
+        ("testFutureFunctorIdentity",testFutureFunctorIdentity),
+        ("testFutureFunctorComposition",testFutureFunctorComposition),
+        ("testFutureApplicativeIdentity",testFutureApplicativeIdentity),
+        ("testFutureApplicativeHomomorphism",testFutureApplicativeHomomorphism),
+        ("testFutureApplicativeInterchange",testFutureApplicativeInterchange),
+        ("testFutureApplicativeComposition",testFutureApplicativeComposition),
+        ("testFutureMonadLeftIdentity",testFutureMonadLeftIdentity),
+        ("testFutureMonadRightIdentity",testFutureMonadRightIdentity),
+        ("testFutureMonadAssociativity",testFutureMonadAssociativity),
+        ("testInclusiveBifunctorIdentity",testInclusiveBifunctorIdentity),
+        ("testInclusiveBifunctorComposition",testInclusiveBifunctorComposition),
+        ("testOptionalFunctorIdentity",testOptionalFunctorIdentity),
+        ("testOptionalFunctorComposition",testOptionalFunctorComposition),
+        ("testOptionalApplicativeIdentity",testOptionalApplicativeIdentity),
+        ("testOptionalApplicativeHomomorphism",testOptionalApplicativeHomomorphism),
+        ("testOptionalApplicativeInterchange",testOptionalApplicativeInterchange),
+        ("testOptionalApplicativeComposition",testOptionalApplicativeComposition),
+        ("testOptionalMonadLeftIdentity",testOptionalMonadLeftIdentity),
+        ("testOptionalMonadRightIdentity",testOptionalMonadRightIdentity),
+        ("testOptionalMonadAssociativity",testOptionalMonadAssociativity),
+        ("testProductBifunctorIdentity",testProductBifunctorIdentity),
+        ("testProductBifunctorComposition",testProductBifunctorComposition),
+        ("testReaderFunctorIdentity",testReaderFunctorIdentity),
+        ("testReaderFunctorComposition",testReaderFunctorComposition),
+        ("testReaderApplicativeIdentity",testReaderApplicativeIdentity),
+        ("testReaderApplicativeHomomorphism",testReaderApplicativeHomomorphism),
+        ("testReaderApplicativeInterchange",testReaderApplicativeInterchange),
+        ("testReaderApplicativeComposition",testReaderApplicativeComposition),
+        ("testReaderMonadLeftIdentity",testReaderMonadLeftIdentity),
+        ("testReaderMonadRightIdentity",testReaderMonadRightIdentity),
+        ("testReaderMonadAssociativity",testReaderMonadAssociativity),
+        ("testResultFunctorIdentity",testResultFunctorIdentity),
+        ("testResultFunctorComposition",testResultFunctorComposition),
+        ("testResultApplicativeIdentity",testResultApplicativeIdentity),
+        ("testResultApplicativeHomomorphism",testResultApplicativeHomomorphism),
+        ("testResultApplicativeInterchange",testResultApplicativeInterchange),
+        ("testResultApplicativeComposition",testResultApplicativeComposition),
+        ("testResultMonadLeftIdentity",testResultMonadLeftIdentity),
+        ("testResultMonadRightIdentity",testResultMonadRightIdentity),
+        ("testResultMonadAssociativity",testResultMonadAssociativity),
+        ("testStateFunctorIdentity",testStateFunctorIdentity),
+        ("testStateFunctorComposition",testStateFunctorComposition),
+        ("testStateApplicativeIdentity",testStateApplicativeIdentity),
+        ("testStateApplicativeHomomorphism",testStateApplicativeHomomorphism),
+        ("testStateApplicativeInterchange",testStateApplicativeInterchange),
+        ("testStateApplicativeComposition",testStateApplicativeComposition),
+        ("testStateMonadLeftIdentity",testStateMonadLeftIdentity),
+        ("testStateMonadRightIdentity",testStateMonadRightIdentity),
+        ("testStateMonadAssociativity",testStateMonadAssociativity),
+        ("testWriterFunctorIdentity",testWriterFunctorIdentity),
+        ("testWriterFunctorComposition",testWriterFunctorComposition),
+        ("testWriterApplicativeIdentity",testWriterApplicativeIdentity),
+        ("testWriterApplicativeHomomorphism",testWriterApplicativeHomomorphism),
+        ("testWriterApplicativeInterchange",testWriterApplicativeInterchange),
+        ("testWriterApplicativeComposition",testWriterApplicativeComposition),
+        ("testWriterMonadLeftIdentity",testWriterMonadLeftIdentity),
+        ("testWriterMonadRightIdentity",testWriterMonadRightIdentity),
+        ("testWriterMonadAssociativity",testWriterMonadAssociativity),
+    ]
 
 }

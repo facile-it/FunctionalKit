@@ -1,4 +1,6 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
 import Abstract
 
 public protocol InclusiveType {

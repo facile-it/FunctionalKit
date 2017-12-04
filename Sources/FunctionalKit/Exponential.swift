@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 public protocol ExponentialType {
 	associatedtype SourceType
 	associatedtype TargetType

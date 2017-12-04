@@ -1,6 +1,9 @@
 import XCTest
-import Operadics
 @testable import FunctionalKit
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 class CombinatorsTests: XCTestCase {
 

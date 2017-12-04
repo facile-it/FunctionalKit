@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 extension Bool {
 	public func and(_ other: @autoclosure () -> Bool) -> Bool {
 		return self && other()
