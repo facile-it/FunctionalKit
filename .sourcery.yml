@@ -3,4 +3,4 @@ sources:
 templates:
   - Templates
 output:
-  Laws
+  Tests/FunctionalKitTests

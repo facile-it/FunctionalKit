@@ -36,6 +36,7 @@
 		38939BA21FC2DC3100012794 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* Protocols.swift */; };
 		38939BA41FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38939BA51FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
+		38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20771FD549740010AAEC /* LawsTests.generated.swift */; };
 		38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
 		38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
 		38F179951FBDA3F500243994 /* FunctionalKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,8 +80,6 @@
 		AA680CD31FD0155000151027 /* CustomArbitraryDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA680CD21FD0155000151027 /* CustomArbitraryDefinitions.swift */; };
 		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
 		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE2E131FCC530400D0D861 /* Law.swift */; };
-		AAE18DC71FD19E5E00F84C8D /* Laws.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
 /* End PBXBuildFile section */
@@ -126,6 +125,9 @@
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
 		38939BA01FC2DC3100012794 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
+		38DA20751FD549000010AAEC /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
+		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
+		38DA20771FD549740010AAEC /* LawsTests.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LawsTests.generated.swift; sourceTree = "<group>"; };
 		38DEDC6C1FC33BDB00D7984C /* WriterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterType.swift; sourceTree = "<group>"; };
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FunctionalKit-iOS.h"; sourceTree = "<group>"; };
@@ -161,9 +163,6 @@
 		AA680CD21FD0155000151027 /* CustomArbitraryDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomArbitraryDefinitions.swift; sourceTree = "<group>"; };
 		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
-		AAAE2E131FCC530400D0D861 /* Law.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Law.swift; sourceTree = "<group>"; };
-		AAE18DC51FD1970600F84C8D /* Laws.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Laws.stencil; sourceTree = "<group>"; };
-		AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laws.generated.swift; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -222,9 +221,10 @@
 		38F179A51FBDA6A000243994 /* Docs */ = {
 			isa = PBXGroup;
 			children = (
-				38F179D51FBDAB1C00243994 /* README.md */,
 				38F179AB1FBDA77900243994 /* Cartfile */,
 				38F179AA1FBDA6D900243994 /* LICENSE */,
+				38F179D51FBDAB1C00243994 /* README.md */,
+				38DA20751FD549000010AAEC /* .sourcery.yml */,
 				38F179A81FBDA6D900243994 /* .travis.yml */,
 				38F179A91FBDA6D900243994 /* codecov.yml */,
 			);
@@ -240,28 +240,10 @@
 			path = Utilities;
 			sourceTree = SOURCE_ROOT;
 		};
-		AA8E1E1D1FCDC944003692E5 /* Templates */ = {
-			isa = PBXGroup;
-			children = (
-				AAE18DC51FD1970600F84C8D /* Laws.stencil */,
-			);
-			path = Templates;
-			sourceTree = "<group>";
-		};
-		AAAE2E121FCC52F000D0D861 /* Laws */ = {
-			isa = PBXGroup;
-			children = (
-				AAAE2E131FCC530400D0D861 /* Law.swift */,
-				AAE18DC61FD19E5E00F84C8D /* Laws.generated.swift */,
-			);
-			path = Laws;
-			sourceTree = SOURCE_ROOT;
-		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				AA680CCF1FD0150000151027 /* Utilities */,
-				AAAE2E121FCC52F000D0D861 /* Laws */,
 				38F179A41FBDA62500243994 /* LinuxMain.swift */,
 				OBJ_11 /* FunctionalKitTests */,
 			);
@@ -277,6 +259,7 @@
 				3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */,
 				3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */,
 				3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */,
+				38DA20771FD549740010AAEC /* LawsTests.generated.swift */,
 				38F3C8151FBEC9B10014D30D /* ProductTests.swift */,
 				38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */,
 				38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */,
@@ -298,10 +281,10 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				AA8E1E1D1FCDC944003692E5 /* Templates */,
+				38DA20761FD549420010AAEC /* Templates */,
+				OBJ_6 /* Package.swift */,
 				38F179A51FBDA6A000243994 /* Docs */,
 				38F1799A1FBDA4EE00243994 /* Frameworks */,
-				OBJ_6 /* Package.swift */,
 				38F179921FBDA3F500243994 /* FunctionalKit-iOS */,
 				OBJ_13 /* Products */,
 				OBJ_7 /* Sources */,
@@ -537,10 +520,9 @@
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
 				AA680CD31FD0155000151027 /* CustomArbitraryDefinitions.swift in Sources */,
+				38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */,
 				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
-				AADBF58C1FCED0BE00A4C470 /* Law.swift in Sources */,
 				3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */,
-				AAE18DC71FD19E5E00F84C8D /* Laws.generated.swift in Sources */,
 				38F179D11FBDA85200243994 /* CombinatorsTests.swift in Sources */,
 				38F179D41FBDA85200243994 /* BooleanTests.swift in Sources */,
 			);

@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["Abstract","Operadics"]),
         .testTarget(
             name: "FunctionalKitTests",
-            dependencies: ["FunctionalKit","Abstract","Operadics"]),
+            dependencies: ["FunctionalKit","SwiftCheck","Abstract","Operadics"]),
     ]
 )
