@@ -1,4 +1,7 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 // MARK: - Definiton
 
@@ -8,16 +11,20 @@ public protocol FutureType: TypeConstructor {
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self
 }
 
-// MARK: - Data
+fileprivate enum FutureState<T> {
+    case idle
+    case running
+    case done(T)
+}
 
+// MARK: - Data
+// sourcery: functor
+// sourcery: applicative
+// sourcery: monad
+// sourcery: construct = "unfold { $0(x) }"
+// sourcery: needsCommand = "start()"
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
-
-	private enum State<T> {
-		case idle
-		case running
-		case done(T)
-	}
 
 	private let continuation: (@escaping (A) -> ()) -> ()
 	private init(_ continuation: @escaping (@escaping (A) -> ()) -> ()) {
@@ -25,7 +32,7 @@ public final class Future<A>: FutureType {
 	}
 
 	private var callbacks: [(A) -> ()] = []
-	private var currentState = State<A>.idle
+    private var currentState = FutureState<A>.idle
 
 	public static func from(concrete: Future<A>) -> Future<A> {
 		return concrete
@@ -64,6 +71,23 @@ public final class Future<A>: FutureType {
 
 extension FutureType {
 	public typealias Concrete<T> = Future<T>
+}
+
+// MARK: - Equatable
+
+extension Future where A: Equatable {
+    public static func == (lhs: Future, rhs: Future) -> Bool {
+        switch (lhs.currentState,rhs.currentState) {
+        case (.idle,.idle):
+            return true
+        case (.running,.running):
+            return true
+        case(.done(let left),.done(let right)):
+            return left == right
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: - Functor
@@ -120,8 +144,10 @@ extension FutureType where ParameterType: FutureType {
 	public var joined: Future<ParameterType.ParameterType> {
 		return Future.unfold { done in self.run { $0.run(done) } }
 	}
+}
 
-	public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
-		return map(transform).joined
-	}
+extension FutureType {
+    public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
+        return map(transform).joined
+    }
 }

@@ -1,0 +1,200 @@
+{# GLOBAL MACROS #}
+{% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"needsSecondary" %}String,{% endif %}{{ parameter }}>{% endmacro %}
+{% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+{% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
+{% macro getCommandCall type %}{% if type|annotated:"needsCommand" %}.{{ type.annotations.needsCommand }}{% endif %}{% endmacro %}
+{% macro getContextCall type %}{% if type|annotated:"needsContext" %}.run(c){% endif %}{% endmacro %}
+{% macro getContextParam type %}{% if type|annotated:"needsContext" %}, c: String{% endif %}{% endmacro %}
+
+{# FUNCTOR MACROS #}
+{% macro functorLaws type %}
+//MARK: - {{ type.name }} - Functor
+
+    func test{{ type.name }}FunctorIdentity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
+            return (a.map(fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}FunctorComposition() {
+        property("{{ type.name }} - Functor Laws - Composition") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
+            let fLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(f.getArrow)
+            let gLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(g.getArrow)
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.{% call getMapName type %}(f.getArrow..g.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
+{# BIFUNCTOR MACROS #}
+{% macro bifunctorLaws type %}
+//MARK: - {{ type.name }} - Bifunctor
+
+    func test{{ type.name }}BifunctorIdentity() {
+        property("{{ type.name }} - Bifunctor Laws - Identity") <- forAll { (x: String, y: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            return (a.bimap(fidentity,fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}BifunctorComposition() {
+        property("{{ type.name }} - Bifunctor Laws - Composition") <- forAll { (x: String, y: String, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
+{# PROFUNCTOR MACROS #}
+{% macro profunctorLaws type %}
+//MARK: - {{ type.name }} - Profunctor
+
+    func test{{ type.name }}ProfunctorIdentity() {
+        property("{{ type.name }} - Profunctor Laws - Identity") <- forAll { (ax: ArrowOf<String,String>{% call getContextParam type %}) in
+            let x = ax.getArrow
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            return (a.dimap(fidentity,fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}ProfunctorComposition() {
+        property("{{ type.name }} - Profunctor Laws - Composition") <- forAll { (ax: ArrowOf<String,String>, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>{% call getContextParam type %}) in
+            let x = ax.getArrow
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.dimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
+{# APPLICATIVE MACROS #}
+{% macro applicativeLaws type %}
+//MARK: - {{ type.name }} - Applicative
+
+    func test{{ type.name }}ApplicativeIdentity() {
+        property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a_a = {% call getTypeName type "Endo<String>" %}.pure(fidentity)
+            let a = {% call getTypeName type "String" %}.pure(x)
+            return ((a_a <*> a){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}ApplicativeHomomorphism() {
+        property("{{ type.name }} - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
+            let a1 = {% call getTypeName type "String" %}.pure(x)
+            let a2 = {% call getTypeName type "String" %}.pure(af.getArrow(x))
+            return ((a_a <*> a1){% call getCommandCall type %} == a2{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}ApplicativeInterchange() {
+        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_a_a = {% call getTypeName type "(@escaping Endo<String>) -> String" %}.pure { $0(x) }
+            return ((a_a <*> a){% call getCommandCall type %} == (a_a_a <*> a_a){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}ApplicativeComposition() {
+        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_a1 = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
+            let a_a2 = {% call getTypeName type "Endo<String>" %}.pure(ag.getArrow)
+            let a_a_a = {% call getTypeName type "(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>" %}.pure(fcurry(fcompose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a){% call getCommandCall type %} == (a_a2 <*> (a_a1 <*> a)){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
+{# MONAD MACROS #}
+{% macro monadLaws type %}
+//MARK: - {{ type.name }} - Monad
+
+    func test{{ type.name }}MonadLeftIdentity() {
+        property("{{ type.name }} - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_ma: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
+            return (a.{% call getFlatMapName type %}(a_ma){% call getCommandCall type %} == a_ma(x){% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}MonadRightIdentity() {
+        property("{{ type.name }} - Monad Laws - Right Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            return (a.{% call getFlatMapName type %}({% call getTypeName type "String" %}.pure){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}MonadAssociativity() {
+        property("{{ type.name }} - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+            let a = {% call getTypeName type "String" %}.pure(x)
+            let a_ma1: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
+            let a_ma2: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(ag.getArrow(y)) }
+            return (a.{% call getFlatMapName type %}(a_ma1).{% call getFlatMapName type %}(a_ma2){% call getCommandCall type %} == a.{% call getFlatMapName type %}{ y in a_ma1(y).{% call getFlatMapName type %}(a_ma2) }{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+{% endmacro %}
+
+{# ALLTESTS MACROS #}
+{% macro allTests type %}
+{% if type|annotated:"functor" %}
+        ("test{{ type.name }}FunctorIdentity",test{{ type.name }}FunctorIdentity),
+        ("test{{ type.name }}FunctorComposition",test{{ type.name }}FunctorComposition),
+{% endif %}
+{% if type|annotated:"bifunctor" %}
+        ("test{{ type.name }}BifunctorIdentity",test{{ type.name }}BifunctorIdentity),
+        ("test{{ type.name }}BifunctorComposition",test{{ type.name }}BifunctorComposition),
+{% endif %}
+{% if type|annotated:"profunctor" %}
+        ("test{{ type.name }}ProfunctorIdentity",test{{ type.name }}ProfunctorIdentity),
+        ("test{{ type.name }}ProfunctorComposition",test{{ type.name }}ProfunctorComposition),
+{% endif %}
+{% if type|annotated:"applicative" %}
+        ("test{{ type.name }}ApplicativeIdentity",test{{ type.name }}ApplicativeIdentity),
+        ("test{{ type.name }}ApplicativeHomomorphism",test{{ type.name }}ApplicativeHomomorphism),
+        ("test{{ type.name }}ApplicativeInterchange",test{{ type.name }}ApplicativeInterchange),
+        ("test{{ type.name }}ApplicativeComposition",test{{ type.name }}ApplicativeComposition),
+{% endif %}
+{% if type|annotated:"monad" %}
+        ("test{{ type.name }}MonadLeftIdentity",test{{ type.name }}MonadLeftIdentity),
+        ("test{{ type.name }}MonadRightIdentity",test{{ type.name }}MonadRightIdentity),
+        ("test{{ type.name }}MonadAssociativity",test{{ type.name }}MonadAssociativity),
+{% endif %}
+{% endmacro %}
+
+{# IMPLEMENTATION #}
+import XCTest
+@testable import FunctionalKit
+import SwiftCheck
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
+class LawsTests: XCTestCase {
+{% for type in types.all %}
+{% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
+
+{% if type|annotated:"bifunctor" %}{% call bifunctorLaws type %}{% endif %}
+
+{% if type|annotated:"profunctor" %}{% call profunctorLaws type %}{% endif %}
+
+{% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
+
+{% if type|annotated:"monad" %}{% call monadLaws type %}{% endif %}
+
+{% endfor %}
+
+    static var allTests = [
+{% for type in types.all %}
+{% call allTests type %}
+{% endfor %}
+    ]
+
+}

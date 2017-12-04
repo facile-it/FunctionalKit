@@ -1,4 +1,7 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 // MARK: - Definiton
 
@@ -17,7 +20,12 @@ extension StateType {
 }
 
 // MARK: - Data
-
+// sourcery: functor
+// sourcery: applicative
+// sourcery: monad
+// sourcery: construct = "unfold { s in (s,x) }"
+// sourcery: needsContext
+// sourcery: needsSecondary
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A
 
@@ -114,10 +122,12 @@ extension StateType where ParameterType: StateType, ParameterType.StateParameter
 			return v.run(internalS)
 		}
 	}
+}
 
-	public func flatMap <S> (_ transform: @escaping (ParameterType) -> S) -> State<StateParameterType,S.ParameterType> where S: StateType, S.StateParameterType == StateParameterType {
-		return map(transform).joined
-	}
+extension StateType {
+    public func flatMap <S> (_ transform: @escaping (ParameterType) -> S) -> State<StateParameterType,S.ParameterType> where S: StateType, S.StateParameterType == StateParameterType {
+        return map(transform).joined
+    }
 }
 
 // MARK: - Utility

@@ -1,5 +1,6 @@
 import XCTest
 @testable import FunctionalKit
+import SwiftCheck
 
 class ExponentialTests: XCTestCase {
 	func testMap() {
@@ -29,10 +30,10 @@ class ExponentialTests: XCTestCase {
 		let plus3 = { (x: Int) -> Int in x+3 }
 		let minus3 = { (x: Int) -> Int in x-3 }
 
-		let mapped = exp.dimap(source: plus3, target: minus3)
+		let mapped = exp.dimap(plus3, minus3)
 		mapped.call(42) ==! 87
 	}
-
+    
 	static var allTests = [
 		("testMap", testMap),
 		("testContramap", testContramap),

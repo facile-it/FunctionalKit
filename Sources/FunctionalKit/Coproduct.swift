@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 public protocol CoproductType {
 	associatedtype LeftType
 	associatedtype RightType
@@ -5,6 +10,8 @@ public protocol CoproductType {
 	func fold<T>(onLeft: (LeftType) -> T, onRight: (RightType) -> T) -> T
 }
 
+// sourcery: bifunctor
+// sourcery: construct = "random(x,y)"
 public enum Coproduct<A,B>: CoproductType {
 	case left(A)
 	case right(B)
@@ -70,7 +77,7 @@ extension CoproductType where LeftType == RightType {
 // MARK: - Functor
 
 extension CoproductType {
-	public func bimap<T,U>(onLeft: (LeftType) -> T, onRight: (RightType) -> U) -> Coproduct<T,U> {
+	public func bimap<T,U>(_ onLeft: (LeftType) -> T, _ onRight: (RightType) -> U) -> Coproduct<T,U> {
 		return fold(
 			onLeft: { Coproduct<T,U>.left(onLeft($0)) },
 			onRight: { Coproduct<T,U>.right(onRight($0)) })

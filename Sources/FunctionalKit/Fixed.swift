@@ -1,3 +1,8 @@
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
+
 public func fidentity <A> (_ a: A) -> A {
 	return a
 }

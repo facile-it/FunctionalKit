@@ -15,7 +15,9 @@ let package = Package(
 		.package(url: "https://github.com/typelift/Abstract.git",
 				 from: Version(0,0,0)),
 		.package(url: "https://github.com/typelift/Operadics.git",
-				 from: Version(0,0,0))
+				 from: Version(0,0,0)),
+        .package(url: "https://github.com/typelift/SwiftCheck.git",
+                 from: "0.8.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -25,6 +27,6 @@ let package = Package(
             dependencies: ["Abstract","Operadics"]),
         .testTarget(
             name: "FunctionalKitTests",
-            dependencies: ["FunctionalKit","Abstract","Operadics"]),
+            dependencies: ["FunctionalKit","SwiftCheck","Abstract","Operadics"]),
     ]
 )

@@ -1,4 +1,7 @@
-import Operadics
+#if !XCODE_BUILD
+    import Operadics
+#endif
+import Abstract
 
 precedencegroup SequentialCompositionPrecedence {
 	associativity: left
