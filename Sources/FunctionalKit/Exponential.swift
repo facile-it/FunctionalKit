@@ -5,14 +5,6 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
-// sourcery: functor
-// sourcery: needsContext
-// sourcery: testArgs = "x: ArrowOf<String,String>, c: String"
-// sourcery: concrete = "Exponential<String,String>"
-// sourcery: create = "init"
-// sourcery: createParams = "(x.getArrow)"
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B
 

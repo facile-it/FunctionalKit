@@ -17,13 +17,7 @@ fileprivate enum FutureState<T> {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
-// sourcery: testArgs = "x: String"
-// sourcery: concrete = "Future<String>"
-// sourcery: applicativeConcrete = "Future<(String)->String>"
-// sourcery: create = "unfold"
-// sourcery: createParams = "({ $0(x) })"
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
+// sourcery: construct = "unfold { $0(x) }"
 // sourcery: needsCommand = "start()"
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A

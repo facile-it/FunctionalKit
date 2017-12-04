@@ -19,14 +19,8 @@ extension StateType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: construct = "unfold { s in (s,x) }"
 // sourcery: needsContext
-// sourcery: testArgs = "x: String, c: String"
-// sourcery: concrete = "State<String,String>"
-// sourcery: applicativeConcrete = "State<String,(String)->String>"
-// sourcery: create = "unfold"
-// sourcery: createParams = "{ s in (s,x)}"
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
 // sourcery: needsSecondary
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A

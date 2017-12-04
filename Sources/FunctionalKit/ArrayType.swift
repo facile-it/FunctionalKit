@@ -12,14 +12,7 @@ public protocol ArrayType: TypeConstructor {
 
 // sourcery: functor
 // sourcery: applicative
-// sourcery: testArgs = "x: ArrayOf<String>"
-// sourcery: concrete = "Array<String>"
-// sourcery: applicativeConcrete = "Array<(String)->String>"
-// sourcery: needConcreteValue = "x"
-// sourcery: create = "getArray"
-// sourcery: concreteParams = ""
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
+// sourcery: construct = "init([x])"
 extension Array: ArrayType {
 	public typealias ParameterType = Element
 

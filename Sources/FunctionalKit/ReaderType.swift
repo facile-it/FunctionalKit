@@ -19,14 +19,8 @@ extension ReaderType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
+// sourcery: construct = "unfold { _ in x }"
 // sourcery: needsContext
-// sourcery: testArgs = "x: ArrowOf<String,String>, c: String"
-// sourcery: concrete = "Reader<String,String>"
-// sourcery: applicativeConcrete = "Reader<String,(String)->String>"
-// sourcery: create = "unfold"
-// sourcery: createParams = "(x.getArrow)"
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
 // sourcery: needsSecondary
 public struct Reader<E,A>: ReaderType {
 	public typealias ParameterType = A

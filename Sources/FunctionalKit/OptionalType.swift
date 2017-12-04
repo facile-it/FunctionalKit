@@ -15,13 +15,10 @@ extension OptionalType {
 }
 
 // MARK: - Data
-// sourcery: testArgs = "x: OptionalOf<String>"
-// sourcery: concrete = "Optional<String>"
-// sourcery: needConcreteValue = "x"
-// sourcery: create = "getOptional"
-// sourcery: concreteParams = ""
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
+// sourcery: functor
+// sourcery: applicative
+// sourcery: construct = "init(x)"
+// sourcery: customMap = "fmap"
 extension Optional: OptionalType {
 	public typealias ParameterType = Wrapped
 
@@ -70,7 +67,7 @@ extension OptionalType where ParameterType: Equatable {
 // MARK: - Functor
 
 extension OptionalType {
-	public func map <T> (_ transform: (ParameterType) -> T) -> Optional<T> {
+	public func fmap <T> (_ transform: (ParameterType) -> T) -> Optional<T> {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
 				onNone: fconstant(Optional<T>.none),
@@ -204,8 +201,8 @@ extension OptionalType where ParameterType: OptionalType {
 }
 
 extension OptionalType {
-	public func flatMap<O>(_ transform: (ParameterType) -> O) -> Optional<O.ParameterType> where O: OptionalType {
-		return map(transform).joined
+	public func bind<O>(_ transform: (ParameterType) -> O) -> Optional<O.ParameterType> where O: OptionalType {
+		return fmap(transform).joined
 	}
 }
 
@@ -213,7 +210,7 @@ extension OptionalType {
 
 extension OptionalType {
 	public func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
-		return flatMap { (element) -> Optional<ParameterType> in
+		return bind { (element) -> Optional<ParameterType> in
 			if predicate(element) {
 				return .some(element)
 			} else {

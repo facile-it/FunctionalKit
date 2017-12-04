@@ -22,13 +22,7 @@ extension ResultType {
 // MARK: - Data
 // sourcery: functor
 // sourcery: applicative
-// sourcery: testArgs = "x: String"
-// sourcery: concrete = "Result<String,String>"
-// sourcery: applicativeConcrete = "Result<String,(String)->String>"
-// sourcery: create = "success"
-// sourcery: createParams = "(x)"
-// sourcery: map = "map"
-// sourcery: mapParams = "fidentity"
+// sourcery: construct = "success(x)"
 // sourcery: needsSecondary
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E

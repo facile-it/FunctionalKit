@@ -1,47 +1,46 @@
 {# GLOBAL MACROS #}
 {% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"needsSecondary" %}String,{% endif %}{{ parameter }}>{% endmacro %}
-{% macro getCommand type %}{% if type|annotated:"needsCommand" %}.{{ type.annotations.needsCommand }}{% endif %}{% endmacro %}
-{% macro getContext type %}{% if type|annotated:"needsContext" %}.run(c){% endif %}{% endmacro %}
+{% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+{% macro getCommandCall type %}{% if type|annotated:"needsCommand" %}.{{ type.annotations.needsCommand }}{% endif %}{% endmacro %}
+{% macro getContextCall type %}{% if type|annotated:"needsContext" %}.run(c){% endif %}{% endmacro %}
+{% macro getContextParam type %}{% if type|annotated:"needsContext" %}, c: String{% endif %}{% endmacro %}
 
 {# FUNCTOR MACROS #}
-{% macro identityEquality type concrete create createParams map mapParams %}{% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}.{{ map }}({{ mapParams }})  == fidentity({% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}){% endmacro %}
-
-{% macro functorIdentityLaw type concrete create createParams map mapParams %}
-    func test{{ type.name }}Functor{{ map|capitalize }}Identity() {
-        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Identity") <- forAll { ({{ type.annotations.testArgs }}) in
-            return {% if type|annotated:"needsContext" %}({% call identityEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call identityEquality type concrete create createParams map mapParams %}{% endif%}
+{% macro functorLaws type %}
+    func test{{ type.name }}FunctorIdentity() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
+            return (a.map(fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
         }
     }
-{% endmacro %}
 
-{% macro compositionEquality type concrete create createParams map mapParams %}{% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}.{{ map }}(g.getArrow • f.getArrow)  == (gLifted • fLifted § {% if type|annotated:"needConcreteValue" %}{{ type.annotations.needConcreteValue }}{% else %}{{ concrete }}{% endif %}.{{ create }}{{ createParams }}){% endmacro %}
-
-{% macro functorCompositionLaw type concrete create createParams map mapParams %}
-    func test{{ type.name }}Functor{{ map|capitalize }}Composition() {
-        property("{{ type.name }} - Functor Laws - {{ id|capitalize }}Composition") <- forAll { ({{ type.annotations.testArgs }}, f: ArrowOf<String,String>, g: ArrowOf<String,String>) in
-            let fLifted = fflip({{ concrete }}.{{ map }})(f.getArrow)
-            let gLifted = fflip({{ concrete }}.{{ map }})(g.getArrow)
-            return {% if type|annotated:"needsContext" %}({% call compositionEquality type concrete create createParams map mapParams %}).run(c){% else %}{% call compositionEquality type concrete create createParams map mapParams %}{% endif%}
+    func test{{ type.name }}FunctorComposition() {
+        property("{{ type.name }} - Functor Laws - Identity") <- forAll { (f: ArrowOf<String,String>, g: ArrowOf<String,String>, x: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String" %}.{{ type.annotations.construct }}
+            let fLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(f.getArrow)
+            let gLifted = fflip({% call getTypeName type "String" %}.{% call getMapName type %})(g.getArrow)
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.{% call getMapName type %}(f.getArrow..g.getArrow){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
+
 {% endmacro %}
+
 {# APPLICATIVE MACROS #}
-{% macro applicativeIdentityLaw type %}
+{% macro applicativeLaws type %}
     func test{{ type.name }}ApplicativeIdentity() {
         property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(fidentity)
             let a = {% call getTypeName type "String" %}.pure(x)
-            return ((a_a <*> a){% call getCommand type %} == a{% call getCommand type %}){% call getContext type %}
+            return ((a_a <*> a){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
         }
     }
-{% endmacro %}
-{% macro applicativeHomomorphismLaw type %}
+
     func test{{ type.name }}ApplicativeHomomorphism() {
         property("{{ type.name }} - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
             let a1 = {% call getTypeName type "String" %}.pure(x)
             let a2 = {% call getTypeName type "String" %}.pure(af.getArrow(x))
-            return ((a_a <*> a1){% call getCommand type %} == a2{% call getCommand type %}){% call getContext type %}
+            return ((a_a <*> a1){% call getCommandCall type %} == a2{% call getCommandCall type %}){% call getContextCall type %}
         }
     }
 {% endmacro %}
@@ -56,22 +55,8 @@ class LawsTests: XCTestCase {
 {% for type in types.all|annotated:"functor" %}
 
 //MARK: {{ type.name }}
-{% if type|annotated:"map" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.create type.annotations.createParams type.annotations.map type.annotations.mapParams %}{% endif %}
-{% if type|annotated:"mapLeft" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createLeft type.annotations.createLeftParams type.annotations.mapLeft type.annotations.mapLeftParams %}{% endif %}
-{% if type|annotated:"mapRight" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createRight type.annotations.createRightParams type.annotations.mapRight type.annotations.mapRightParams %}{% endif %}
-{% if type|annotated:"mapCenter" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createCenter type.annotations.createCenterParams type.annotations.mapCenter type.annotations.mapCenterParams %}{% endif %}
-{% if type|annotated:"mapFirst" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createFirst type.annotations.createFirstParams type.annotations.mapFirst type.annotations.mapFirstParams %}{% endif %}
-{% if type|annotated:"mapSecond" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createSecond type.annotations.createSecondParams type.annotations.mapSecond type.annotations.mapSecondParams %}{% endif %}
-{% if type|annotated:"mapBoth" %}{% call functorIdentityLaw type type.annotations.concrete type.annotations.createBoth type.annotations.createBothParams type.annotations.mapBoth type.annotations.mapBothParams %}{% endif %}
-
-{% if type|annotated:"map" %}{% call functorCompositionLaw type type.annotations.concrete type.annotations.create type.annotations.createParams type.annotations.map type.annotations.mapParams %}{% endif %}
-{% if type|annotated:"mapLeft" %}{% call functorCompositionLaw type type.annotations.concrete type.annotations.createLeft type.annotations.createLeftParams type.annotations.mapLeft type.annotations.mapLeftParams %}{% endif %}
-{% if type|annotated:"mapRight" %}{% call functorCompositionLaw type type.annotations.concrete type.annotations.createRight type.annotations.createRightParams type.annotations.mapRight type.annotations.mapRightParams %}{% endif %}
-{% if type|annotated:"mapFirst" %}{% call functorCompositionLaw type type.annotations.concrete type.annotations.createFirst type.annotations.createFirstParams type.annotations.mapFirst type.annotations.mapFirstParams %}{% endif %}
-{% if type|annotated:"mapSecond" %}{% call functorCompositionLaw type type.annotations.concrete type.annotations.createSecond type.annotations.createSecondParams type.annotations.mapSecond type.annotations.mapSecondParams %}{% endif %}
-
-{% if type|annotated:"applicative" %}{% call applicativeIdentityLaw type %}{% endif %}
-{% if type|annotated:"applicative" %}{% call applicativeHomomorphismLaw type %}{% endif %}
+{% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
+{% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
 
 {% endfor %}
 
