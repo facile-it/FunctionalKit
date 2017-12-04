@@ -7,7 +7,7 @@ class ProductTests: XCTestCase {
 	}
 
 	func testMap() {
-		Product.init(42, "42").bimap(onFirst: { $0 }, onSecond: { Int($0)! }).unwrap ==! (42,42)
+		Product.init(42, "42").bimap({ $0 }, { Int($0)! }).unwrap ==! (42,42)
 		Product.init(42, "42").mapFirst { $0 + 1 }.first ==! 43
 		Product.init(42, "42").mapFirst { $0 + 1 }.second ==! "42"
 		Product.init(42, "42").mapSecond { $0 + "!" }.first ==! 42

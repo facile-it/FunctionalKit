@@ -10,6 +10,8 @@ public protocol ProductType {
 	func fold<T>(_ transform: (FirstType,SecondType) -> T) -> T
 }
 
+// sourcery: bifunctor
+// sourcery: construct = "init(x,y)"
 public struct Product<A,B>: ProductType {
 	private let _first: A
 	private let _second: B
@@ -23,6 +25,7 @@ public struct Product<A,B>: ProductType {
 		return transform(_first,_second)
 	}
 }
+
 
 public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 	private let _first: A
@@ -95,7 +98,7 @@ extension ProductType where SecondType: ExponentialType, SecondType.SourceType =
 // MARK: - Functor
 
 extension ProductType {
-	public func bimap<T,U>(onFirst: (FirstType) -> T, onSecond: (SecondType) -> U) -> Product<T,U> {
+	public func bimap<T,U>(_ onFirst: (FirstType) -> T, _ onSecond: (SecondType) -> U) -> Product<T,U> {
 		return fold { first, second in Product<T,U>.init(onFirst(first), onSecond(second)) }
 	}
 

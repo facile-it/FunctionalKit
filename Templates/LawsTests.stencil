@@ -8,7 +8,7 @@
 
 {# FUNCTOR MACROS #}
 {% macro functorLaws type %}
-//MARK: Functor
+//MARK: - {{ type.name }} - Functor
 
     func test{{ type.name }}FunctorIdentity() {
         property("{{ type.name }} - Functor Laws - Identity") <- forAll { (x: String{% call getContextParam type %}) in
@@ -27,9 +27,31 @@
     }
 {% endmacro %}
 
+{# BIFUNCTOR MACROS #}
+{% macro bifunctorLaws type %}
+//MARK: - {{ type.name }} - Bifunctor
+
+    func test{{ type.name }}BifunctorIdentity() {
+        property("{{ type.name }} - Bifunctor Laws - Identity") <- forAll { (x: String, y: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            return (a.bimap(fidentity,fidentity){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
+        }
+    }
+
+    func test{{ type.name }}BifunctorComposition() {
+        property("{{ type.name }} - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String{% call getContextParam type %}) in
+            let a = {% call getTypeName type "String,String" %}.{{ type.annotations.construct }}
+            let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+    }
+}
+
+{% endmacro %}
+
 {# APPLICATIVE MACROS #}
 {% macro applicativeLaws type %}
-//MARK: Applicative
+//MARK: - {{ type.name }} - Applicative
 
     func test{{ type.name }}ApplicativeIdentity() {
         property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
@@ -70,7 +92,7 @@
 
 {# MONAD MACROS #}
 {% macro monadLaws type %}
-//MARK: Monad
+//MARK: - {{ type.name }} - Monad
 
     func test{{ type.name }}MonadLeftIdentity() {
         property("{{ type.name }} - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
@@ -104,11 +126,10 @@ import SwiftCheck
 import Abstract
 
 class LawsTests: XCTestCase {
-{% for type in types.all|annotated:"functor" %}
-
-//MARK: - {{ type.name }}
-
+{% for type in types.all %}
 {% if type|annotated:"functor" %}{% call functorLaws type %}{% endif %}
+
+{% if type|annotated:"bifunctor" %}{% call bifunctorLaws type %}{% endif %}
 
 {% if type|annotated:"applicative" %}{% call applicativeLaws type %}{% endif %}
 

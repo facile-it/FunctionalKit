@@ -8,6 +8,8 @@ public protocol InclusiveType {
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onCenter: @escaping (LeftType,RightType) -> T, onRight: @escaping (RightType) -> T) -> T
 }
 
+// sourcery: bifunctor
+// sourcery: construct = "random(x,y)"
 public enum Inclusive<A,B>: InclusiveType {
 	case left(A)
 	case center(A,B)
@@ -131,7 +133,7 @@ extension InclusiveType where LeftType == RightType, LeftType: Semigroup {
 // MARK: - Functor
 
 extension InclusiveType {
-	public func bimap<T,U>(onLeft: @escaping (LeftType) -> T, onRight: @escaping (RightType) -> U) -> Inclusive<T,U> {
+	public func bimap<T,U>(_ onLeft: @escaping (LeftType) -> T, _ onRight: @escaping (RightType) -> U) -> Inclusive<T,U> {
 		return fold(
 			onLeft: { Inclusive<T,U>.left(onLeft($0)) },
 			onCenter: { Inclusive<T,U>.center(onLeft($0), onRight($1)) },

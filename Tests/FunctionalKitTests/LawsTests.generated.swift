@@ -6,16 +6,14 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
 import Abstract
 
 class LawsTests: XCTestCase {
-
-//MARK: - Array
-
-//MARK: Functor
+//MARK: - Array - Functor
 
     func testArrayFunctorIdentity() {
         property("Array - Functor Laws - Identity") <- forAll { (x: String) in
@@ -33,7 +31,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Array - Applicative
 
     func testArrayApplicativeIdentity() {
         property("Array - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -71,7 +70,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Array - Monad
 
     func testArrayMonadLeftIdentity() {
         property("Array - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
@@ -98,9 +97,36 @@ class LawsTests: XCTestCase {
     }
 
 
-//MARK: - Future
 
-//MARK: Functor
+
+
+
+//MARK: - Coproduct - Bifunctor
+
+    func testCoproductBifunctorIdentity() {
+        property("Coproduct - Bifunctor Laws - Identity") <- forAll { (x: String, y: String) in
+            let a = Coproduct<String,String>.random(x,y)
+            return (a.bimap(fidentity,fidentity) == a)
+        }
+    }
+
+    func testCoproductBifunctorComposition() {
+        property("Coproduct - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+            let a = Coproduct<String,String>.random(x,y)
+            let fLifted: Endo<Coproduct<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<Coproduct<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+    }
+}
+
+
+
+
+
+
+
+
+//MARK: - Future - Functor
 
     func testFutureFunctorIdentity() {
         property("Future - Functor Laws - Identity") <- forAll { (x: String) in
@@ -118,7 +144,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Future - Applicative
 
     func testFutureApplicativeIdentity() {
         property("Future - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -156,7 +183,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Future - Monad
 
     func testFutureMonadLeftIdentity() {
         property("Future - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
@@ -183,9 +210,36 @@ class LawsTests: XCTestCase {
     }
 
 
-//MARK: - Optional
 
-//MARK: Functor
+
+
+
+//MARK: - Inclusive - Bifunctor
+
+    func testInclusiveBifunctorIdentity() {
+        property("Inclusive - Bifunctor Laws - Identity") <- forAll { (x: String, y: String) in
+            let a = Inclusive<String,String>.random(x,y)
+            return (a.bimap(fidentity,fidentity) == a)
+        }
+    }
+
+    func testInclusiveBifunctorComposition() {
+        property("Inclusive - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+            let a = Inclusive<String,String>.random(x,y)
+            let fLifted: Endo<Inclusive<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<Inclusive<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+    }
+}
+
+
+
+
+
+
+
+
+//MARK: - Optional - Functor
 
     func testOptionalFunctorIdentity() {
         property("Optional - Functor Laws - Identity") <- forAll { (x: String) in
@@ -203,7 +257,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Optional - Applicative
 
     func testOptionalApplicativeIdentity() {
         property("Optional - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -241,7 +296,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Optional - Monad
 
     func testOptionalMonadLeftIdentity() {
         property("Optional - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
@@ -268,9 +323,32 @@ class LawsTests: XCTestCase {
     }
 
 
-//MARK: - Reader
+//MARK: - Product - Bifunctor
 
-//MARK: Functor
+    func testProductBifunctorIdentity() {
+        property("Product - Bifunctor Laws - Identity") <- forAll { (x: String, y: String) in
+            let a = Product<String,String>.init(x,y)
+            return (a.bimap(fidentity,fidentity) == a)
+        }
+    }
+
+    func testProductBifunctorComposition() {
+        property("Product - Bifunctor Laws - Composition") <- forAll { (f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, x: String, y: String) in
+            let a = Product<String,String>.init(x,y)
+            let fLifted: Endo<Product<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
+            let gLifted: Endo<Product<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
+            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+    }
+}
+
+
+
+
+
+
+
+
+//MARK: - Reader - Functor
 
     func testReaderFunctorIdentity() {
         property("Reader - Functor Laws - Identity") <- forAll { (x: String, c: String) in
@@ -288,7 +366,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Reader - Applicative
 
     func testReaderApplicativeIdentity() {
         property("Reader - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
@@ -326,7 +405,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Reader - Monad
 
     func testReaderMonadLeftIdentity() {
         property("Reader - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
@@ -353,9 +432,10 @@ class LawsTests: XCTestCase {
     }
 
 
-//MARK: - Result
 
-//MARK: Functor
+
+
+//MARK: - Result - Functor
 
     func testResultFunctorIdentity() {
         property("Result - Functor Laws - Identity") <- forAll { (x: String) in
@@ -373,7 +453,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Result - Applicative
 
     func testResultApplicativeIdentity() {
         property("Result - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -411,7 +492,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Result - Monad
 
     func testResultMonadLeftIdentity() {
         property("Result - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
@@ -437,10 +518,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-
-//MARK: - State
-
-//MARK: Functor
+//MARK: - State - Functor
 
     func testStateFunctorIdentity() {
         property("State - Functor Laws - Identity") <- forAll { (x: String, c: String) in
@@ -458,7 +536,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - State - Applicative
 
     func testStateApplicativeIdentity() {
         property("State - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
@@ -496,7 +575,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - State - Monad
 
     func testStateMonadLeftIdentity() {
         property("State - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
@@ -522,10 +601,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-
-//MARK: - Writer
-
-//MARK: Functor
+//MARK: - Writer - Functor
 
     func testWriterFunctorIdentity() {
         property("Writer - Functor Laws - Identity") <- forAll { (x: String) in
@@ -543,7 +619,8 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Applicative
+
+//MARK: - Writer - Applicative
 
     func testWriterApplicativeIdentity() {
         property("Writer - Applicative Laws - Identity") <- forAll { (x: String) in
@@ -581,7 +658,7 @@ class LawsTests: XCTestCase {
         }
     }
 
-//MARK: Monad
+//MARK: - Writer - Monad
 
     func testWriterMonadLeftIdentity() {
         property("Writer - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
