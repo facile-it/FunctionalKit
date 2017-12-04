@@ -6,6 +6,7 @@
 
 
 
+
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
@@ -30,9 +31,17 @@ class LawsTests: XCTestCase {
 
     func testArrayApplicativeIdentity() {
         property("Array - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Array<(String)->String>.pure(fidentity)
+            let a_a = Array<Endo<String>>.pure(fidentity)
             let a = Array<String>.pure(x)
-            return (a_a <*> a) == a 
+            return ((a_a <*> a) == a)
+        }
+    }
+    func testArrayApplicativeHomomorphism() {
+        property("Array - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Array<Endo<String>>.pure(af.getArrow)
+            let a1 = Array<String>.pure(x)
+            let a2 = Array<String>.pure(af.getArrow(x))
+            return ((a_a <*> a1) == a2)
         }
     }
 
@@ -100,9 +109,17 @@ class LawsTests: XCTestCase {
 
     func testFutureApplicativeIdentity() {
         property("Future - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Future<(String)->String>.pure(fidentity)
+            let a_a = Future<Endo<String>>.pure(fidentity)
             let a = Future<String>.pure(x)
-            return (a_a <*> a).start() == a.start() 
+            return ((a_a <*> a).start() == a.start())
+        }
+    }
+    func testFutureApplicativeHomomorphism() {
+        property("Future - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Future<Endo<String>>.pure(af.getArrow)
+            let a1 = Future<String>.pure(x)
+            let a2 = Future<String>.pure(af.getArrow(x))
+            return ((a_a <*> a1).start() == a2.start())
         }
     }
 
@@ -192,9 +209,17 @@ class LawsTests: XCTestCase {
 
     func testReaderApplicativeIdentity() {
         property("Reader - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
-            let a_a = Reader<String,(String)->String>.pure(fidentity)
+            let a_a = Reader<String,Endo<String>>.pure(fidentity)
             let a = Reader<String,String>.pure(x)
             return ((a_a <*> a) == a).run(c)
+        }
+    }
+    func testReaderApplicativeHomomorphism() {
+        property("Reader - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a_a = Reader<String,Endo<String>>.pure(af.getArrow)
+            let a1 = Reader<String,String>.pure(x)
+            let a2 = Reader<String,String>.pure(af.getArrow(x))
+            return ((a_a <*> a1) == a2).run(c)
         }
     }
 
@@ -216,9 +241,17 @@ class LawsTests: XCTestCase {
 
     func testResultApplicativeIdentity() {
         property("Result - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Result<String,(String)->String>.pure(fidentity)
+            let a_a = Result<String,Endo<String>>.pure(fidentity)
             let a = Result<String,String>.pure(x)
-            return (a_a <*> a) == a 
+            return ((a_a <*> a) == a)
+        }
+    }
+    func testResultApplicativeHomomorphism() {
+        property("Result - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
+            let a1 = Result<String,String>.pure(x)
+            let a2 = Result<String,String>.pure(af.getArrow(x))
+            return ((a_a <*> a1) == a2)
         }
     }
 
@@ -240,9 +273,17 @@ class LawsTests: XCTestCase {
 
     func testStateApplicativeIdentity() {
         property("State - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
-            let a_a = State<String,(String)->String>.pure(fidentity)
+            let a_a = State<String,Endo<String>>.pure(fidentity)
             let a = State<String,String>.pure(x)
             return ((a_a <*> a) == a).run(c)
+        }
+    }
+    func testStateApplicativeHomomorphism() {
+        property("State - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
+            let a_a = State<String,Endo<String>>.pure(af.getArrow)
+            let a1 = State<String,String>.pure(x)
+            let a2 = State<String,String>.pure(af.getArrow(x))
+            return ((a_a <*> a1) == a2).run(c)
         }
     }
 
@@ -264,9 +305,17 @@ class LawsTests: XCTestCase {
 
     func testWriterApplicativeIdentity() {
         property("Writer - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Writer<String,(String)->String>.pure(fidentity)
+            let a_a = Writer<String,Endo<String>>.pure(fidentity)
             let a = Writer<String,String>.pure(x)
-            return (a_a <*> a) == a 
+            return ((a_a <*> a) == a)
+        }
+    }
+    func testWriterApplicativeHomomorphism() {
+        property("Writer - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Writer<String,Endo<String>>.pure(af.getArrow)
+            let a1 = Writer<String,String>.pure(x)
+            let a2 = Writer<String,String>.pure(af.getArrow(x))
+            return ((a_a <*> a1) == a2)
         }
     }
 

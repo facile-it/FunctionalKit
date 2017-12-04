@@ -29,6 +29,7 @@ extension ResultType {
 // sourcery: createParams = "(x)"
 // sourcery: map = "map"
 // sourcery: mapParams = "fidentity"
+// sourcery: needsSecondary
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
 	public typealias ParameterType = T

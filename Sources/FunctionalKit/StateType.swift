@@ -27,6 +27,7 @@ extension StateType {
 // sourcery: createParams = "{ s in (s,x)}"
 // sourcery: map = "map"
 // sourcery: mapParams = "fidentity"
+// sourcery: needsSecondary
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A
 

@@ -23,6 +23,7 @@ public protocol WriterType: TypeConstructor, ProductType {
 // sourcery: createParams = "(log: y, value: x)"
 // sourcery: map = "map"
 // sourcery: mapParams = "fidentity"
+// sourcery: needsSecondary
 public struct Writer<L,A>: WriterType where L: Monoid {
 	public typealias ParameterType = A
 

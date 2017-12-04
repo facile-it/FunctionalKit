@@ -27,6 +27,7 @@ extension ReaderType {
 // sourcery: createParams = "(x.getArrow)"
 // sourcery: map = "map"
 // sourcery: mapParams = "fidentity"
+// sourcery: needsSecondary
 public struct Reader<E,A>: ReaderType {
 	public typealias ParameterType = A
 
