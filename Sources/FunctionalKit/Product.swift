@@ -7,7 +7,7 @@ public protocol ProductType {
 	associatedtype FirstType
 	associatedtype SecondType
 
-	func fold<T>(_ transform: @escaping (FirstType,SecondType) -> T) -> T
+	func fold<T>(_ transform: (FirstType,SecondType) -> T) -> T
 }
 
 public struct Product<A,B>: ProductType {
@@ -19,7 +19,7 @@ public struct Product<A,B>: ProductType {
 		self._second = second
 	}
 
-	public func fold<T>(_ transform: @escaping (A, B) -> T) -> T {
+	public func fold<T>(_ transform: (A, B) -> T) -> T {
 		return transform(_first,_second)
 	}
 }
@@ -33,7 +33,7 @@ public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 		self._second = second
 	}
 
-	public func fold<T>(_ transform: @escaping (A, B) -> T) -> T {
+	public func fold<T>(_ transform: (A, B) -> T) -> T {
 		return transform(_first,_second)
 	}
 
@@ -95,15 +95,15 @@ extension ProductType where SecondType: ExponentialType, SecondType.SourceType =
 // MARK: - Functor
 
 extension ProductType {
-	public func bimap<T,U>(onFirst: @escaping (FirstType) -> T, onSecond: @escaping (SecondType) -> U) -> Product<T,U> {
+	public func bimap<T,U>(onFirst: (FirstType) -> T, onSecond: (SecondType) -> U) -> Product<T,U> {
 		return fold { first, second in Product<T,U>.init(onFirst(first), onSecond(second)) }
 	}
 
-	public func mapFirst<T>(_ transform: @escaping (FirstType) -> T) -> Product<T,SecondType> {
+	public func mapFirst<T>(_ transform: (FirstType) -> T) -> Product<T,SecondType> {
 		return fold { first, second in Product<T,SecondType>.init(transform(first), second) }
 	}
 
-	public func mapSecond<U>(_ transform: @escaping (SecondType) -> U) -> Product<FirstType,U> {
+	public func mapSecond<U>(_ transform: (SecondType) -> U) -> Product<FirstType,U> {
 		return fold { first, second in Product<FirstType,U>.init(first, transform(second)) }
 	}
 }

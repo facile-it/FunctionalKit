@@ -10,7 +10,7 @@ public protocol WriterType: TypeConstructor, ProductType {
 
 	static func from(concrete: Concrete<LogType,ParameterType>) -> Self
 	var run: (LogType,ParameterType) { get }
-	func fold <T> (_ transform: @escaping (LogType,ParameterType) -> T) -> T
+	func fold <T> (_ transform: (LogType,ParameterType) -> T) -> T
 }
 
 // MARK: - Data
@@ -34,8 +34,10 @@ public struct Writer<L,A>: WriterType where L: Monoid {
 		return (log,value)
 	}
 
-	public func fold<T>(_ transform: @escaping (L, A) -> T) -> T {
-		return fdestructure(transform) § run
+	public func fold<T>(_ transform: (L, A) -> T) -> T {
+		return withoutActuallyEscaping(transform) { transform in
+			fdestructure(transform) § run
+		}
 	}
 }
 
@@ -56,8 +58,12 @@ extension WriterType where LogType: Equatable, ParameterType: Equatable {
 // MARK: - Functor
 
 extension WriterType {
-	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Writer<LogType,T> {
+	public func map <T> (_ transform: (ParameterType) -> T) -> Writer<LogType,T> {
 		return fold { log, value in Writer<LogType,T>.init(log: log, value: transform(value)) }
+	}
+
+	public func mapLog <T> (_ transform: (LogType) -> T) -> Writer<T,ParameterType> where T: Monoid {
+		return fold { log, value in Writer<T,ParameterType>.init(log: transform(log), value: value) }
 	}
 }
 
@@ -94,37 +100,37 @@ extension WriterType {
 extension WriterType {
 	public typealias Traversed<Applicative> = Writer<LogType,Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		return fold { log, value in
 			Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
 		}
@@ -144,12 +150,31 @@ extension WriterType where ParameterType: WriterType, ParameterType.LogType == L
 }
 
 extension WriterType {
-	public func flatMap <W> (_ transform: @escaping (ParameterType) -> W) -> Writer<LogType,W.ParameterType> where W: WriterType, W.LogType == LogType {
+	public func flatMap <W> (_ transform: (ParameterType) -> W) -> Writer<LogType,W.ParameterType> where W: WriterType, W.LogType == LogType {
 		return map(transform).joined
 	}
 }
 
 // MARK: - Utility
 
-/// check other implementations
+extension WriterType {
+	public func tell(_ newLog: LogType) -> Writer<LogType,ParameterType> {
+		let (oldLog,value) = run
+		return Writer.init(log: oldLog <> newLog, value: value)
+	}
 
+	public func remember(_ oldLog: LogType) -> Writer<LogType,ParameterType> {
+		let (newLog,value) = run
+		return Writer.init(log: oldLog <> newLog, value: value)
+	}
+
+	public func read(_ transform: (ParameterType) -> LogType) -> Writer<LogType,ParameterType> {
+		let (log,value) = run
+		return Writer.init(log: log <> transform(value), value: value)
+	}
+
+	public var listen: Writer<LogType,(LogType,ParameterType)> {
+		let (log,value) = run
+		return Writer(log: log, value: (log,value))
+	}
+}

@@ -122,4 +122,12 @@ extension StateType where ParameterType: StateType, ParameterType.StateParameter
 
 // MARK: - Utility
 
-/// check other implementations
+extension StateType {
+	public static var get: State<StateParameterType,StateParameterType> {
+		return State<StateParameterType,StateParameterType>.unfold { s in (s,s) }
+	}
+
+	public static func put(_ state: StateParameterType) -> State<StateParameterType,()> {
+		return State<StateParameterType,()>.unfold { _ in (state,()) }
+	}
+}

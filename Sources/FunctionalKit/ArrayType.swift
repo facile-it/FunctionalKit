@@ -5,7 +5,7 @@ import Operadics
 public protocol ArrayType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
-	func fold<T>(_ starting: T, _ accumulate: @escaping (T,ParameterType) -> T) -> T
+	func fold<T>(_ starting: T, _ accumulate: (T,ParameterType) -> T) -> T
 }
 
 // MARK: - Data
@@ -21,7 +21,7 @@ extension Array: ArrayType {
 		return self
 	}
 
-	public func fold<T>(_ starting: T, _ accumulate: @escaping (T, Element) -> T) -> T {
+	public func fold<T>(_ starting: T, _ accumulate: (T, Element) -> T) -> T {
 		return reduce(starting, accumulate)
 	}
 }
@@ -35,7 +35,7 @@ extension ArrayType {
 // MARK: - Functor
 
 extension ArrayType {
-	public func map<T>(_ transform: @escaping (ParameterType) -> T) -> [T] {
+	public func map<T>(_ transform: (ParameterType) -> T) -> [T] {
 		return fold([T].init()) { previous, element in
 			previous + [transform(element)]
 		}
@@ -77,7 +77,7 @@ extension ArrayType {
 extension ArrayType {
 	public typealias Traversed<Applicative> = [Applicative.ParameterType] where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
@@ -85,7 +85,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -93,7 +93,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -101,7 +101,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -109,7 +109,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -117,7 +117,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: @escaping (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -140,7 +140,7 @@ extension ArrayType where ParameterType: ArrayType {
 }
 
 extension ArrayType {
-	public func flatMap <A> (_ transform: @escaping (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
+	public func flatMap <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
 		return map(transform).joined
 	}
 }
