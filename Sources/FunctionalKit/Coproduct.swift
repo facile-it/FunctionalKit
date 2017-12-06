@@ -84,14 +84,10 @@ extension CoproductType {
 	}
 
 	public func mapLeft<T>(_ transform: (LeftType) -> T) -> Coproduct<T,RightType> {
-		return fold(
-			onLeft: { Coproduct<T,RightType>.left(transform($0)) },
-			onRight: { Coproduct<T,RightType>.right($0) })
+		return bimap(transform, fidentity)
 	}
 
 	public func mapRight<U>(_ transform: (RightType) -> U) -> Coproduct<LeftType,U> {
-		return fold(
-			onLeft: { Coproduct<LeftType,U>.left($0) },
-			onRight: { Coproduct<LeftType,U>.right(transform($0)) })
+		return bimap(fidentity, transform)
 	}
 }

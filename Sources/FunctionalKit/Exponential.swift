@@ -31,15 +31,15 @@ extension ExponentialType {
 	}
 
 	public var toExponential: Exponential<SourceType,TargetType> {
-		return dimap({ $0 }, { $0 })
+		return dimap(fidentity, fidentity)
 	}
 
 	public func map<T>(_ transform: @escaping (TargetType) -> T) -> Exponential<SourceType,T> {
-		return dimap({ $0 }, transform)
+		return dimap(fidentity, transform)
 	}
 
 	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Exponential<T,TargetType> {
-		return dimap(transform, { $0 })
+		return dimap(transform, fidentity)
 	}
 }
 
