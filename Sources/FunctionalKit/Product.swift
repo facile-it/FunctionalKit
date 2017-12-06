@@ -103,10 +103,10 @@ extension ProductType {
 	}
 
 	public func mapFirst<T>(_ transform: (FirstType) -> T) -> Product<T,SecondType> {
-		return fold { first, second in Product<T,SecondType>.init(transform(first), second) }
+		return bimap(transform, fidentity)
 	}
 
 	public func mapSecond<U>(_ transform: (SecondType) -> U) -> Product<FirstType,U> {
-		return fold { first, second in Product<FirstType,U>.init(first, transform(second)) }
+		return bimap(fidentity, transform)
 	}
 }

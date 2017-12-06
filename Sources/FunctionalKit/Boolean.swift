@@ -43,3 +43,9 @@ extension Bool {
 		fold(onTrue: (), onFalse: call())
 	}
 }
+
+extension Bool: CoproductType {
+	public func fold<T>(onLeft: (()) -> T, onRight: (()) -> T) -> T {
+		return fold(onTrue: onLeft(()), onFalse: onLeft(()))
+	}
+}
