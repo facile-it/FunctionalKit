@@ -214,6 +214,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38B9E7EB1FD8381200E55BE3 /* Algebra */ = {
+			isa = PBXGroup;
+			children = (
+				38F179AE1FBDA7B400243994 /* Boolean.swift */,
+				38F179AD1FBDA7B400243994 /* Coproduct.swift */,
+				38F179B31FBDA7B500243994 /* Exponential.swift */,
+				38F3C8201FBF2B370014D30D /* Inclusive.swift */,
+				38F179B41FBDA7B500243994 /* Product.swift */,
+				38F179B51FBDA7B500243994 /* Reference.swift */,
+			);
+			name = Algebra;
+			sourceTree = "<group>";
+		};
+		38B9E7EE1FD8384200E55BE3 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				38F179AF1FBDA7B400243994 /* Combinators.swift */,
+				38F179B01FBDA7B400243994 /* Curry.swift */,
+				38F179B11FBDA7B500243994 /* Fixed.swift */,
+				38F179B21FBDA7B500243994 /* Operators.swift */,
+				38F179B61FBDA7B500243994 /* Typealiases.swift */,
+				38F179AC1FBDA7B400243994 /* Weakly.swift */,
+			);
+			name = Functions;
+			sourceTree = "<group>";
+		};
+		38B9E7EF1FD8388A00E55BE3 /* Functors */ = {
+			isa = PBXGroup;
+			children = (
+				385370681FC40D86004096EB /* ArrayType.swift */,
+				3853706E1FC46BA4004096EB /* FutureType.swift */,
+				38939BA31FC32CB200012794 /* OptionalType.swift */,
+				38939BA01FC2DC3100012794 /* Protocols.swift */,
+				3853706B1FC44178004096EB /* ReaderType.swift */,
+				38F3C81D1FBEF71D0014D30D /* ResultType.swift */,
+				385370711FC48927004096EB /* StateType.swift */,
+				38DEDC6C1FC33BDB00D7984C /* WriterType.swift */,
+			);
+			name = Functors;
+			sourceTree = "<group>";
+		};
 		38DA20831FD5A2930010AAEC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,26 +368,9 @@
 		OBJ_8 /* FunctionalKit */ = {
 			isa = PBXGroup;
 			children = (
-				385370681FC40D86004096EB /* ArrayType.swift */,
-				38F179AE1FBDA7B400243994 /* Boolean.swift */,
-				38F179AF1FBDA7B400243994 /* Combinators.swift */,
-				38F179AD1FBDA7B400243994 /* Coproduct.swift */,
-				38F179B01FBDA7B400243994 /* Curry.swift */,
-				38F179B31FBDA7B500243994 /* Exponential.swift */,
-				38F179B11FBDA7B500243994 /* Fixed.swift */,
-				3853706E1FC46BA4004096EB /* FutureType.swift */,
-				38F3C8201FBF2B370014D30D /* Inclusive.swift */,
-				38F179B21FBDA7B500243994 /* Operators.swift */,
-				38939BA31FC32CB200012794 /* OptionalType.swift */,
-				38F179B41FBDA7B500243994 /* Product.swift */,
-				38939BA01FC2DC3100012794 /* Protocols.swift */,
-				3853706B1FC44178004096EB /* ReaderType.swift */,
-				38F179B51FBDA7B500243994 /* Reference.swift */,
-				38F3C81D1FBEF71D0014D30D /* ResultType.swift */,
-				385370711FC48927004096EB /* StateType.swift */,
-				38F179B61FBDA7B500243994 /* Typealiases.swift */,
-				38F179AC1FBDA7B400243994 /* Weakly.swift */,
-				38DEDC6C1FC33BDB00D7984C /* WriterType.swift */,
+				38B9E7EB1FD8381200E55BE3 /* Algebra */,
+				38B9E7EE1FD8384200E55BE3 /* Functions */,
+				38B9E7EF1FD8388A00E55BE3 /* Functors */,
 			);
 			name = FunctionalKit;
 			path = Sources/FunctionalKit;
