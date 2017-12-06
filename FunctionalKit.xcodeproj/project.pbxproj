@@ -32,8 +32,8 @@
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
-		38939BA11FC2DC3100012794 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* Protocols.swift */; };
-		38939BA21FC2DC3100012794 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* Protocols.swift */; };
+		38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
+		38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA41FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38939BA51FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20771FD549740010AAEC /* LawsTests.generated.swift */; };
@@ -131,7 +131,7 @@
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
-		38939BA01FC2DC3100012794 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		38939BA01FC2DC3100012794 /* TypeConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeConstructor.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		38DA20751FD549000010AAEC /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
 		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
@@ -240,19 +240,19 @@
 			name = Functions;
 			sourceTree = "<group>";
 		};
-		38B9E7EF1FD8388A00E55BE3 /* Functors */ = {
+		38B9E7EF1FD8388A00E55BE3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
 				385370681FC40D86004096EB /* ArrayType.swift */,
 				3853706E1FC46BA4004096EB /* FutureType.swift */,
 				38939BA31FC32CB200012794 /* OptionalType.swift */,
-				38939BA01FC2DC3100012794 /* Protocols.swift */,
 				3853706B1FC44178004096EB /* ReaderType.swift */,
 				38F3C81D1FBEF71D0014D30D /* ResultType.swift */,
 				385370711FC48927004096EB /* StateType.swift */,
+				38939BA01FC2DC3100012794 /* TypeConstructor.swift */,
 				38DEDC6C1FC33BDB00D7984C /* WriterType.swift */,
 			);
-			name = Functors;
+			name = Category;
 			sourceTree = "<group>";
 		};
 		38DA20831FD5A2930010AAEC /* Utilities */ = {
@@ -369,8 +369,8 @@
 			isa = PBXGroup;
 			children = (
 				38B9E7EB1FD8381200E55BE3 /* Algebra */,
+				38B9E7EF1FD8388A00E55BE3 /* Category */,
 				38B9E7EE1FD8384200E55BE3 /* Functions */,
-				38B9E7EF1FD8388A00E55BE3 /* Functors */,
 			);
 			name = FunctionalKit;
 			path = Sources/FunctionalKit;
@@ -542,7 +542,7 @@
 				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
-				38939BA21FC2DC3100012794 /* Protocols.swift in Sources */,
+				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
 				38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */,
@@ -604,7 +604,7 @@
 				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
-				38939BA11FC2DC3100012794 /* Protocols.swift in Sources */,
+				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
 				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
 				38F179C51FBDA7B500243994 /* Exponential.swift in Sources */,
