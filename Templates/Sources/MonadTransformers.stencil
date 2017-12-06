@@ -1,0 +1,6 @@
+{# GLOBAL MACROS #}
+{% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+{% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
+{% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"needsSecondary" %}{{ type.annotations.secondary }},{% endif %}{{ parameter }}>{% endmacro %}
+
+

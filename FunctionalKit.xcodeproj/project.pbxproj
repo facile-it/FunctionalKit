@@ -36,6 +36,10 @@
 		38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA41FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38939BA51FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
+		38B9E7F21FD8397300E55BE3 /* ArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */; };
+		38B9E7F31FD8397300E55BE3 /* ArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */; };
+		38B9E7F61FD840E500E55BE3 /* MonadTransformers.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F51FD840E500E55BE3 /* MonadTransformers.generated.swift */; };
+		38B9E7F71FD840E500E55BE3 /* MonadTransformers.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F51FD840E500E55BE3 /* MonadTransformers.generated.swift */; };
 		38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20771FD549740010AAEC /* LawsTests.generated.swift */; };
 		38DA20881FD5A2930010AAEC /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20841FD5A2930010AAEC /* Random.swift */; };
 		38DA20891FD5A2930010AAEC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20851FD5A2930010AAEC /* AnyError.swift */; };
@@ -133,7 +137,8 @@
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
 		38939BA01FC2DC3100012794 /* TypeConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeConstructor.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
-		38DA20751FD549000010AAEC /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
+		38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTransformer.swift; sourceTree = "<group>"; };
+		38B9E7F51FD840E500E55BE3 /* MonadTransformers.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers.generated.swift; sourceTree = "<group>"; };
 		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
 		38DA20771FD549740010AAEC /* LawsTests.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LawsTests.generated.swift; sourceTree = "<group>"; };
 		38DA20841FD5A2930010AAEC /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
@@ -243,6 +248,8 @@
 		38B9E7EF1FD8388A00E55BE3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				38B9E7F51FD840E500E55BE3 /* MonadTransformers.generated.swift */,
+				38B9E7F01FD8394300E55BE3 /* Transformers */,
 				385370681FC40D86004096EB /* ArrayType.swift */,
 				3853706E1FC46BA4004096EB /* FutureType.swift */,
 				38939BA31FC32CB200012794 /* OptionalType.swift */,
@@ -253,6 +260,14 @@
 				38DEDC6C1FC33BDB00D7984C /* WriterType.swift */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		38B9E7F01FD8394300E55BE3 /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */,
+			);
+			name = Transformers;
 			sourceTree = "<group>";
 		};
 		38DA20831FD5A2930010AAEC /* Utilities */ = {
@@ -292,7 +307,6 @@
 				38F179AB1FBDA77900243994 /* Cartfile */,
 				38F179AA1FBDA6D900243994 /* LICENSE */,
 				38F179D51FBDAB1C00243994 /* README.md */,
-				38DA20751FD549000010AAEC /* .sourcery.yml */,
 				38F179A81FBDA6D900243994 /* .travis.yml */,
 				38F179A91FBDA6D900243994 /* codecov.yml */,
 			);
@@ -517,7 +531,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Checking for Sourcery...\"\nif [ -f \"./sourcery\" ]; then\n    echo \"Sourcery found, will generate files.\"\n    ./sourcery\nelse\n    echo \"Sourcery is not installed, ignoring.\"\nfi";
+			shellScript = "echo \"Checking for Sourcery...\"\nif [ -f \"./sourcery\" ]; then\n    echo \"Sourcery found.\"\n    echo \"Generating source files...\"\n    ./sourcery --sources \"Sources\" --templates \"Templates/Sources\" --output \"Sources/FunctionalKit\"\n    echo \"Generating test files...\"\n    ./sourcery --sources \"Sources\" --templates \"Templates/Tests\" --output \"Tests/FunctionalKitTests\"\nelse\n    echo \"Sourcery is not installed, ignoring.\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -528,6 +542,7 @@
 			files = (
 				38F179C21FBDA7B500243994 /* Fixed.swift in Sources */,
 				38F179C01FBDA7B500243994 /* Curry.swift in Sources */,
+				38B9E7F31FD8397300E55BE3 /* ArrayTransformer.swift in Sources */,
 				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
 				385370701FC46BA4004096EB /* FutureType.swift in Sources */,
@@ -541,6 +556,7 @@
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
+				38B9E7F71FD840E500E55BE3 /* MonadTransformers.generated.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
@@ -590,6 +606,7 @@
 			files = (
 				38F179BD1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38F179C31FBDA7B500243994 /* Operators.swift in Sources */,
+				38B9E7F21FD8397300E55BE3 /* ArrayTransformer.swift in Sources */,
 				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
 				3853706F1FC46BA4004096EB /* FutureType.swift in Sources */,
@@ -603,6 +620,7 @@
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
+				38B9E7F61FD840E500E55BE3 /* MonadTransformers.generated.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
