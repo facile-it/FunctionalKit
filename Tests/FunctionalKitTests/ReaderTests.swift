@@ -40,10 +40,22 @@ class ReaderTests: XCTestCase {
         XCTAssertTrue((TestReaderType.lift(sum)(ap1, ap2, ap3) == TestReaderType.pure(6)).run(environment))
     }
     
+    func testAsk() {
+        expecting("testAsk") { (fulfill) in
+            let r = TestReaderType<Int>.ask.map { environment -> (ReaderTests.Environment) in
+                environment.environment ==! "Test"
+                fulfill()
+                return environment
+            }
+            r.run(Environment(environment: "Test"))
+        }
+    }
+    
     static var allTests = [
         ("testLiftOneArg", testLiftOneArg),
         ("testLiftTwoArgs", testLiftTwoArgs),
-        ("testLiftThreeArgs", testLiftThreeArgs)
+        ("testLiftThreeArgs", testLiftThreeArgs),
+        ("testAsk", testAsk)
     ]
 }
 

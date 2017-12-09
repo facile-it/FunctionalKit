@@ -146,8 +146,8 @@ extension ReaderType {
 // MARK: - Utility
 
 extension ReaderType {
-	public static var ask: Reader<ParameterType,ParameterType> {
-		return Reader<ParameterType,ParameterType>.unfold(fidentity)
+	public static var ask: Reader<EnvironmentType,EnvironmentType> {
+		return Reader<EnvironmentType,EnvironmentType>.unfold(fidentity)
 	}
 }
 
