@@ -8,7 +8,7 @@ import Abstract
 // sourcery: functor
 // sourcery: concrete = "State"
 // sourcery: secondaryParameter = "StateParameterType"
-// sourcery: escapingMap
+// sourcery: escapingHOF
 public protocol StateType: TypeConstructor, ExponentialType {
 	associatedtype StateParameterType
 

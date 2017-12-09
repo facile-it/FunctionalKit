@@ -7,7 +7,7 @@ import Abstract
 
 // sourcery: functor
 // sourcery: concrete = "Future"
-// sourcery: escapingMap
+// sourcery: escapingHOF
 public protocol FutureType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run (_ callback: @escaping (ParameterType) -> ())

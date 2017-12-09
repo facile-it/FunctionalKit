@@ -6,6 +6,8 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: traversable
+// sourcery: monad
 // sourcery: concrete = "Result"
 // sourcery: secondaryParameter = "ErrorType"
 public protocol ResultType: TypeConstructor, CoproductType {

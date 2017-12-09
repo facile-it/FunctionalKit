@@ -21,6 +21,16 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		380C6FEA1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */; };
+		380C6FEB1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */; };
+		380C6FEC1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */; };
+		380C6FED1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */; };
+		380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */; };
+		380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */; };
+		380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */; };
+		380C6FF41FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */; };
+		380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */; };
+		380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */; };
 		385370691FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
 		3853706A1FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
 		3853706C1FC44178004096EB /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706B1FC44178004096EB /* ReaderType.swift */; };
@@ -32,14 +42,10 @@
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
-		387D57181FDBF8F900095430 /* FunctorTransformers.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387D57161FDBF8F800095430 /* FunctorTransformers.generated.swift */; };
-		387D57191FDBF91400095430 /* FunctorTransformers.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387D57161FDBF8F800095430 /* FunctorTransformers.generated.swift */; };
 		38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA41FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
 		38939BA51FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
-		38B9E7F21FD8397300E55BE3 /* ArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */; };
-		38B9E7F31FD8397300E55BE3 /* ArrayTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */; };
 		38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20771FD549740010AAEC /* LawsTests.generated.swift */; };
 		38DA20881FD5A2930010AAEC /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20841FD5A2930010AAEC /* Random.swift */; };
 		38DA20891FD5A2930010AAEC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20851FD5A2930010AAEC /* AnyError.swift */; };
@@ -128,6 +134,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers3.generated.swift; sourceTree = "<group>"; };
+		380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4.generated.swift; sourceTree = "<group>"; };
+		380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers2.generated.swift; sourceTree = "<group>"; };
+		380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers3.generated.swift; sourceTree = "<group>"; };
+		380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers2.generated.swift; sourceTree = "<group>"; };
 		385370681FC40D86004096EB /* ArrayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayType.swift; sourceTree = "<group>"; };
 		3853706B1FC44178004096EB /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
 		3853706E1FC46BA4004096EB /* FutureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureType.swift; sourceTree = "<group>"; };
@@ -135,10 +146,8 @@
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
-		387D57161FDBF8F800095430 /* FunctorTransformers.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers.generated.swift; sourceTree = "<group>"; };
 		38939BA01FC2DC3100012794 /* TypeConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeConstructor.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
-		38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTransformer.swift; sourceTree = "<group>"; };
 		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
 		38DA20771FD549740010AAEC /* LawsTests.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LawsTests.generated.swift; sourceTree = "<group>"; };
 		38DA20841FD5A2930010AAEC /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
@@ -264,8 +273,11 @@
 		38B9E7F01FD8394300E55BE3 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
-				387D57161FDBF8F800095430 /* FunctorTransformers.generated.swift */,
-				38B9E7F11FD8397300E55BE3 /* ArrayTransformer.swift */,
+				380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */,
+				380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */,
+				380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */,
+				380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */,
+				380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */,
 			);
 			name = Transformers;
 			sourceTree = "<group>";
@@ -542,25 +554,28 @@
 			files = (
 				38F179C21FBDA7B500243994 /* Fixed.swift in Sources */,
 				38F179C01FBDA7B500243994 /* Curry.swift in Sources */,
-				38B9E7F31FD8397300E55BE3 /* ArrayTransformer.swift in Sources */,
 				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
 				385370701FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
+				380C6FEB1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
 				3853706A1FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
 				3853706D1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
+				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
-				387D57191FDBF91400095430 /* FunctorTransformers.generated.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
+				380C6FED1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */,
 				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
+				380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
+				380C6FF41FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,25 +621,28 @@
 			files = (
 				38F179BD1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38F179C31FBDA7B500243994 /* Operators.swift in Sources */,
-				38B9E7F21FD8397300E55BE3 /* ArrayTransformer.swift in Sources */,
 				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
 				3853706F1FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
+				380C6FEA1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
 				385370691FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
 				3853706C1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
+				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
-				387D57181FDBF8F900095430 /* FunctorTransformers.generated.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				380C6FEC1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */,
 				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
+				380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
 				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
+				380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179C51FBDA7B500243994 /* Exponential.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

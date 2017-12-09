@@ -6,6 +6,8 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: traversable
+// sourcery: monad
 // sourcery: concrete = "Writer"
 // sourcery: secondaryParameter = "LogType"
 public protocol WriterType: TypeConstructor, ProductType {

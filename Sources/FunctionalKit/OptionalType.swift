@@ -6,8 +6,11 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: traversable
+// sourcery: monad
 // sourcery: concrete = "Optional"
 // sourcery: customMap = "fmap"
+// sourcery: customFlatMap = "bind"
 public protocol OptionalType: TypeConstructor, CoproductType {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType?

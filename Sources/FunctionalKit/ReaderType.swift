@@ -8,7 +8,7 @@ import Abstract
 // sourcery: functor
 // sourcery: concrete = "Reader"
 // sourcery: secondaryParameter = "EnvironmentType"
-// sourcery: escapingMap
+// sourcery: escapingHOF
 public protocol ReaderType: TypeConstructor, ExponentialType {
 	associatedtype EnvironmentType
 

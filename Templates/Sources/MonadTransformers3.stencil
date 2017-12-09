@@ -1,0 +1,24 @@
+{# GLOBAL MACROS #}
+{% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+{% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
+{% macro getTypeName type parameter preSecondaryParameter %}{{ type.annotations.concrete }}<{% if type|annotated:"secondaryParameter" %}{% if preSecondaryParameter %}{{ preSecondaryParameter }}.{% endif %}{{ type.annotations.secondaryParameter }},{% endif %}{{ parameter }}>{% endmacro %}
+{% macro checkEscaping2 type1 type2 %}{% if type1.annotations.escapingFlatMap %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
+{% macro checkEscaping3 type1 type2 type3 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
+{# TRANSFORMERS #}
+{% for type1 in types.protocols|annotated:"functor"|annotated:"monad" %}
+{% for type2 in types.protocols|annotated:"functor"|annotated:"monad"|annotated:"traversable" %}
+{% for type3 in types.protocols|annotated:"functor"|annotated:"monad"|annotated:"traversable" %}
+{% set type3Concrete %}{% call getTypeName type3 "Output" "ParameterType.ParameterType" %}{% endset %}
+{% set type2Concrete %}{% call getTypeName type2 type3Concrete "ParameterType" %}{% endset %}
+{% set type1Concrete %}{% call getTypeName type1 type2Concrete "" %}{% endset %}
+extension {{ type1.name }} where ParameterType: {{ type2.name }}, ParameterType.ParameterType: {{ type3.name }} {
+    public func flatMapTT <Output> (_ transform: {% call checkEscaping3 type1 type2 type3 %}(ParameterType.ParameterType.ParameterType) -> {{ type1Concrete }}) -> {{ type1Concrete }} {
+        return flatMapT { (value) -> {{ type1Concrete }} in
+            value.traverse(transform).{% call getMapName type1 %} { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+{% endfor %}
+{% endfor %}
+{% endfor %}

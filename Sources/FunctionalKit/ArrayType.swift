@@ -6,8 +6,11 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: traversable
+// sourcery: monad
 // sourcery: concrete = "Array"
 // sourcery: customMap = "fmap"
+// sourcery: customFlatMap = "bind"
 public protocol ArrayType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
