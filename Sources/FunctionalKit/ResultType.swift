@@ -5,6 +5,9 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: concrete = "Result"
+// sourcery: secondaryParameter = "ErrorType"
 public protocol ResultType: TypeConstructor, CoproductType {
 	associatedtype ErrorType: Error
 
@@ -20,11 +23,11 @@ extension ResultType {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "success(x)"
-// sourcery: needsSecondary
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "success(x)"
+// sourcery: testSecondaryParameter
 public enum Result<E,T>: ResultType where E: Error {
 	public typealias ErrorType = E
 	public typealias ParameterType = T

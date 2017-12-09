@@ -5,6 +5,9 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: concrete = "Array"
+// sourcery: customMap = "fmap"
 public protocol ArrayType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
@@ -13,10 +16,10 @@ public protocol ArrayType: TypeConstructor {
 
 // MARK: - Data
 
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "init([x])"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init([x])"
 // sourcery: customMap = "fmap"
 // sourcery: customFlatMap = "bind"
 extension Array: ArrayType {

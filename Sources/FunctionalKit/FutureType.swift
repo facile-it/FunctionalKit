@@ -5,6 +5,9 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: concrete = "Future"
+// sourcery: escapingMap
 public protocol FutureType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run (_ callback: @escaping (ParameterType) -> ())
@@ -18,10 +21,10 @@ fileprivate enum FutureState<T> {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "unfold { $0(x) }"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "unfold { $0(x) }"
 // sourcery: needsCommand = "start()"
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A

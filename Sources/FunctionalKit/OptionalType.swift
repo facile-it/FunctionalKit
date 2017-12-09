@@ -5,6 +5,9 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: concrete = "Optional"
+// sourcery: customMap = "fmap"
 public protocol OptionalType: TypeConstructor, CoproductType {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType?
@@ -18,10 +21,10 @@ extension OptionalType {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "init(x)"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init(x)"
 // sourcery: customMap = "fmap"
 // sourcery: customFlatMap = "bind"
 extension Optional: OptionalType {
