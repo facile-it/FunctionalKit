@@ -200,6 +200,18 @@ extension OptionalType {
 		})
 	}
 
+    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+        typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
+        
+        return fold(
+            onNone: { () -> Returned in
+                Returned.pure(Traversed<Applicative>.none)
+        },
+            onSome: { (value) -> Returned in
+                Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
+        })
+    }
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 

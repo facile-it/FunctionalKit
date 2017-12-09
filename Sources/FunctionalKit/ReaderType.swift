@@ -6,6 +6,8 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: monad
+// sourcery: customTransformer
 // sourcery: concrete = "Reader"
 // sourcery: secondaryParameter = "EnvironmentType"
 // sourcery: escapingHOF

@@ -6,6 +6,7 @@ import Abstract
 // MARK: - Definiton
 
 // sourcery: functor
+// sourcery: monad
 // sourcery: concrete = "Future"
 // sourcery: escapingHOF
 public protocol FutureType: TypeConstructor {

@@ -23,8 +23,6 @@
 /* Begin PBXBuildFile section */
 		380C6FEA1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */; };
 		380C6FEB1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */; };
-		380C6FEC1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */; };
-		380C6FED1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */; };
 		380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */; };
 		380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */; };
 		380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */; };
@@ -51,6 +49,8 @@
 		38DA20891FD5A2930010AAEC /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20851FD5A2930010AAEC /* AnyError.swift */; };
 		38DA208A1FD5A2930010AAEC /* CustomArbitraryDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20861FD5A2930010AAEC /* CustomArbitraryDefinitions.swift */; };
 		38DA208B1FD5A2930010AAEC /* Assertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20871FD5A2930010AAEC /* Assertion.swift */; };
+		38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DD97881FDC2D0A00C67DFB /* ReaderTransformer.generated.swift */; };
+		38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DD97881FDC2D0A00C67DFB /* ReaderTransformer.generated.swift */; };
 		38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
 		38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DEDC6C1FC33BDB00D7984C /* WriterType.swift */; };
 		38F179951FBDA3F500243994 /* FunctionalKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,7 +135,6 @@
 
 /* Begin PBXFileReference section */
 		380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers3.generated.swift; sourceTree = "<group>"; };
-		380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4.generated.swift; sourceTree = "<group>"; };
 		380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers2.generated.swift; sourceTree = "<group>"; };
 		380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers3.generated.swift; sourceTree = "<group>"; };
 		380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers2.generated.swift; sourceTree = "<group>"; };
@@ -154,6 +153,7 @@
 		38DA20851FD5A2930010AAEC /* AnyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
 		38DA20861FD5A2930010AAEC /* CustomArbitraryDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomArbitraryDefinitions.swift; sourceTree = "<group>"; };
 		38DA20871FD5A2930010AAEC /* Assertion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertion.swift; sourceTree = "<group>"; };
+		38DD97881FDC2D0A00C67DFB /* ReaderTransformer.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderTransformer.generated.swift; sourceTree = "<group>"; };
 		38DEDC6C1FC33BDB00D7984C /* WriterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriterType.swift; sourceTree = "<group>"; };
 		38F179911FBDA3F500243994 /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F179931FBDA3F500243994 /* FunctionalKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FunctionalKit-iOS.h"; sourceTree = "<group>"; };
@@ -277,7 +277,7 @@
 				380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */,
 				380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */,
 				380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */,
-				380C6FE81FDC0EF400DA01FB /* MonadTransformers4.generated.swift */,
+				38DD97881FDC2D0A00C67DFB /* ReaderTransformer.generated.swift */,
 			);
 			name = Transformers;
 			sourceTree = "<group>";
@@ -565,12 +565,12 @@
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
+				38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
-				380C6FED1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */,
 				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
 				380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
@@ -632,12 +632,12 @@
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
+				38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
 				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
-				380C6FEC1FDC0EF400DA01FB /* MonadTransformers4.generated.swift in Sources */,
 				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
 				380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,

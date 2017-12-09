@@ -148,6 +148,14 @@ extension ArrayType {
 		}
 	}
 
+    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+        typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
+        
+        return fold(Returned.pure([])) { previous, element in
+            Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+        }
+    }
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 

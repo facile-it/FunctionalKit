@@ -248,6 +248,18 @@ extension ResultType {
 		})
 	}
 
+    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+        typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
+        
+        return fold(
+            onSuccess: { (value) -> Returned in
+                Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
+        },
+            onFailure: { (error) -> Returned in
+                Returned.pure(Traversed<Applicative>.failure(error))
+        })
+    }
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 

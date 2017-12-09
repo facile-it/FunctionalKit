@@ -130,6 +130,134 @@ extension ArrayType where ParameterType: WriterType, ParameterType.ParameterType
     }
 }
 
+extension FutureType where ParameterType: ArrayType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Array<Array<Output>>>) -> Future<Array<Array<Output>>> {
+        return flatMapT { (value) -> Future<Array<Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ArrayType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Array<Optional<Output>>>) -> Future<Array<Optional<Output>>> {
+        return flatMapT { (value) -> Future<Array<Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ArrayType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Array<Result<ParameterType.ParameterType.ErrorType,Output>>>) -> Future<Array<Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> Future<Array<Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ArrayType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Array<Writer<ParameterType.ParameterType.LogType,Output>>>) -> Future<Array<Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> Future<Array<Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: OptionalType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Optional<Array<Output>>>) -> Future<Optional<Array<Output>>> {
+        return flatMapT { (value) -> Future<Optional<Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: OptionalType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Optional<Optional<Output>>>) -> Future<Optional<Optional<Output>>> {
+        return flatMapT { (value) -> Future<Optional<Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: OptionalType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Optional<Result<ParameterType.ParameterType.ErrorType,Output>>>) -> Future<Optional<Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> Future<Optional<Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: OptionalType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Optional<Writer<ParameterType.ParameterType.LogType,Output>>>) -> Future<Optional<Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> Future<Optional<Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ResultType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Result<ParameterType.ErrorType,Array<Output>>>) -> Future<Result<ParameterType.ErrorType,Array<Output>>> {
+        return flatMapT { (value) -> Future<Result<ParameterType.ErrorType,Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ResultType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Result<ParameterType.ErrorType,Optional<Output>>>) -> Future<Result<ParameterType.ErrorType,Optional<Output>>> {
+        return flatMapT { (value) -> Future<Result<ParameterType.ErrorType,Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ResultType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>>) -> Future<Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> Future<Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: ResultType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>>) -> Future<Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> Future<Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: WriterType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Writer<ParameterType.LogType,Array<Output>>>) -> Future<Writer<ParameterType.LogType,Array<Output>>> {
+        return flatMapT { (value) -> Future<Writer<ParameterType.LogType,Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: WriterType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Writer<ParameterType.LogType,Optional<Output>>>) -> Future<Writer<ParameterType.LogType,Optional<Output>>> {
+        return flatMapT { (value) -> Future<Writer<ParameterType.LogType,Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: WriterType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>>) -> Future<Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> Future<Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension FutureType where ParameterType: WriterType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Future<Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>>) -> Future<Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> Future<Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
 extension OptionalType where ParameterType: ArrayType, ParameterType.ParameterType: ArrayType {
     public func flatMapTT <Output> (_ transform: (ParameterType.ParameterType.ParameterType) -> Optional<Array<Array<Output>>>) -> Optional<Array<Array<Output>>> {
         return flatMapT { (value) -> Optional<Array<Array<Output>>> in
@@ -381,6 +509,134 @@ extension ResultType where ParameterType: WriterType, ParameterType.ParameterTyp
 extension ResultType where ParameterType: WriterType, ParameterType.ParameterType: WriterType {
     public func flatMapTT <Output> (_ transform: (ParameterType.ParameterType.ParameterType) -> Result<ErrorType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>>) -> Result<ErrorType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> {
         return flatMapT { (value) -> Result<ErrorType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ArrayType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Array<Array<Output>>>) -> State<StateParameterType,Array<Array<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Array<Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ArrayType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Array<Optional<Output>>>) -> State<StateParameterType,Array<Optional<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Array<Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ArrayType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Array<Result<ParameterType.ParameterType.ErrorType,Output>>>) -> State<StateParameterType,Array<Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Array<Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ArrayType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Array<Writer<ParameterType.ParameterType.LogType,Output>>>) -> State<StateParameterType,Array<Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Array<Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: OptionalType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Optional<Array<Output>>>) -> State<StateParameterType,Optional<Array<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Optional<Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: OptionalType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Optional<Optional<Output>>>) -> State<StateParameterType,Optional<Optional<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Optional<Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: OptionalType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Optional<Result<ParameterType.ParameterType.ErrorType,Output>>>) -> State<StateParameterType,Optional<Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Optional<Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: OptionalType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Optional<Writer<ParameterType.ParameterType.LogType,Output>>>) -> State<StateParameterType,Optional<Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Optional<Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ResultType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Result<ParameterType.ErrorType,Array<Output>>>) -> State<StateParameterType,Result<ParameterType.ErrorType,Array<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Result<ParameterType.ErrorType,Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ResultType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Result<ParameterType.ErrorType,Optional<Output>>>) -> State<StateParameterType,Result<ParameterType.ErrorType,Optional<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Result<ParameterType.ErrorType,Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ResultType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>>) -> State<StateParameterType,Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Result<ParameterType.ErrorType,Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: ResultType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>>) -> State<StateParameterType,Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Result<ParameterType.ErrorType,Writer<ParameterType.ParameterType.LogType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: WriterType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Writer<ParameterType.LogType,Array<Output>>>) -> State<StateParameterType,Writer<ParameterType.LogType,Array<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Writer<ParameterType.LogType,Array<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: WriterType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Writer<ParameterType.LogType,Optional<Output>>>) -> State<StateParameterType,Writer<ParameterType.LogType,Optional<Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Writer<ParameterType.LogType,Optional<Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: WriterType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>>) -> State<StateParameterType,Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Writer<ParameterType.LogType,Result<ParameterType.ParameterType.ErrorType,Output>>> in
+            value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
+        }
+    }
+}
+
+extension StateType where ParameterType: WriterType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> State<StateParameterType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>>) -> State<StateParameterType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return flatMapT { (value) -> State<StateParameterType,Writer<ParameterType.LogType,Writer<ParameterType.ParameterType.LogType,Output>>> in
             value.traverse(transform).map { $0.traverse(fidentity) }.mapT { $0.joined }
         }
     }
