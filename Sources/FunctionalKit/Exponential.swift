@@ -10,8 +10,8 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
-// sourcery: profunctor
-// sourcery: construct = "init(x)"
+// sourcery: testProfunctor
+// sourcery: testConstruct = "init(x)"
 // sourcery: needsContext
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B

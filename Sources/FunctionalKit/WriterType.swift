@@ -5,6 +5,11 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: traversable
+// sourcery: monad
+// sourcery: concrete = "Writer"
+// sourcery: secondaryParameter = "LogType"
 public protocol WriterType: TypeConstructor, ProductType {
     associatedtype LogType: Monoid
     
@@ -14,11 +19,11 @@ public protocol WriterType: TypeConstructor, ProductType {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "init(log: .empty, value: x)"
-// sourcery: needsSecondary
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init(log: .empty, value: x)"
+// sourcery: testSecondaryParameter
 public struct Writer<L,A>: WriterType where L: Monoid {
     public typealias ParameterType = A
     
@@ -151,7 +156,13 @@ extension WriterType {
             Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
         }
     }
-    
+
+    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+        return fold { log, value in
+            Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
+        }
+    }
+
     public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
         return fold { log, value in
             Applicative.Concrete.pure(fcurry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)

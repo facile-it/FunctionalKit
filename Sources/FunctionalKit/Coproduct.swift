@@ -10,8 +10,8 @@ public protocol CoproductType {
 	func fold<T>(onLeft: (LeftType) -> T, onRight: (RightType) -> T) -> T
 }
 
-// sourcery: bifunctor
-// sourcery: construct = "random(x,y)"
+// sourcery: testBifunctor
+// sourcery: testConstruct = "random(x,y)"
 public enum Coproduct<A,B>: CoproductType {
 	case left(A)
 	case right(B)

@@ -23,4 +23,3 @@ public protocol TypeConstructor {
 // MARK: - Monad
 
 // MARK: - Utility
-

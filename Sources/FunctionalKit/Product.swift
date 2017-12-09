@@ -10,8 +10,8 @@ public protocol ProductType {
 	func fold<T>(_ transform: (FirstType,SecondType) -> T) -> T
 }
 
-// sourcery: bifunctor
-// sourcery: construct = "init(x,y)"
+// sourcery: testBifunctor
+// sourcery: testConstruct = "init(x,y)"
 public struct Product<A,B>: ProductType {
 	private let _first: A
 	private let _second: B

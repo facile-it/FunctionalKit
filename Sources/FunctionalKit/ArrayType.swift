@@ -5,6 +5,12 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: traversable
+// sourcery: monad
+// sourcery: concrete = "Array"
+// sourcery: customMap = "fmap"
+// sourcery: customFlatMap = "bind"
 public protocol ArrayType: TypeConstructor {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
@@ -13,10 +19,10 @@ public protocol ArrayType: TypeConstructor {
 
 // MARK: - Data
 
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "init([x])"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init([x])"
 // sourcery: customMap = "fmap"
 // sourcery: customFlatMap = "bind"
 extension Array: ArrayType {
@@ -141,6 +147,14 @@ extension ArrayType {
 			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
 		}
 	}
+
+    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+        typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
+        
+        return fold(Returned.pure([])) { previous, element in
+            Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+        }
+    }
 
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>

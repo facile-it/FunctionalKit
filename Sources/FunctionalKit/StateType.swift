@@ -5,6 +5,11 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: monad
+// sourcery: concrete = "State"
+// sourcery: secondaryParameter = "StateParameterType"
+// sourcery: escapingHOF
 public protocol StateType: TypeConstructor, ExponentialType {
 	associatedtype StateParameterType
 
@@ -20,12 +25,12 @@ extension StateType {
 }
 
 // MARK: - Data
-// sourcery: functor
-// sourcery: applicative
-// sourcery: monad
-// sourcery: construct = "unfold { s in (s,x) }"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "unfold { s in (s,x) }"
 // sourcery: needsContext
-// sourcery: needsSecondary
+// sourcery: testSecondaryParameter
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A
 
