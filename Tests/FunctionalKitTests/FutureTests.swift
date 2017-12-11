@@ -2,6 +2,9 @@ import XCTest
 import Operadics
 @testable import FunctionalKit
 import Foundation
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 
 class FutureTests: XCTestCase {
     

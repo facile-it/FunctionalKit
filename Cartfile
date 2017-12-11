@@ -1,2 +1,2 @@
-github "typelift/Abstract" "master"
-github "typelift/SwiftCheck" "master"
+github "typelift/Abstract"
+github "typelift/SwiftCheck"

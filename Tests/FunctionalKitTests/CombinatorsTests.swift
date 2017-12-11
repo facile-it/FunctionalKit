@@ -1,6 +1,6 @@
 import XCTest
 @testable import FunctionalKit
-#if !XCODE_BUILD
+#if SWIFT_PACKAGE
     import Operadics
 #endif
 import Abstract

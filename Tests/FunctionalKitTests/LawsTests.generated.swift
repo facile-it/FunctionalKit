@@ -12,7 +12,7 @@
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
-#if !XCODE_BUILD
+#if SWIFT_PACKAGE
     import Operadics
 #endif
 import Abstract
