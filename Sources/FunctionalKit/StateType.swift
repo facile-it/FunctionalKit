@@ -29,7 +29,7 @@ extension StateType {
 // sourcery: testApplicative
 // sourcery: testMonad
 // sourcery: testConstruct = "unfold { s in (s,x) }"
-// sourcery: needsContext
+// sourcery: testNeedsContext
 // sourcery: testSecondaryParameter
 public struct State<S,A>: StateType {
 	public typealias ParameterType = A

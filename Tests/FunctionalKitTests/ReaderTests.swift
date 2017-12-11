@@ -47,7 +47,7 @@ class ReaderTests: XCTestCase {
                 fulfill()
                 return environment
             }
-            r.run(Environment(environment: "Test"))
+			r.run(Environment(environment: "Test")) ==! Environment(environment: "Test")
         }
     }
     

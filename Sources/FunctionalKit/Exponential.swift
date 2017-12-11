@@ -12,7 +12,7 @@ public protocol ExponentialType {
 
 // sourcery: testProfunctor
 // sourcery: testConstruct = "init(x)"
-// sourcery: needsContext
+// sourcery: testNeedsContext
 public struct Exponential<A,B>: ExponentialType {
 	private let _call: (A) -> B
 

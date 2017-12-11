@@ -2,9 +2,9 @@
 {% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"testSecondaryParameter" %}String,{% endif %}{{ parameter }}>{% endmacro %}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
-{% macro getCommandCall type %}{% if type|annotated:"needsCommand" %}.{{ type.annotations.needsCommand }}{% endif %}{% endmacro %}
-{% macro getContextCall type %}{% if type|annotated:"needsContext" %}.run(c){% endif %}{% endmacro %}
-{% macro getContextParam type %}{% if type|annotated:"needsContext" %}, c: String{% endif %}{% endmacro %}
+{% macro getCommandCall type %}{% if type|annotated:"testNeedsCommand" %}.{{ type.annotations.testNeedsCommand }}{% endif %}{% endmacro %}
+{% macro getContextCall type %}{% if type|annotated:"testNeedsContext" %}.run(c){% endif %}{% endmacro %}
+{% macro getContextParam type %}{% if type|annotated:"testNeedsContext" %}, c: String{% endif %}{% endmacro %}
 
 {# FUNCTOR MACROS #}
 {% macro functorLaws type %}
@@ -76,7 +76,7 @@
 //MARK: - {{ type.name }} - Applicative
 
     func test{{ type.name }}ApplicativeIdentity() {
-        property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Applicative Laws - Identity") <- forAll { (x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(fidentity)
             let a = {% call getTypeName type "String" %}.pure(x)
             return ((a_a <*> a){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
@@ -84,7 +84,7 @@
     }
 
     func test{{ type.name }}ApplicativeHomomorphism() {
-        property("{{ type.name }} - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
             let a1 = {% call getTypeName type "String" %}.pure(x)
             let a2 = {% call getTypeName type "String" %}.pure(af.getArrow(x))
@@ -93,7 +93,7 @@
     }
 
     func test{{ type.name }}ApplicativeInterchange() {
-        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
             let a = {% call getTypeName type "String" %}.pure(x)
             let a_a_a = {% call getTypeName type "(@escaping Endo<String>) -> String" %}.pure { $0(x) }
@@ -102,7 +102,7 @@
     }
 
     func test{{ type.name }}ApplicativeComposition() {
-        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a = {% call getTypeName type "String" %}.pure(x)
             let a_a1 = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
             let a_a2 = {% call getTypeName type "Endo<String>" %}.pure(ag.getArrow)
@@ -117,7 +117,7 @@
 //MARK: - {{ type.name }} - Monad
 
     func test{{ type.name }}MonadLeftIdentity() {
-        property("{{ type.name }} - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a = {% call getTypeName type "String" %}.pure(x)
             let a_ma: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
             return (a.{% call getFlatMapName type %}(a_ma){% call getCommandCall type %} == a_ma(x){% call getCommandCall type %}){% call getContextCall type %}
@@ -125,14 +125,14 @@
     }
 
     func test{{ type.name }}MonadRightIdentity() {
-        property("{{ type.name }} - Monad Laws - Right Identity") <- forAll { (x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Monad Laws - Right Identity") <- forAll { (x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a = {% call getTypeName type "String" %}.pure(x)
             return (a.{% call getFlatMapName type %}({% call getTypeName type "String" %}.pure){% call getCommandCall type %} == a{% call getCommandCall type %}){% call getContextCall type %}
         }
     }
 
     func test{{ type.name }}MonadAssociativity() {
-        property("{{ type.name }} - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"needsContext" %}, c: String{% endif%}) in
+        property("{{ type.name }} - Monad Laws - Associativity") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a = {% call getTypeName type "String" %}.pure(x)
             let a_ma1: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(af.getArrow(y)) }
             let a_ma2: (String) -> {% call getTypeName type "String" %} = { y in {% call getTypeName type "String" %}.pure(ag.getArrow(y)) }

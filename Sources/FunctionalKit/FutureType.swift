@@ -26,7 +26,7 @@ fileprivate enum FutureState<T> {
 // sourcery: testApplicative
 // sourcery: testMonad
 // sourcery: testConstruct = "unfold { $0(x) }"
-// sourcery: needsCommand = "start()"
+// sourcery: testNeedsCommand = "start()"
 public final class Future<A>: FutureType {
 	public typealias ParameterType = A
 

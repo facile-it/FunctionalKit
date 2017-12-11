@@ -30,7 +30,7 @@ extension ReaderType {
 // sourcery: testApplicative
 // sourcery: testMonad
 // sourcery: testConstruct = "unfold { _ in x }"
-// sourcery: needsContext
+// sourcery: testNeedsContext
 // sourcery: testSecondaryParameter
 public struct Reader<E,A>: ReaderType {
 	public typealias ParameterType = A
