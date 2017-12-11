@@ -10,7 +10,7 @@ import Abstract
 // sourcery: monad
 // sourcery: concrete = "Writer"
 // sourcery: secondaryParameter = "LogType"
-public protocol WriterType: TypeConstructor, ProductType {
+public protocol WriterType: PureConstructible, ProductType {
     associatedtype LogType: Monoid
     
     static func from(concrete: Concrete<LogType,ParameterType>) -> Self

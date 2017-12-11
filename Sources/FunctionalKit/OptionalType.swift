@@ -11,7 +11,7 @@ import Abstract
 // sourcery: concrete = "Optional"
 // sourcery: customMap = "fmap"
 // sourcery: customFlatMap = "bind"
-public protocol OptionalType: TypeConstructor, CoproductType {
+public protocol OptionalType: PureConstructible, CoproductType {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType?
 	func fold <T> (onNone: () -> T, onSome: (ParameterType) -> T) -> T

@@ -9,7 +9,7 @@ import Abstract
 // sourcery: monad
 // sourcery: concrete = "Future"
 // sourcery: escapingHOF
-public protocol FutureType: TypeConstructor {
+public protocol FutureType: PureConstructible {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run (_ callback: @escaping (ParameterType) -> ())
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self

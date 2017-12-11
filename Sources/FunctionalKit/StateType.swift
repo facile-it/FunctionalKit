@@ -10,7 +10,7 @@ import Abstract
 // sourcery: concrete = "State"
 // sourcery: secondaryParameter = "StateParameterType"
 // sourcery: escapingHOF
-public protocol StateType: TypeConstructor, ExponentialType {
+public protocol StateType: PureConstructible, ExponentialType {
 	associatedtype StateParameterType
 
 	static func from(concrete: Concrete<StateParameterType,ParameterType>) -> Self
