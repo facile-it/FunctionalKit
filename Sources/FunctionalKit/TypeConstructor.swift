@@ -7,20 +7,20 @@ public protocol PureConstructible: TypeConstructor {
 }
 
 extension PureConstructible where ParameterType: PureConstructible {
-    static func pureT(_ value: ParameterType.ParameterType) -> Self {
+    public static func pureT(_ value: ParameterType.ParameterType) -> Self {
         return Self.pure(ParameterType.pure(value))
     }
 }
 
 extension PureConstructible where ParameterType: PureConstructible, ParameterType.ParameterType: PureConstructible {
-    static func pureTT(_ value: ParameterType.ParameterType.ParameterType) -> Self {
-        return Self.pureT(ParameterType.ParameterType.pure(value))
+    public static func pureTT(_ value: ParameterType.ParameterType.ParameterType) -> Self {
+        return Self.pure(ParameterType.pure(ParameterType.ParameterType.pure(value)))
     }
 }
 
 extension PureConstructible where ParameterType: PureConstructible, ParameterType.ParameterType: PureConstructible, ParameterType.ParameterType.ParameterType: PureConstructible {
-    static func pureTTT(_ value: ParameterType.ParameterType.ParameterType.ParameterType) -> Self {
-        return Self.pureTT(ParameterType.ParameterType.ParameterType.pure(value))
+    public static func pureTTT(_ value: ParameterType.ParameterType.ParameterType.ParameterType) -> Self {
+        return Self.pure(ParameterType.pure(ParameterType.ParameterType.pure(ParameterType.ParameterType.ParameterType.pure(value))))
     }
 }
 
