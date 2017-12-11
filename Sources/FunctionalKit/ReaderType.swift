@@ -178,3 +178,46 @@ extension ReaderType where ParameterType == () {
 		run(value)
 	}
 }
+
+// MARK: Handler
+
+public struct Handler<T>: ReaderType, Monoid {
+	public typealias EnvironmentType = T
+	public typealias ParameterType = ()
+
+	private let root: Coeffect<T>
+	public init(_ handler: @escaping (T) -> ()) {
+		self.root = Coeffect<T>.unfold(handler)
+	}
+
+	public func handle(_ value: T) {
+		self.run(value)
+	}
+
+	public static func pure(_ value: ()) -> Handler<T> {
+		return .empty
+	}
+
+	public static func from(concrete: Reader<T, ()>) -> Handler {
+		return Handler.init(concrete.run)
+	}
+
+	public func run(_ environment: T) -> () {
+		root.run(environment)
+	}
+
+	public static func unfold(_ function: @escaping (T) -> ()) -> Handler {
+		return Handler.init(function)
+	}
+
+	public static var empty: Handler {
+		return Handler.init(fignore)
+	}
+
+	public static func <> (left: Handler, right: Handler) -> Handler {
+		return Handler.init { action in
+			left.run(action)
+			right.run(action)
+		}
+	}
+}
