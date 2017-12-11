@@ -11,7 +11,7 @@ import Abstract
 // sourcery: concrete = "Reader"
 // sourcery: secondaryParameter = "EnvironmentType"
 // sourcery: escapingHOF
-public protocol ReaderType: TypeConstructor, ExponentialType {
+public protocol ReaderType: PureConstructible, ExponentialType {
 	associatedtype EnvironmentType
 
 	static func from(concrete: Concrete<EnvironmentType,ParameterType>) -> Self

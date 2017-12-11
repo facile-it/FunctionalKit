@@ -11,7 +11,7 @@ import Abstract
 // sourcery: concrete = "Array"
 // sourcery: customMap = "fmap"
 // sourcery: customFlatMap = "bind"
-public protocol ArrayType: TypeConstructor {
+public protocol ArrayType: PureConstructible {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	var run: [ParameterType] { get }
 	func fold<T>(_ starting: T, _ accumulate: (T,ParameterType) -> T) -> T

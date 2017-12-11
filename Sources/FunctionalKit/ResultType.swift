@@ -10,7 +10,7 @@ import Abstract
 // sourcery: monad
 // sourcery: concrete = "Result"
 // sourcery: secondaryParameter = "ErrorType"
-public protocol ResultType: TypeConstructor, CoproductType {
+public protocol ResultType: PureConstructible, CoproductType {
 	associatedtype ErrorType: Error
 
 	static func from(concrete: Concrete<ErrorType,ParameterType>) -> Self
