@@ -46,11 +46,11 @@ public final class Future<A>: FutureType {
 	public func start() -> Future<A> {
 		guard case .idle = currentState else { return self }
 		currentState = .running
-		continuation(weakly(self) { this, value in
-			this.currentState = .done(value)
-			this.callbacks.forEach { $0(value) }
-			this.callbacks.removeAll()
-		})
+		continuation { value in
+			self.currentState = .done(value)
+			self.callbacks.forEach { $0(value) }
+			self.callbacks.removeAll()
+		}
 		return self
 	}
 

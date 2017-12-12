@@ -243,6 +243,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Inclusive - Bifunctor
 
     func testInclusiveBifunctorIdentity() {

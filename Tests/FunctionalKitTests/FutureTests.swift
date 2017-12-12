@@ -58,6 +58,27 @@ class FutureTests: XCTestCase {
 			f.start()
 		}
 	}
+
+	func testMemoryLeak() {
+		expecting("Future completes","Future is dismissed") { fulfillComplete, fulfillDismiss in
+			let expectedText = "expectedText"
+			var f: Future<String>? = Future<String>.unfold { done in
+				after(0.1) {
+					done(expectedText)
+				}
+			}
+			weak var fWeak = f
+			f?.run { value in
+				value ==! expectedText
+				fulfillComplete()
+			}
+			f = nil
+			after(0.3) {
+				fWeak==?
+				fulfillDismiss()
+			}
+		}
+	}
     
     static var allTests = [
         ("testLiftOneArg", testLiftOneArg),

@@ -337,23 +337,23 @@
 		OBJ_11 /* FunctionalKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				38DA20831FD5A2930010AAEC /* Utilities */,
+				960989231FD305440062ACDC /* ArrayTests.swift */,
 				38F179D01FBDA85200243994 /* BooleanTests.swift */,
 				38F179CD1FBDA85100243994 /* CombinatorsTests.swift */,
 				3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */,
 				3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */,
 				3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */,
-				38DA20771FD549740010AAEC /* LawsTests.generated.swift */,
-				38F3C8151FBEC9B10014D30D /* ProductTests.swift */,
-				38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */,
-				38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */,
-				960989211FD2F8310062ACDC /* OptionalTests.swift */,
-				960989231FD305440062ACDC /* ArrayTests.swift */,
-				960989251FD3064A0062ACDC /* ResultTests.swift */,
 				960989271FD3079E0062ACDC /* FutureTests.swift */,
-				9609892F1FD43F180062ACDC /* WriterTests.swift */,
+				38DA20771FD549740010AAEC /* LawsTests.generated.swift */,
+				960989211FD2F8310062ACDC /* OptionalTests.swift */,
+				38F3C8151FBEC9B10014D30D /* ProductTests.swift */,
 				960989311FD443EA0062ACDC /* ReaderTests.swift */,
+				38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */,
+				960989251FD3064A0062ACDC /* ResultTests.swift */,
 				960989331FD449010062ACDC /* StateTests.swift */,
+				38F3C81B1FBEDC5D0014D30D /* WeaklyTests.swift */,
+				9609892F1FD43F180062ACDC /* WriterTests.swift */,
+				38DA20831FD5A2930010AAEC /* Utilities */,
 			);
 			name = FunctionalKitTests;
 			path = Tests/FunctionalKitTests;
