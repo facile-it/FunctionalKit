@@ -73,6 +73,7 @@ class FutureTests: XCTestCase {
 				fulfillComplete()
 			}
 			f = nil
+			fWeak==!
 			after(0.3) {
 				fWeak==?
 				fulfillDismiss()
