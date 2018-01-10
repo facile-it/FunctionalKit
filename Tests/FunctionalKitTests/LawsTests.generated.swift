@@ -108,6 +108,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Coproduct - Bifunctor
 
     func testCoproductBifunctorIdentity() {
@@ -274,6 +279,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Optional - Functor
 
     func testOptionalFunctorIdentity() {
@@ -376,6 +386,11 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
         }
     }
+
+
+
+
+
 
 
 
@@ -557,6 +572,11 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
+
+
+
+
+
 
 //MARK: - State - Functor
 

@@ -221,3 +221,11 @@ public struct Handler<T>: ReaderType, Monoid {
 		}
 	}
 }
+
+extension ReaderType where ParameterType == () {
+	public var toHandler: Handler<EnvironmentType> {
+		return Handler<EnvironmentType>.unfold(self.run)
+	}
+}
+
+public typealias Updater<T> = Handler<Endo<T>>

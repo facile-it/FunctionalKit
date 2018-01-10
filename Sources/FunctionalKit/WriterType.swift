@@ -210,4 +210,43 @@ extension WriterType {
         let (log,value) = run
         return Writer(log: log, value: (log,value))
     }
+
+	public func logValue<NewLog>(_ transform: (LogType,ParameterType) -> NewLog) -> Writer<NewLog,ParameterType> {
+		let (_,value) = run
+		return mapLog { log in transform(log,value) }
+	}
+
+	public func swap<T>(_ transform: (ParameterType) -> T) -> Writer<T,LogType> where T: Monoid {
+		let (log,value) = run
+		return Writer<T,LogType>.init(log: transform(value), value: log)
+	}
+
+	public func consumeLog(_ consumer: (LogType) -> ()) -> ParameterType {
+		let (log,value) = run
+		consumer(log)
+		return value
+	}
+
+	public var discardLog: ParameterType {
+		let (_,value) = run
+		return value
+	}
+}
+
+// MARK: - Monoid
+
+extension WriterType where ParameterType: Monoid {
+	public var swapped: Writer<ParameterType,LogType> {
+		return swap(fidentity)
+	}
+
+	public static var empty: Writer<LogType,ParameterType> {
+		return Writer<LogType,ParameterType>.init(log: .empty, value: .empty)
+	}
+
+	public static func <> (lhs: Self, rhs: Self) -> Writer<LogType,ParameterType> {
+		let (lLog,lValue) = lhs.run
+		let (rLog,rValue) = rhs.run
+		return Writer<LogType,ParameterType>.init(log: lLog <> rLog, value: lValue <> rValue)
+	}
 }

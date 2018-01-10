@@ -21,7 +21,6 @@ extension Bool {
 	}
 }
 
-
 public func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
 	return left.implies(right())
 }
