@@ -94,3 +94,7 @@ public func |> <A,B> (value: A, function: (A) throws -> B) rethrows -> B {
 public func <| <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
 	return try function(value)
 }
+
+public func <*> <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
+	return try function(value)
+}

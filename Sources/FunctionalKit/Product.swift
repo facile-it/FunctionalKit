@@ -110,3 +110,25 @@ extension ProductType {
 		return bimap(fidentity, transform)
 	}
 }
+
+// MARK: - Cross Interactions
+
+extension ProductType where FirstType: CoproductType {
+	public var insideOut: Coproduct<Product<FirstType.LeftType,SecondType>,Product<FirstType.RightType,SecondType>> {
+		return fold { first, second in
+			first.bimap(
+				{ Product.init($0, second) },
+				{ Product.init($0, second) })
+		}
+	}
+}
+
+extension ProductType where SecondType: CoproductType {
+	public var insideOut: Coproduct<Product<FirstType,SecondType.LeftType>,Product<FirstType,SecondType.RightType>> {
+		return fold { first, second in
+			second.bimap(
+				{ Product.init(first, $0) },
+				{ Product.init(first, $0) })
+		}
+	}
+}
