@@ -21,7 +21,7 @@ class OptionalTests: XCTestCase {
         let ap1 = Optional.pure(1)
         let ap2 = Optional.pure(2)
 
-        Optional.lift(sum)(ap1, ap2) ==! Optional.pure(fcurry(sum)) <*> ap1 <*> ap2
+        Optional.lift(sum)(ap1, ap2) ==! Optional.pure(f.curry(sum)) <*> ap1 <*> ap2
         Optional.lift(sum)(ap1, ap2) ==! Optional.pure(3)
     }
     
@@ -31,7 +31,7 @@ class OptionalTests: XCTestCase {
         let ap2 = Optional.pure(2)
         let ap3 = Optional.pure(3)
         
-        Optional.lift(sum)(ap1, ap2, ap3) ==! Optional.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3
+        Optional.lift(sum)(ap1, ap2, ap3) ==! Optional.pure(f.curry(sum)) <*> ap1 <*> ap2 <*> ap3
         Optional.lift(sum)(ap1, ap2, ap3) ==! Optional.pure(6)
     }
     

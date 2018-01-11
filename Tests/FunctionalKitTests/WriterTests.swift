@@ -35,7 +35,7 @@ class WriterTests: XCTestCase {
         let ap1 = TestWriterType.pure(1)
         let ap2 = TestWriterType.pure(2)
 
-        TestWriterType.lift(sum)(ap1, ap2) ==! TestWriterType.pure(fcurry(sum)) <*> ap1 <*> ap2
+        TestWriterType.lift(sum)(ap1, ap2) ==! TestWriterType.pure(f.curry(sum)) <*> ap1 <*> ap2
         TestWriterType.lift(sum)(ap1, ap2) ==! TestWriterType.pure(3)
     }
     
@@ -45,7 +45,7 @@ class WriterTests: XCTestCase {
         let ap2 = TestWriterType.pure(2)
         let ap3 = TestWriterType.pure(3)
         
-        TestWriterType.lift(sum)(ap1, ap2, ap3) ==! TestWriterType.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3
+        TestWriterType.lift(sum)(ap1, ap2, ap3) ==! TestWriterType.pure(f.curry(sum)) <*> ap1 <*> ap2 <*> ap3
         TestWriterType.lift(sum)(ap1, ap2, ap3) ==! TestWriterType.pure(6)
     }
     
