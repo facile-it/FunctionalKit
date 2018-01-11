@@ -4,20 +4,20 @@
 import Abstract
 
 extension f {
-	public static func compose <A,B,C> (_ first: @escaping (A) -> B, _ second: @escaping (B) -> C) -> (A) -> C {
-		return { second(first($0)) }
+	public static func compose <A,B,C> (_ firstFunction: @escaping (A) -> B, _ secondFunction: @escaping (B) -> C) -> (A) -> C {
+		return { secondFunction(firstFunction($0)) }
 	}
 
-	public static func compose <A,B,C> (_ first: @escaping (A) throws -> B, _ second: @escaping (B) -> C) -> (A) throws -> C {
-		return { try second(first($0)) }
+	public static func compose <A,B,C> (_ firstFunction: @escaping (A) throws -> B, _ secondFunction: @escaping (B) -> C) -> (A) throws -> C {
+		return { try secondFunction(firstFunction($0)) }
 	}
 
-	public static func compose <A,B,C> (_ first: @escaping (A) -> B, _ second: @escaping (B) throws -> C) -> (A) throws -> C {
-		return { try second(first($0)) }
+	public static func compose <A,B,C> (_ firstFunction: @escaping (A) -> B, _ secondFunction: @escaping (B) throws -> C) -> (A) throws -> C {
+		return { try secondFunction(firstFunction($0)) }
 	}
 
-	public static func compose <A,B,C> (_ first: @escaping (A) throws -> B, _ second: @escaping (B) throws -> C) -> (A) throws -> C {
-		return { try second(first($0)) }
+	public static func compose <A,B,C> (_ firstFunction: @escaping (A) throws -> B, _ secondFunction: @escaping (B) throws -> C) -> (A) throws -> C {
+		return { try secondFunction(firstFunction($0)) }
 	}
 
 	public static func flip<A,B,C>(_ function: @escaping (A) -> (B) -> C) -> (B) -> (A) -> C {
