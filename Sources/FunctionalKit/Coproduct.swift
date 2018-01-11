@@ -34,11 +34,11 @@ extension CoproductType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { left in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onRight: fconstant(false))
+					onRight: f.constant(false))
 		},
 			onRight: { right in
 				rhs.fold(
-					onLeft: fconstant(false),
+					onLeft: f.constant(false),
 					onRight: { right == $0 })
 		})
 	}
@@ -52,25 +52,25 @@ extension CoproductType {
 	}
 
 	public var tryLeft: LeftType? {
-		return fold(onLeft: fidentity, onRight: { _ in nil })
+		return fold(onLeft: f.identity, onRight: { _ in nil })
 	}
 
 	public var tryRight: RightType? {
-		return fold(onLeft: { _ in nil }, onRight: fidentity)
+		return fold(onLeft: { _ in nil }, onRight: f.identity)
 	}
 
 	public func foldToLeft(_ transform: (RightType) -> LeftType) -> LeftType {
-		return fold(onLeft: fidentity, onRight: transform)
+		return fold(onLeft: f.identity, onRight: transform)
 	}
 
 	public func foldToRight(_ transform: (LeftType) -> RightType) -> RightType {
-		return fold(onLeft: transform, onRight: fidentity)
+		return fold(onLeft: transform, onRight: f.identity)
 	}
 }
 
 extension CoproductType where LeftType == RightType {
 	public var merged: LeftType {
-		return fold(onLeft: fidentity, onRight: fidentity)
+		return fold(onLeft: f.identity, onRight: f.identity)
 	}
 }
 
@@ -84,11 +84,11 @@ extension CoproductType {
 	}
 
 	public func mapLeft<T>(_ transform: (LeftType) -> T) -> Coproduct<T,RightType> {
-		return bimap(transform, fidentity)
+		return bimap(transform, f.identity)
 	}
 
 	public func mapRight<U>(_ transform: (RightType) -> U) -> Coproduct<LeftType,U> {
-		return bimap(fidentity, transform)
+		return bimap(f.identity, transform)
 	}
 }
 

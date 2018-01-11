@@ -62,13 +62,13 @@ extension ArrayType {
     
     public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> [A] where Applicative2: ArrayType {
         return { (ap1, ap2) in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
     public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> [A] where Applicative2: ArrayType, Applicative3: ArrayType {
         return { ap1, ap2, ap3 in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
@@ -112,7 +112,7 @@ extension ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -120,7 +120,7 @@ extension ArrayType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -128,7 +128,7 @@ extension ArrayType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -136,7 +136,7 @@ extension ArrayType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -144,7 +144,7 @@ extension ArrayType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -152,7 +152,7 @@ extension ArrayType {
         typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
         
         return fold(Returned.pure([])) { previous, element in
-            Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+            Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
 
@@ -160,7 +160,7 @@ extension ArrayType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
-			Applicative.Concrete.pure(fcurry(++)) <*> previous <*> transform(element)
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 }

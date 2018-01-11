@@ -90,13 +90,13 @@ extension ReaderType {
     
     public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Reader<EnvironmentType, A> where Applicative2: ReaderType, Applicative2.EnvironmentType == EnvironmentType {
         return { ap1, ap2 in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
   
     public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Reader<EnvironmentType, A> where Applicative2: ReaderType, Applicative3: ReaderType, Applicative2.EnvironmentType == EnvironmentType, Applicative3.EnvironmentType == EnvironmentType {
         return { ap1, ap2, ap3 in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
@@ -117,7 +117,7 @@ extension ReaderType {
 
 extension ReaderType {
 	public static func pure(_ value: ParameterType) -> Reader<EnvironmentType,ParameterType> {
-		return Reader.unfold(fconstant(value))
+		return Reader.unfold(f.constant(value))
 	}
 
 	public func apply <R,T> (_ transform: R) -> Reader<EnvironmentType,T> where R: ReaderType, R.ParameterType == (ParameterType) -> T, R.EnvironmentType == EnvironmentType {
@@ -147,7 +147,7 @@ extension ReaderType {
 
 extension ReaderType {
 	public static var ask: Reader<EnvironmentType,EnvironmentType> {
-		return Reader<EnvironmentType,EnvironmentType>.unfold(fidentity)
+		return Reader<EnvironmentType,EnvironmentType>.unfold(f.identity)
 	}
 }
 
@@ -211,7 +211,7 @@ public struct Handler<T>: ReaderType, Monoid {
 	}
 
 	public static var empty: Handler {
-		return Handler.init(fignore)
+		return Handler.init(f.ignore)
 	}
 
 	public static func <> (left: Handler, right: Handler) -> Handler {

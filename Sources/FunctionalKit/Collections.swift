@@ -37,11 +37,11 @@ extension Sequence {
 
 extension Sequence where Iterator.Element == Bool {
 	public var isAllTrue: Bool {
-		return all(conformTo: fidentity)
+		return all(conformTo: f.identity)
 	}
 
 	public var isAnyTrue: Bool {
-		return any(conformsTo: fidentity)
+		return any(conformsTo: f.identity)
 	}
 }
 

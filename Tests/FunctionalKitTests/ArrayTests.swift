@@ -20,7 +20,7 @@ class ArrayTests: XCTestCase {
         let ap1 = Array.pure(1)
         let ap2 = Array.pure(2)
         
-        Array.lift(sum)(ap1, ap2) ==! Array.pure(fcurry(sum)) <*> ap1 <*> ap2
+        Array.lift(sum)(ap1, ap2) ==! Array.pure(f.curry(sum)) <*> ap1 <*> ap2
         Array.lift(sum)(ap1, ap2) ==! Array.pure(3)
     }
     
@@ -30,7 +30,7 @@ class ArrayTests: XCTestCase {
         let ap2 = Array.pure(2)
         let ap3 = Array.pure(3)
         
-        Array.lift(sum)(ap1, ap2, ap3) ==! Array.pure(fcurry(sum)) <*> ap1 <*> ap2 <*> ap3
+        Array.lift(sum)(ap1, ap2, ap3) ==! Array.pure(f.curry(sum)) <*> ap1 <*> ap2 <*> ap3
         Array.lift(sum)(ap1, ap2, ap3) ==! Array.pure(6)
     }
     

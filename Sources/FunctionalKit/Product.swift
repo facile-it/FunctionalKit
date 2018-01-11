@@ -53,7 +53,7 @@ public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 
 extension ProductType where FirstType: Equatable, SecondType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(fidentity) == rhs.fold(fidentity)
+		return lhs.fold(f.identity) == rhs.fold(f.identity)
 	}
 }
 
@@ -73,7 +73,7 @@ extension ProductType {
 	}
 
 	public var unwrap: (FirstType,SecondType) {
-		return fold(fidentity)
+		return fold(f.identity)
 	}
 }
 
@@ -103,11 +103,11 @@ extension ProductType {
 	}
 
 	public func mapFirst<T>(_ transform: (FirstType) -> T) -> Product<T,SecondType> {
-		return bimap(transform, fidentity)
+		return bimap(transform, f.identity)
 	}
 
 	public func mapSecond<U>(_ transform: (SecondType) -> U) -> Product<FirstType,U> {
-		return bimap(fidentity, transform)
+		return bimap(f.identity, transform)
 	}
 }
 

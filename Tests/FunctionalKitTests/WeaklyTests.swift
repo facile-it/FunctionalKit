@@ -10,7 +10,7 @@ class WeaklyTests: XCTestCase {
 		var ref = Optional.some(Ref<Int>.init(42))
 		ref = nil
 
-		weakly(ref) { _ in
+		f.weakly(ref) { _ in
 			notExpected()
 		}()
 	}
@@ -19,7 +19,7 @@ class WeaklyTests: XCTestCase {
 		var ref = Optional.some(Ref<Int>.init(42))
 		ref = nil
 
-		42 |> weakly(ref) { _, _ in
+		42 |> f.weakly(ref) { _, _ in
 			notExpected()
 		}
 	}
@@ -28,7 +28,7 @@ class WeaklyTests: XCTestCase {
 	func testWeaklySomeIO() {
 		let ref = Optional.some(Ref<Int>.init(42))
 
-		42 |> weakly(ref) { this, value in
+		42 |> f.weakly(ref) { this, value in
 			value ==! this.value
 		}
 	}

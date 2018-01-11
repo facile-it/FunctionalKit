@@ -55,19 +55,19 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { (left) -> Bool in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onCenter: fconstant(false),
-					onRight: fconstant(false))
+					onCenter: f.constant(false),
+					onRight: f.constant(false))
 		},
 			onCenter: { (left, right) -> Bool in
 				rhs.fold(
-					onLeft: fconstant(false),
+					onLeft: f.constant(false),
 					onCenter: { left == $0 && right == $1 },
-					onRight: fconstant(false))
+					onRight: f.constant(false))
 		},
 			onRight: { (right) -> Bool in
 				rhs.fold(
-					onLeft: fconstant(false),
-					onCenter: fconstant(false),
+					onLeft: f.constant(false),
+					onCenter: f.constant(false),
 					onRight: { right == $0 })
 		})
 	}
@@ -78,51 +78,51 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 extension InclusiveType {
 	public var tryToProduct: Product<LeftType,RightType>? {
 		return fold(
-			onLeft: fconstant(nil),
+			onLeft: f.constant(nil),
 			onCenter: Product.init,
-			onRight: fconstant(nil))
+			onRight: f.constant(nil))
 	}
 
 	public var tryToCoproduct: Coproduct<LeftType,RightType>? {
 		return fold(
 			onLeft: Coproduct.left,
-			onCenter: fconstant(nil),
+			onCenter: f.constant(nil),
 			onRight: Coproduct.right)
 	}
 
 	public var tryLeft: LeftType? {
 		return fold(
-			onLeft: fidentity,
-			onCenter: ffirst,
-			onRight: fconstant(nil))
+			onLeft: f.identity,
+			onCenter: f.first,
+			onRight: f.constant(nil))
 	}
 
 	public var tryRight: RightType? {
 		return fold(
-			onLeft: fconstant(nil),
-			onCenter: fsecond,
-			onRight: fidentity)
+			onLeft: f.constant(nil),
+			onCenter: f.second,
+			onRight: f.identity)
 	}
 
 	public var tryBoth: (LeftType,RightType)? {
 		return fold(
-			onLeft: fconstant(nil),
-			onCenter: fidentity,
-			onRight: fconstant(nil))
+			onLeft: f.constant(nil),
+			onCenter: f.identity,
+			onRight: f.constant(nil))
 	}
 }
 
 extension InclusiveType where LeftType == RightType {
 	public var left: LeftType {
-		return fold(onLeft: fidentity, onCenter: ffirst, onRight: fidentity)
+		return fold(onLeft: f.identity, onCenter: f.first, onRight: f.identity)
 	}
 
 	public var right: RightType {
-		return fold(onLeft: fidentity, onCenter: fsecond, onRight: fidentity)
+		return fold(onLeft: f.identity, onCenter: f.second, onRight: f.identity)
 	}
 
 	public func merged(composing: @escaping (LeftType,LeftType) -> LeftType) -> LeftType {
-		return fold(onLeft: fidentity, onCenter: composing, onRight: fidentity)
+		return fold(onLeft: f.identity, onCenter: composing, onRight: f.identity)
 	}
 }
 

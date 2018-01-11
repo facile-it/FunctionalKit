@@ -91,13 +91,13 @@ extension StateType {
     
     public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> State<StateParameterType, A> where Applicative2: StateType, Applicative2.StateParameterType == StateParameterType {
         return { ap1, ap2 in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
     public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> State<StateParameterType, A> where Applicative2: StateType, Applicative3: StateType, Applicative2.StateParameterType == StateParameterType, Applicative3.StateParameterType == StateParameterType {
         return { ap1, ap2, ap3 in
-            Concrete.pure(fcurry(function)) <*> ap1 <*> ap2 <*> ap3
+            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
 }
@@ -114,7 +114,7 @@ extension StateType {
 	}
 
 	public static func zipCommon <S1,S2> (_ sm1: S1, _ sm2: S2) -> State<StateParameterType,(S1.ParameterType,S2.ParameterType)> where S1: StateType, S2: StateType, S1.StateParameterType == StateParameterType, S2.StateParameterType == StateParameterType, ParameterType == (S1.ParameterType,S2.ParameterType) {
-		return State.zip(sm1, sm2).mapState(from: fduplicate, to: ffirst)
+		return State.zip(sm1, sm2).mapState(from: f.duplicate, to: f.first)
 	}
 }
 
