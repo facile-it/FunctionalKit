@@ -42,6 +42,22 @@
 		3877789B1FBDB01A00F4F5E4 /* CoproductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */; };
 		3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */; };
 		3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */; };
+		388AACB92020CD2D00FBE3FA /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB32020CD2D00FBE3FA /* Adapter.swift */; };
+		388AACBA2020CD2D00FBE3FA /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB32020CD2D00FBE3FA /* Adapter.swift */; };
+		388AACBB2020CD2D00FBE3FA /* Lens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB42020CD2D00FBE3FA /* Lens.swift */; };
+		388AACBC2020CD2D00FBE3FA /* Lens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB42020CD2D00FBE3FA /* Lens.swift */; };
+		388AACBD2020CD2D00FBE3FA /* Optics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB52020CD2D00FBE3FA /* Optics.swift */; };
+		388AACBE2020CD2D00FBE3FA /* Optics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB52020CD2D00FBE3FA /* Optics.swift */; };
+		388AACBF2020CD2D00FBE3FA /* Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB62020CD2D00FBE3FA /* Prism.swift */; };
+		388AACC02020CD2D00FBE3FA /* Prism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB62020CD2D00FBE3FA /* Prism.swift */; };
+		388AACC12020CD2D00FBE3FA /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB72020CD2D00FBE3FA /* Affine.swift */; };
+		388AACC22020CD2D00FBE3FA /* Affine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB72020CD2D00FBE3FA /* Affine.swift */; };
+		388AACC32020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB82020CD2D00FBE3FA /* AlgebraicOptics.swift */; };
+		388AACC42020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACB82020CD2D00FBE3FA /* AlgebraicOptics.swift */; };
+		388AACC92020CDEE00FBE3FA /* AffineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACC52020CDED00FBE3FA /* AffineTests.swift */; };
+		388AACCA2020CDEE00FBE3FA /* AdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACC62020CDEE00FBE3FA /* AdapterTests.swift */; };
+		388AACCB2020CDEE00FBE3FA /* PrismTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACC72020CDEE00FBE3FA /* PrismTests.swift */; };
+		388AACCC2020CDEE00FBE3FA /* LensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388AACC82020CDEE00FBE3FA /* LensTests.swift */; };
 		38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA01FC2DC3100012794 /* TypeConstructor.swift */; };
 		38939BA41FC32CB200012794 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* OptionalType.swift */; };
@@ -150,6 +166,16 @@
 		3877789A1FBDB01A00F4F5E4 /* CoproductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoproductTests.swift; sourceTree = "<group>"; };
 		3877789C1FBDCFA900F4F5E4 /* ExponentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialTests.swift; sourceTree = "<group>"; };
 		3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTests.swift; sourceTree = "<group>"; };
+		388AACB32020CD2D00FBE3FA /* Adapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
+		388AACB42020CD2D00FBE3FA /* Lens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lens.swift; sourceTree = "<group>"; };
+		388AACB52020CD2D00FBE3FA /* Optics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optics.swift; sourceTree = "<group>"; };
+		388AACB62020CD2D00FBE3FA /* Prism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prism.swift; sourceTree = "<group>"; };
+		388AACB72020CD2D00FBE3FA /* Affine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Affine.swift; sourceTree = "<group>"; };
+		388AACB82020CD2D00FBE3FA /* AlgebraicOptics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgebraicOptics.swift; sourceTree = "<group>"; };
+		388AACC52020CDED00FBE3FA /* AffineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AffineTests.swift; sourceTree = "<group>"; };
+		388AACC62020CDEE00FBE3FA /* AdapterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterTests.swift; sourceTree = "<group>"; };
+		388AACC72020CDEE00FBE3FA /* PrismTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrismTests.swift; sourceTree = "<group>"; };
+		388AACC82020CDEE00FBE3FA /* LensTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensTests.swift; sourceTree = "<group>"; };
 		38939BA01FC2DC3100012794 /* TypeConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeConstructor.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
@@ -234,6 +260,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		388AACB22020CCE500FBE3FA /* Optics */ = {
+			isa = PBXGroup;
+			children = (
+				388AACB32020CD2D00FBE3FA /* Adapter.swift */,
+				388AACB72020CD2D00FBE3FA /* Affine.swift */,
+				388AACB82020CD2D00FBE3FA /* AlgebraicOptics.swift */,
+				388AACB42020CD2D00FBE3FA /* Lens.swift */,
+				388AACB52020CD2D00FBE3FA /* Optics.swift */,
+				388AACB62020CD2D00FBE3FA /* Prism.swift */,
+			);
+			name = Optics;
+			sourceTree = "<group>";
+		};
 		38B9E7EB1FD8381200E55BE3 /* Algebra */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,6 +384,8 @@
 		OBJ_11 /* FunctionalKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				388AACC62020CDEE00FBE3FA /* AdapterTests.swift */,
+				388AACC52020CDED00FBE3FA /* AffineTests.swift */,
 				960989231FD305440062ACDC /* ArrayTests.swift */,
 				38F179D01FBDA85200243994 /* BooleanTests.swift */,
 				38F179CD1FBDA85100243994 /* CombinatorsTests.swift */,
@@ -353,7 +394,9 @@
 				3877789E1FBDF0AC00F4F5E4 /* FixedTests.swift */,
 				960989271FD3079E0062ACDC /* FutureTests.swift */,
 				38DA20771FD549740010AAEC /* LawsTests.generated.swift */,
+				388AACC82020CDEE00FBE3FA /* LensTests.swift */,
 				960989211FD2F8310062ACDC /* OptionalTests.swift */,
+				388AACC72020CDEE00FBE3FA /* PrismTests.swift */,
 				38F3C8151FBEC9B10014D30D /* ProductTests.swift */,
 				960989311FD443EA0062ACDC /* ReaderTests.swift */,
 				38F3C8191FBED8BF0014D30D /* ReferenceTests.swift */,
@@ -405,6 +448,7 @@
 				38B9E7EB1FD8381200E55BE3 /* Algebra */,
 				38B9E7EF1FD8388A00E55BE3 /* Category */,
 				38B9E7EE1FD8384200E55BE3 /* Functions */,
+				388AACB22020CCE500FBE3FA /* Optics */,
 			);
 			name = FunctionalKit;
 			path = Sources/FunctionalKit;
@@ -565,6 +609,7 @@
 				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
 				381E9B25200764B200A392DB /* NameSpace.swift in Sources */,
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
+				388AACBC2020CD2D00FBE3FA /* Lens.swift in Sources */,
 				385370701FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
 				380C6FEB1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
@@ -573,7 +618,10 @@
 				3853706D1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
+				388AACC42020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */,
+				388AACBA2020CD2D00FBE3FA /* Adapter.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
+				388AACC22020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
@@ -583,6 +631,8 @@
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
+				388AACC02020CD2D00FBE3FA /* Prism.swift in Sources */,
+				388AACBE2020CD2D00FBE3FA /* Optics.swift in Sources */,
 				380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
 				380C6FF41FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
@@ -606,14 +656,18 @@
 				38DA20891FD5A2930010AAEC /* AnyError.swift in Sources */,
 				38F3C81C1FBEDC5D0014D30D /* WeaklyTests.swift in Sources */,
 				38F3C81A1FBED8BF0014D30D /* ReferenceTests.swift in Sources */,
+				388AACCB2020CDEE00FBE3FA /* PrismTests.swift in Sources */,
 				38DA20881FD5A2930010AAEC /* Random.swift in Sources */,
 				3877789D1FBDCFA900F4F5E4 /* ExponentialTests.swift in Sources */,
 				960989301FD43F180062ACDC /* WriterTests.swift in Sources */,
+				388AACC92020CDEE00FBE3FA /* AffineTests.swift in Sources */,
 				960989281FD3079E0062ACDC /* FutureTests.swift in Sources */,
+				388AACCA2020CDEE00FBE3FA /* AdapterTests.swift in Sources */,
 				38F3C8161FBEC9B10014D30D /* ProductTests.swift in Sources */,
 				960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */,
 				960989241FD305440062ACDC /* ArrayTests.swift in Sources */,
 				960989261FD3064A0062ACDC /* ResultTests.swift in Sources */,
+				388AACCC2020CDEE00FBE3FA /* LensTests.swift in Sources */,
 				960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */,
 				38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */,
 				3877789F1FBDF0AC00F4F5E4 /* FixedTests.swift in Sources */,
@@ -634,6 +688,7 @@
 				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
 				381E9B24200764B200A392DB /* NameSpace.swift in Sources */,
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
+				388AACBB2020CD2D00FBE3FA /* Lens.swift in Sources */,
 				3853706F1FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
 				380C6FEA1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
@@ -642,7 +697,10 @@
 				3853706C1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
+				388AACC32020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */,
+				388AACB92020CD2D00FBE3FA /* Adapter.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
+				388AACC12020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
@@ -652,6 +710,8 @@
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
 				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
+				388AACBF2020CD2D00FBE3FA /* Prism.swift in Sources */,
+				388AACBD2020CD2D00FBE3FA /* Optics.swift in Sources */,
 				380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
 				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
 				380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
