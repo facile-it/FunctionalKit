@@ -18,6 +18,21 @@ import SwiftCheck
 import Abstract
 
 class LawsTests: XCTestCase {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //MARK: - Array - Functor
 
     func testArrayFunctorIdentity() {
@@ -130,6 +145,16 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -284,6 +309,26 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //MARK: - Optional - Functor
 
     func testOptionalFunctorIdentity() {
@@ -369,6 +414,16 @@ class LawsTests: XCTestCase {
     }
 
 
+
+
+
+
+
+
+
+
+
+
 //MARK: - Product - Bifunctor
 
     func testProductBifunctorIdentity() {
@@ -386,6 +441,11 @@ class LawsTests: XCTestCase {
             return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
         }
     }
+
+
+
+
+
 
 
 
@@ -583,6 +643,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - State - Functor
 
     func testStateFunctorIdentity() {
@@ -750,6 +815,16 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
