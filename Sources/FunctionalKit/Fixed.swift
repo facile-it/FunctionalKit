@@ -112,4 +112,12 @@ extension f {
 	public static func triplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A,A) -> (B,B,B) {
 		return zip(f, f, f)
 	}
+    
+    public static func with<A> (_ function: @escaping (inout A) -> ()) -> (A) -> A {
+        return { a in
+            var m = a
+            function(&m)
+            return m
+        }
+    }
 }
