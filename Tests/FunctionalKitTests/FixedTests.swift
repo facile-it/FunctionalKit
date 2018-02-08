@@ -34,10 +34,24 @@ class FixedTests: XCTestCase {
 		f.flatten(42,(43,44)) ==! (42,43,44)
 	}
 
+	func testWith() {
+		let expectedString = "expectedString"
+		let expectedInt = 42
+
+		let test1 = TestStruct.init() |> f.with {
+			$0.string = expectedString
+			$0.int = expectedInt
+		}
+
+		test1.string ==! expectedString
+		test1.int ==! expectedInt
+	}
+
 	static var allTests = [
 		("testIdentity", testIdentity),
 		("testConstant", testConstant),
 		("testDestructure", testDestructure),
 		("testFlatten", testFlatten),
+		("testWith", testWith),
 		]
 }

@@ -85,15 +85,15 @@ extension f {
 		return abc
 	}
 
-	public static func zip <A1,B1,A2,B2> (_ f1: @escaping (A1) -> B1, _ f2: @escaping (A2) -> (B2)) -> (A1,A2) -> (B1,B2) {
+	public static func zip <A1,B1,A2,B2> (_ function1: @escaping (A1) -> B1, _ function2: @escaping (A2) -> (B2)) -> (A1,A2) -> (B1,B2) {
 		return { a1, a2 in
-			(f1(a1),f2(a2))
+			(function1(a1),function2(a2))
 		}
 	}
 
-	public static func zip <A1,B1,A2,B2,A3,B3> (_ f1: @escaping (A1) -> B1, _ f2: @escaping (A2) -> B2, _ f3: @escaping (A3) -> B3) -> (A1,A2,A3) -> (B1,B2,B3) {
+	public static func zip <A1,B1,A2,B2,A3,B3> (_ function1: @escaping (A1) -> B1, _ function2: @escaping (A2) -> B2, _ function3: @escaping (A3) -> B3) -> (A1,A2,A3) -> (B1,B2,B3) {
 		return { a1, a2, a3 in
-			(f1(a1),f2(a2),f3(a3))
+			(function1(a1),function2(a2),function3(a3))
 		}
 	}
 
@@ -101,16 +101,16 @@ extension f {
 		return (a,a)
 	}
 
-	public static func duplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A) -> (B,B) {
-		return zip(f, f)
+	public static func duplicate <A,B> (_ function: @escaping (A) -> B) -> (A,A) -> (B,B) {
+		return zip(function, function)
 	}
 
 	public static func triplicate <A> (_ a: A) -> (A,A,A) {
 		return (a,a,a)
 	}
 
-	public static func triplicate <A,B> (_ f: @escaping (A) -> B) -> (A,A,A) -> (B,B,B) {
-		return zip(f, f, f)
+	public static func triplicate <A,B> (_ function: @escaping (A) -> B) -> (A,A,A) -> (B,B,B) {
+		return zip(function, function, function)
 	}
     
     public static func with<A> (_ function: @escaping (inout A) -> ()) -> (A) -> A {
