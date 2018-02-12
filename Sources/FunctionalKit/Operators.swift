@@ -11,7 +11,7 @@ precedencegroup SequentialCompositionPrecedence {
 infix operator .. : SequentialCompositionPrecedence
 
 precedencegroup LogicalImplicationPrecedence {
-	associativity: left
+	associativity: right
 	higherThan: TernaryPrecedence
 	lowerThan: LogicalDisjunctionPrecedence
 }
