@@ -11,7 +11,7 @@ import Abstract
 // sourcery: escapingHOF
 public protocol FutureType: PureConstructible {
 	static func from(concrete: Concrete<ParameterType>) -> Self
-	func run (_ callback: @escaping (ParameterType) -> ())
+	@discardableResult func run (_ callback: @escaping (ParameterType) -> ()) -> Self
 	static func unfold(_ continuation: @escaping (@escaping (ParameterType) -> ()) -> ()) -> Self
 }
 
@@ -54,15 +54,18 @@ public final class Future<A>: FutureType {
 		return self
 	}
 
-	public func run(_ callback: @escaping (A) -> ()) {
+	@discardableResult
+	public func run(_ callback: @escaping (A) -> ()) -> Future<A> {
 		switch currentState {
 		case .idle:
 			callbacks.append(callback)
-			start()
+			return start()
 		case .running:
 			callbacks.append(callback)
+			return self
 		case .done(let value):
 			callback(value)
+			return self
 		}
 	}
 
