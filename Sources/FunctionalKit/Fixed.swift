@@ -120,4 +120,8 @@ extension f {
             return m
         }
     }
+    
+    public static func asTuple <A,B,C> (_ function: @escaping (A,B) -> C) -> ((A,B)) -> C {
+        return { function($0.0,$0.1) }
+    }
 }
