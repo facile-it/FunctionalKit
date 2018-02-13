@@ -69,20 +69,20 @@ public func .. <A,B,C> (first: @escaping (A) throws -> B, second: @escaping (B) 
 	return f.compose(first, second)
 }
 
-public postfix func .. <A,B> (function: @escaping (A) -> B) -> (@escaping (B) -> (B)) -> (A) -> B {
-	return { bc in f.compose(function, bc) }
+public func >< <A,B,C> (lhs: @escaping (A) -> (B) -> C, rhs: B) -> (A) -> C {
+	return f.flip(lhs)(rhs)
 }
 
-public postfix func .. <A,B> (function: @escaping (A) throws -> B) -> (@escaping (B) -> (B)) -> (A) throws -> B {
-	return { bc in f.compose(function, bc) }
+public func >< <A,B,C> (lhs: @escaping (A) throws -> (B) -> C, rhs: B) -> (A) throws -> C {
+	return f.flip(lhs)(rhs)
 }
 
-public prefix func .. <B,C> (function: @escaping (B) -> C) -> (@escaping (B) -> (B)) -> (B) -> C {
-	return { ab in f.compose(ab, function) }
+public func >< <A,B,C> (lhs: @escaping (A) -> (B) throws -> C, rhs: B) throws -> (A) throws -> C {
+	return try f.flip(lhs)(rhs)
 }
 
-public prefix func .. <B,C> (function: @escaping (B) throws -> C) -> (@escaping (B) -> (B)) -> (B) throws -> C {
-	return { ab in f.compose(ab, function) }
+public func >< <A,B,C> (lhs: @escaping (A) throws -> (B) throws -> C, rhs: B) throws -> (A) throws -> C {
+	return try f.flip(lhs)(rhs)
 }
 
 public func § <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
