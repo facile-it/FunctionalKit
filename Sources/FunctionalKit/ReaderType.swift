@@ -117,7 +117,7 @@ extension ReaderType {
 
 extension ReaderType {
 	public static func pure(_ value: ParameterType) -> Reader<EnvironmentType,ParameterType> {
-		return Reader.unfold(f.constant(value))
+		return Reader.unfold(f.pure(value))
 	}
 
 	public func apply <R,T> (_ transform: R) -> Reader<EnvironmentType,T> where R: ReaderType, R.ParameterType == (ParameterType) -> T, R.EnvironmentType == EnvironmentType {

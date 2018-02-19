@@ -34,11 +34,11 @@ extension CoproductType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { left in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onRight: f.constant(false))
+					onRight: f.pure(false))
 		},
 			onRight: { right in
 				rhs.fold(
-					onLeft: f.constant(false),
+					onLeft: f.pure(false),
 					onRight: { right == $0 })
 		})
 	}

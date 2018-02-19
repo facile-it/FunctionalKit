@@ -73,7 +73,7 @@ extension PrismType {
 	public var toAffine: AffineFull<SType,TType,AType,BType> {
 		return AffineFull<SType,TType,AType,BType>.init(
 			tryGet: self.tryGet,
-			trySet: f.constant..self.tryModify)
+			trySet: f.pure..self.tryModify)
 	}
 
 	public static func .. <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {

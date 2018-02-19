@@ -3,13 +3,13 @@ extension Product {
 		public static func firstFull<T>(to: T.Type) -> LensFull<Product<A,B>,Product<T,B>,A,T> {
 			return LensFull<Product<A,B>,Product<T,B>,A,T>.init(
 				get: { product in product.first },
-				set: { t in { product in product.mapFirst(f.constant(t)) } })
+				set: { t in { product in product.mapFirst(f.pure(t)) } })
 		}
 
 		public static func secondFull<T>(to: T.Type) -> LensFull<Product<A,B>,Product<A,T>,B,T> {
 			return LensFull<Product<A,B>,Product<A,T>,B,T>.init(
 				get: { product in product.second },
-				set: { t in { product in product.mapSecond(f.constant(t)) } })
+				set: { t in { product in product.mapSecond(f.pure(t)) } })
 		}
 
 		public static var first: Lens<Product<A,B>,A> {
@@ -54,9 +54,9 @@ extension Inclusive {
 				trySet: { t in
 					{ inclusive in
 						inclusive.fold(
-							onLeft: f.constant(.left(t)),
+							onLeft: f.pure(.left(t)),
 							onCenter: { _, b in .center(t,b) },
-							onRight: f.constant(nil))
+							onRight: f.pure(nil))
 					}
 			})
 		}
@@ -67,9 +67,9 @@ extension Inclusive {
 				trySet: { tu in
 					{ inclusive in
 						inclusive.fold(
-							onLeft: f.constant(nil),
-							onCenter: f.constant(.center(tu.0,tu.1)),
-							onRight: f.constant(nil))
+							onLeft: f.pure(nil),
+							onCenter: f.pure(.center(tu.0,tu.1)),
+							onRight: f.pure(nil))
 					}
 			})
 		}
@@ -80,9 +80,9 @@ extension Inclusive {
 				trySet: { t in
 					{ inclusive in
 						inclusive.fold(
-							onLeft: f.constant(nil),
+							onLeft: f.pure(nil),
 							onCenter: { a, _ in .center(a,t) },
-							onRight: f.constant(.right(t)))
+							onRight: f.pure(.right(t)))
 					}
 			})
 		}

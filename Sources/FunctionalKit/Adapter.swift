@@ -71,7 +71,7 @@ extension AdapterType {
 	}
 
 	public var toLens: LensFull<SType,TType,AType,BType> {
-		return LensFull.init(get: from, set: to..f.constant)
+		return LensFull.init(get: from, set: to..f.pure)
 	}
 
 	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
@@ -95,7 +95,7 @@ extension AdapterType {
 	}
 
 	public var toAffine: AffineFull<SType,TType,AType,BType> {
-		return AffineFull.init(tryGet: from, trySet: to..f.constant)
+		return AffineFull.init(tryGet: from, trySet: to..f.pure)
 	}
 
 	public static func .. <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {

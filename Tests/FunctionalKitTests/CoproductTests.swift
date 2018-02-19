@@ -13,8 +13,8 @@ class CoproductTests: XCTestCase {
 	}
 
 	func testFold() {
-		TestType.left(42).fold(onLeft: f.constant(true), onRight: f.constant(false)) ==! true
-		TestType.right("42").fold(onLeft: f.constant(false), onRight: f.constant(true)) ==! true
+		TestType.left(42).fold(onLeft: f.pure(true), onRight: f.pure(false)) ==! true
+		TestType.right("42").fold(onLeft: f.pure(false), onRight: f.pure(true)) ==! true
 
 		TestType.left(42).foldToLeft { Int($0)! } ==! 42
 		TestType.right("42").foldToRight { "\($0)" } ==! "42"

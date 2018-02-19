@@ -55,19 +55,19 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 			onLeft: { (left) -> Bool in
 				rhs.fold(
 					onLeft: { left == $0 },
-					onCenter: f.constant(false),
-					onRight: f.constant(false))
+					onCenter: f.pure(false),
+					onRight: f.pure(false))
 		},
 			onCenter: { (left, right) -> Bool in
 				rhs.fold(
-					onLeft: f.constant(false),
+					onLeft: f.pure(false),
 					onCenter: { left == $0 && right == $1 },
-					onRight: f.constant(false))
+					onRight: f.pure(false))
 		},
 			onRight: { (right) -> Bool in
 				rhs.fold(
-					onLeft: f.constant(false),
-					onCenter: f.constant(false),
+					onLeft: f.pure(false),
+					onCenter: f.pure(false),
 					onRight: { right == $0 })
 		})
 	}
@@ -78,15 +78,15 @@ extension InclusiveType where LeftType: Equatable, RightType: Equatable {
 extension InclusiveType {
 	public var tryToProduct: Product<LeftType,RightType>? {
 		return fold(
-			onLeft: f.constant(nil),
+			onLeft: f.pure(nil),
 			onCenter: Product.init,
-			onRight: f.constant(nil))
+			onRight: f.pure(nil))
 	}
 
 	public var tryToCoproduct: Coproduct<LeftType,RightType>? {
 		return fold(
 			onLeft: Coproduct.left,
-			onCenter: f.constant(nil),
+			onCenter: f.pure(nil),
 			onRight: Coproduct.right)
 	}
 
@@ -94,21 +94,21 @@ extension InclusiveType {
 		return fold(
 			onLeft: f.identity,
 			onCenter: f.first,
-			onRight: f.constant(nil))
+			onRight: f.pure(nil))
 	}
 
 	public var tryRight: RightType? {
 		return fold(
-			onLeft: f.constant(nil),
+			onLeft: f.pure(nil),
 			onCenter: f.second,
 			onRight: f.identity)
 	}
 
 	public var tryBoth: (LeftType,RightType)? {
 		return fold(
-			onLeft: f.constant(nil),
+			onLeft: f.pure(nil),
 			onCenter: f.identity,
-			onRight: f.constant(nil))
+			onRight: f.pure(nil))
 	}
 }
 

@@ -13,7 +13,7 @@ class FixedTests: XCTestCase {
 	}
 
 	func testConstant() {
-		let function: (Int) -> Int = f.constant(42)
+		let function: (Int) -> Int = f.pure(42)
 		function(0) ==! 42
 		function(1) ==! 42
 		function(42) ==! 42

@@ -300,14 +300,14 @@ extension ResultType {
 extension ResultType {
 	public var toOptionalError: ErrorType? {
 		return fold(
-			onSuccess: f.constant(nil),
+			onSuccess: f.pure(nil),
 			onFailure: f.identity)
 	}
 
 	public var toOptionalValue: ParameterType? {
 		return fold(
 			onSuccess: f.identity,
-			onFailure: f.constant(nil))
+			onFailure: f.pure(nil))
 	}
 
 	public func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result<ErrorType,ParameterType> {
