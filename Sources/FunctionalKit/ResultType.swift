@@ -315,4 +315,15 @@ extension ResultType {
 			onSuccess: Result.success,
 			onFailure: { _ in Result.success(defaultValue()) })
 	}
+
+	public static func getFromThrowing(getError: @escaping (Error) -> ErrorType) -> (() throws -> ParameterType) -> Result<ErrorType,ParameterType> {
+		return { throwing in
+			do {
+				return try .success(throwing())
+			}
+			catch let error {
+				return .failure(getError(error))
+			}
+		}
+	}
 }
