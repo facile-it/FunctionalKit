@@ -156,7 +156,11 @@ extension ReaderType {
 public typealias Effect<A> = Reader<(),A>
 
 public func effect <T> (_ execute: @escaping () -> T) -> Effect<T> {
-	return Reader.unfold(execute)
+	return Effect<T>.unfold(execute)
+}
+
+public func lazily <T> (_ execute: @escaping @autoclosure () -> T) -> Effect<T> {
+	return effect(execute)
 }
 
 extension ReaderType where EnvironmentType == () {
