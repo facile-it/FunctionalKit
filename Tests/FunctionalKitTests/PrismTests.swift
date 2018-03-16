@@ -1,6 +1,7 @@
 import XCTest
 import SwiftCheck
 @testable import FunctionalKit
+import Abstract
 
 class PrismTests: XCTestCase {
 	static var allTests = [
@@ -22,7 +23,7 @@ class PrismTests: XCTestCase {
 			let p2 = TestCoproduct<TestCoproduct<Int,Int>,Int>.prism.left
 			let p3 = TestCoproduct<Int,Int>.prism.right
 
-			let joined = p1..p2..p3
+			let joined = p1 >>> p2 >>> p3
 
 			return PrismLaw.injectTryGet(prism: joined, part: v)
 		}
@@ -32,7 +33,7 @@ class PrismTests: XCTestCase {
 			let p2 = TestCoproduct<TestCoproduct<Int,Int>,Int>.prism.left
 			let p3 = TestCoproduct<Int,Int>.prism.right
 
-			let joined = p1..p2..p3
+			let joined = p1 >>> p2 >>> p3
 
 			return PrismLaw.tryGetInject(prism: joined, whole: c)
 		}

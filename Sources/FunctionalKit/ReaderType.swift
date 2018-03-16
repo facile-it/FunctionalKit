@@ -73,7 +73,7 @@ extension ReaderType where ParameterType: Equatable {
 
 extension ReaderType {
 	public func dimap<A, B>(from: @escaping (A) -> EnvironmentType, to: @escaping (ParameterType) -> B) -> Reader<A, B> {
-		return Reader.unfold(from..self.run..to)
+		return Reader.unfold(from >>> self.run >>> to)
 	}
 
 	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Reader<EnvironmentType,T> {

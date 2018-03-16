@@ -1,6 +1,7 @@
 #if SWIFT_PACKAGE
 	import Operadics
 #endif
+import Abstract
 
 /// A Prism is a reference to a component of a coproduct
 
@@ -46,7 +47,12 @@ extension PrismType {
 			inject: { self.inject(other.inject($0)) })
 	}
 
+	@available(*, deprecated, renamed: ">>>")
 	public static func .. <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
+		return left.compose(right)
+	}
+
+	public static func >>> <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
 		return left.compose(right)
 	}
 }
@@ -80,11 +86,11 @@ extension Optional {
 extension Result {
 	public enum prism {
 		public static var failure: Prism<Result,E> {
-			return iso.coproduct..Coproduct.prism.left
+			return iso.coproduct >>> Coproduct.prism.left
 		}
 
 		public static var success: Prism<Result,T> {
-			return iso.coproduct..Coproduct.prism.right
+			return iso.coproduct >>> Coproduct.prism.right
 		}
 	}
 }

@@ -1,5 +1,6 @@
 @testable import FunctionalKit
 import SwiftCheck
+import Abstract
 
 extension String: Error {}
 
@@ -53,11 +54,11 @@ struct TestProduct<A,B>: Equatable, Arbitrary, CustomStringConvertible where A: 
 
 	enum lens {
 		static var first: Lens<TestProduct<A,B>,A> {
-			return iso.product..Product.lens.first
+			return iso.product >>> Product.lens.first
 		}
 
 		static var second: Lens<TestProduct<A,B>,B> {
-			return iso.product..Product.lens.second
+			return iso.product >>> Product.lens.second
 		}
 	}
 }
@@ -107,11 +108,11 @@ struct TestCoproduct<A,B>: Equatable, Arbitrary, CustomStringConvertible where A
 
 	enum prism {
 		static var left: Prism<TestCoproduct<A,B>,A> {
-			return iso.coproduct..Coproduct.prism.left
+			return iso.coproduct >>> Coproduct.prism.left
 		}
 
 		static var right: Prism<TestCoproduct<A,B>,B> {
-			return iso.coproduct..Coproduct.prism.right
+			return iso.coproduct >>> Coproduct.prism.right
 		}
 	}
 
@@ -174,11 +175,11 @@ struct TestProductOptional<A,B>: Equatable, Arbitrary, CustomStringConvertible w
 
 	enum lens {
 		static var first: Lens<TestProductOptional<A,B>,A?> {
-			return iso.product..Product.lens.first
+			return iso.product >>> Product.lens.first
 		}
 
 		static var second: Lens<TestProductOptional<A,B>,B?> {
-			return iso.product..Product.lens.second
+			return iso.product >>> Product.lens.second
 		}
 	}
 }
@@ -238,11 +239,11 @@ struct TestInclusive<A,B>: Equatable, Arbitrary, CustomStringConvertible where A
 
 	enum affine {
 		static var left: Affine<TestInclusive<A,B>,A> {
-			return iso.inclusive..Inclusive.affine.left
+			return iso.inclusive >>> Inclusive.affine.left
 		}
 
 		static var right: Affine<TestInclusive<A,B>,B> {
-			return iso.inclusive..Inclusive.affine.right
+			return iso.inclusive >>> Inclusive.affine.right
 		}
 	}
 }

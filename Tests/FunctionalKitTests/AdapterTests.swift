@@ -1,6 +1,7 @@
 import XCTest
 import SwiftCheck
 @testable import FunctionalKit
+import Abstract
 
 class AdapterTests: XCTestCase {
 	static var allTests = [
@@ -15,7 +16,7 @@ class AdapterTests: XCTestCase {
 		property("FromTo") <- forAll { (p: TestProduct<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 
 			return IsoLaw.fromTo(whole: p, iso: composed)
 		}
@@ -23,7 +24,7 @@ class AdapterTests: XCTestCase {
 		property("ToFrom") <- forAll { (p: TestProduct<Int,Int>) in
             let a1 = TestProduct<Int,Int>.iso.product.inverted
             let a2 = Couple<Int,Int>.iso.product
-            let composed = a2..a1
+			let composed = a2 >>> a1
             
             return IsoLaw.toFrom(part: p, iso: composed)
 		}
@@ -33,7 +34,7 @@ class AdapterTests: XCTestCase {
 		property("SetGet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let lens = composed.toLens
 
 			return LensLaw.setGet(lens: lens, whole: p, part: v)
@@ -42,7 +43,7 @@ class AdapterTests: XCTestCase {
 		property("GetSet") <- forAll { (p: TestProduct<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let lens = composed.toLens
 
 			return LensLaw.getSet(lens: lens, whole: p)
@@ -51,7 +52,7 @@ class AdapterTests: XCTestCase {
 		property("SetSet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let lens = composed.toLens
 
 			return LensLaw.setSet(lens: lens, whole: p, part: v)
@@ -62,7 +63,7 @@ class AdapterTests: XCTestCase {
 		property("InjectTryGet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let prism = composed.toPrism
 
 			return PrismLaw.injectTryGet(prism: prism, part: v)
@@ -71,7 +72,7 @@ class AdapterTests: XCTestCase {
 		property("TryGetInject") <- forAll { (p: TestProduct<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let prism = composed.toPrism
 
 			return PrismLaw.tryGetInject(prism: prism, whole: p)
@@ -82,7 +83,7 @@ class AdapterTests: XCTestCase {
 		property("TrySetTryGet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let affine = composed.toAffine
 
 			return AffineLaw.trySetTryGet(affine: affine, whole: p, part: v)
@@ -91,7 +92,7 @@ class AdapterTests: XCTestCase {
 		property("TryGetTrSet") <- forAll { (p: TestProduct<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let affine = composed.toAffine
 
 			return AffineLaw.tryGetTrySet(affine: affine, whole: p)
@@ -100,7 +101,7 @@ class AdapterTests: XCTestCase {
 		property("SetSet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let affine = composed.toAffine
 
 			return AffineLaw.trySetTrySet(affine: affine, whole: p, part: v)
@@ -111,7 +112,7 @@ class AdapterTests: XCTestCase {
 		property("tryGet") <- forAll { (p: TestProduct<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let affineDirect = composed.toAffine
 			let affineLens = composed.toLens.toAffine
 			let affinePrism = composed.toPrism.toAffine
@@ -123,7 +124,7 @@ class AdapterTests: XCTestCase {
 		property("trySet") <- forAll { (p: TestProduct<Int,Int>, v: Couple<Int,Int>) in
 			let a1 = TestProduct<Int,Int>.iso.product
 			let a2 = Couple<Int,Int>.iso.product.inverted
-			let composed = a1..a2
+			let composed = a1 >>> a2
 			let affineDirect = composed.toAffine
 			let affineLens = composed.toLens.toAffine
 			let affinePrism = composed.toPrism.toAffine

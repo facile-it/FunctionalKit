@@ -1,6 +1,7 @@
 import XCTest
 import SwiftCheck
 @testable import FunctionalKit
+import Abstract
 
 class LensTests: XCTestCase {
 	static var allTests = [
@@ -26,7 +27,7 @@ class LensTests: XCTestCase {
 			let l2 = type(of: p.unwrap.second).lens.first
 			let l3 = TestProduct<Int,Int>.lens.second
 
-			let joined = l1..l2..l3
+			let joined = l1 >>> l2 >>> l3
 
 			return LensLaw.setGet(lens: joined, whole: p, part: v)
 		}
@@ -36,7 +37,7 @@ class LensTests: XCTestCase {
 			let l2 = type(of: p.unwrap.second).lens.first
 			let l3 = TestProduct<Int,Int>.lens.second
 
-			let joined = l1..l2..l3
+			let joined = l1 >>> l2 >>> l3
 
 			return LensLaw.getSet(lens: joined, whole: p)
 		}
@@ -46,7 +47,7 @@ class LensTests: XCTestCase {
 			let l2 = type(of: p.unwrap.second).lens.first
 			let l3 = TestProduct<Int,Int>.lens.second
 
-			let joined = l1..l2..l3
+			let joined = l1 >>> l2 >>> l3
 
 			return LensLaw.setSet(lens: joined, whole: p, part: v)
 		}

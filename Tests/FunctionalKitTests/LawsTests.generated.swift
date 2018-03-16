@@ -47,7 +47,7 @@ class LawsTests: XCTestCase {
             let a = Array<String>.init([x])
             let fLifted = f.flip(Array<String>.fmap)(af.getArrow)
             let gLifted = f.flip(Array<String>.fmap)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.fmap(af.getArrow..ag.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.fmap(af.getArrow >>> ag.getArrow))
         }
     }
 
@@ -142,7 +142,7 @@ class LawsTests: XCTestCase {
             let a = Coproduct<String,String>.random(x,y)
             let fLifted: Endo<Coproduct<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Coproduct<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.bimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow))
         }
     }
 
@@ -177,7 +177,7 @@ class LawsTests: XCTestCase {
             let a = Exponential<String,String>.init(x)
             let fLifted: Endo<Exponential<String,String>> = { t in t.dimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Exponential<String,String>> = { t in t.dimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a) == a.dimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow)).run(c)
+            return ((fLifted >>> gLifted)(a) == a.dimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow)).run(c)
         }
     }
 
@@ -197,7 +197,7 @@ class LawsTests: XCTestCase {
             let a = Future<String>.unfold { $0(x) }
             let fLifted = f.flip(Future<String>.map)(af.getArrow)
             let gLifted = f.flip(Future<String>.map)(ag.getArrow)
-            return ((fLifted..gLifted)(a).start() == a.map(af.getArrow..ag.getArrow).start())
+            return ((fLifted >>> gLifted)(a).start() == a.map(af.getArrow >>> ag.getArrow).start())
         }
     }
 
@@ -292,7 +292,7 @@ class LawsTests: XCTestCase {
             let a = Inclusive<String,String>.random(x,y)
             let fLifted: Endo<Inclusive<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Inclusive<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.bimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow))
         }
     }
 
@@ -343,7 +343,7 @@ class LawsTests: XCTestCase {
             let a = Optional<String>.init(x)
             let fLifted = f.flip(Optional<String>.fmap)(af.getArrow)
             let gLifted = f.flip(Optional<String>.fmap)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.fmap(af.getArrow..ag.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.fmap(af.getArrow >>> ag.getArrow))
         }
     }
 
@@ -438,7 +438,7 @@ class LawsTests: XCTestCase {
             let a = Product<String,String>.init(x,y)
             let fLifted: Endo<Product<String,String>> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<Product<String,String>> = { t in t.bimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a) == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.bimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow))
         }
     }
 
@@ -474,7 +474,7 @@ class LawsTests: XCTestCase {
             let a = Reader<String,String>.unfold { _ in x }
             let fLifted = f.flip(Reader<String,String>.map)(af.getArrow)
             let gLifted = f.flip(Reader<String,String>.map)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.map(af.getArrow..ag.getArrow)).run(c)
+            return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow)).run(c)
         }
     }
 
@@ -563,7 +563,7 @@ class LawsTests: XCTestCase {
             let a = Result<String,String>.success(x)
             let fLifted = f.flip(Result<String,String>.map)(af.getArrow)
             let gLifted = f.flip(Result<String,String>.map)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.map(af.getArrow..ag.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow))
         }
     }
 
@@ -662,7 +662,7 @@ class LawsTests: XCTestCase {
             let a = State<String,String>.unfold { s in (s,x) }
             let fLifted = f.flip(State<String,String>.map)(af.getArrow)
             let gLifted = f.flip(State<String,String>.map)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.map(af.getArrow..ag.getArrow)).run(c)
+            return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow)).run(c)
         }
     }
 
@@ -746,7 +746,7 @@ class LawsTests: XCTestCase {
             let a = Writer<String,String>.init(log: .empty, value: x)
             let fLifted = f.flip(Writer<String,String>.map)(af.getArrow)
             let gLifted = f.flip(Writer<String,String>.map)(ag.getArrow)
-            return ((fLifted..gLifted)(a) == a.map(af.getArrow..ag.getArrow))
+            return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow))
         }
     }
 

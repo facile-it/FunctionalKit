@@ -22,7 +22,7 @@
             let a = {% call getTypeName type "String" %}.{{ type.annotations.testConstruct }}
             let fLifted = f.flip({% call getTypeName type "String" %}.{% call getMapName type %})(af.getArrow)
             let gLifted = f.flip({% call getTypeName type "String" %}.{% call getMapName type %})(ag.getArrow)
-            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.{% call getMapName type %}(af.getArrow..ag.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+            return ((fLifted >>> gLifted)(a){% call getCommandCall type %} == a.{% call getMapName type %}(af.getArrow >>> ag.getArrow){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
 {% endmacro %}
@@ -43,7 +43,7 @@
             let a = {% call getTypeName type "String,String" %}.{{ type.annotations.testConstruct }}
             let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.bimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.bimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+            return ((fLifted >>> gLifted)(a){% call getCommandCall type %} == a.bimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
 {% endmacro %}
@@ -66,7 +66,7 @@
             let a = {% call getTypeName type "String,String" %}.{{ type.annotations.testConstruct }}
             let fLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(f1.getArrow, f2.getArrow) }
             let gLifted: Endo<{% call getTypeName type "String,String" %}> = { t in t.dimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted..gLifted)(a){% call getCommandCall type %} == a.dimap(f1.getArrow..g1.getArrow,f2.getArrow..g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
+            return ((fLifted >>> gLifted)(a){% call getCommandCall type %} == a.dimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
 {% endmacro %}

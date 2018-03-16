@@ -41,10 +41,15 @@ extension LensType {
                 }
         })
     }
-    
+
+	@available(*, deprecated, renamed: ">>>")
     public static func .. <OtherLens>(left: Self, right: OtherLens) -> LensFull<Self.SType,Self.TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == Self.AType, OtherLens.TType == Self.BType {
         return left.compose(right)
     }
+
+	public static func >>> <OtherLens>(left: Self, right: OtherLens) -> LensFull<Self.SType,Self.TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == Self.AType, OtherLens.TType == Self.BType {
+		return left.compose(right)
+	}
 }
 
 /// zipped lenses will hold the laws only if the involved lenses are focusing on different parts
@@ -85,11 +90,11 @@ extension Dictionary {
 extension Writer {
 	public enum lens {
 		public static var log: Lens<Writer,L> {
-			return iso.product..Product.lens.first
+			return iso.product >>> Product.lens.first
 		}
 
 		public static var value: Lens<Writer,A> {
-			return iso.product..Product.lens.second
+			return iso.product >>> Product.lens.second
 		}
 	}
 }
@@ -109,7 +114,12 @@ extension LensType where AType: OptionalType, BType: OptionalType {
 		})
 	}
 
+	@available(*, deprecated, renamed: ">>>")
 	public static func .. <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
+		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
+	}
+
+	public static func >>> <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
 	}
 
@@ -129,7 +139,12 @@ extension LensType where AType: OptionalType, BType: OptionalType {
 		})
 	}
 
+	@available(*, deprecated, renamed: ">>>")
 	public static func .. <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
+		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
+	}
+
+	public static func >>> <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
 	}
 }
@@ -139,7 +154,12 @@ extension LensType where AType: OptionalType, BType: OptionalType, AType.Paramet
 		return compose(other, defaulting: .empty)
 	}
 
+	@available(*, deprecated, renamed: ">>>")
 	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
+		return lhs.compose(rhs, defaulting: .empty)
+	}
+
+	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return lhs.compose(rhs, defaulting: .empty)
 	}
 
@@ -147,7 +167,12 @@ extension LensType where AType: OptionalType, BType: OptionalType, AType.Paramet
 		return compose(other, defaulting: .empty)
 	}
 
+	@available(*, deprecated, renamed: ">>>")
 	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
+		return lhs.compose(rhs, defaulting: .empty)
+	}
+
+	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return lhs.compose(rhs, defaulting: .empty)
 	}
 }

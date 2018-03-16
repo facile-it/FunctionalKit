@@ -82,7 +82,7 @@ extension OptionalType {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
 				onNone: f.pure(Optional<T>.none),
-				onSome: transform..Optional<T>.some)
+				onSome: transform >>> Optional<T>.some)
 		}
 	}
     

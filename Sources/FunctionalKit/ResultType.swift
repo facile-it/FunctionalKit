@@ -90,7 +90,7 @@ extension ResultType {
 	public func map <A> (_ transform: (ParameterType) -> A) -> Result<ErrorType,A> {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
-				onSuccess: transform..Result.success,
+				onSuccess: transform >>> Result.success,
 				onFailure: Result.failure)
 		}
 	}
@@ -99,7 +99,7 @@ extension ResultType {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
 				onSuccess: Result.success,
-				onFailure: transform..Result.failure)
+				onFailure: transform >>> Result.failure)
 		}
 	}
     

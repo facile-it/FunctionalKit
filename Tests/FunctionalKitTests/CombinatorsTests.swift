@@ -11,8 +11,8 @@ class CombinatorsTests: XCTestCase {
 		let times2 = { (x: Int) -> Int in x*2 }
 		let plus2 = { (x: Int) -> Int in x+2 }
 
-		42 |> times2..plus2 ==! 86
-		42 |> plus2..times2 ==! 88
+		42 |> times2 >>> plus2 ==! 86
+		42 |> plus2 >>> times2 ==! 88
 	}
 
 	static var allTests = [
