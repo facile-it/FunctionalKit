@@ -25,6 +25,7 @@ extension ResultType {
 }
 
 // MARK: - Data
+
 // sourcery: testFunctor
 // sourcery: testApplicative
 // sourcery: testMonad

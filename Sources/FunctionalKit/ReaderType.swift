@@ -26,6 +26,7 @@ extension ReaderType {
 }
 
 // MARK: - Data
+
 // sourcery: testFunctor
 // sourcery: testApplicative
 // sourcery: testMonad
@@ -153,21 +154,21 @@ extension ReaderType {
 
 // MARK: Effect
 
-public typealias Effect<A> = Reader<(),A>
-
-public func effect <T> (_ execute: @escaping () -> T) -> Effect<T> {
-	return Effect<T>.unfold(execute)
-}
-
-public func lazily <T> (_ execute: @escaping @autoclosure () -> T) -> Effect<T> {
-	return effect(execute)
-}
-
-extension ReaderType where EnvironmentType == () {
-	public func execute() -> ParameterType {
-		return run(())
-	}
-}
+//public typealias Effect<A> = Reader<(),A>
+//
+//public func effect <T> (_ execute: @escaping () -> T) -> Effect<T> {
+//	return Effect<T>.unfold(execute)
+//}
+//
+//public func lazily <T> (_ execute: @escaping @autoclosure () -> T) -> Effect<T> {
+//	return effect(execute)
+//}
+//
+//extension ReaderType where EnvironmentType == () {
+//	public func execute() -> ParameterType {
+//		return run(())
+//	}
+//}
 
 // MARK: Coeffect
 

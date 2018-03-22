@@ -19,6 +19,7 @@ public protocol WriterType: PureConstructible, ProductType {
 }
 
 // MARK: - Data
+
 // sourcery: testFunctor
 // sourcery: testApplicative
 // sourcery: testMonad

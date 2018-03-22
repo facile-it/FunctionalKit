@@ -22,6 +22,7 @@ fileprivate enum FutureState<T> {
 }
 
 // MARK: - Data
+
 // sourcery: testFunctor
 // sourcery: testApplicative
 // sourcery: testMonad

@@ -25,6 +25,7 @@ extension StateType {
 }
 
 // MARK: - Data
+
 // sourcery: testFunctor
 // sourcery: testApplicative
 // sourcery: testMonad
