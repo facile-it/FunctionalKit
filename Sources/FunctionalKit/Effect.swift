@@ -5,6 +5,10 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: functor
+// sourcery: monad
+// sourcery: concrete = "Effect"
+// sourcery: escapingHOF
 public protocol EffectType: PureConstructible, ExponentialType {
 	static func from(concrete: Concrete<ParameterType>) -> Self
 	func run() -> ParameterType
@@ -19,6 +23,11 @@ extension EffectType {
 
 // MARK: - Data
 
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "unfold { x }"
+// sourcery: testNeedsCommand = "run()"
 public struct Effect<A>: EffectType {
 	public typealias ParameterType = A
 

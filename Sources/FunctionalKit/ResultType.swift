@@ -213,6 +213,18 @@ extension ResultType {
 		})
 	}
 
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+		typealias Returned = Effect<Traversed<Applicative>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				Applicative.Concrete.pure(Traversed<Applicative>.success) <*> transform(value)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Traversed<Applicative>.failure(error))
+		})
+	}
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 

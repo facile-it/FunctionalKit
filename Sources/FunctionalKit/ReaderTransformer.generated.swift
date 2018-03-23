@@ -170,6 +170,174 @@ extension ReaderType where ParameterType: ArrayType, ParameterType.ParameterType
     }
 }
 
+extension ReaderType where ParameterType: EffectType {
+    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Output>>) -> Reader<EnvironmentType,Effect<Output>> {
+        return Reader<EnvironmentType,Effect<Output>>.unfold { environment in
+            self.run(environment).flatMap { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ArrayType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Array<Output>>>) -> Reader<EnvironmentType,Effect<Array<Output>>> {
+        return Reader<EnvironmentType,Effect<Array<Output>>>.unfold { environment in
+            self.run(environment).flatMapT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ArrayType, ParameterType.ParameterType.ParameterType: ArrayType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Array<Array<Output>>>>) -> Reader<EnvironmentType,Effect<Array<Array<Output>>>> {
+        return Reader<EnvironmentType,Effect<Array<Array<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ArrayType, ParameterType.ParameterType.ParameterType: OptionalType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Array<Optional<Output>>>>) -> Reader<EnvironmentType,Effect<Array<Optional<Output>>>> {
+        return Reader<EnvironmentType,Effect<Array<Optional<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ArrayType, ParameterType.ParameterType.ParameterType: ResultType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Array<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>) -> Reader<EnvironmentType,Effect<Array<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Array<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ArrayType, ParameterType.ParameterType.ParameterType: WriterType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Array<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>) -> Reader<EnvironmentType,Effect<Array<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Array<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: OptionalType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Optional<Output>>>) -> Reader<EnvironmentType,Effect<Optional<Output>>> {
+        return Reader<EnvironmentType,Effect<Optional<Output>>>.unfold { environment in
+            self.run(environment).flatMapT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: OptionalType, ParameterType.ParameterType.ParameterType: ArrayType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Optional<Array<Output>>>>) -> Reader<EnvironmentType,Effect<Optional<Array<Output>>>> {
+        return Reader<EnvironmentType,Effect<Optional<Array<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: OptionalType, ParameterType.ParameterType.ParameterType: OptionalType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Optional<Optional<Output>>>>) -> Reader<EnvironmentType,Effect<Optional<Optional<Output>>>> {
+        return Reader<EnvironmentType,Effect<Optional<Optional<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: OptionalType, ParameterType.ParameterType.ParameterType: ResultType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Optional<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>) -> Reader<EnvironmentType,Effect<Optional<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Optional<Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: OptionalType, ParameterType.ParameterType.ParameterType: WriterType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Optional<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>) -> Reader<EnvironmentType,Effect<Optional<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Optional<Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ResultType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Output>>>) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Output>>> {
+        return Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Output>>>.unfold { environment in
+            self.run(environment).flatMapT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ResultType, ParameterType.ParameterType.ParameterType: ArrayType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Array<Output>>>>) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Array<Output>>>> {
+        return Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Array<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ResultType, ParameterType.ParameterType.ParameterType: OptionalType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Optional<Output>>>>) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Optional<Output>>>> {
+        return Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Optional<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ResultType, ParameterType.ParameterType.ParameterType: ResultType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: ResultType, ParameterType.ParameterType.ParameterType: WriterType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>) -> Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Result<ParameterType.ParameterType.ErrorType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: WriterType {
+    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Output>>>) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Output>>> {
+        return Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Output>>>.unfold { environment in
+            self.run(environment).flatMapT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: WriterType, ParameterType.ParameterType.ParameterType: ArrayType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Array<Output>>>>) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Array<Output>>>> {
+        return Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Array<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: WriterType, ParameterType.ParameterType.ParameterType: OptionalType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Optional<Output>>>>) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Optional<Output>>>> {
+        return Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Optional<Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: WriterType, ParameterType.ParameterType.ParameterType: ResultType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Result<ParameterType.ParameterType.ParameterType.ErrorType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType, ParameterType.ParameterType: WriterType, ParameterType.ParameterType.ParameterType: WriterType {
+    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>) -> Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>> {
+        return Reader<EnvironmentType,Effect<Writer<ParameterType.ParameterType.LogType,Writer<ParameterType.ParameterType.ParameterType.LogType,Output>>>>.unfold { environment in
+            self.run(environment).flatMapTT { transform($0).run(environment) }
+        }
+    }
+}
+
 extension ReaderType where ParameterType: FutureType {
     public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Reader<EnvironmentType,Future<Output>>) -> Reader<EnvironmentType,Future<Output>> {
         return Reader<EnvironmentType,Future<Output>>.unfold { environment in

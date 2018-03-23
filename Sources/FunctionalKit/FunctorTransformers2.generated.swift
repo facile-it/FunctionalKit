@@ -8,6 +8,12 @@ extension ArrayType where ParameterType: ArrayType {
     }
 }
 
+extension ArrayType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Array<Effect<Output>> {
+        return fmap { $0.map(transform) }
+    }
+}
+
 extension ArrayType where ParameterType: FutureType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Array<Future<Output>> {
         return fmap { $0.map(transform) }
@@ -44,9 +50,63 @@ extension ArrayType where ParameterType: WriterType {
     }
 }
 
+extension EffectType where ParameterType: ArrayType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Array<Output>> {
+        return map { $0.fmap(transform) }
+    }
+}
+
+extension EffectType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Effect<Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
+extension EffectType where ParameterType: FutureType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Future<Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
+extension EffectType where ParameterType: OptionalType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Optional<Output>> {
+        return map { $0.fmap(transform) }
+    }
+}
+
+extension EffectType where ParameterType: ReaderType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Reader<ParameterType.EnvironmentType,Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
+extension EffectType where ParameterType: ResultType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Result<ParameterType.ErrorType,Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
+extension EffectType where ParameterType: StateType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<State<ParameterType.StateParameterType,Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
+extension EffectType where ParameterType: WriterType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Effect<Writer<ParameterType.LogType,Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
 extension FutureType where ParameterType: ArrayType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Future<Array<Output>> {
         return map { $0.fmap(transform) }
+    }
+}
+
+extension FutureType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Future<Effect<Output>> {
+        return map { $0.map(transform) }
     }
 }
 
@@ -92,6 +152,12 @@ extension OptionalType where ParameterType: ArrayType {
     }
 }
 
+extension OptionalType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Optional<Effect<Output>> {
+        return fmap { $0.map(transform) }
+    }
+}
+
 extension OptionalType where ParameterType: FutureType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Optional<Future<Output>> {
         return fmap { $0.map(transform) }
@@ -131,6 +197,12 @@ extension OptionalType where ParameterType: WriterType {
 extension ReaderType where ParameterType: ArrayType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Reader<EnvironmentType,Array<Output>> {
         return map { $0.fmap(transform) }
+    }
+}
+
+extension ReaderType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Reader<EnvironmentType,Effect<Output>> {
+        return map { $0.map(transform) }
     }
 }
 
@@ -176,6 +248,12 @@ extension ResultType where ParameterType: ArrayType {
     }
 }
 
+extension ResultType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Result<ErrorType,Effect<Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
 extension ResultType where ParameterType: FutureType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Result<ErrorType,Future<Output>> {
         return map { $0.map(transform) }
@@ -218,6 +296,12 @@ extension StateType where ParameterType: ArrayType {
     }
 }
 
+extension StateType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> State<StateParameterType,Effect<Output>> {
+        return map { $0.map(transform) }
+    }
+}
+
 extension StateType where ParameterType: FutureType {
     public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> State<StateParameterType,Future<Output>> {
         return map { $0.map(transform) }
@@ -257,6 +341,12 @@ extension StateType where ParameterType: WriterType {
 extension WriterType where ParameterType: ArrayType {
     public func mapT <Output> (_ transform: (ParameterType.ParameterType) -> Output) -> Writer<LogType,Array<Output>> {
         return map { $0.fmap(transform) }
+    }
+}
+
+extension WriterType where ParameterType: EffectType {
+    public func mapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Output) -> Writer<LogType,Effect<Output>> {
+        return map { $0.map(transform) }
     }
 }
 

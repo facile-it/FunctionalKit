@@ -139,7 +139,13 @@ extension WriterType {
             Applicative.Concrete.pure(f.curry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
         }
     }
-    
+
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+		return fold { log, value in
+			Applicative.Concrete.pure(f.curry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)
+		}
+	}
+
     public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
         return fold { log, value in
             Applicative.Concrete.pure(f.curry(Traversed<Applicative>.init)) <*> Applicative.Concrete.pure(log) <*> transform(value)

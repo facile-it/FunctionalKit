@@ -165,6 +165,18 @@ extension OptionalType {
 		})
 	}
 
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+		typealias Returned = Effect<Traversed<Applicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Traversed<Applicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
+		})
+	}
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 

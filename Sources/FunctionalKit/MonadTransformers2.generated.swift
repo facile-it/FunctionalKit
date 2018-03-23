@@ -34,6 +34,38 @@ extension ArrayType where ParameterType: WriterType {
     }
 }
 
+extension EffectType where ParameterType: ArrayType {
+    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Array<Output>>) -> Effect<Array<Output>> {
+        return flatMap { (value) -> Effect<Array<Output>> in
+            value.traverse(transform).map { $0.joined }
+        }
+    }
+}
+
+extension EffectType where ParameterType: OptionalType {
+    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Optional<Output>>) -> Effect<Optional<Output>> {
+        return flatMap { (value) -> Effect<Optional<Output>> in
+            value.traverse(transform).map { $0.joined }
+        }
+    }
+}
+
+extension EffectType where ParameterType: ResultType {
+    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Result<ParameterType.ErrorType,Output>>) -> Effect<Result<ParameterType.ErrorType,Output>> {
+        return flatMap { (value) -> Effect<Result<ParameterType.ErrorType,Output>> in
+            value.traverse(transform).map { $0.joined }
+        }
+    }
+}
+
+extension EffectType where ParameterType: WriterType {
+    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Writer<ParameterType.LogType,Output>>) -> Effect<Writer<ParameterType.LogType,Output>> {
+        return flatMap { (value) -> Effect<Writer<ParameterType.LogType,Output>> in
+            value.traverse(transform).map { $0.joined }
+        }
+    }
+}
+
 extension FutureType where ParameterType: ArrayType {
     public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Future<Array<Output>>) -> Future<Array<Output>> {
         return flatMap { (value) -> Future<Array<Output>> in

@@ -124,6 +124,14 @@ extension ArrayType {
 		}
 	}
 
+	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+		typealias Returned = Effect<Traversed<Applicative>>
+
+		return fold(Returned.pure([])) { previous, element in
+			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
