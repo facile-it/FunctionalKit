@@ -128,6 +128,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Coproduct - Bifunctor
 
     func testCoproductBifunctorIdentity() {
@@ -271,11 +276,6 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2).start() == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) }.start())
         }
     }
-
-
-
-
-
 
 
 
