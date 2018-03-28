@@ -177,6 +177,25 @@ extension LensType where AType: OptionalType, BType: OptionalType, AType.Paramet
 	}
 }
 
+public extension WritableKeyPath {
+	func lens() -> Lens<Root,Value> {
+		return Lens<Root,Value>.init(
+			get: { $0[keyPath: self] },
+			set: { part in
+				{ whole in
+					var m = whole
+					m[keyPath: self] = part
+					return m
+				}
+		})
+	}
+}
+
+prefix operator °
+public prefix func ° <Root,Value> (_ keyPath: WritableKeyPath<Root,Value>) -> Lens<Root,Value> {
+	return keyPath.lens()
+}
+
 // MARK: - Lens Laws
 
 /*:

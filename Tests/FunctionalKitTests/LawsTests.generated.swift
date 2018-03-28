@@ -816,6 +816,11 @@ class LawsTests: XCTestCase {
         }
     }
 
+
+
+
+
+
 //MARK: - Writer - Functor
 
     func testWriterFunctorIdentity() {
