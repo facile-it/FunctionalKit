@@ -26,7 +26,7 @@ public final class Ref<T> {
 		listeners.removeAll()
 	}
 
-	private func notify() {
+	public func notify() {
 		listeners.values.forEach { $0(value) }
 	}
 
