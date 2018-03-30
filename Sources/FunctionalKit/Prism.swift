@@ -75,6 +75,14 @@ extension PrismType where SType == TType, AType == BType {
 
 // MARK: - Utilities
 
+public extension PrismType {
+	static func typecast <Part> (to: Part.Type) -> Prism<Any,Part> where SType == Any, TType == Any, AType == Part, BType == Part {
+		return Prism<Any,Part>.init(
+			tryGet: { $0 as? Part },
+			inject: { $0 as Any })
+	}
+}
+
 extension Optional {
 	public static var prism: Prism<Optional,Wrapped> {
 		return Prism<Optional,Wrapped>.init(
