@@ -53,6 +53,44 @@ class LensTests: XCTestCase {
 		}
 	}
 
+	func testLensFromKeyPathWellBehaved() {
+		property("SetGet") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>, v: Int) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.second
+
+			return LensLaw.setGet(lens: lens, whole: p, part: v)
+		}
+
+		property("SetGet - Bool") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>, v: Bool) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.first
+
+			return LensLaw.setGet(lens: lens, whole: p, part: v)
+		}
+
+		property("GetSet") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.second
+
+			return LensLaw.getSet(lens: lens, whole: p)
+		}
+
+		property("GetSet - Bool") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.first
+
+			return LensLaw.getSet(lens: lens, whole: p)
+		}
+
+		property("SetSet") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>, v: Int) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.second
+
+			return LensLaw.setSet(lens: lens, whole: p, part: v)
+		}
+
+		property("SetSet - Bool") <- forAll { (p: TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>, v: Bool) in
+			let lens = °\TestProductMutable<Int,TestProductMutable<TestProductMutable<Bool,Int>,String>>.second.first.first
+
+			return LensLaw.setSet(lens: lens, whole: p, part: v)
+		}
+	}
+
 	func testZipLensWellBehaved() {
 		property("SetGet") <- forAll { (l1: Int, r1: Int, l2: Int, r2: Int) in
 

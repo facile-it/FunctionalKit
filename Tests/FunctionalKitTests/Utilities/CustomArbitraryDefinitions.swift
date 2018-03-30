@@ -63,6 +63,31 @@ struct TestProduct<A,B>: Equatable, Arbitrary, CustomStringConvertible where A: 
 	}
 }
 
+struct TestProductMutable<A,B>: Equatable, Arbitrary, CustomStringConvertible where A: Equatable & Arbitrary, B: Equatable & Arbitrary {
+	var first: A
+	var second: B
+
+	init(_ first: A, _ second: B) {
+		self.first = first
+		self.second = second
+	}
+
+	static func == (lhs: TestProductMutable, rhs: TestProductMutable) -> Bool {
+		return lhs.first == rhs.first
+			&& lhs.second == rhs.second
+	}
+
+	static var arbitrary: Gen<TestProductMutable<A, B>> {
+		return Gen.compose {
+			TestProductMutable.init($0.generate(), $0.generate())
+		}
+	}
+
+	var description: String {
+		return "(\(first),\(second))"
+	}
+}
+
 struct TestCoproduct<A,B>: Equatable, Arbitrary, CustomStringConvertible where A: Equatable & Arbitrary, B: Equatable & Arbitrary {
 	let unwrap: Coproduct<A,B>
 
