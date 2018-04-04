@@ -31,6 +31,36 @@
 		380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */; };
 		381E9B24200764B200A392DB /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E9B23200764B200A392DB /* NameSpace.swift */; };
 		381E9B25200764B200A392DB /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E9B23200764B200A392DB /* NameSpace.swift */; };
+		384D53E72075128D00772948 /* FunctorTransformers4_3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53DF2075128D00772948 /* FunctorTransformers4_3.generated.swift */; };
+		384D53E82075128D00772948 /* FunctorTransformers4_3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53DF2075128D00772948 /* FunctorTransformers4_3.generated.swift */; };
+		384D53E92075128D00772948 /* FunctorTransformers4_5.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E02075128D00772948 /* FunctorTransformers4_5.generated.swift */; };
+		384D53EA2075128D00772948 /* FunctorTransformers4_5.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E02075128D00772948 /* FunctorTransformers4_5.generated.swift */; };
+		384D53EB2075128D00772948 /* FunctorTransformers4_7.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E12075128D00772948 /* FunctorTransformers4_7.generated.swift */; };
+		384D53EC2075128D00772948 /* FunctorTransformers4_7.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E12075128D00772948 /* FunctorTransformers4_7.generated.swift */; };
+		384D53ED2075128D00772948 /* FunctorTransformers4_2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E22075128D00772948 /* FunctorTransformers4_2.generated.swift */; };
+		384D53EE2075128D00772948 /* FunctorTransformers4_2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E22075128D00772948 /* FunctorTransformers4_2.generated.swift */; };
+		384D53EF2075128D00772948 /* FunctorTransformers4_8.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E32075128D00772948 /* FunctorTransformers4_8.generated.swift */; };
+		384D53F02075128D00772948 /* FunctorTransformers4_8.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E32075128D00772948 /* FunctorTransformers4_8.generated.swift */; };
+		384D53F12075128D00772948 /* FunctorTransformers4_1.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E42075128D00772948 /* FunctorTransformers4_1.generated.swift */; };
+		384D53F22075128D00772948 /* FunctorTransformers4_1.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E42075128D00772948 /* FunctorTransformers4_1.generated.swift */; };
+		384D53F32075128D00772948 /* FunctorTransformers4_4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E52075128D00772948 /* FunctorTransformers4_4.generated.swift */; };
+		384D53F42075128D00772948 /* FunctorTransformers4_4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E52075128D00772948 /* FunctorTransformers4_4.generated.swift */; };
+		384D53F52075128D00772948 /* FunctorTransformers4_6.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E62075128D00772948 /* FunctorTransformers4_6.generated.swift */; };
+		384D53F62075128D00772948 /* FunctorTransformers4_6.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53E62075128D00772948 /* FunctorTransformers4_6.generated.swift */; };
+		384D53FE2075134C00772948 /* MonadTransformers4_4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F72075134B00772948 /* MonadTransformers4_4.generated.swift */; };
+		384D53FF2075134C00772948 /* MonadTransformers4_4.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F72075134B00772948 /* MonadTransformers4_4.generated.swift */; };
+		384D54002075134C00772948 /* MonadTransformers4_1.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F82075134B00772948 /* MonadTransformers4_1.generated.swift */; };
+		384D54012075134C00772948 /* MonadTransformers4_1.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F82075134B00772948 /* MonadTransformers4_1.generated.swift */; };
+		384D54022075134C00772948 /* MonadTransformers4_8.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F92075134B00772948 /* MonadTransformers4_8.generated.swift */; };
+		384D54032075134C00772948 /* MonadTransformers4_8.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53F92075134B00772948 /* MonadTransformers4_8.generated.swift */; };
+		384D54042075134C00772948 /* MonadTransformers4_7.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FA2075134B00772948 /* MonadTransformers4_7.generated.swift */; };
+		384D54052075134C00772948 /* MonadTransformers4_7.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FA2075134B00772948 /* MonadTransformers4_7.generated.swift */; };
+		384D54062075134C00772948 /* MonadTransformers4_2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FB2075134B00772948 /* MonadTransformers4_2.generated.swift */; };
+		384D54072075134C00772948 /* MonadTransformers4_2.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FB2075134B00772948 /* MonadTransformers4_2.generated.swift */; };
+		384D54082075134C00772948 /* MonadTransformers4_3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FC2075134C00772948 /* MonadTransformers4_3.generated.swift */; };
+		384D54092075134C00772948 /* MonadTransformers4_3.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FC2075134C00772948 /* MonadTransformers4_3.generated.swift */; };
+		384D540A2075134C00772948 /* MonadTransformers4_6.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FD2075134C00772948 /* MonadTransformers4_6.generated.swift */; };
+		384D540B2075134C00772948 /* MonadTransformers4_6.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384D53FD2075134C00772948 /* MonadTransformers4_6.generated.swift */; };
 		385370691FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
 		3853706A1FC40D86004096EB /* ArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385370681FC40D86004096EB /* ArrayType.swift */; };
 		3853706C1FC44178004096EB /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3853706B1FC44178004096EB /* ReaderType.swift */; };
@@ -164,6 +194,21 @@
 		380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers3.generated.swift; sourceTree = "<group>"; };
 		380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers2.generated.swift; sourceTree = "<group>"; };
 		381E9B23200764B200A392DB /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
+		384D53DF2075128D00772948 /* FunctorTransformers4_3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_3.generated.swift; sourceTree = "<group>"; };
+		384D53E02075128D00772948 /* FunctorTransformers4_5.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_5.generated.swift; sourceTree = "<group>"; };
+		384D53E12075128D00772948 /* FunctorTransformers4_7.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_7.generated.swift; sourceTree = "<group>"; };
+		384D53E22075128D00772948 /* FunctorTransformers4_2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_2.generated.swift; sourceTree = "<group>"; };
+		384D53E32075128D00772948 /* FunctorTransformers4_8.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_8.generated.swift; sourceTree = "<group>"; };
+		384D53E42075128D00772948 /* FunctorTransformers4_1.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_1.generated.swift; sourceTree = "<group>"; };
+		384D53E52075128D00772948 /* FunctorTransformers4_4.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_4.generated.swift; sourceTree = "<group>"; };
+		384D53E62075128D00772948 /* FunctorTransformers4_6.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctorTransformers4_6.generated.swift; sourceTree = "<group>"; };
+		384D53F72075134B00772948 /* MonadTransformers4_4.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_4.generated.swift; sourceTree = "<group>"; };
+		384D53F82075134B00772948 /* MonadTransformers4_1.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_1.generated.swift; sourceTree = "<group>"; };
+		384D53F92075134B00772948 /* MonadTransformers4_8.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_8.generated.swift; sourceTree = "<group>"; };
+		384D53FA2075134B00772948 /* MonadTransformers4_7.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_7.generated.swift; sourceTree = "<group>"; };
+		384D53FB2075134B00772948 /* MonadTransformers4_2.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_2.generated.swift; sourceTree = "<group>"; };
+		384D53FC2075134C00772948 /* MonadTransformers4_3.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_3.generated.swift; sourceTree = "<group>"; };
+		384D53FD2075134C00772948 /* MonadTransformers4_6.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonadTransformers4_6.generated.swift; sourceTree = "<group>"; };
 		385370681FC40D86004096EB /* ArrayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayType.swift; sourceTree = "<group>"; };
 		3853706B1FC44178004096EB /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
 		3853706E1FC46BA4004096EB /* FutureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureType.swift; sourceTree = "<group>"; };
@@ -333,8 +378,23 @@
 			children = (
 				380C6FF21FDC1D9100DA01FB /* FunctorTransformers2.generated.swift */,
 				380C6FF01FDC1D9100DA01FB /* FunctorTransformers3.generated.swift */,
+				384D53E42075128D00772948 /* FunctorTransformers4_1.generated.swift */,
+				384D53E22075128D00772948 /* FunctorTransformers4_2.generated.swift */,
+				384D53DF2075128D00772948 /* FunctorTransformers4_3.generated.swift */,
+				384D53E52075128D00772948 /* FunctorTransformers4_4.generated.swift */,
+				384D53E02075128D00772948 /* FunctorTransformers4_5.generated.swift */,
+				384D53E62075128D00772948 /* FunctorTransformers4_6.generated.swift */,
+				384D53E12075128D00772948 /* FunctorTransformers4_7.generated.swift */,
+				384D53E32075128D00772948 /* FunctorTransformers4_8.generated.swift */,
 				380C6FE91FDC0EF400DA01FB /* MonadTransformers2.generated.swift */,
 				380C6FE71FDC0EF400DA01FB /* MonadTransformers3.generated.swift */,
+				384D53F82075134B00772948 /* MonadTransformers4_1.generated.swift */,
+				384D53FB2075134B00772948 /* MonadTransformers4_2.generated.swift */,
+				384D53FC2075134C00772948 /* MonadTransformers4_3.generated.swift */,
+				384D53F72075134B00772948 /* MonadTransformers4_4.generated.swift */,
+				384D53FD2075134C00772948 /* MonadTransformers4_6.generated.swift */,
+				384D53FA2075134B00772948 /* MonadTransformers4_7.generated.swift */,
+				384D53F92075134B00772948 /* MonadTransformers4_8.generated.swift */,
 				38DD97881FDC2D0A00C67DFB /* ReaderTransformer.generated.swift */,
 			);
 			name = Transformers;
@@ -621,34 +681,49 @@
 				38F179C21FBDA7B500243994 /* Fixed.swift in Sources */,
 				38F179C01FBDA7B500243994 /* Curry.swift in Sources */,
 				38F179C81FBDA7B500243994 /* Product.swift in Sources */,
+				384D53F62075128D00772948 /* FunctorTransformers4_6.generated.swift in Sources */,
 				381E9B25200764B200A392DB /* NameSpace.swift in Sources */,
 				38F179C41FBDA7B500243994 /* Operators.swift in Sources */,
 				388AACBC2020CD2D00FBE3FA /* Lens.swift in Sources */,
 				385370701FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179C61FBDA7B500243994 /* Exponential.swift in Sources */,
+				384D53EA2075128D00772948 /* FunctorTransformers4_5.generated.swift in Sources */,
+				384D54052075134C00772948 /* MonadTransformers4_7.generated.swift in Sources */,
 				380C6FEB1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
 				3853706A1FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179CA1FBDA7B500243994 /* Reference.swift in Sources */,
+				384D54012075134C00772948 /* MonadTransformers4_1.generated.swift in Sources */,
+				384D53EC2075128D00772948 /* FunctorTransformers4_7.generated.swift in Sources */,
 				3853706D1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8221FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81F1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				388AACC42020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */,
 				388AACBA2020CD2D00FBE3FA /* Adapter.swift in Sources */,
+				384D54092075134C00772948 /* MonadTransformers4_3.generated.swift in Sources */,
+				384D54072075134C00772948 /* MonadTransformers4_2.generated.swift in Sources */,
 				38B70BEF2064158700559E28 /* Effect.swift in Sources */,
+				384D54032075134C00772948 /* MonadTransformers4_8.generated.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				388AACC22020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
+				384D53F42075128D00772948 /* FunctorTransformers4_4.generated.swift in Sources */,
+				384D53F02075128D00772948 /* FunctorTransformers4_8.generated.swift in Sources */,
 				38F179CC1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				384D53E82075128D00772948 /* FunctorTransformers4_3.generated.swift in Sources */,
 				385370731FC48927004096EB /* StateType.swift in Sources */,
 				38FB725720065C6C003F1424 /* Collections.swift in Sources */,
 				38DEDC6E1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179BE1FBDA7B500243994 /* Combinators.swift in Sources */,
+				384D540B2075134C00772948 /* MonadTransformers4_6.generated.swift in Sources */,
 				38939BA21FC2DC3100012794 /* TypeConstructor.swift in Sources */,
+				384D53EE2075128D00772948 /* FunctorTransformers4_2.generated.swift in Sources */,
+				384D53F22075128D00772948 /* FunctorTransformers4_1.generated.swift in Sources */,
 				38939BA51FC32CB200012794 /* OptionalType.swift in Sources */,
 				388AACC02020CD2D00FBE3FA /* Prism.swift in Sources */,
 				388AACBE2020CD2D00FBE3FA /* Optics.swift in Sources */,
 				380C6FEF1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
+				384D53FF2075134C00772948 /* MonadTransformers4_4.generated.swift in Sources */,
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
 				380C6FF41FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179BA1FBDA7B500243994 /* Coproduct.swift in Sources */,
@@ -703,34 +778,49 @@
 				38F179BD1FBDA7B500243994 /* Combinators.swift in Sources */,
 				38F179C31FBDA7B500243994 /* Operators.swift in Sources */,
 				38F179BF1FBDA7B500243994 /* Curry.swift in Sources */,
+				384D53F52075128D00772948 /* FunctorTransformers4_6.generated.swift in Sources */,
 				381E9B24200764B200A392DB /* NameSpace.swift in Sources */,
 				38F179C11FBDA7B500243994 /* Fixed.swift in Sources */,
 				388AACBB2020CD2D00FBE3FA /* Lens.swift in Sources */,
 				3853706F1FC46BA4004096EB /* FutureType.swift in Sources */,
 				38F179BB1FBDA7B500243994 /* Boolean.swift in Sources */,
+				384D53E92075128D00772948 /* FunctorTransformers4_5.generated.swift in Sources */,
+				384D54042075134C00772948 /* MonadTransformers4_7.generated.swift in Sources */,
 				380C6FEA1FDC0EF400DA01FB /* MonadTransformers3.generated.swift in Sources */,
 				385370691FC40D86004096EB /* ArrayType.swift in Sources */,
 				38F179B71FBDA7B500243994 /* Weakly.swift in Sources */,
+				384D54002075134C00772948 /* MonadTransformers4_1.generated.swift in Sources */,
+				384D53EB2075128D00772948 /* FunctorTransformers4_7.generated.swift in Sources */,
 				3853706C1FC44178004096EB /* ReaderType.swift in Sources */,
 				38F3C8211FBF2B370014D30D /* Inclusive.swift in Sources */,
 				38F3C81E1FBEF71E0014D30D /* ResultType.swift in Sources */,
 				388AACC32020CD2D00FBE3FA /* AlgebraicOptics.swift in Sources */,
 				388AACB92020CD2D00FBE3FA /* Adapter.swift in Sources */,
+				384D54082075134C00772948 /* MonadTransformers4_3.generated.swift in Sources */,
+				384D54062075134C00772948 /* MonadTransformers4_2.generated.swift in Sources */,
 				38B70BEE2064158700559E28 /* Effect.swift in Sources */,
+				384D54022075134C00772948 /* MonadTransformers4_8.generated.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				388AACC12020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
+				384D53F32075128D00772948 /* FunctorTransformers4_4.generated.swift in Sources */,
+				384D53EF2075128D00772948 /* FunctorTransformers4_8.generated.swift in Sources */,
 				38F179B91FBDA7B500243994 /* Coproduct.swift in Sources */,
+				384D53E72075128D00772948 /* FunctorTransformers4_3.generated.swift in Sources */,
 				385370721FC48927004096EB /* StateType.swift in Sources */,
 				38FB725620065C6C003F1424 /* Collections.swift in Sources */,
 				38DEDC6D1FC33BDB00D7984C /* WriterType.swift in Sources */,
 				38F179CB1FBDA7B500243994 /* Typealiases.swift in Sources */,
+				384D540A2075134C00772948 /* MonadTransformers4_6.generated.swift in Sources */,
 				38939BA11FC2DC3100012794 /* TypeConstructor.swift in Sources */,
+				384D53ED2075128D00772948 /* FunctorTransformers4_2.generated.swift in Sources */,
+				384D53F12075128D00772948 /* FunctorTransformers4_1.generated.swift in Sources */,
 				38939BA41FC32CB200012794 /* OptionalType.swift in Sources */,
 				388AACBF2020CD2D00FBE3FA /* Prism.swift in Sources */,
 				388AACBD2020CD2D00FBE3FA /* Optics.swift in Sources */,
 				380C6FEE1FDC0EF400DA01FB /* MonadTransformers2.generated.swift in Sources */,
+				384D53FE2075134C00772948 /* MonadTransformers4_4.generated.swift in Sources */,
 				38F179C71FBDA7B500243994 /* Product.swift in Sources */,
 				380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179C51FBDA7B500243994 /* Exponential.swift in Sources */,

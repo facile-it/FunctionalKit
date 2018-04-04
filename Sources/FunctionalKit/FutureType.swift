@@ -3,8 +3,11 @@
 #endif
 import Abstract
 
+import Dispatch
+
 // MARK: - Definiton
 
+// sourcery: split3
 // sourcery: functor
 // sourcery: monad
 // sourcery: concrete = "Future"
@@ -174,4 +177,16 @@ extension FutureType {
     public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
         return map(transform).joined
     }
+}
+
+// MARK: - Utility
+
+public extension FutureType {
+	static func after(_ delay: Double, pure value: ParameterType) -> Future<ParameterType> {
+		return Future<ParameterType>.unfold { done in
+			DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+				done(value)
+			}
+		}
+	}
 }

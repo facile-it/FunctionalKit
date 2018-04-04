@@ -5,6 +5,7 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: split7
 // sourcery: functor
 // sourcery: monad
 // sourcery: concrete = "State"

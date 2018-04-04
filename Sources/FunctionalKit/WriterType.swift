@@ -5,6 +5,7 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: split8
 // sourcery: functor
 // sourcery: traversable
 // sourcery: monad

@@ -1,4 +1,3 @@
-{# THIS GENERATES A > 14000 LINES FILE, IT TAKES TOO MUCH TO COMPILE #}
 {# GLOBAL MACROS #}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
 {% macro getTypeName type parameter preSecondaryParameter %}{{ type.annotations.concrete }}<{% if type|annotated:"secondaryParameter" %}{% if preSecondaryParameter %}{{ preSecondaryParameter }}.{% endif %}{{ type.annotations.secondaryParameter }},{% endif %}{{ parameter }}>{% endmacro %}
@@ -6,7 +5,7 @@
 {% macro checkEscaping3 type1 type2 type3 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
 {% macro checkEscaping4 type1 type2 type3 type4 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% elif type4.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
 {# TRANSFORMERS #}
-{% for type1 in types.protocols|annotated:"functor" %}
+{% for type1 in types.protocols|annotated:"functor"|annotated:"split4" %}
 {% for type2 in types.protocols|annotated:"functor" %}
 {% for type3 in types.protocols|annotated:"functor" %}
 {% for type4 in types.protocols|annotated:"functor" %}

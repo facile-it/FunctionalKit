@@ -5,6 +5,7 @@ import Abstract
 
 // MARK: - Definiton
 
+// sourcery: split5
 // sourcery: functor
 // sourcery: monad
 // sourcery: customTransformer
