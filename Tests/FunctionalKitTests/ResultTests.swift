@@ -1,9 +1,9 @@
 import XCTest
-import Operadics
 @testable import FunctionalKit
 #if SWIFT_PACKAGE
 	import Operadics
 #endif
+import Abstract
 
 class ResultTests: XCTestCase {
     

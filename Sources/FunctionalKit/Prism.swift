@@ -47,11 +47,6 @@ extension PrismType {
 			inject: { self.inject(other.inject($0)) })
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
-		return left.compose(right)
-	}
-
 	public static func >>> <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
 		return left.compose(right)
 	}

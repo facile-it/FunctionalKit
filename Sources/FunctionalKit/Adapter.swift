@@ -49,18 +49,11 @@ extension Result {
 	}
 }
 
-// MARK: - Iso Laws
-
 extension AdapterType {
 	public func compose <OtherAdapter> (_ other: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
 		return Adapter.init(
 			from: from >>> other.from,
 			to: other.to >>> to)
-	}
-
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherAdapter> (lhs: Self, rhs: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
-		return lhs.compose(rhs)
 	}
 
 	public static func >>> <OtherAdapter> (lhs: Self, rhs: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
@@ -79,18 +72,8 @@ extension AdapterType {
 		return LensFull.init(get: from, set: to >>> f.pure)
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
-		return lhs.toLens.compose(rhs)
-	}
-
 	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
 		return lhs.toLens.compose(rhs)
-	}
-
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: OtherLens, rhs: Self) -> LensFull<OtherLens.SType,OtherLens.TType,AType,BType> where OtherLens: LensType, OtherLens.AType == SType, OtherLens.BType == TType {
-		return lhs.compose(rhs.toLens)
 	}
 
 	public static func >>> <OtherLens> (lhs: OtherLens, rhs: Self) -> LensFull<OtherLens.SType,OtherLens.TType,AType,BType> where OtherLens: LensType, OtherLens.AType == SType, OtherLens.BType == TType {
@@ -101,18 +84,8 @@ extension AdapterType {
 		return PrismFull.init(tryGet: from, inject: to)
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherPrism> (lhs: Self, rhs: OtherPrism) -> PrismFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
-		return lhs.toPrism.compose(rhs)
-	}
-
 	public static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> PrismFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
 		return lhs.toPrism.compose(rhs)
-	}
-
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherPrism> (lhs: OtherPrism, rhs: Self) -> PrismFull<OtherPrism.SType,OtherPrism.TType,AType,BType> where OtherPrism: PrismType, OtherPrism.AType == SType, OtherPrism.BType == TType {
-		return lhs.compose(rhs.toPrism)
 	}
 
 	public static func >>> <OtherPrism> (lhs: OtherPrism, rhs: Self) -> PrismFull<OtherPrism.SType,OtherPrism.TType,AType,BType> where OtherPrism: PrismType, OtherPrism.AType == SType, OtherPrism.BType == TType {
@@ -123,18 +96,8 @@ extension AdapterType {
 		return AffineFull.init(tryGet: from, trySet: to >>> f.pure)
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
-		return lhs.toAffine.compose(rhs)
-	}
-
 	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
 		return lhs.toAffine.compose(rhs)
-	}
-
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
-		return lhs.compose(rhs.toAffine)
 	}
 
 	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
@@ -149,7 +112,7 @@ extension AdapterType {
 
 An `Iso` should actually represent an isomorphism: this means that there's a one-to-one correspondence between instances of `Whole` and `Part` and I can always obtain a `Part` from a `Whole` and viceversa without gain or loss of information.
 
-In other words this means that calling `from..to` on a `Whole` returns the same `Whole`, and `to..from` on a `Part` returns the same `Part`.
+In other words this means that calling `from >>> to` on a `Whole` returns the same `Whole`, and `to >>> from` on a `Part` returns the same `Part`.
 :*/
 
 public enum IsoLaw {

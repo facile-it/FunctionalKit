@@ -42,11 +42,6 @@ extension LensType {
         })
     }
 
-	@available(*, deprecated, renamed: ">>>")
-    public static func .. <OtherLens>(left: Self, right: OtherLens) -> LensFull<Self.SType,Self.TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == Self.AType, OtherLens.TType == Self.BType {
-        return left.compose(right)
-    }
-
 	public static func >>> <OtherLens>(left: Self, right: OtherLens) -> LensFull<Self.SType,Self.TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == Self.AType, OtherLens.TType == Self.BType {
 		return left.compose(right)
 	}
@@ -101,7 +96,10 @@ extension Writer {
 
 // MARK: Lenses on Optionals
 
+/// These are all deprecated
+
 extension LensType where AType: OptionalType, BType: OptionalType {
+	@available(*, deprecated)
 	public func compose <OtherLens> (_ other: OtherLens, defaulting: @autoclosure @escaping () -> AType.ParameterType) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return LensFull.init(
 			get: { s in self.get(s).fmap(other.get) },
@@ -114,15 +112,12 @@ extension LensType where AType: OptionalType, BType: OptionalType {
 		})
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
-		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
-	}
-
+	@available(*, deprecated)
 	public static func >>> <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
 	}
 
+	@available(*, deprecated)
 	public func compose <OtherLens> (_ other: OtherLens, defaulting: @autoclosure @escaping () -> AType.ParameterType) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return LensFull.init(
 			get: { s in OtherLens.AType.from(concrete: self.get(s).bind(other.get)) },
@@ -139,39 +134,29 @@ extension LensType where AType: OptionalType, BType: OptionalType {
 		})
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
-		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
-	}
-
+	@available(*, deprecated)
 	public static func >>> <OtherLens> (lhs: Self, rhs: (OtherLens, defaulting: () -> AType.ParameterType)) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return lhs.compose(rhs.0, defaulting: rhs.defaulting())
 	}
 }
 
 extension LensType where AType: OptionalType, BType: OptionalType, AType.ParameterType: Monoid {
+	@available(*, deprecated)
 	public func compose <OtherLens> (_ other: OtherLens) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return compose(other, defaulting: .empty)
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
-		return lhs.compose(rhs, defaulting: .empty)
-	}
-
+	@available(*, deprecated)
 	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType?,OtherLens.BType?> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType {
 		return lhs.compose(rhs, defaulting: .empty)
 	}
 
+	@available(*, deprecated)
 	public func compose <OtherLens> (_ other: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return compose(other, defaulting: .empty)
 	}
 
-	@available(*, deprecated, renamed: ">>>")
-	public static func .. <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
-		return lhs.compose(rhs, defaulting: .empty)
-	}
-
+	@available(*, deprecated)
 	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType.ParameterType, OtherLens.TType == BType.ParameterType, OtherLens.AType: OptionalType, OtherLens.BType: OptionalType {
 		return lhs.compose(rhs, defaulting: .empty)
 	}

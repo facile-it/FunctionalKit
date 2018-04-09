@@ -3,13 +3,13 @@
   "Mac" : [
     {
       "name" : "SwiftCheck",
-      "hash" : "494ae97debfd6f9440d773993ae40723c47afd31291495e8dfba3722922fe665"
+      "hash" : "3caa6fb40d1756aa0db6933168311678da62183cc8e74e7a57f442fd68b88b3a"
     }
   ],
   "iOS" : [
     {
       "name" : "SwiftCheck",
-      "hash" : "9a99f9647f08266f20d039f900253a1a33bf25f934870bb419bdac053704eaa2"
+      "hash" : "2037fe752b7460ed68c53bfc44818f2b36b114f98c781477a747742fdfed5877"
     }
   ]
 }
