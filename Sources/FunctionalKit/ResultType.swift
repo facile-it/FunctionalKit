@@ -226,19 +226,6 @@ extension ResultType {
 		})
 	}
 
-	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<Result<ErrorType,Biapplicative.FirstParameterType>,Result<ErrorType,Biapplicative.SecondParameterType>> where Biapplicative: ProductType {
-		typealias Returned = Product<Result<ErrorType,Biapplicative.FirstParameterType>,Result<ErrorType,Biapplicative.SecondParameterType>>
-
-		return fold(
-			onSuccess: { (value) -> Returned in
-				Product.pure(Result<ErrorType,Biapplicative.FirstParameterType>.success,Result<ErrorType,Biapplicative.SecondParameterType>.success) <*> transform(value)
-		},
-			onFailure: { (error) -> Returned in
-				Returned.pure(Result<ErrorType,Biapplicative.FirstParameterType>.failure(error),Result<ErrorType,Biapplicative.SecondParameterType>.failure(error))
-		})
-	}
-
-
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
@@ -296,6 +283,25 @@ extension ResultType {
 		},
 			onFailure: { (error) -> Returned in
 				Returned.pure(Traversed<Applicative>.failure(error))
+		})
+	}
+}
+
+// MARK: - Traversable2
+
+extension ResultType {
+	public typealias Bitraversed1<Biapplicative> = Result<ErrorType,Biapplicative.FirstParameterType> where Biapplicative: BitypeConstructor
+	public typealias Bitraversed2<Biapplicative> = Result<ErrorType,Biapplicative.SecondParameterType> where Biapplicative: BitypeConstructor
+
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<Result<ErrorType,Biapplicative.FirstParameterType>,Result<ErrorType,Biapplicative.SecondParameterType>> where Biapplicative: ProductType {
+		typealias Returned = Product<Bitraversed1<Biapplicative>,Bitraversed2<Biapplicative>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				Biapplicative.Biconcrete.pure(Bitraversed1<Biapplicative>.success,Bitraversed2<Biapplicative>.success) <*> transform(value)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Bitraversed1<Biapplicative>.failure(error),Bitraversed2<Biapplicative>.failure(error))
 		})
 	}
 }

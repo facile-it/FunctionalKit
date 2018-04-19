@@ -133,14 +133,6 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<[Biapplicative.FirstParameterType],[Biapplicative.SecondParameterType]> where Biapplicative: ProductType {
-		typealias Returned = Product<[Biapplicative.FirstParameterType],[Biapplicative.SecondParameterType]>
-
-		return fold(Returned.pure([],[])) { previous, element in
-			Product.pure(f.curry(++),f.curry(++)) <*> previous <*> transform(element)
-		}
-	}
-
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
@@ -178,6 +170,21 @@ extension ArrayType {
 
 		return fold(Returned.pure([])) { previous, element in
 			Applicative.Concrete.pure(f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
+}
+
+// MARK: - Traversable2
+
+extension ArrayType {
+	public typealias Bitraversed1<Biapplicative> = [Biapplicative.FirstParameterType] where Biapplicative: BitypeConstructor
+	public typealias Bitraversed2<Biapplicative> = [Biapplicative.SecondParameterType] where Biapplicative: BitypeConstructor
+
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<[Biapplicative.FirstParameterType],[Biapplicative.SecondParameterType]> where Biapplicative: ProductType {
+		typealias Returned = Product<Bitraversed1<Biapplicative>,Bitraversed2<Biapplicative>>
+
+		return fold(Returned.pure([],[])) { previous, element in
+			Biapplicative.Biconcrete.pure(f.curry(++),f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 }

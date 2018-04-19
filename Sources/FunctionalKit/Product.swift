@@ -34,7 +34,7 @@ public struct Product<A,B>: ProductType {
 public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 	public typealias FirstParameterType = A
 	public typealias SecondParameterType = B
-	
+
 	private let _first: A
 	private let _second: B
 
@@ -54,6 +54,12 @@ public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
 	public static func <> (lhs: ProductM, rhs: ProductM) -> ProductM {
 		return ProductM.init(lhs._first <> rhs._first, rhs._second <> rhs._second)
 	}
+}
+
+// MARK: - Concrete
+
+extension ProductType {
+	public typealias Biconcrete<A,B> = Product<A,B>
 }
 
 // MARK: - Equatable

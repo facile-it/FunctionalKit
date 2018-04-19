@@ -180,6 +180,21 @@ extension WriterType {
     }
 }
 
+// MARK: - Traversable2
+
+extension WriterType {
+	public typealias Bitraversed1<Biapplicative> = Writer<LogType,Biapplicative.FirstParameterType> where Biapplicative: BitypeConstructor
+	public typealias Bitraversed2<Biapplicative> = Writer<LogType,Biapplicative.SecondParameterType> where Biapplicative: BitypeConstructor
+
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<Writer<LogType,Biapplicative.FirstParameterType>,Writer<LogType,Biapplicative.SecondParameterType>> where Biapplicative: ProductType {
+		typealias Returned = Product<Bitraversed1<Biapplicative>,Bitraversed2<Biapplicative>>
+
+		return fold { log, value in
+			Biapplicative.Biconcrete.pure(f.curry(Bitraversed1<Biapplicative>.init),f.curry(Bitraversed2<Biapplicative>.init)) <*> Biapplicative.Biconcrete.pure(log,log) <*> transform(value)
+		}
+	}
+}
+
 // MARK: - Monad
 
 extension WriterType where ParameterType: WriterType, ParameterType.LogType == LogType {

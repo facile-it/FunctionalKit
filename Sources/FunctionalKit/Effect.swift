@@ -114,8 +114,6 @@ extension EffectType {
 	}
 }
 
-// MARK: - Traversable
-
 // MARK: - Monad
 
 extension EffectType where ParameterType: EffectType {

@@ -239,6 +239,25 @@ extension OptionalType {
 	}
 }
 
+// MARK: - Traversable2
+
+extension OptionalType {
+	public typealias Bitraversed1<Biapplicative> = Optional<Biapplicative.FirstParameterType> where Biapplicative: BitypeConstructor
+	public typealias Bitraversed2<Biapplicative> = Optional<Biapplicative.SecondParameterType> where Biapplicative: BitypeConstructor
+
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<Optional<Biapplicative.FirstParameterType>,Optional<Biapplicative.SecondParameterType>> where Biapplicative: ProductType {
+		typealias Returned = Product<Bitraversed1<Biapplicative>,Bitraversed2<Biapplicative>>
+
+		return fold(
+			onNone: { () -> Returned in
+				Returned.pure(Bitraversed1<Biapplicative>.none,Bitraversed2<Biapplicative>.none)
+		},
+			onSome: { (value) -> Returned in
+				Biapplicative.Biconcrete.pure(Bitraversed1<Biapplicative>.some,Bitraversed2<Biapplicative>.some) <*> transform(value)
+		})
+	}
+}
+
 // MARK: - Monad
 
 extension OptionalType where ParameterType: OptionalType {
