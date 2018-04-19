@@ -217,3 +217,16 @@ extension ArrayType {
 		return m
 	}
 }
+
+public extension ArrayType where ParameterType: CoproductType {
+	func partition() -> Product<[ParameterType.LeftType], [ParameterType.RightType]> {
+		return traverse2 {
+			$0.fold(
+				onLeft: { Product.init([$0], []) },
+				onRight: { Product.init([], [$0]) })
+			}
+			.bimap(
+				{ $0.joined },
+				{ $0.joined })
+	}
+}
