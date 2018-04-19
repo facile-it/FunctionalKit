@@ -95,7 +95,7 @@ extension CoproductType {
 // MARK: - Cross Interactions
 
 extension CoproductType where LeftType: ProductType {
-	public var insideOut: Product<Coproduct<LeftType.FirstType,RightType>,Coproduct<LeftType.SecondType,RightType>> {
+	public var insideOut: Product<Coproduct<LeftType.FirstParameterType,RightType>,Coproduct<LeftType.SecondParameterType,RightType>> {
 		return fold(
 			onLeft: { $0.bimap(Coproduct.left,Coproduct.left) },
 			onRight: { rightValue in Product.init(Coproduct.right(rightValue), Coproduct.right(rightValue)) })
@@ -103,7 +103,7 @@ extension CoproductType where LeftType: ProductType {
 }
 
 extension CoproductType where RightType: ProductType {
-	public var insideOut: Product<Coproduct<LeftType,RightType.FirstType>,Coproduct<LeftType,RightType.SecondType>> {
+	public var insideOut: Product<Coproduct<LeftType,RightType.FirstParameterType>,Coproduct<LeftType,RightType.SecondParameterType>> {
 		return fold(
 			onLeft: { leftValue in Product.init(Coproduct.left(leftValue), Coproduct.left(leftValue)) },
 			onRight: { $0.bimap(Coproduct.right,Coproduct.right) })

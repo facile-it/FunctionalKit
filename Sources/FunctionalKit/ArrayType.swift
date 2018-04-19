@@ -133,6 +133,14 @@ extension ArrayType {
 		}
 	}
 
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<[Biapplicative.FirstParameterType],[Biapplicative.SecondParameterType]> where Biapplicative: ProductType {
+		typealias Returned = Product<[Biapplicative.FirstParameterType],[Biapplicative.SecondParameterType]>
+
+		return fold(Returned.pure([],[])) { previous, element in
+			Product.pure(f.curry(++),f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 

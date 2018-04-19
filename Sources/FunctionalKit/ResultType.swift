@@ -226,6 +226,19 @@ extension ResultType {
 		})
 	}
 
+	public func traverse2<Biapplicative>(_ transform: (ParameterType) -> Biapplicative) -> Product<Result<ErrorType,Biapplicative.FirstParameterType>,Result<ErrorType,Biapplicative.SecondParameterType>> where Biapplicative: ProductType {
+		typealias Returned = Product<Result<ErrorType,Biapplicative.FirstParameterType>,Result<ErrorType,Biapplicative.SecondParameterType>>
+
+		return fold(
+			onSuccess: { (value) -> Returned in
+				Product.pure(Result<ErrorType,Biapplicative.FirstParameterType>.success,Result<ErrorType,Biapplicative.SecondParameterType>.success) <*> transform(value)
+		},
+			onFailure: { (error) -> Returned in
+				Returned.pure(Result<ErrorType,Biapplicative.FirstParameterType>.failure(error),Result<ErrorType,Biapplicative.SecondParameterType>.failure(error))
+		})
+	}
+
+
 	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 

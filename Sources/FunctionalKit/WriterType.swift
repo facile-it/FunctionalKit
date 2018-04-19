@@ -27,6 +27,8 @@ public protocol WriterType: PureConstructible, ProductType {
 // sourcery: testConstruct = "init(log: .empty, value: x)"
 // sourcery: testSecondaryParameter
 public struct Writer<L,A>: WriterType where L: Monoid {
+	public typealias FirstParameterType = L
+	public typealias SecondParameterType = A
     public typealias ParameterType = A
     
     fileprivate let log: L
