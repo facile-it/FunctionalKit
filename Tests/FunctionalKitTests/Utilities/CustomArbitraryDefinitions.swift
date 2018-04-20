@@ -27,6 +27,24 @@ extension Product: Arbitrary where A: Arbitrary, B: Arbitrary {
 	}
 }
 
+extension Inclusive: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Inclusive<A, B>> {
+		return Gen.fromElements(of: [-1,0,1])
+			.flatMap { (value) -> Gen<Inclusive<A,B>> in
+				switch value {
+				case -1:
+					return A.arbitrary.map(Inclusive.left)
+				case 0:
+					return Gen.zip(A.arbitrary, B.arbitrary).map(Inclusive.center)
+				case 1:
+					return B.arbitrary.map(Inclusive.right)
+				default:
+					fatalError()
+				}
+		}
+	}
+}
+
 extension Max: Arbitrary where A: Arbitrary {
 	public static var arbitrary: Gen<Max<A>> {
 		return A.arbitrary.map(Max.init)
