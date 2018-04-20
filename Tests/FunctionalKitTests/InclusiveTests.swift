@@ -9,4 +9,8 @@ class InclusiveTests: XCTestCase {
 			Law.isAssociative(a, b, c)
 		}
 	}
+
+	static var allTests = [
+		("testAlgebra", testAlgebra)
+		]
 }

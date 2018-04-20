@@ -2,6 +2,9 @@ import XCTest
 import Abstract
 @testable import FunctionalKit
 import SwiftCheck
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 
 typealias TestType = Coproduct<Int,String>
 
@@ -41,6 +44,7 @@ class CoproductTests: XCTestCase {
 
 	static var allTests = [
 		("testTry", testTry),
+		("testAlgebra", testAlgebra),
 		("testFold", testFold),
 		("testMap", testMap),
 		]

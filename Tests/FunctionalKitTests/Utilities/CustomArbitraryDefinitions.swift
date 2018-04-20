@@ -1,6 +1,9 @@
 @testable import FunctionalKit
 import SwiftCheck
 import Abstract
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 
 extension String: Error {}
 

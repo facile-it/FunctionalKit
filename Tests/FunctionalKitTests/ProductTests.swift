@@ -40,6 +40,7 @@ class ProductTests: XCTestCase {
 
 	static var allTests = [
 		("testFold", testFold),
+		("testAlgebra", testAlgebra),
 		("testMap", testMap),
 		]
 }

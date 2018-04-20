@@ -1,4 +1,7 @@
 import Foundation
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 import Abstract
 
 // MARK: - Decomposition
