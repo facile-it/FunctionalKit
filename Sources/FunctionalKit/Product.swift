@@ -26,34 +26,12 @@ public struct Product<A,B>: ProductType {
 	}
 }
 
-
-public struct ProductM<A,B>: ProductType, Monoid where A: Monoid, B: Monoid {
-	private let _first: A
-	private let _second: B
-
-	public init(_ first: A, _ second: B) {
-		self._first = first
-		self._second = second
-	}
-
-	public func fold<T>(_ transform: (A, B) -> T) -> T {
-		return transform(_first,_second)
-	}
-
-	public static var empty: ProductM<A, B> {
-		return ProductM.init(.empty, .empty)
-	}
-
-	public static func <> (lhs: ProductM, rhs: ProductM) -> ProductM {
-		return ProductM.init(lhs._first <> rhs._first, rhs._second <> rhs._second)
-	}
-}
-
 // MARK: - Equatable
 
-extension ProductType where FirstType: Equatable, SecondType: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(f.identity) == rhs.fold(f.identity)
+extension Product: Equatable where A: Equatable, B: Equatable {
+	public static func == (lhs: Product, rhs: Product) -> Bool {
+		return lhs.first == rhs.first
+			&& lhs.second == rhs.second
 	}
 }
 
@@ -92,6 +70,53 @@ extension ProductType where SecondType: ExponentialType, SecondType.SourceType =
 		return fold { (value, exponential) -> SecondType.TargetType in
 			exponential.call(value)
 		}
+	}
+}
+
+// MARK: - Algebra
+
+extension Product: Magma where A: Magma, B: Magma {
+	public static func <> (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
+		return Product<A,B>.init(
+			left.first <> right.first,
+			left.second <> right.second)
+	}
+}
+
+extension Product: Semigroup where A: Semigroup, B: Semigroup {}
+
+extension Product: Monoid where A: Monoid, B: Monoid {
+	public static var empty: Product<A, B> {
+		return Product<A,B>.init(.empty, .empty)
+	}
+}
+
+extension Product: CommutativeMonoid where A: CommutativeMonoid, B: CommutativeMonoid {}
+
+extension Product: BoundedSemilattice where A: BoundedSemilattice, B: BoundedSemilattice {}
+
+extension Product: Semiring where A: Semiring, B: Semiring {
+	public typealias Additive = Product<A.Additive,B.Additive>
+	public typealias Multiplicative = Product<A.Multiplicative,B.Multiplicative>
+
+	public static func <>+ (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
+		return Product<A,B>.init(
+			left.first <>+ right.first,
+			left.second <>+ right.second)
+	}
+
+	public static func <>* (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
+		return Product<A,B>.init(
+			left.first <>* right.first,
+			left.second <>* right.second)
+	}
+
+	public static var zero: Product<A, B> {
+		return Product<A,B>.init(.zero, .zero)
+	}
+
+	public static var one: Product<A, B> {
+		return Product<A,B>.init(.one, .one)
 	}
 }
 

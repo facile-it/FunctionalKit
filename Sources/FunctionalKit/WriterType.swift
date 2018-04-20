@@ -92,15 +92,14 @@ extension WriterType {
         return { ap1, ap2, ap3 in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
-        
     }
 }
 
 // MARK: - Cartesian
 
 extension WriterType {
-    public static func zip <W1,W2> (_ first: W1, _ second: W2) -> Writer<ProductM<W1.LogType,W2.LogType>,(W1.ParameterType,W2.ParameterType)> where W1: WriterType, W2: WriterType, LogType == ProductM<W1.LogType,W2.LogType>, ParameterType == (W1.ParameterType, W2.ParameterType) {
-        return first.fold { l1, v1 in second.fold { l2, v2 in Writer.init(log: ProductM.init(l1, l2), value: (v1, v2)) } }
+    public static func zip <W1,W2> (_ first: W1, _ second: W2) -> Writer<Product<W1.LogType,W2.LogType>,(W1.ParameterType,W2.ParameterType)> where W1: WriterType, W2: WriterType, LogType == Product<W1.LogType,W2.LogType>, ParameterType == (W1.ParameterType, W2.ParameterType) {
+        return first.fold { l1, v1 in second.fold { l2, v2 in Writer.init(log: Product.init(l1, l2), value: (v1, v2)) } }
     }
     
     public static func zipMerge <W1,W2> (_ first: W1, _ second: W2) -> Writer<W1.LogType,(W1.ParameterType,W2.ParameterType)> where W1: WriterType, W2: WriterType, W1.LogType == W2.LogType, LogType == W1.LogType, ParameterType == (W1.ParameterType, W2.ParameterType) {

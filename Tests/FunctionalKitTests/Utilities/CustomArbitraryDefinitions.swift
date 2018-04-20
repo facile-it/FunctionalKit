@@ -19,6 +19,20 @@ extension CheckerArguments {
 	}
 }
 
+extension Product: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Product<A, B>> {
+		return Gen.compose {
+			Product<A,B>.init($0.generate(), $0.generate())
+		}
+	}
+}
+
+extension Max: Arbitrary where A: Arbitrary {
+	public static var arbitrary: Gen<Max<A>> {
+		return A.arbitrary.map(Max.init)
+	}
+}
+
 struct TestProduct<A,B>: Equatable, Arbitrary, CustomStringConvertible where A: Equatable & Arbitrary, B: Equatable & Arbitrary {
 	let unwrap: Product<A,B>
 

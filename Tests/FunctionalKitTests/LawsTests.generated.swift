@@ -539,11 +539,6 @@ class LawsTests: XCTestCase {
 
 
 
-
-
-
-
-
 //MARK: - Reader - Functor
 
     func testReaderFunctorIdentity() {
