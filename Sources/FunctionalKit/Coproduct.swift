@@ -28,19 +28,16 @@ public enum Coproduct<A,B>: CoproductType {
 
 // MARK: - Equatable
 
-extension CoproductType where LeftType: Equatable, RightType: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(
-			onLeft: { left in
-				rhs.fold(
-					onLeft: { left == $0 },
-					onRight: f.pure(false))
-		},
-			onRight: { right in
-				rhs.fold(
-					onLeft: f.pure(false),
-					onRight: { right == $0 })
-		})
+extension Coproduct where A: Equatable, B: Equatable {
+	public static func == (lhs: Coproduct, rhs: Coproduct) -> Bool {
+		switch (lhs, rhs) {
+		case let (.left(lhsValue),.left(rhsValue)):
+			return lhsValue == rhsValue
+		case let (.right(lhsValue),.right(rhsValue)):
+			return lhsValue == rhsValue
+		default:
+			return false
+		}
 	}
 }
 

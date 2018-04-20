@@ -46,30 +46,20 @@ public enum InclusiveError<A,B>: InclusiveType, Error where A: Error, B: Error {
 	}
 }
 
-
 // MARK: - Equatable
 
-extension InclusiveType where LeftType: Equatable, RightType: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(
-			onLeft: { (left) -> Bool in
-				rhs.fold(
-					onLeft: { left == $0 },
-					onCenter: f.pure(false),
-					onRight: f.pure(false))
-		},
-			onCenter: { (left, right) -> Bool in
-				rhs.fold(
-					onLeft: f.pure(false),
-					onCenter: { left == $0 && right == $1 },
-					onRight: f.pure(false))
-		},
-			onRight: { (right) -> Bool in
-				rhs.fold(
-					onLeft: f.pure(false),
-					onCenter: f.pure(false),
-					onRight: { right == $0 })
-		})
+extension Inclusive where A: Equatable, B: Equatable {
+	public static func == (lhs: Inclusive, rhs: Inclusive) -> Bool {
+		switch (lhs, rhs) {
+		case let (.left(lhsValue),.left(rhsValue)):
+			return lhsValue == rhsValue
+		case let (.center(lhsValue),.center(rhsValue)):
+			return lhsValue == rhsValue
+		case let (.right(lhsValue),.right(rhsValue)):
+			return lhsValue == rhsValue
+		default:
+			return false
+		}
 	}
 }
 
