@@ -27,6 +27,22 @@ extension Product: Arbitrary where A: Arbitrary, B: Arbitrary {
 	}
 }
 
+extension Coproduct: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Coproduct<A, B>> {
+		return Gen.fromElements(of: [-1,1])
+			.flatMap { (value) -> Gen<Coproduct<A,B>> in
+				switch value {
+				case -1:
+					return A.arbitrary.map(Coproduct.left)
+				case 1:
+					return B.arbitrary.map(Coproduct.right)
+				default:
+					fatalError()
+				}
+		}
+	}
+}
+
 extension Inclusive: Arbitrary where A: Arbitrary, B: Arbitrary {
 	public static var arbitrary: Gen<Inclusive<A, B>> {
 		return Gen.fromElements(of: [-1,0,1])

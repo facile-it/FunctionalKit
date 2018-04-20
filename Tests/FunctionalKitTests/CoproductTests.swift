@@ -1,5 +1,7 @@
 import XCTest
+import Abstract
 @testable import FunctionalKit
+import SwiftCheck
 
 typealias TestType = Coproduct<Int,String>
 
@@ -10,6 +12,12 @@ class CoproductTests: XCTestCase {
 
 		TestType.right("42").tryLeft==?
 		TestType.right("42").tryRight==!
+	}
+
+	func testAlgebra() {
+		property("Coproduct<A: Semiring,B: Semiring> is a Semiring") <- forAll { (a: Coproduct<Bool,Bool>, b: Coproduct<Bool,Bool>, c: Coproduct<Bool,Bool>) in
+			Law.multiplicationIsDistributiveOverAddition(a, b, c) && Law.zeroAnnihiliatesTheMultiplicative(a)
+		}
 	}
 
 	func testFold() {
