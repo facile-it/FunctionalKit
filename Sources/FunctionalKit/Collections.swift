@@ -16,7 +16,7 @@ extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == 
 		return dropFirst()
 	}
 
-	public var decomposed: (Iterator.Element,SubSequence)? {
+	public func decomposed() -> (Iterator.Element,SubSequence)? {
 		return Optional.zip(head, tail)
 	}
 

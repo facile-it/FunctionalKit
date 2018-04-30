@@ -85,15 +85,15 @@ extension Coproduct: Semiring where A: Semiring, B: Semiring {
 // MARK: - Projections
 
 extension CoproductType {
-	public var toCoproduct: Coproduct<LeftType,RightType> {
+	public func toCoproduct() -> Coproduct<LeftType,RightType> {
 		return fold(onLeft: Coproduct<LeftType,RightType>.left, onRight: Coproduct<LeftType,RightType>.right)
 	}
 
-	public var tryLeft: LeftType? {
+	public func tryLeft() ->  LeftType? {
 		return fold(onLeft: f.identity, onRight: { _ in nil })
 	}
 
-	public var tryRight: RightType? {
+	public func tryRight() ->  RightType? {
 		return fold(onLeft: { _ in nil }, onRight: f.identity)
 	}
 

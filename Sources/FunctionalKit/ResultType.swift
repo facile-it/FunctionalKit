@@ -312,13 +312,13 @@ extension ResultType {
 // MARK: - Utility
 
 extension ResultType {
-	public var toOptionalError: ErrorType? {
+	public func toOptionalError() -> ErrorType? {
 		return fold(
 			onSuccess: f.pure(nil),
 			onFailure: f.identity)
 	}
 
-	public var toOptionalValue: ParameterType? {
+	public func toOptionalValue() -> ParameterType? {
 		return fold(
 			onSuccess: f.identity,
 			onFailure: f.pure(nil))

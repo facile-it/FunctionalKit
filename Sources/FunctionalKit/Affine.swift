@@ -50,42 +50,42 @@ extension AffineType {
 }
 
 extension LensType {
-	public var toAffine: AffineFull<SType,TType,AType,BType> {
+	public func toAffine() -> AffineFull<SType,TType,AType,BType> {
 		return AffineFull<SType,TType,AType,BType>.init(
 			tryGet: self.get,
 			trySet: self.set)
 	}
 
 	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
-		return lhs.toAffine >>> rhs
+		return lhs.toAffine() >>> rhs
 	}
 
 	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
-		return lhs >>> rhs.toAffine
+		return lhs >>> rhs.toAffine()
 	}
 
 	public static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> AffineFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
-		return lhs.toAffine >>> rhs.toAffine
+		return lhs.toAffine() >>> rhs.toAffine()
 	}
 }
 
 extension PrismType {
-	public var toAffine: AffineFull<SType,TType,AType,BType> {
+	public func toAffine() -> AffineFull<SType,TType,AType,BType> {
 		return AffineFull<SType,TType,AType,BType>.init(
 			tryGet: self.tryGet,
 			trySet: f.pure >>> self.tryModify)
 	}
 
 	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
-		return lhs.toAffine >>> rhs
+		return lhs.toAffine() >>> rhs
 	}
 
 	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
-		return lhs >>> rhs.toAffine
+		return lhs >>> rhs.toAffine()
 	}
 
 	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> AffineFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
-		return lhs.toAffine >>> rhs.toAffine
+		return lhs.toAffine() >>> rhs.toAffine()
 	}
 }
 

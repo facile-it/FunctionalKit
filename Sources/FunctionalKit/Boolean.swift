@@ -13,7 +13,7 @@ extension Bool {
 	}
 
 	public var not: Bool {
-		return !self
+		return self == false
 	}
 
 	public func implies(_ other: @autoclosure () -> Bool) -> Bool {

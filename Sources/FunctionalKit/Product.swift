@@ -38,7 +38,7 @@ extension Product: Equatable where A: Equatable, B: Equatable {
 // MARK: - Projections
 
 extension ProductType {
-	public var toProduct: Product<FirstType,SecondType> {
+	public func toProduct() -> Product<FirstType,SecondType> {
 		return fold(Product<FirstType,SecondType>.init)
 	}
 
@@ -58,7 +58,7 @@ extension ProductType {
 // MARK: - Evaluation
 
 extension ProductType where FirstType: ExponentialType, FirstType.SourceType == SecondType {
-	public var eval: FirstType.TargetType {
+	public func eval() -> FirstType.TargetType {
 		return fold { (exponential, value) -> FirstType.TargetType in
 			exponential.call(value)
 		}
@@ -66,7 +66,7 @@ extension ProductType where FirstType: ExponentialType, FirstType.SourceType == 
 }
 
 extension ProductType where SecondType: ExponentialType, SecondType.SourceType == FirstType {
-	public var eval: SecondType.TargetType {
+	public func eval() -> SecondType.TargetType {
 		return fold { (value, exponential) -> SecondType.TargetType in
 			exponential.call(value)
 		}
@@ -139,7 +139,7 @@ extension ProductType {
 // MARK: - Cross Interactions
 
 extension ProductType where FirstType: CoproductType {
-	public var insideOut: Coproduct<Product<FirstType.LeftType,SecondType>,Product<FirstType.RightType,SecondType>> {
+	public func insideOut() -> Coproduct<Product<FirstType.LeftType,SecondType>,Product<FirstType.RightType,SecondType>> {
 		return fold { first, second in
 			first.bimap(
 				{ Product.init($0, second) },
@@ -149,7 +149,7 @@ extension ProductType where FirstType: CoproductType {
 }
 
 extension ProductType where SecondType: CoproductType {
-	public var insideOut: Coproduct<Product<FirstType,SecondType.LeftType>,Product<FirstType,SecondType.RightType>> {
+	public func insideOut() -> Coproduct<Product<FirstType,SecondType.LeftType>,Product<FirstType,SecondType.RightType>> {
 		return fold { first, second in
 			second.bimap(
 				{ Product.init(first, $0) },

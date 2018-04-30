@@ -66,35 +66,35 @@ extension Inclusive: Equatable where A: Equatable, B: Equatable {
 // MARK: - Projections
 
 extension InclusiveType {
-	public var tryToProduct: Product<LeftType,RightType>? {
+	public func tryToProduct() -> Product<LeftType,RightType>? {
 		return fold(
 			onLeft: f.pure(nil),
 			onCenter: Product.init,
 			onRight: f.pure(nil))
 	}
 
-	public var tryToCoproduct: Coproduct<LeftType,RightType>? {
+	public func tryToCoproduct() -> Coproduct<LeftType,RightType>? {
 		return fold(
 			onLeft: Coproduct.left,
 			onCenter: f.pure(nil),
 			onRight: Coproduct.right)
 	}
 
-	public var tryLeft: LeftType? {
+	public func tryLeft() -> LeftType? {
 		return fold(
 			onLeft: f.identity,
 			onCenter: f.first,
 			onRight: f.pure(nil))
 	}
 
-	public var tryRight: RightType? {
+	public func tryRight() -> RightType? {
 		return fold(
 			onLeft: f.pure(nil),
 			onCenter: f.second,
 			onRight: f.identity)
 	}
 
-	public var tryBoth: (LeftType,RightType)? {
+	public func tryBoth() -> (LeftType,RightType)? {
 		return fold(
 			onLeft: f.pure(nil),
 			onCenter: f.identity,

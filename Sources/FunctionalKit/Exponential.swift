@@ -30,7 +30,7 @@ extension ExponentialType {
 		return Exponential<A,B>.init { value in target(self.call(source(value))) }
 	}
 
-	public var toExponential: Exponential<SourceType,TargetType> {
+	public func toExponential() -> Exponential<SourceType,TargetType> {
 		return dimap(f.identity, f.identity)
 	}
 
@@ -44,7 +44,7 @@ extension ExponentialType {
 }
 
 extension ExponentialType where SourceType == TargetType {
-	public static var identity: Exponential<SourceType,TargetType> {
+	public static func identity() -> Exponential<SourceType,TargetType> {
 		return Exponential.init { $0 }
 	}
 }

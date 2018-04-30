@@ -92,7 +92,7 @@ class AffineTests: XCTestCase {
 			let lens1 = type(of: a).lens.second
 			let lens2 = TestProduct<Int,Int>.lens.first
 			let composed = lens1 >>> lens2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.trySetTryGet(affine: affine, whole: a, part: v)
 		}
@@ -101,7 +101,7 @@ class AffineTests: XCTestCase {
 			let lens1 = type(of: a).lens.second
 			let lens2 = TestProduct<Int,Int>.lens.first
 			let composed = lens1 >>> lens2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.tryGetTrySet(affine: affine, whole: a)
 		}
@@ -110,7 +110,7 @@ class AffineTests: XCTestCase {
 			let lens1 = type(of: a).lens.second
 			let lens2 = TestProduct<Int,Int>.lens.first
 			let composed = lens1 >>> lens2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.trySetTrySet(affine: affine, whole: a, part: v)
 		}
@@ -121,7 +121,7 @@ class AffineTests: XCTestCase {
 			let prism1 = type(of: a).prism.right
 			let prism2 = TestCoproduct<Int,Int>.prism.left
 			let composed = prism1 >>> prism2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.trySetTryGet(affine: affine, whole: a, part: v)
 		}
@@ -130,7 +130,7 @@ class AffineTests: XCTestCase {
 			let prism1 = type(of: a).prism.right
 			let prism2 = TestCoproduct<Int,Int>.prism.left
 			let composed = prism1 >>> prism2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.tryGetTrySet(affine: affine, whole: a)
 		}
@@ -139,7 +139,7 @@ class AffineTests: XCTestCase {
 			let prism1 = type(of: a).prism.right
 			let prism2 = TestCoproduct<Int,Int>.prism.left
 			let composed = prism1 >>> prism2
-			let affine = composed.toAffine
+			let affine = composed.toAffine()
 
 			return AffineLaw.trySetTrySet(affine: affine, whole: a, part: v)
 		}
