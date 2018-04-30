@@ -30,11 +30,11 @@ extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == 
 
 extension Sequence {
 	public func all(conformTo predicate: @escaping (Element) -> Bool) -> Bool {
-		return map(predicate >>> And.init(_:)).concatenated.unwrap
+		return map(predicate >>> And.init(_:)).concatenated().unwrap
 	}
 
 	public func any(conformsTo predicate: @escaping (Element) -> Bool) -> Bool {
-		return map(predicate >>> Or.init(_:)).concatenated.unwrap
+		return map(predicate >>> Or.init(_:)).concatenated().unwrap
 	}
 }
 

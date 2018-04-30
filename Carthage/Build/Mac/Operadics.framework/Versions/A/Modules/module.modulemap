@@ -1,4 +1,0 @@
-framework module Operadics {
-    header "Operadics-Swift.h"
-    requires objc
-}
