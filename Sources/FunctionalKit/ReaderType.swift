@@ -134,14 +134,14 @@ extension ReaderType {
 // MARK: - Monad
 
 extension ReaderType where ParameterType: ReaderType, ParameterType.EnvironmentType == EnvironmentType {
-	public var joined: Reader<EnvironmentType,ParameterType.ParameterType> {
+	public func joined() -> Reader<EnvironmentType,ParameterType.ParameterType> {
 		return Reader.unfold { e in self.run(e).run(e) }
 	}
 }
 
 extension ReaderType {
 	public func flatMap <R> (_ transform: @escaping (ParameterType) -> R) -> Reader<EnvironmentType,R.ParameterType> where R: ReaderType, R.EnvironmentType == EnvironmentType {
-		return map(transform).joined
+		return map(transform).joined()
 	}
 }
 

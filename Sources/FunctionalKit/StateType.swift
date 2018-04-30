@@ -139,7 +139,7 @@ extension StateType {
 // MARK: - Monad
 
 extension StateType where ParameterType: StateType, ParameterType.StateParameterType == StateParameterType {
-	public var joined: State<StateParameterType,ParameterType.ParameterType> {
+	public func joined() -> State<StateParameterType,ParameterType.ParameterType> {
 		return State.unfold { externalS in
 			let (internalS, v) = self.run(externalS)
 			return v.run(internalS)
@@ -149,7 +149,7 @@ extension StateType where ParameterType: StateType, ParameterType.StateParameter
 
 extension StateType {
     public func flatMap <S> (_ transform: @escaping (ParameterType) -> S) -> State<StateParameterType,S.ParameterType> where S: StateType, S.StateParameterType == StateParameterType {
-        return map(transform).joined
+        return map(transform).joined()
     }
 }
 

@@ -180,7 +180,7 @@ extension WriterType {
 // MARK: - Monad
 
 extension WriterType where ParameterType: WriterType, ParameterType.LogType == LogType {
-    public var joined: Writer<LogType,ParameterType.ParameterType> {
+    public func joined() -> Writer<LogType,ParameterType.ParameterType> {
         return fold { externalLog, externalValue in
             externalValue.fold { internalLog, internalValue in
                 Writer.init(log: externalLog <> internalLog, value: internalValue)
@@ -191,7 +191,7 @@ extension WriterType where ParameterType: WriterType, ParameterType.LogType == L
 
 extension WriterType {
     public func flatMap <W> (_ transform: (ParameterType) -> W) -> Writer<LogType,W.ParameterType> where W: WriterType, W.LogType == LogType {
-        return map(transform).joined
+        return map(transform).joined()
     }
 }
 
@@ -240,20 +240,26 @@ extension WriterType {
 	}
 }
 
-// MARK: - Monoid
+// MARK: - Algebra
+
+extension Writer: Magma where ParameterType: Magma {
+	public static func <> (lhs: Writer, rhs: Writer) -> Writer<LogType,ParameterType> {
+		let (lLog,lValue) = lhs.run
+		let (rLog,rValue) = rhs.run
+		return Writer<LogType,ParameterType>.init(log: lLog <> rLog, value: lValue <> rValue)
+	}
+}
+
+extension Writer: Semigroup where ParameterType: Semigroup {}
+
+extension Writer: Monoid where ParameterType: Monoid {
+	public static var empty: Writer<LogType,ParameterType> {
+		return Writer<LogType,ParameterType>.init(log: .empty, value: .empty)
+	}
+}
 
 extension WriterType where ParameterType: Monoid {
 	public var swapped: Writer<ParameterType,LogType> {
 		return swap(f.identity)
-	}
-
-	public static var empty: Writer<LogType,ParameterType> {
-		return Writer<LogType,ParameterType>.init(log: .empty, value: .empty)
-	}
-
-	public static func <> (lhs: Self, rhs: Self) -> Writer<LogType,ParameterType> {
-		let (lLog,lValue) = lhs.run
-		let (rLog,rValue) = rhs.run
-		return Writer<LogType,ParameterType>.init(log: lLog <> rLog, value: lValue <> rValue)
 	}
 }

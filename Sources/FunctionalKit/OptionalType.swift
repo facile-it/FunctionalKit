@@ -242,7 +242,7 @@ extension OptionalType {
 // MARK: - Monad
 
 extension OptionalType where ParameterType: OptionalType {
-	public var joined: Optional<ParameterType.ParameterType> {
+	public func joined() -> Optional<ParameterType.ParameterType> {
 		return fold(
 			onNone: f.pure(Optional<ParameterType.ParameterType>.none),
 			onSome: { value in
@@ -255,7 +255,7 @@ extension OptionalType where ParameterType: OptionalType {
 
 extension OptionalType {
 	public func bind<O>(_ transform: (ParameterType) -> O) -> Optional<O.ParameterType> where O: OptionalType {
-		return fmap(transform).joined
+		return fmap(transform).joined()
 	}
 }
 

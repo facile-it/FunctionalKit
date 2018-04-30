@@ -290,7 +290,7 @@ extension ResultType {
 // MARK: - Monad
 
 extension ResultType where ParameterType: ResultType, ParameterType.ErrorType == ErrorType {
-	public var joined: Result<ErrorType,ParameterType.ParameterType> {
+	public func joined() -> Result<ErrorType,ParameterType.ParameterType> {
 		return fold(
 			onSuccess: { subresult in
 				subresult.fold(
@@ -305,7 +305,7 @@ extension ResultType where ParameterType: ResultType, ParameterType.ErrorType ==
 
 extension ResultType {
 	public func flatMap<R>(_ transform: (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
-		return map(transform).joined
+		return map(transform).joined()
 	}
 }
 

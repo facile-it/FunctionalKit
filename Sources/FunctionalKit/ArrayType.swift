@@ -177,7 +177,7 @@ extension ArrayType {
 // MARK: - Monad
 
 extension ArrayType where ParameterType: ArrayType {
-	public var joined: [ParameterType.ParameterType] {
+	public func joined() -> [ParameterType.ParameterType] {
 		let initial = [ParameterType.ParameterType].init()
 		return fold(initial) { externalPrevious, externalElement in
 			externalPrevious + externalElement.fold(initial) { internalPrevious, internalElement in
@@ -189,7 +189,7 @@ extension ArrayType where ParameterType: ArrayType {
 
 extension ArrayType {
 	public func bind <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
-		return fmap(transform).joined
+		return fmap(transform).joined()
 	}
 }
 

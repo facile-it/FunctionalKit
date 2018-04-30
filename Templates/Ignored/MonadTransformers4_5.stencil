@@ -17,7 +17,7 @@
 extension {{ type1.name }} where ParameterType: {{ type2.name }}, ParameterType.ParameterType: {{ type3.name }}, ParameterType.ParameterType.ParameterType: {{ type4.name }} {
     public func flatMapTTT <Output> (_ transform: {% call checkEscaping4 type1 type2 type3 type4 %}(ParameterType.ParameterType.ParameterType.ParameterType) -> {{ type1Concrete }}) -> {{ type1Concrete }} {
         return flatMapTT { (value) -> {{ type1Concrete }} in
-            value.traverse(transform).{% call getMapName type1 %} { $0.traverse(f.identity) }.mapT { $0.traverse(f.identity) }.mapTT { $0.joined }
+            value.traverse(transform).{% call getMapName type1 %} { $0.traverse(f.identity) }.mapT { $0.traverse(f.identity) }.mapTT { $0.joined() }
         }
     }
 }

@@ -168,14 +168,14 @@ extension FutureType {
 // MARK: - Monad
 
 extension FutureType where ParameterType: FutureType {
-	public var joined: Future<ParameterType.ParameterType> {
+	public func joined() -> Future<ParameterType.ParameterType> {
 		return Future.unfold { done in self.run { $0.run(done) } }
 	}
 }
 
 extension FutureType {
     public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
-        return map(transform).joined
+        return map(transform).joined()
     }
 }
 

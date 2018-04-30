@@ -119,14 +119,14 @@ extension EffectType {
 // MARK: - Monad
 
 extension EffectType where ParameterType: EffectType {
-	public var joined: Effect<ParameterType.ParameterType> {
+	public func joined() -> Effect<ParameterType.ParameterType> {
 		return Effect.unfold { self.run().run() }
 	}
 }
 
 extension EffectType {
 	public func flatMap <E> (_ transform: @escaping (ParameterType) -> E) -> Effect<E.ParameterType> where E: EffectType {
-		return map(transform).joined
+		return map(transform).joined()
 	}
 }
 
