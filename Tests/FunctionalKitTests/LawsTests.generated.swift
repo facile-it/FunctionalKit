@@ -250,25 +250,6 @@ class LawsTests: XCTestCase {
 
 
 
-//MARK: - Exponential - Profunctor
-
-    func testExponentialProfunctorIdentity() {
-        property("Exponential - Profunctor Laws - Identity") <- forAll { (ax: ArrowOf<String,String>, c: String) in
-            let x = ax.getArrow
-            let a = Exponential<String,String>.init(x)
-            return (a.dimap(f.identity,f.identity) == a).run(c)
-        }
-    }
-
-    func testExponentialProfunctorComposition() {
-        property("Exponential - Profunctor Laws - Composition") <- forAll { (ax: ArrowOf<String,String>, f1: ArrowOf<String,String>, f2: ArrowOf<String,String>, g1: ArrowOf<String,String>, g2: ArrowOf<String,String>, c: String) in
-            let x = ax.getArrow
-            let a = Exponential<String,String>.init(x)
-            let fLifted: Endo<Exponential<String,String>> = { t in t.dimap(f1.getArrow, f2.getArrow) }
-            let gLifted: Endo<Exponential<String,String>> = { t in t.dimap(g1.getArrow, g2.getArrow) }
-            return ((fLifted >>> gLifted)(a) == a.dimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow)).run(c)
-        }
-    }
 
 
 
@@ -937,8 +918,6 @@ class LawsTests: XCTestCase {
         ("testEffectMonadLeftIdentity",testEffectMonadLeftIdentity),
         ("testEffectMonadRightIdentity",testEffectMonadRightIdentity),
         ("testEffectMonadAssociativity",testEffectMonadAssociativity),
-        ("testExponentialProfunctorIdentity",testExponentialProfunctorIdentity),
-        ("testExponentialProfunctorComposition",testExponentialProfunctorComposition),
         ("testFutureFunctorIdentity",testFutureFunctorIdentity),
         ("testFutureFunctorComposition",testFutureFunctorComposition),
         ("testFutureApplicativeIdentity",testFutureApplicativeIdentity),

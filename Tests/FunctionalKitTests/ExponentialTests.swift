@@ -1,11 +1,12 @@
 import XCTest
 @testable import FunctionalKit
 import SwiftCheck
+import Abstract
 
 class ExponentialTests: XCTestCase {
 	func testMap() {
 		let times2 = { (x: Int) -> Int in x*2 }
-		let exp = Exponential<Int,Int>.init(times2)
+		let exp = Function<Int,Int>.init(times2)
 
 		let minus3 = { (x: Int) -> Int in x-3 }
 
@@ -15,7 +16,7 @@ class ExponentialTests: XCTestCase {
 
 	func testContramap() {
 		let times2 = { (x: Int) -> Int in x*2 }
-		let exp = Exponential<Int,Int>.init(times2)
+		let exp = Function<Int,Int>.init(times2)
 
 		let plus3 = { (x: Int) -> Int in x+3 }
 
@@ -25,7 +26,7 @@ class ExponentialTests: XCTestCase {
 
 	func testDimap() {
 		let times2 = { (x: Int) -> Int in x*2 }
-		let exp = Exponential<Int,Int>.init(times2)
+		let exp = Function<Int,Int>.init(times2)
 
 		let plus3 = { (x: Int) -> Int in x+3 }
 		let minus3 = { (x: Int) -> Int in x-3 }

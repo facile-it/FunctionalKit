@@ -10,42 +10,29 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
-// sourcery: testProfunctor
-// sourcery: testConstruct = "init(x)"
-// sourcery: testNeedsContext
-public struct Exponential<A,B>: ExponentialType {
-	private let _call: (A) -> B
-
-	public init(_ call: @escaping (A) -> B) {
-		self._call = call
-	}
-
-	public func call(_ source: A) -> B {
-		return _call(source)
-	}
-}
+extension Function: ExponentialType {}
 
 extension ExponentialType {
-	public func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Exponential<A,B> {
-		return Exponential<A,B>.init { value in target(self.call(source(value))) }
+	public func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Function<A,B> {
+		return Function<A,B>.init { value in target(self.call(source(value))) }
 	}
 
-	public func toExponential() -> Exponential<SourceType,TargetType> {
+	public func toExponential() -> Function<SourceType,TargetType> {
 		return dimap(f.identity, f.identity)
 	}
 
-	public func map<T>(_ transform: @escaping (TargetType) -> T) -> Exponential<SourceType,T> {
+	public func map<T>(_ transform: @escaping (TargetType) -> T) -> Function<SourceType,T> {
 		return dimap(f.identity, transform)
 	}
 
-	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Exponential<T,TargetType> {
+	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Function<T,TargetType> {
 		return dimap(transform, f.identity)
 	}
 }
 
 extension ExponentialType where SourceType == TargetType {
-	public static func identity() -> Exponential<SourceType,TargetType> {
-		return Exponential.init { $0 }
+	public static func identity() -> Function<SourceType,TargetType> {
+		return Function.init { $0 }
 	}
 }
 
