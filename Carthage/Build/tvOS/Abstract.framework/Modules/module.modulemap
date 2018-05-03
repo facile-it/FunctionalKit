@@ -1,4 +1,0 @@
-framework module Abstract {
-    header "Abstract-Swift.h"
-    requires objc
-}
