@@ -181,8 +181,8 @@ struct TestProductOptional<A,B>: Equatable, Arbitrary, CustomStringConvertible w
 	static var arbitrary: Gen<TestProductOptional<A, B>> {
 		return Gen<TestProductOptional<A, B>>.compose {
 			TestProductOptional.init(unwrap: Product.init(
-				$0.generate(using: OptionalOf<A>.arbitrary.map { $0.getOptional }),
-				$0.generate(using: OptionalOf<B>.arbitrary.map { $0.getOptional })))
+				$0.generate(using: Optional<A>.arbitrary.map { $0 }),
+				$0.generate(using: Optional<B>.arbitrary.map { $0 })))
 		}
 	}
 

@@ -1,3 +1,2 @@
-github "trill-lang/FileCheck" "0.0.6"
 github "typelift/Abstract" "0.0.3"
-github "typelift/SwiftCheck" "0.9.1"
+github "typelift/SwiftCheck" "0.10.0"
