@@ -80,13 +80,13 @@ public final class Future<A>: FutureType {
 
 // MARK: - Concrete
 
-extension FutureType {
-	public typealias Concrete<T> = Future<T>
+public extension FutureType {
+	typealias Concrete<T> = Future<T>
 }
 
 // MARK: - Equatable
 
-extension Future where A: Equatable {
+extension Future: Equatable where A: Equatable {
     public static func == (lhs: Future, rhs: Future) -> Bool {
         switch (lhs.currentState,rhs.currentState) {
         case (.idle,.idle):
@@ -103,24 +103,24 @@ extension Future where A: Equatable {
 
 // MARK: - Functor
 
-extension FutureType {
-	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Future<T> {
+public extension FutureType {
+	func map <T> (_ transform: @escaping (ParameterType) -> T) -> Future<T> {
 		return Future.unfold { done in
 			self.run { value in done(transform(value)) }
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Future<A> {
+    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Future<A> {
         return { $0.map(function) }
     }
     
-    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Future<A> where Applicative2: FutureType {
+    static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Future<A> where Applicative2: FutureType {
         return { (ap1, ap2) in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Future<A> where Applicative2: FutureType, Applicative3: FutureType {
+    static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Future<A> where Applicative2: FutureType, Applicative3: FutureType {
         return { ap1, ap2, ap3 in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
@@ -129,8 +129,8 @@ extension FutureType {
 
 // MARK: - Cartesian
 
-extension FutureType {
-	public static func zipParallel <F1,F2> (_ first: F1, _ second: F2) -> Future<(F1.ParameterType,F2.ParameterType)> where F1: FutureType, F2: FutureType, ParameterType == (F1.ParameterType,F2.ParameterType) {
+public extension FutureType {
+	static func zipParallel <F1,F2> (_ first: F1, _ second: F2) -> Future<(F1.ParameterType,F2.ParameterType)> where F1: FutureType, F2: FutureType, ParameterType == (F1.ParameterType,F2.ParameterType) {
 		return Future.unfold { done in
 			var tuple: (F1.ParameterType?,F2.ParameterType?) = (nil,nil)
 
@@ -147,35 +147,45 @@ extension FutureType {
 			}
 		}
 	}
+
+	static func zipSerial <F1,F2> (_ first: F1, _ second: F2) -> Future<(F1.ParameterType,F2.ParameterType)> where F1: FutureType, F2: FutureType, ParameterType == (F1.ParameterType,F2.ParameterType) {
+		return first.flatMap { firstValue in
+			second.map { secondValue in (firstValue, secondValue) }
+		}
+	}
 }
 
 // MARK: - Applicative
 
-extension FutureType {
-	public static func pure(_ value: ParameterType) -> Future<ParameterType> {
+public extension FutureType {
+	static func pure(_ value: ParameterType) -> Future<ParameterType> {
 		return Future.unfold { $0(value) }.start()
 	}
 
-	public func applyParallel <F,T> (_ transform: F) -> Future<T> where F: FutureType, F.ParameterType == (ParameterType) -> T {
+	func applyParallel <F,T> (_ transform: F) -> Future<T> where F: FutureType, F.ParameterType == (ParameterType) -> T {
 		return Future.zipParallel(self, transform).map { value, function in function(value) }
 	}
 
-	public static func <*> <F,T> (lhs: F, rhs: Self) -> Future<T> where F: FutureType, F.ParameterType == (ParameterType) -> T {
-		return Future.zipParallel(lhs, rhs).map { function, value in function(value) }
+	func applySerial <F,T> (_ transform: F) -> Future<T> where F: FutureType, F.ParameterType == (ParameterType) -> T {
+		return Future.zipSerial(self, transform).map { value, function in function(value) }
+	}
+
+	static func <*> <F,T> (lhs: F, rhs: Self) -> Future<T> where F: FutureType, F.ParameterType == (ParameterType) -> T {
+		return rhs.applyParallel(lhs)
 	}
 }
 
 // MARK: - Monad
 
-extension FutureType where ParameterType: FutureType {
-	public var joined: Future<ParameterType.ParameterType> {
+public extension FutureType where ParameterType: FutureType {
+	func joined() -> Future<ParameterType.ParameterType> {
 		return Future.unfold { done in self.run { $0.run(done) } }
 	}
 }
 
-extension FutureType {
-    public func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
-        return map(transform).joined
+public extension FutureType {
+    func flatMap <F> (_ transform: @escaping (ParameterType) -> F) -> Future<F.ParameterType> where F: FutureType {
+        return map(transform).joined()
     }
 }
 

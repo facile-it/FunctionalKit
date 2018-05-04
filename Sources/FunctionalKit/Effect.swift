@@ -16,8 +16,8 @@ public protocol EffectType: PureConstructible, ExponentialType {
 	static func unfold(_ function: @escaping () -> ParameterType) -> Self
 }
 
-extension EffectType {
-	public func call(_ source: ()) -> ParameterType {
+public extension EffectType {
+	func call(_ source: ()) -> ParameterType {
 		return run()
 	}
 }
@@ -50,26 +50,22 @@ public struct Effect<A>: EffectType {
 	}
 }
 
-// MARK: - Concrete
-
-extension EffectType {
-	public typealias Concrete<T> = Effect<T>
-}
-
 // MARK: - Equatable
 
-extension EffectType where ParameterType: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Effect<Bool> {
-		return Effect<Bool>.unfold {
-			lhs.run() == rhs.run()
-		}
-	}
+extension Effect: EquatableInContext where A: Equatable {
+	public typealias Context = ()
+}
+
+// MARK: - Concrete
+
+public extension EffectType {
+	typealias Concrete<T> = Effect<T>
 }
 
 // MARK: - Functor
 
-extension EffectType {
-	public func map <T> (_ transform: @escaping (ParameterType) -> T) -> Effect<T> {
+public extension EffectType {
+	func map <T> (_ transform: @escaping (ParameterType) -> T) -> Effect<T> {
 		return Effect<T>.unfold { transform(self.run()) }
 	}
 
@@ -92,51 +88,50 @@ extension EffectType {
 
 // MARK: - Cartesian
 
-extension EffectType {
-	public static func zip <R1,R2> (_ first: R1, _ second: R2) -> Effect<(R1.ParameterType,R2.ParameterType)> where R1: EffectType, R2: EffectType, ParameterType == (R1.ParameterType,R2.ParameterType) {
+public extension EffectType {
+	static func zip <R1,R2> (_ first: R1, _ second: R2) -> Effect<(R1.ParameterType,R2.ParameterType)> where R1: EffectType, R2: EffectType, ParameterType == (R1.ParameterType,R2.ParameterType) {
 		return Effect.unfold { (first.run(),second.run()) }
 	}
 }
 
 // MARK: - Applicative
 
-extension EffectType {
-	public static func pure(_ value: ParameterType) -> Effect<ParameterType> {
+public extension EffectType {
+	static func pure(_ value: ParameterType) -> Effect<ParameterType> {
 		return Effect<ParameterType>.unfold(f.pure(value))
 	}
 
-	public func apply <E,T> (_ transform: E) -> Effect<T> where E: EffectType, E.ParameterType == (ParameterType) -> T {
+	func apply <E,T> (_ transform: E) -> Effect<T> where E: EffectType, E.ParameterType == (ParameterType) -> T {
 		return Effect.zip(self, transform).map { value, function in function(value) }
 	}
 
-	public static func <*> <E,T> (lhs: E, rhs: Self) -> Effect<T> where E: EffectType, E.ParameterType == (ParameterType) -> T {
+	static func <*> <E,T> (lhs: E, rhs: Self) -> Effect<T> where E: EffectType, E.ParameterType == (ParameterType) -> T {
 		return Effect.zip(lhs, rhs).map { function, value in function(value) }
 	}
 }
 
-// MARK: - Traversable
-
 // MARK: - Monad
 
-extension EffectType where ParameterType: EffectType {
-	public var joined: Effect<ParameterType.ParameterType> {
+public extension EffectType where ParameterType: EffectType {
+	func joined() -> Effect<ParameterType.ParameterType> {
 		return Effect.unfold { self.run().run() }
 	}
 }
 
-extension EffectType {
-	public func flatMap <E> (_ transform: @escaping (ParameterType) -> E) -> Effect<E.ParameterType> where E: EffectType {
-		return map(transform).joined
+public extension EffectType {
+	func flatMap <E> (_ transform: @escaping (ParameterType) -> E) -> Effect<E.ParameterType> where E: EffectType {
+		return map(transform).joined()
 	}
 }
 
 // MARK: - Utility
 
-public func effect <T> (_ execute: @escaping () -> T) -> Effect<T> {
-	return Effect<T>.unfold(execute)
-}
+public extension f {
+	static func effect <T> (_ execute: @escaping () -> T) -> Effect<T> {
+		return Effect<T>.unfold(execute)
+	}
 
-public func lazily <T> (_ execute: @escaping @autoclosure () -> T) -> Effect<T> {
-	return effect(execute)
+	static func lazily <T> (_ execute: @escaping @autoclosure () -> T) -> Effect<T> {
+		return effect(execute)
+	}
 }
-

@@ -2,6 +2,9 @@ import XCTest
 import SwiftCheck
 @testable import FunctionalKit
 import Abstract
+#if SWIFT_PACKAGE
+import Operadics
+#endif
 
 class PrismTests: XCTestCase {
 	static var allTests = [

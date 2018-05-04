@@ -12,8 +12,8 @@ public protocol CoeffectType: ExponentialType {
 	static func unfold(_ function: @escaping (EnvironmentType) -> ()) -> Self
 }
 
-extension CoeffectType {
-	public func call(_ source: EnvironmentType) {
+public extension CoeffectType {
+	func call(_ source: EnvironmentType) {
 		return run(source)
 	}
 }
@@ -43,17 +43,13 @@ public struct Coeffect<A>: CoeffectType {
 
 // MARK: - Concrete
 
-extension CoeffectType {
-	public typealias Concrete<T> = Coeffect<T>
+public extension CoeffectType {
+	typealias Concrete<T> = Coeffect<T>
 }
 
-// MARK: - Monoid
+// MARK: - Algebra
 
-extension Coeffect: Monoid {
-	public static var empty: Coeffect<A> {
-		return Coeffect.unfold { _ in }
-	}
-
+extension Coeffect: Magma {
 	public static func <> (lhs: Coeffect, rhs: Coeffect) -> Coeffect {
 		return Coeffect.unfold { environment in
 			lhs.run(environment)
@@ -62,22 +58,36 @@ extension Coeffect: Monoid {
 	}
 }
 
+/// This is a strong assumption: we need associativity for side effects,
+/// otherwise there's no possibility of reasoning about them locally.
+extension Coeffect: Semigroup {}
+
+extension Coeffect: Monoid {
+	public static var empty: Coeffect<A> {
+		return Coeffect.unfold { _ in }
+	}
+}
+
+/// We cannot empower Coeffect with algebraic definitions any further:
+/// being side-effects those that are performed, guaranteeing commutativity
+/// or (even worse) idempotence would be too strong of an assumption.
+
 // MARK: - Contravariant Functor
 
-extension CoeffectType {
-	public func contramap <T> (_ transform: @escaping (T) -> EnvironmentType) -> Coeffect<T> {
+public extension CoeffectType {
+	func contramap <T> (_ transform: @escaping (T) -> EnvironmentType) -> Coeffect<T> {
 		return Coeffect<T>.unfold { self.run(transform($0)) }
 	}
 
-	public static func lift <T> (_ function: @escaping (T) -> EnvironmentType) -> (Self) -> Coeffect<T> {
+	static func lift <T> (_ function: @escaping (T) -> EnvironmentType) -> (Self) -> Coeffect<T> {
 		return { $0.contramap(function) }
 	}
 }
 
 // MARK: - Cartesian
 
-extension CoeffectType {
-	public static func zip <R1,R2> (_ first: R1, _ second: R2) -> Coeffect<(R1.EnvironmentType,R2.EnvironmentType)> where R1: CoeffectType, R2: CoeffectType, EnvironmentType == (R1.EnvironmentType,R2.EnvironmentType) {
+public extension CoeffectType {
+	static func zip <R1,R2> (_ first: R1, _ second: R2) -> Coeffect<(R1.EnvironmentType,R2.EnvironmentType)> where R1: CoeffectType, R2: CoeffectType, EnvironmentType == (R1.EnvironmentType,R2.EnvironmentType) {
 		return Coeffect.unfold {
 			first.run($0.0)
 			second.run($0.1)
@@ -87,6 +97,8 @@ extension CoeffectType {
 
 // MARK: - Utility
 
-public func coeffect <T> (_ execute: @escaping (T) -> ()) -> Coeffect<T> {
-	return Coeffect<T>.unfold(execute)
+public extension f {
+	static func coeffect <T> (_ execute: @escaping (T) -> ()) -> Coeffect<T> {
+		return Coeffect<T>.unfold(execute)
+	}
 }

@@ -3,7 +3,7 @@
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
 {% macro getCommandCall type %}{% if type|annotated:"testNeedsCommand" %}.{{ type.annotations.testNeedsCommand }}{% endif %}{% endmacro %}
-{% macro getContextCall type %}{% if type|annotated:"testNeedsContext" %}.run(c){% endif %}{% endmacro %}
+{% macro getContextCall type %}{% if type|annotated:"testNeedsContext" %}(c){% endif %}{% endmacro %}
 {% macro getContextParam type %}{% if type|annotated:"testNeedsContext" %}, c: String{% endif %}{% endmacro %}
 
 {# FUNCTOR MACROS #}

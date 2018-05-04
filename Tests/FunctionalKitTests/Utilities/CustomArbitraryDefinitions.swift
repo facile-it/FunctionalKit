@@ -1,6 +1,9 @@
 @testable import FunctionalKit
 import SwiftCheck
 import Abstract
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 
 extension String: Error {}
 
@@ -16,6 +19,54 @@ extension CheckerArguments {
 	static func with(_ left: Int, _ right: Int, _ size: Int) -> CheckerArguments {
 		return CheckerArguments(
 			replay: .some((StdGen(left,right),size)))
+	}
+}
+
+extension Product: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Product<A, B>> {
+		return Gen.compose {
+			Product<A,B>.init($0.generate(), $0.generate())
+		}
+	}
+}
+
+extension Coproduct: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Coproduct<A, B>> {
+		return Gen.fromElements(of: [-1,1])
+			.flatMap { (value) -> Gen<Coproduct<A,B>> in
+				switch value {
+				case -1:
+					return A.arbitrary.map(Coproduct.left)
+				case 1:
+					return B.arbitrary.map(Coproduct.right)
+				default:
+					fatalError()
+				}
+		}
+	}
+}
+
+extension Inclusive: Arbitrary where A: Arbitrary, B: Arbitrary {
+	public static var arbitrary: Gen<Inclusive<A, B>> {
+		return Gen.fromElements(of: [-1,0,1])
+			.flatMap { (value) -> Gen<Inclusive<A,B>> in
+				switch value {
+				case -1:
+					return A.arbitrary.map(Inclusive.left)
+				case 0:
+					return Gen.zip(A.arbitrary, B.arbitrary).map(Inclusive.center)
+				case 1:
+					return B.arbitrary.map(Inclusive.right)
+				default:
+					fatalError()
+				}
+		}
+	}
+}
+
+extension Max: Arbitrary where A: Arbitrary {
+	public static var arbitrary: Gen<Max<A>> {
+		return A.arbitrary.map(Max.init)
 	}
 }
 

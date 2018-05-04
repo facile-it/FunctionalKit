@@ -10,49 +10,89 @@ public protocol ExponentialType {
 	func call(_ source: SourceType) -> TargetType
 }
 
-// sourcery: testProfunctor
-// sourcery: testConstruct = "init(x)"
-// sourcery: testNeedsContext
-public struct Exponential<A,B>: ExponentialType {
-	private let _call: (A) -> B
+extension Function: ExponentialType {}
 
-	public init(_ call: @escaping (A) -> B) {
-		self._call = call
+// MARK: - Functor
+
+public extension ExponentialType {
+	func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Function<A,B> {
+		return Function<A,B>.init { value in target(self.call(source(value))) }
 	}
 
-	public func call(_ source: A) -> B {
-		return _call(source)
-	}
-}
-
-extension ExponentialType {
-	public func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Exponential<A,B> {
-		return Exponential<A,B>.init { value in target(self.call(source(value))) }
-	}
-
-	public var toExponential: Exponential<SourceType,TargetType> {
-		return dimap(f.identity, f.identity)
-	}
-
-	public func map<T>(_ transform: @escaping (TargetType) -> T) -> Exponential<SourceType,T> {
+	func map<T>(_ transform: @escaping (TargetType) -> T) -> Function<SourceType,T> {
 		return dimap(f.identity, transform)
 	}
 
-	public func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Exponential<T,TargetType> {
+	func contramap<T>(_ transform: @escaping (T) -> SourceType) -> Function<T,TargetType> {
 		return dimap(transform, f.identity)
 	}
-}
 
-extension ExponentialType where SourceType == TargetType {
-	public static var identity: Exponential<SourceType,TargetType> {
-		return Exponential.init { $0 }
+	func toFunction() -> Function<SourceType,TargetType> {
+		return dimap(f.identity, f.identity)
 	}
 }
 
-extension ExponentialType where TargetType: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Reader<SourceType,Bool> {
-        return Reader<SourceType,Bool>.unfold { source in
+//MARK: - Equatable
+
+public extension ExponentialType where TargetType: Equatable {
+    static func == (lhs: Self, rhs: Self) -> (SourceType) -> Bool {
+        return { source in
             lhs.call(source) == rhs.call(source)
         }
     }
+}
+
+//MARK: - PredicateSet
+
+public extension ExponentialType where TargetType == Bool {
+	static var universe: Function<SourceType,Bool> {
+		return Function<SourceType,Bool> { _ in true }
+	}
+
+	static var empty: Function<SourceType,Bool> {
+		return Function<SourceType,Bool> { _ in false }
+	}
+
+	func contains(_ value: SourceType) -> Bool {
+		return call(value)
+	}
+
+	func inverted() -> Function<SourceType,Bool> {
+		return Function<SourceType,Bool> {
+			self.contains($0).not
+		}
+	}
+
+	func union (_ other: Function<SourceType,Bool>) -> Function<SourceType,Bool> {
+		return Function<SourceType,Bool> {
+			self.contains($0) || other.contains($0)
+		}
+	}
+
+	func intersection (_ other: Function<SourceType,Bool>) -> Function<SourceType,Bool> {
+		return Function<SourceType,Bool> {
+			self.contains($0) && other.contains($0)
+		}
+	}
+
+	func subtraction (_ other: Function<SourceType,Bool>) -> Function<SourceType,Bool> {
+		return Function<SourceType,Bool> {
+			self.contains($0) && other.contains($0).not
+		}
+	}
+
+	func exclusiveDisjunction (_ other: Function<SourceType,Bool>) -> Function<SourceType,Bool> {
+		let unionSet = self.union(other)
+		let intersectionSet = self.intersection(other)
+
+		return unionSet.subtraction(intersectionSet)
+	}
+}
+
+//MARK: - Utility
+
+public extension ExponentialType where SourceType == TargetType {
+	static var identity: Function<SourceType,TargetType> {
+		return Function.init { $0 }
+	}
 }

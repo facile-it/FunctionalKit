@@ -44,30 +44,30 @@ extension Array: ArrayType {
 
 // MARK: - Concrete
 
-extension ArrayType {
-	public typealias Concrete<T> = Array<T>
+public extension ArrayType {
+	typealias Concrete<T> = Array<T>
 }
 
 // MARK: - Functor
 
-extension ArrayType {
-	public func fmap<T>(_ transform: (ParameterType) -> T) -> [T] {
+public extension ArrayType {
+	func fmap<T>(_ transform: (ParameterType) -> T) -> [T] {
 		return fold([T].init()) { previous, element in
 			previous + [transform(element)]
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> [A] {
+    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> [A] {
         return { $0.fmap(function) }
     }
     
-    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> [A] where Applicative2: ArrayType {
+    static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> [A] where Applicative2: ArrayType {
         return { (ap1, ap2) in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> [A] where Applicative2: ArrayType, Applicative3: ArrayType {
+    static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> [A] where Applicative2: ArrayType, Applicative3: ArrayType {
         return { ap1, ap2, ap3 in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
@@ -76,10 +76,10 @@ extension ArrayType {
 
 // MARK: - Cartesian
 
-extension ArrayType {
-	public typealias Zipped<A1,A2> = [(A1.ParameterType,A2.ParameterType)] where A1: ArrayType, A2: ArrayType
+public extension ArrayType {
+	typealias Zipped<A1,A2> = [(A1.ParameterType,A2.ParameterType)] where A1: ArrayType, A2: ArrayType
 
-	public static func cartesian <A1,A2> (_ first: A1, _ second: A2) -> Zipped<A1,A2> where A1: ArrayType, A2: ArrayType, ParameterType == (A1.ParameterType, A2.ParameterType) {
+	static func cartesian <A1,A2> (_ first: A1, _ second: A2) -> Zipped<A1,A2> where A1: ArrayType, A2: ArrayType, ParameterType == (A1.ParameterType, A2.ParameterType) {
 		return first.fold(Zipped<A1,A2>.init()) { externalPrevious, firstElement in
 			externalPrevious + second.fold(Zipped<A1,A2>.init()) { internalPrevious, secondElement in
 				internalPrevious + [(firstElement,secondElement)]
@@ -90,26 +90,26 @@ extension ArrayType {
 
 // MARK: - Applicative
 
-extension ArrayType {
-	public static func pure(_ value: ParameterType) -> [ParameterType] {
+public extension ArrayType {
+	static func pure(_ value: ParameterType) -> [ParameterType] {
 		return [value]
 	}
 
-	public func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
+	func apply <A,T> (_ transform: A) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
 		return Array.cartesian(self, transform).fmap { value, function in function(value) }
 	}
 
-	public static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
+	static func <*> <A,T> (lhs: A, rhs: Self) -> [T] where A: ArrayType, A.ParameterType == (ParameterType) -> T {
 		return Array.cartesian(lhs, rhs).fmap { function, value in function(value) }
 	}
 }
 
 // MARK: - Traversable
 
-extension ArrayType {
-	public typealias Traversed<Applicative> = [Applicative.ParameterType] where Applicative: TypeConstructor
+public extension ArrayType {
+	typealias Traversed<Applicative> = [Applicative.ParameterType] where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(Returned.pure([])) { previous, element in
@@ -117,7 +117,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -125,7 +125,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
 		typealias Returned = Effect<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -133,7 +133,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -141,7 +141,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -149,7 +149,7 @@ extension ArrayType {
 		}
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -157,7 +157,7 @@ extension ArrayType {
 		}
 	}
 
-    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+    func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
         typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
         
         return fold(Returned.pure([])) { previous, element in
@@ -165,7 +165,7 @@ extension ArrayType {
         }
     }
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(Returned.pure([])) { previous, element in
@@ -176,8 +176,8 @@ extension ArrayType {
 
 // MARK: - Monad
 
-extension ArrayType where ParameterType: ArrayType {
-	public var joined: [ParameterType.ParameterType] {
+public extension ArrayType where ParameterType: ArrayType {
+	func joined() -> [ParameterType.ParameterType] {
 		let initial = [ParameterType.ParameterType].init()
 		return fold(initial) { externalPrevious, externalElement in
 			externalPrevious + externalElement.fold(initial) { internalPrevious, internalElement in
@@ -187,18 +187,8 @@ extension ArrayType where ParameterType: ArrayType {
 	}
 }
 
-extension ArrayType {
-	public func bind <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
-		return fmap(transform).joined
-	}
-}
-
-// MARK: - Utility
-
-extension ArrayType {
-	public static func ++ (lhs: Self, rhs: ParameterType) -> Array<ParameterType> {
-		var m = lhs.run
-		m.append(rhs)
-		return m
+public extension ArrayType {
+	func bind <A> (_ transform: (ParameterType) -> A) -> [A.ParameterType] where A: ArrayType {
+		return fmap(transform).joined()
 	}
 }

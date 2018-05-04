@@ -7,8 +7,8 @@
 {# TRANSFORMERS #}
 {% for type1 in types.protocols|annotated:"monad" %}
 {% set type1Concrete %}{% call getTypeName type1 "Output" "ParameterType" %}{% endset %}
-extension ReaderType where ParameterType: {{ type1.name }} {
-    public func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
+public extension ReaderType where ParameterType: {{ type1.name }} {
+    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
         return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
             self.run(environment).{% call getFlatMapName type1 %} { transform($0).run(environment) }
         }
@@ -18,8 +18,8 @@ extension ReaderType where ParameterType: {{ type1.name }} {
 {% for type2 in types.protocols|annotated:"monad"|annotated:"traversable" %}
 {% set type2Concrete %}{% call getTypeName type2 "Output" "ParameterType.ParameterType" %}{% endset %}
 {% set type1Concrete %}{% call getTypeName type1 type2Concrete "ParameterType" %}{% endset %}
-extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }} {
-    public func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
+public extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }} {
+    func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
         return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
             self.run(environment).flatMapT { transform($0).run(environment) }
         }
@@ -30,8 +30,8 @@ extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.Parame
 {% set type3Concrete %}{% call getTypeName type3 "Output" "ParameterType.ParameterType.ParameterType" %}{% endset %}
 {% set type2Concrete %}{% call getTypeName type2 type3Concrete "ParameterType.ParameterType" %}{% endset %}
 {% set type1Concrete %}{% call getTypeName type1 type2Concrete "ParameterType" %}{% endset %}
-extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }}, ParameterType.ParameterType.ParameterType: {{ type3.name }} {
-    public func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
+public extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }}, ParameterType.ParameterType.ParameterType: {{ type3.name }} {
+    func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
         return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
             self.run(environment).flatMapTT { transform($0).run(environment) }
         }

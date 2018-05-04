@@ -1,15 +1,26 @@
 import XCTest
+import Abstract
 @testable import FunctionalKit
+import SwiftCheck
+#if SWIFT_PACKAGE
+	import Operadics
+#endif
 
 typealias TestType = Coproduct<Int,String>
 
 class CoproductTests: XCTestCase {
 	func testTry() {
-		TestType.left(42).tryLeft==!
-		TestType.left(42).tryRight==?
+		TestType.left(42).tryLeft()==!
+		TestType.left(42).tryRight()==?
 
-		TestType.right("42").tryLeft==?
-		TestType.right("42").tryRight==!
+		TestType.right("42").tryLeft()==?
+		TestType.right("42").tryRight()==!
+	}
+
+	func testAlgebra() {
+		property("Coproduct<A: Semiring,B: Semiring> is a Semiring") <- forAll { (a: Coproduct<Bool,Bool>, b: Coproduct<Bool,Bool>, c: Coproduct<Bool,Bool>) in
+			Law.multiplicationIsDistributiveOverAddition(a, b, c) && Law.zeroAnnihiliatesTheMultiplicative(a)
+		}
 	}
 
 	func testFold() {
@@ -21,18 +32,19 @@ class CoproductTests: XCTestCase {
 	}
 
 	func testMap() {
-		TestType.left(42).bimap(f.identity, { Int($0)! }).tryLeft! ==! 42
-		TestType.right("42").bimap({ "\($0)" }, f.identity).tryRight! ==! "42"
+		TestType.left(42).bimap(f.identity, { Int($0)! }).tryLeft()! ==! 42
+		TestType.right("42").bimap({ "\($0)" }, f.identity).tryRight()! ==! "42"
 
-		TestType.left(42).mapLeft { $0*2 }.tryLeft! ==! 84
-		TestType.left(42).mapRight { $0 + "!" }.tryLeft! ==! 42
+		TestType.left(42).mapLeft { $0*2 }.tryLeft()! ==! 84
+		TestType.left(42).mapRight { $0 + "!" }.tryLeft()! ==! 42
 
-		TestType.right("42").mapLeft { $0*2 }.tryRight! ==! "42"
-		TestType.right("42").mapRight { $0 + "!" }.tryRight! ==! "42!"
+		TestType.right("42").mapLeft { $0*2 }.tryRight()! ==! "42"
+		TestType.right("42").mapRight { $0 + "!" }.tryRight()! ==! "42!"
 	}
 
 	static var allTests = [
 		("testTry", testTry),
+		("testAlgebra", testAlgebra),
 		("testFold", testFold),
 		("testMap", testMap),
 		]

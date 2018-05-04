@@ -26,13 +26,13 @@ extension Coproduct {
 	public enum prism {
 		public static func leftFull<T>(to: T.Type) -> PrismFull<Coproduct<A,B>,Coproduct<T,B>,A,T> {
 			return PrismFull<Coproduct<A,B>,Coproduct<T,B>,A,T>.init(
-				tryGet: { coproduct in  coproduct.tryLeft },
+				tryGet: { coproduct in  coproduct.tryLeft() },
 				inject: { t in .left(t) })
 		}
 
 		public static func rightFull<T>(to: T.Type) -> PrismFull<Coproduct<A,B>,Coproduct<A,T>,B,T> {
 			return PrismFull<Coproduct<A,B>,Coproduct<A,T>,B,T>.init(
-				tryGet: { coproduct in  coproduct.tryRight },
+				tryGet: { coproduct in  coproduct.tryRight() },
 				inject: { t in .right(t) })
 		}
 
@@ -50,7 +50,7 @@ extension Inclusive {
 	public enum affine {
 		public static func leftFull<T>(to: T.Type) -> AffineFull<Inclusive<A,B>,Inclusive<T,B>,A,T> {
 			return AffineFull<Inclusive<A,B>,Inclusive<T,B>,A,T>.init(
-				tryGet: { inclusive in inclusive.tryLeft },
+				tryGet: { inclusive in inclusive.tryLeft() },
 				trySet: { t in
 					{ inclusive in
 						inclusive.fold(
@@ -63,7 +63,7 @@ extension Inclusive {
 
 		public static func centerFull<T,U>(to: (T.Type,U.Type)) -> AffineFull<Inclusive<A,B>,Inclusive<T,U>,(A,B),(T,U)> {
 			return AffineFull<Inclusive<A,B>,Inclusive<T,U>,(A,B),(T,U)>.init(
-				tryGet: { inclusive in inclusive.tryBoth },
+				tryGet: { inclusive in inclusive.tryBoth() },
 				trySet: { tu in
 					{ inclusive in
 						inclusive.fold(
@@ -76,7 +76,7 @@ extension Inclusive {
 
 		public static func rightFull<T>(to: T.Type) -> AffineFull<Inclusive<A,B>,Inclusive<A,T>,B,T> {
 			return AffineFull<Inclusive<A,B>,Inclusive<A,T>,B,T>.init(
-				tryGet: { inclusive in inclusive.tryRight },
+				tryGet: { inclusive in inclusive.tryRight() },
 				trySet: { t in
 					{ inclusive in
 						inclusive.fold(
