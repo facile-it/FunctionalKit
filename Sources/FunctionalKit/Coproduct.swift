@@ -26,23 +26,32 @@ public enum Coproduct<A,B>: CoproductType {
 	}
 }
 
+extension Coproduct: Error where A: Error, B: Error {}
+
 // MARK: - Equatable
 
-extension Coproduct: Equatable where A: Equatable, B: Equatable {
-	public static func == (lhs: Coproduct, rhs: Coproduct) -> Bool {
-		switch (lhs, rhs) {
-		case let (.left(lhsValue),.left(rhsValue)):
-			return lhsValue == rhsValue
-		case let (.right(lhsValue),.right(rhsValue)):
-			return lhsValue == rhsValue
-		default:
-			return false
-		}
+extension CoproductType where LeftType: Equatable, RightType: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
+		return lhs.fold(
+			onLeft: { value in
+				rhs.fold(
+					onLeft: { value == $0 },
+					onRight: { _ in false })
+		},
+			onRight: { value in
+				rhs.fold(
+					onLeft: { _ in false },
+					onRight: { value == $0 })
+		})
 	}
 }
 
+extension Coproduct: Equatable where A: Equatable, B: Equatable {}
+
 // MARK: Algebra
 
+/// A Coproduct of semirings forms a Semiring where the "+" operation is biased towards the right case,
+/// while the "*" operation is biased towards the left case.
 extension Coproduct: Semiring where A: Semiring, B: Semiring {
 	public typealias Additive = A.Additive
 	public typealias Multiplicative = B.Multiplicative
@@ -84,64 +93,64 @@ extension Coproduct: Semiring where A: Semiring, B: Semiring {
 
 // MARK: - Projections
 
-extension CoproductType {
-	public func toCoproduct() -> Coproduct<LeftType,RightType> {
+public extension CoproductType {
+	func toCoproduct() -> Coproduct<LeftType,RightType> {
 		return fold(onLeft: Coproduct<LeftType,RightType>.left, onRight: Coproduct<LeftType,RightType>.right)
 	}
 
-	public func tryLeft() ->  LeftType? {
+	func tryLeft() ->  LeftType? {
 		return fold(onLeft: f.identity, onRight: { _ in nil })
 	}
 
-	public func tryRight() ->  RightType? {
+	func tryRight() ->  RightType? {
 		return fold(onLeft: { _ in nil }, onRight: f.identity)
 	}
 
-	public func foldToLeft(_ transform: (RightType) -> LeftType) -> LeftType {
+	func foldToLeft(_ transform: (RightType) -> LeftType) -> LeftType {
 		return fold(onLeft: f.identity, onRight: transform)
 	}
 
-	public func foldToRight(_ transform: (LeftType) -> RightType) -> RightType {
+	func foldToRight(_ transform: (LeftType) -> RightType) -> RightType {
 		return fold(onLeft: transform, onRight: f.identity)
 	}
 }
 
-extension CoproductType where LeftType == RightType {
-	public var merged: LeftType {
+public extension CoproductType where LeftType == RightType {
+	func merged() -> LeftType {
 		return fold(onLeft: f.identity, onRight: f.identity)
 	}
 }
 
 // MARK: - Functor
 
-extension CoproductType {
-	public func bimap<T,U>(_ onLeft: (LeftType) -> T, _ onRight: (RightType) -> U) -> Coproduct<T,U> {
+public extension CoproductType {
+	func bimap<T,U>(_ onLeft: (LeftType) -> T, _ onRight: (RightType) -> U) -> Coproduct<T,U> {
 		return fold(
 			onLeft: { Coproduct<T,U>.left(onLeft($0)) },
 			onRight: { Coproduct<T,U>.right(onRight($0)) })
 	}
 
-	public func mapLeft<T>(_ transform: (LeftType) -> T) -> Coproduct<T,RightType> {
+	func mapLeft<T>(_ transform: (LeftType) -> T) -> Coproduct<T,RightType> {
 		return bimap(transform, f.identity)
 	}
 
-	public func mapRight<U>(_ transform: (RightType) -> U) -> Coproduct<LeftType,U> {
+	func mapRight<U>(_ transform: (RightType) -> U) -> Coproduct<LeftType,U> {
 		return bimap(f.identity, transform)
 	}
 }
 
-// MARK: - Cross Interactions
+// MARK: - Cross-Interactions
 
-extension CoproductType where LeftType: ProductType {
-	public var insideOut: Product<Coproduct<LeftType.FirstType,RightType>,Coproduct<LeftType.SecondType,RightType>> {
+public extension CoproductType where LeftType: ProductType {
+	func insideOut() -> Product<Coproduct<LeftType.FirstType,RightType>,Coproduct<LeftType.SecondType,RightType>> {
 		return fold(
 			onLeft: { $0.bimap(Coproduct.left,Coproduct.left) },
 			onRight: { rightValue in Product.init(Coproduct.right(rightValue), Coproduct.right(rightValue)) })
 	}
 }
 
-extension CoproductType where RightType: ProductType {
-	public var insideOut: Product<Coproduct<LeftType,RightType.FirstType>,Coproduct<LeftType,RightType.SecondType>> {
+public extension CoproductType where RightType: ProductType {
+	func insideOut() -> Product<Coproduct<LeftType,RightType.FirstType>,Coproduct<LeftType,RightType.SecondType>> {
 		return fold(
 			onLeft: { leftValue in Product.init(Coproduct.left(leftValue), Coproduct.left(leftValue)) },
 			onRight: { $0.bimap(Coproduct.right,Coproduct.right) })

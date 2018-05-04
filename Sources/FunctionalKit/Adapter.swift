@@ -29,8 +29,8 @@ public typealias Iso<Whole,Part> = Adapter<Whole,Whole,Part,Part>
 
 // MARK: - Utility
 
-extension Writer {
-	public enum iso {
+public extension Writer {
+	enum iso {
 		public static var product: Iso<Writer,Product<L,A>> {
 			return Iso<Writer,Product<L,A>>.init(
 				from: { $0.toProduct() },
@@ -39,8 +39,8 @@ extension Writer {
 	}
 }
 
-extension Result {
-	public enum iso {
+public extension Result {
+	enum iso {
 		public static var coproduct: Iso<Result,Coproduct<E,T>> {
 			return Iso<Result,Coproduct<E,T>>.init(
 				from: { $0.toCoproduct() },
@@ -49,58 +49,58 @@ extension Result {
 	}
 }
 
-extension AdapterType {
-	public func compose <OtherAdapter> (_ other: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
+public extension AdapterType {
+	func compose <OtherAdapter> (_ other: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
 		return Adapter.init(
 			from: from >>> other.from,
 			to: other.to >>> to)
 	}
 
-	public static func >>> <OtherAdapter> (lhs: Self, rhs: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
+	static func >>> <OtherAdapter> (lhs: Self, rhs: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {
 		return lhs.compose(rhs)
 	}
 
-	public var inverted: Adapter<BType,AType,TType,SType> {
+	func inverted() -> Adapter<BType,AType,TType,SType> {
 		return Adapter.init(from: to, to: from)
 	}
 
-	public func under(_ transform: @escaping (TType) -> SType) -> (BType) -> AType {
+	func under(_ transform: @escaping (TType) -> SType) -> (BType) -> AType {
 		return to >>> transform >>> from
 	}
 
-	public func toLens() -> LensFull<SType,TType,AType,BType> {
+	func toLens() -> LensFull<SType,TType,AType,BType> {
 		return LensFull.init(get: from, set: to >>> f.pure)
 	}
 
-	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
+	static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> LensFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
 		return lhs.toLens().compose(rhs)
 	}
 
-	public static func >>> <OtherLens> (lhs: OtherLens, rhs: Self) -> LensFull<OtherLens.SType,OtherLens.TType,AType,BType> where OtherLens: LensType, OtherLens.AType == SType, OtherLens.BType == TType {
+	static func >>> <OtherLens> (lhs: OtherLens, rhs: Self) -> LensFull<OtherLens.SType,OtherLens.TType,AType,BType> where OtherLens: LensType, OtherLens.AType == SType, OtherLens.BType == TType {
 		return lhs.compose(rhs.toLens())
 	}
 
-	public func toPrism() -> PrismFull<SType,TType,AType,BType> {
+	func toPrism() -> PrismFull<SType,TType,AType,BType> {
 		return PrismFull.init(tryGet: from, inject: to)
 	}
 
-	public static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> PrismFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
+	static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> PrismFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
 		return lhs.toPrism().compose(rhs)
 	}
 
-	public static func >>> <OtherPrism> (lhs: OtherPrism, rhs: Self) -> PrismFull<OtherPrism.SType,OtherPrism.TType,AType,BType> where OtherPrism: PrismType, OtherPrism.AType == SType, OtherPrism.BType == TType {
+	static func >>> <OtherPrism> (lhs: OtherPrism, rhs: Self) -> PrismFull<OtherPrism.SType,OtherPrism.TType,AType,BType> where OtherPrism: PrismType, OtherPrism.AType == SType, OtherPrism.BType == TType {
 		return lhs.compose(rhs.toPrism())
 	}
 
-	public func toAffine() -> AffineFull<SType,TType,AType,BType> {
+	func toAffine() -> AffineFull<SType,TType,AType,BType> {
 		return AffineFull.init(tryGet: from, trySet: to >>> f.pure)
 	}
 
-	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
+	static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
 		return lhs.toAffine().compose(rhs)
 	}
 
-	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
+	static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
 		return lhs.compose(rhs.toAffine())
 	}
 }

@@ -6,21 +6,21 @@ import Abstract
 
 // MARK: - Decomposition
 
-extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
-	public var head: Iterator.Element? {
+public extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
+	var head: Iterator.Element? {
 		return first { _ in true }
 	}
 
-	public var tail: SubSequence? {
+	var tail: SubSequence? {
 		guard head != nil else { return nil }
 		return dropFirst()
 	}
 
-	public func decomposed() -> (Iterator.Element,SubSequence)? {
+	func decomposed() -> (Iterator.Element,SubSequence)? {
 		return Optional.zip(head, tail)
 	}
 
-	public func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
+	func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
 		guard let nonOptHead = head, let nonOptTail = tail else { return head }
 		return try nonOptTail.reduce(nonOptHead, combine)
 	}
@@ -70,28 +70,28 @@ public extension RandomAccessCollection where Element: Equatable {
 
 // MARK: - Query
 
-extension Sequence {
-	public func all(conformTo predicate: @escaping (Element) -> Bool) -> Bool {
+public extension Sequence {
+	func all(conformTo predicate: @escaping (Element) -> Bool) -> Bool {
 		return map(predicate >>> And.init(_:)).concatenated().unwrap
 	}
 
-	public func any(conformsTo predicate: @escaping (Element) -> Bool) -> Bool {
+	func any(conformsTo predicate: @escaping (Element) -> Bool) -> Bool {
 		return map(predicate >>> Or.init(_:)).concatenated().unwrap
 	}
 }
 
-extension Sequence where Iterator.Element == Bool {
-	public var isAllTrue: Bool {
+public extension Sequence where Iterator.Element == Bool {
+	var isAllTrue: Bool {
 		return all(conformTo: f.identity)
 	}
 
-	public var isAnyTrue: Bool {
+	var isAnyTrue: Bool {
 		return any(conformsTo: f.identity)
 	}
 }
 
-extension RandomAccessCollection {
-	public func getSafely(at index: Index) -> Iterator.Element? {
+public extension RandomAccessCollection {
+	func getSafely(at index: Index) -> Iterator.Element? {
 		guard indices.contains(index) else { return nil }
 		return self[index]
 	}
@@ -112,22 +112,22 @@ public extension RangeReplaceableCollection {
 }
 
 public struct NonEmptyArray<Element> {
-	let firstElement: Element
-	let unwrap: [Element]
+	public let firstElement: Element
+	public let unwrap: [Element]
 
-	init(_ value: Element) {
+	public init(_ value: Element) {
 		self.firstElement = value
 		self.unwrap = [value]
 	}
 
-	init?(_ value: [Element]) {
+	public init?(_ value: [Element]) {
 		guard let first = value.first else { return nil }
 		self.firstElement = first
 		self.unwrap = value
 	}
 }
 
-extension NonEmptyArray where Element: Equatable {
+extension NonEmptyArray: Equatable where Element: Equatable {
 	public static func == (left: NonEmptyArray, right: NonEmptyArray) -> Bool {
 		return left.unwrap == right.unwrap
 	}
@@ -149,4 +149,14 @@ extension NonEmptyArray: Collection {
 	public subscript(position: Int) -> Element {
 		return unwrap[position]
 	}
+}
+
+extension NonEmptyArray: BidirectionalCollection {
+	public func index(before i: Int) -> Int {
+		return unwrap.index(before: i)
+	}
+}
+
+extension NonEmptyArray: RandomAccessCollection {
+	/// No other implementation is needed, beacuse Index (Int) is already Strideable
 }

@@ -19,8 +19,8 @@ public protocol ResultType: PureConstructible, CoproductType {
 	func fold <A> (onSuccess: (ParameterType) -> A, onFailure: (ErrorType) -> A) -> A
 }
 
-extension ResultType {
-	public func fold<U>(onLeft: (ErrorType) -> U, onRight: (ParameterType) -> U) -> U {
+public extension ResultType {
+	func fold<U>(onLeft: (ErrorType) -> U, onRight: (ParameterType) -> U) -> U {
 		return fold(onSuccess: onRight, onFailure: onLeft)
 	}
 }
@@ -64,32 +64,18 @@ public enum Result<E,T>: ResultType where E: Error {
 
 // MARK: - Concrete
 
-extension ResultType {
-	public typealias Concrete<E,T> = Result<E,T> where E: Error
+public extension ResultType {
+	typealias Concrete<E,T> = Result<E,T> where E: Error
 }
 
 // MARK: - Equatable
 
-extension ResultType where ErrorType: Equatable, ParameterType: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(
-			onSuccess: { value in
-				rhs.fold(
-					onSuccess: { value == $0 },
-					onFailure: { _ in false })
-		},
-			onFailure: { error in
-				rhs.fold(
-					onSuccess: { _ in false },
-					onFailure: { error == $0 })
-		})
-	}
-}
+extension Result: Equatable where E: Equatable, T: Equatable {}
 
 // MARK: - Functor
 
-extension ResultType {
-	public func map <A> (_ transform: (ParameterType) -> A) -> Result<ErrorType,A> {
+public extension ResultType {
+	func map <A> (_ transform: (ParameterType) -> A) -> Result<ErrorType,A> {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
 				onSuccess: transform >>> Result.success,
@@ -97,7 +83,7 @@ extension ResultType {
 		}
 	}
 
-	public func mapError <A> (_ transform: (ErrorType) -> A) -> Result<A,ParameterType> {
+	func mapError <A> (_ transform: (ErrorType) -> A) -> Result<A,ParameterType> {
 		return withoutActuallyEscaping(transform) { transform in
 			fold(
 				onSuccess: Result.success,
@@ -105,17 +91,17 @@ extension ResultType {
 		}
 	}
     
-    public static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Result<ErrorType,A> {
+    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Result<ErrorType,A> {
         return { $0.map(function) }
     }
     
-    public static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative2.ErrorType == ErrorType {
+    static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative2.ErrorType == ErrorType {
         return { ap1, ap2 in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
-    public static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative3: ResultType, Applicative2.ErrorType == ErrorType, Applicative3.ErrorType == ErrorType {
+    static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Result<ErrorType, A> where Applicative2: ResultType, Applicative3: ResultType, Applicative2.ErrorType == ErrorType, Applicative3.ErrorType == ErrorType {
         return { ap1, ap2, ap3 in
             Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
@@ -124,10 +110,10 @@ extension ResultType {
 
 // MARK: - Cartesian
 
-extension ResultType {
-	public typealias Zipped<R1,R2> = Result<InclusiveError<R1.ErrorType,R2.ErrorType>,(R1.ParameterType,R2.ParameterType)> where R1: ResultType, R2: ResultType
+public extension ResultType {
+	typealias Zipped<R1,R2> = Result<Inclusive<R1.ErrorType,R2.ErrorType>,(R1.ParameterType,R2.ParameterType)> where R1: ResultType, R2: ResultType
 
-	public static func zip<R1,R2>(_ first: R1, _ second: R2) -> Zipped<R1,R2> where R1: ResultType, R2: ResultType, ParameterType == (R1.ParameterType,R2.ParameterType), ErrorType == InclusiveError<R1.ErrorType,R2.ErrorType> {
+	static func zip<R1,R2>(_ first: R1, _ second: R2) -> Zipped<R1,R2> where R1: ResultType, R2: ResultType, ParameterType == (R1.ParameterType,R2.ParameterType), ErrorType == Inclusive<R1.ErrorType,R2.ErrorType> {
 		return first.fold(
 			onSuccess: { firstValue in
 				second.fold(
@@ -135,16 +121,16 @@ extension ResultType {
 						Zipped<R1,R2>.success((firstValue,secondValue))
 				},
 					onFailure: { secondError in
-						Zipped<R1,R2>.failure(InclusiveError.right(secondError))
+						Zipped<R1,R2>.failure(Inclusive.right(secondError))
 				})
 		},
 			onFailure: { firstError in
 				second.fold(
 					onSuccess: { _ in
-						Zipped<R1,R2>.failure(InclusiveError.left(firstError))
+						Zipped<R1,R2>.failure(Inclusive.left(firstError))
 				},
 					onFailure: { secondError in
-						Zipped<R1,R2>.failure(InclusiveError.center(firstError, secondError))
+						Zipped<R1,R2>.failure(Inclusive.center(firstError, secondError))
 				})
 		})
 	}
@@ -152,18 +138,18 @@ extension ResultType {
 
 // MARK: - Applicative
 
-extension ResultType {
-	public static func pure(_ value: ParameterType) -> Result<ErrorType,ParameterType> {
+public extension ResultType {
+	static func pure(_ value: ParameterType) -> Result<ErrorType,ParameterType> {
 		return Result<ErrorType,ParameterType>.success(value)
 	}
 
-	public func apply<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	func apply<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(self, transform)
 			.map { value, function in function(value) }
 			.mapError { $0.left }
 	}
 
-	public static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(lhs, rhs)
 			.map { function, value in function(value) }
 			.mapError { $0.left }
@@ -171,14 +157,14 @@ extension ResultType {
     
 }
 
-extension ResultType where ErrorType: Semigroup {
-	public func applyMerge<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+public extension ResultType where ErrorType: Semigroup {
+	func applyMerge<R,T>(_ transform: R) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(self, transform)
 			.map { value, function in function(value) }
 			.mapError { $0.merged() }
 	}
 
-	public static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
+	static func <*> <R,T> (lhs: R, rhs: Self) -> Result<ErrorType,T> where R: ResultType, R.ErrorType == ErrorType, R.ParameterType == (ParameterType) -> T {
 		return Result.zip(lhs, rhs)
 			.map { function, value in function(value) }
 			.mapError { $0.merged() }
@@ -187,10 +173,10 @@ extension ResultType where ErrorType: Semigroup {
 
 // MARK: - Traversable
 
-extension ResultType {
-	public typealias Traversed<Applicative> = Result<ErrorType,Applicative.ParameterType> where Applicative: TypeConstructor
+public extension ResultType {
+	typealias Traversed<Applicative> = Result<ErrorType,Applicative.ParameterType> where Applicative: TypeConstructor
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
 		typealias Returned = [Traversed<Applicative>]
 
 		return fold(
@@ -202,7 +188,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 		typealias Returned = Future<Traversed<Applicative>>
 
 		return fold(
@@ -214,7 +200,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Effect<Traversed<Applicative>> where Applicative: EffectType {
 		typealias Returned = Effect<Traversed<Applicative>>
 
 		return fold(
@@ -226,7 +212,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Optional<Traversed<Applicative>> where Applicative: OptionalType {
 		typealias Returned = Optional<Traversed<Applicative>>
 
 		return fold(
@@ -238,7 +224,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Reader<Applicative.EnvironmentType,Traversed<Applicative>> where Applicative: ReaderType {
 		typealias Returned = Reader<Applicative.EnvironmentType,Traversed<Applicative>>
 
 		return fold(
@@ -250,7 +236,7 @@ extension ResultType {
 		})
 	}
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Result<Applicative.ErrorType,Traversed<Applicative>> where Applicative: ResultType {
 		typealias Returned = Result<Applicative.ErrorType,Traversed<Applicative>>
 
 		return fold(
@@ -262,7 +248,7 @@ extension ResultType {
 		})
 	}
 
-    public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
+    func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> State<Applicative.StateParameterType,Traversed<Applicative>> where Applicative: StateType {
         typealias Returned = State<Applicative.StateParameterType,Traversed<Applicative>>
         
         return fold(
@@ -274,7 +260,7 @@ extension ResultType {
         })
     }
 
-	public func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
+	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Writer<Applicative.LogType,Traversed<Applicative>> where Applicative: WriterType {
 		typealias Returned = Writer<Applicative.LogType,Traversed<Applicative>>
 
 		return fold(
@@ -289,8 +275,8 @@ extension ResultType {
 
 // MARK: - Monad
 
-extension ResultType where ParameterType: ResultType, ParameterType.ErrorType == ErrorType {
-	public func joined() -> Result<ErrorType,ParameterType.ParameterType> {
+public extension ResultType where ParameterType: ResultType, ParameterType.ErrorType == ErrorType {
+	func joined() -> Result<ErrorType,ParameterType.ParameterType> {
 		return fold(
 			onSuccess: { subresult in
 				subresult.fold(
@@ -303,34 +289,34 @@ extension ResultType where ParameterType: ResultType, ParameterType.ErrorType ==
 	}
 }
 
-extension ResultType {
-	public func flatMap<R>(_ transform: (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
+public extension ResultType {
+	func flatMap<R>(_ transform: (ParameterType) -> R) -> Result<ErrorType,R.ParameterType> where R: ResultType, R.ErrorType == ErrorType {
 		return map(transform).joined()
 	}
 }
 
 // MARK: - Utility
 
-extension ResultType {
-	public func toOptionalError() -> ErrorType? {
+public extension ResultType {
+	func toOptionalError() -> ErrorType? {
 		return fold(
 			onSuccess: f.pure(nil),
 			onFailure: f.identity)
 	}
 
-	public func toOptionalValue() -> ParameterType? {
+	func toOptionalValue() -> ParameterType? {
 		return fold(
 			onSuccess: f.identity,
 			onFailure: f.pure(nil))
 	}
 
-	public func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result<ErrorType,ParameterType> {
+	func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result<ErrorType,ParameterType> {
 		return fold(
 			onSuccess: Result.success,
 			onFailure: { _ in Result.success(defaultValue()) })
 	}
 
-	public static func getFromThrowing(getError: @escaping (Error) -> ErrorType) -> (() throws -> ParameterType) -> Result<ErrorType,ParameterType> {
+	static func getFromThrowing(getError: @escaping (Error) -> ErrorType) -> (() throws -> ParameterType) -> Result<ErrorType,ParameterType> {
 		return { throwing in
 			do {
 				return try .success(throwing())

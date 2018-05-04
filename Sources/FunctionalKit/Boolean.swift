@@ -3,30 +3,28 @@
 #endif
 import Abstract
 
-extension Bool {
-	public func and(_ other: @autoclosure () -> Bool) -> Bool {
+public extension Bool {
+	func and(_ other: @autoclosure () -> Bool) -> Bool {
 		return self && other()
 	}
 
-	public func or(_ other: @autoclosure () -> Bool) -> Bool {
+	func or(_ other: @autoclosure () -> Bool) -> Bool {
 		return self || other()
 	}
 
-	public var not: Bool {
+	var not: Bool {
 		return self == false
 	}
 
-	public func implies(_ other: @autoclosure () -> Bool) -> Bool {
+	func implies(_ other: @autoclosure () -> Bool) -> Bool {
 		return self.not.or(other())
 	}
-}
 
-public func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
-	return left.implies(right())
-}
+	static func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
+		return left.implies(right())
+	}
 
-extension Bool {
-	public func fold<A>(onTrue: @autoclosure () -> A, onFalse: @autoclosure () -> A) -> A {
+	func fold<A>(onTrue: @autoclosure () -> A, onFalse: @autoclosure () -> A) -> A {
 		if self {
 			return onTrue()
 		} else {
@@ -34,11 +32,11 @@ extension Bool {
 		}
 	}
 
-	public func ifTrue(_ call: () -> ()) {
+	func ifTrue(_ call: () -> ()) {
 		fold(onTrue: call(), onFalse: ())
 	}
 
-	public func ifFalse(_ call: () -> ()) {
+	func ifFalse(_ call: () -> ()) {
 		fold(onTrue: (), onFalse: call())
 	}
 }

@@ -27,14 +27,14 @@ public struct AffineFull<S,T,A,B>: AffineType {
 
 public typealias Affine<Whole,Part> = AffineFull<Whole,Whole,Part,Part>
 
-extension AffineType {
-	public func tryModify(_ transform: @escaping (AType) -> BType) -> (SType) -> TType? {
+public extension AffineType {
+	func tryModify(_ transform: @escaping (AType) -> BType) -> (SType) -> TType? {
 		return { s in
 			self.tryGet(s).map(transform).flatMap { b in self.trySet(b)(s) }
 		}
 	}
 
-	public func compose<OtherAffine>(_ other: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == Self.AType, OtherAffine.TType == Self.BType {
+	func compose<OtherAffine>(_ other: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == Self.AType, OtherAffine.TType == Self.BType {
 		return AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType>.init(
 			tryGet: { s in self.tryGet(s).flatMap(other.tryGet) },
 			trySet: { bp in
@@ -44,53 +44,53 @@ extension AffineType {
 		})
 	}
 
-	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == Self.AType, OtherAffine.TType == Self.BType {
+	static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == Self.AType, OtherAffine.TType == Self.BType {
 		return lhs.compose(rhs)
 	}
 }
 
-extension LensType {
-	public func toAffine() -> AffineFull<SType,TType,AType,BType> {
+public extension LensType {
+	func toAffine() -> AffineFull<SType,TType,AType,BType> {
 		return AffineFull<SType,TType,AType,BType>.init(
 			tryGet: self.get,
 			trySet: self.set)
 	}
 
-	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
+	static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
 		return lhs.toAffine() >>> rhs
 	}
 
-	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
+	static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
 		return lhs >>> rhs.toAffine()
 	}
 
-	public static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> AffineFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
+	static func >>> <OtherPrism> (lhs: Self, rhs: OtherPrism) -> AffineFull<SType,TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == AType, OtherPrism.TType == BType {
 		return lhs.toAffine() >>> rhs.toAffine()
 	}
 }
 
-extension PrismType {
-	public func toAffine() -> AffineFull<SType,TType,AType,BType> {
+public extension PrismType {
+	func toAffine() -> AffineFull<SType,TType,AType,BType> {
 		return AffineFull<SType,TType,AType,BType>.init(
 			tryGet: self.tryGet,
 			trySet: f.pure >>> self.tryModify)
 	}
 
-	public static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
+	static func >>> <OtherAffine> (lhs: Self, rhs: OtherAffine) -> AffineFull<SType,TType,OtherAffine.AType,OtherAffine.BType> where OtherAffine: AffineType, OtherAffine.SType == AType, OtherAffine.TType == BType {
 		return lhs.toAffine() >>> rhs
 	}
 
-	public static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
+	static func >>> <OtherAffine> (lhs: OtherAffine, rhs: Self) -> AffineFull<OtherAffine.SType,OtherAffine.TType,AType,BType> where OtherAffine: AffineType, OtherAffine.AType == SType, OtherAffine.BType == TType {
 		return lhs >>> rhs.toAffine()
 	}
 
-	public static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> AffineFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
+	static func >>> <OtherLens> (lhs: Self, rhs: OtherLens) -> AffineFull<SType,TType,OtherLens.AType,OtherLens.BType> where OtherLens: LensType, OtherLens.SType == AType, OtherLens.TType == BType {
 		return lhs.toAffine() >>> rhs.toAffine()
 	}
 }
 
-extension AffineType where TType == SType, AType == BType {
-	public var setOrUnchanged: (BType) -> (SType) -> TType {
+public extension AffineType where TType == SType, AType == BType {
+	var setOrUnchanged: (BType) -> (SType) -> TType {
 		return { b in
 			{ s in
 				self.trySet(b)(s) ?? s
@@ -98,11 +98,11 @@ extension AffineType where TType == SType, AType == BType {
 		}
 	}
 
-	public func modifyOrUnchanged(_ transform: @escaping (AType) -> BType) -> (SType) -> TType {
+	func modifyOrUnchanged(_ transform: @escaping (AType) -> BType) -> (SType) -> TType {
 		return { t in self.tryModify(transform)(t) ?? t }
 	}
 
-	public static func zip<A,B>(_ a: A, _ b: B) -> AffineFull<SType,TType,(A.AType,B.AType),(A.BType,B.BType)> where A: AffineType, B: AffineType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == (A.AType,B.AType), BType == (A.BType,B.BType)  {
+	static func zip<A,B>(_ a: A, _ b: B) -> AffineFull<SType,TType,(A.AType,B.AType),(A.BType,B.BType)> where A: AffineType, B: AffineType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == (A.AType,B.AType), BType == (A.BType,B.BType)  {
 		return AffineFull.init(
 			tryGet: { s in Optional.zip(a.tryGet(s),b.tryGet(s)) },
 			trySet: { tuple in
@@ -111,8 +111,8 @@ extension AffineType where TType == SType, AType == BType {
 	}
 }
 
-extension Array {
-	public static func affine(at index: Int) -> Affine<Array,Element> {
+public extension Array {
+	static func affine(at index: Int) -> Affine<Array,Element> {
 		return Affine<Array,Element>.init(
 			tryGet: { array in
 				guard array.indices.contains(index) else { return nil }

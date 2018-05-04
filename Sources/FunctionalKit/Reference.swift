@@ -1,8 +1,3 @@
-#if SWIFT_PACKAGE
-    import Operadics
-#endif
-import Abstract
-
 public final class Ref<T> {
 	public var value: T {
 		didSet {

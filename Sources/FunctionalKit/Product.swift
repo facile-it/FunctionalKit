@@ -26,47 +26,54 @@ public struct Product<A,B>: ProductType {
 	}
 }
 
+extension Product: Error where A: Error, B: Error {}
+
 // MARK: - Equatable
 
-extension Product: Equatable where A: Equatable, B: Equatable {
-	public static func == (lhs: Product, rhs: Product) -> Bool {
-		return lhs.first == rhs.first
-			&& lhs.second == rhs.second
+extension ProductType where FirstType: Equatable, SecondType: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
+		return lhs.fold { lhsFirst, lhsSecond in
+			rhs.fold { rhsFirst, rhsSecond in
+				lhsFirst == rhsFirst && lhsSecond == rhsSecond
+			}
+		}
 	}
 }
 
+extension Product: Equatable where A: Equatable, B: Equatable {}
+
 // MARK: - Projections
 
-extension ProductType {
-	public func toProduct() -> Product<FirstType,SecondType> {
+public extension ProductType {
+	func toProduct() -> Product<FirstType,SecondType> {
 		return fold(Product<FirstType,SecondType>.init)
 	}
 
-	public var first: FirstType {
+	var first: FirstType {
 		return fold { first, _ in first }
 	}
 
-	public var second: SecondType {
+	var second: SecondType {
 		return fold { _, second in second }
 	}
 
-	public var unwrap: (FirstType,SecondType) {
+	var unwrap: (FirstType,SecondType) {
 		return fold(f.identity)
 	}
 }
 
 // MARK: - Evaluation
 
-extension ProductType where FirstType: ExponentialType, FirstType.SourceType == SecondType {
-	public func eval() -> FirstType.TargetType {
+public extension ProductType where FirstType: ExponentialType, FirstType.SourceType == SecondType {
+	func eval() -> FirstType.TargetType {
 		return fold { (exponential, value) -> FirstType.TargetType in
 			exponential.call(value)
 		}
 	}
 }
 
-extension ProductType where SecondType: ExponentialType, SecondType.SourceType == FirstType {
-	public func eval() -> SecondType.TargetType {
+public extension ProductType where SecondType: ExponentialType, SecondType.SourceType == FirstType {
+	func eval() -> SecondType.TargetType {
 		return fold { (value, exponential) -> SecondType.TargetType in
 			exponential.call(value)
 		}
@@ -122,24 +129,24 @@ extension Product: Semiring where A: Semiring, B: Semiring {
 
 // MARK: - Functor
 
-extension ProductType {
-	public func bimap<T,U>(_ onFirst: (FirstType) -> T, _ onSecond: (SecondType) -> U) -> Product<T,U> {
+public extension ProductType {
+	func bimap<T,U>(_ onFirst: (FirstType) -> T, _ onSecond: (SecondType) -> U) -> Product<T,U> {
 		return fold { first, second in Product<T,U>.init(onFirst(first), onSecond(second)) }
 	}
 
-	public func mapFirst<T>(_ transform: (FirstType) -> T) -> Product<T,SecondType> {
+	func mapFirst<T>(_ transform: (FirstType) -> T) -> Product<T,SecondType> {
 		return bimap(transform, f.identity)
 	}
 
-	public func mapSecond<U>(_ transform: (SecondType) -> U) -> Product<FirstType,U> {
+	func mapSecond<U>(_ transform: (SecondType) -> U) -> Product<FirstType,U> {
 		return bimap(f.identity, transform)
 	}
 }
 
 // MARK: - Cross Interactions
 
-extension ProductType where FirstType: CoproductType {
-	public func insideOut() -> Coproduct<Product<FirstType.LeftType,SecondType>,Product<FirstType.RightType,SecondType>> {
+public extension ProductType where FirstType: CoproductType {
+	func insideOut() -> Coproduct<Product<FirstType.LeftType,SecondType>,Product<FirstType.RightType,SecondType>> {
 		return fold { first, second in
 			first.bimap(
 				{ Product.init($0, second) },
@@ -148,8 +155,8 @@ extension ProductType where FirstType: CoproductType {
 	}
 }
 
-extension ProductType where SecondType: CoproductType {
-	public func insideOut() -> Coproduct<Product<FirstType,SecondType.LeftType>,Product<FirstType,SecondType.RightType>> {
+public extension ProductType where SecondType: CoproductType {
+	func insideOut() -> Coproduct<Product<FirstType,SecondType.LeftType>,Product<FirstType,SecondType.RightType>> {
 		return fold { first, second in
 			second.bimap(
 				{ Product.init(first, $0) },

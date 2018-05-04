@@ -29,31 +29,31 @@ public struct PrismFull<S,T,A,B>: PrismType {
 
 public typealias Prism<Whole,Part> = PrismFull<Whole,Whole,Part,Part>
 
-extension PrismType {
-	public func tryModify(_ transform: @escaping (AType) -> BType) -> (SType) -> TType? {
+public extension PrismType {
+	func tryModify(_ transform: @escaping (AType) -> BType) -> (SType) -> TType? {
         return { s in
             guard let a = self.tryGet(s) else { return nil }
             return self.inject(transform(a))
         }
 	}
     
-    public func isCase(_ whole: SType) -> Bool {
+    func isCase(_ whole: SType) -> Bool {
         return tryGet(whole) != nil
     }
 
-	public func compose<OtherPrism>(_ other: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
+	func compose<OtherPrism>(_ other: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
 		return PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> (
 			tryGet: { self.tryGet($0).flatMap(other.tryGet) },
 			inject: { self.inject(other.inject($0)) })
 	}
 
-	public static func >>> <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
+	static func >>> <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
 		return left.compose(right)
 	}
 }
 
-extension PrismType where SType == TType, AType == BType {
-	public func modifyOrUnchanged(_ transform: @escaping (AType) -> BType) -> (SType) -> TType {
+public extension PrismType where SType == TType, AType == BType {
+	func modifyOrUnchanged(_ transform: @escaping (AType) -> BType) -> (SType) -> TType {
 		return { s in
 			guard let a = self.tryGet(s) else { return s }
 			return self.inject(transform(a))
@@ -61,7 +61,7 @@ extension PrismType where SType == TType, AType == BType {
 	}
 
 	/// zipped prisms will hold the laws only if the involved prisms are focusing on different parts
-	public static func zip<A,B>(_ a: A, _ b: B) -> PrismFull<SType,TType,Coproduct<A.AType,B.AType>,Coproduct<A.BType,B.BType>> where A: PrismType, B: PrismType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == Coproduct<A.AType,B.AType>, BType == Coproduct<A.BType,B.BType> {
+	static func zip<A,B>(_ a: A, _ b: B) -> PrismFull<SType,TType,Coproduct<A.AType,B.AType>,Coproduct<A.BType,B.BType>> where A: PrismType, B: PrismType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == Coproduct<A.AType,B.AType>, BType == Coproduct<A.BType,B.BType> {
 		return PrismFull.init(
 			tryGet: { a.tryGet($0).map(Coproduct.left) ?? b.tryGet($0).map(Coproduct.right) },
 			inject: { $0.fold(onLeft: a.inject, onRight: b.inject) })
@@ -78,8 +78,8 @@ public extension PrismType {
 	}
 }
 
-extension Optional {
-	public static var prism: Prism<Optional,Wrapped> {
+public extension Optional {
+	static var prism: Prism<Optional,Wrapped> {
 		return Prism<Optional,Wrapped>.init(
 			tryGet: f.identity,
 			inject: Optional.some)

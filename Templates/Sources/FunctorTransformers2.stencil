@@ -7,8 +7,8 @@
 {% for type2 in types.protocols|annotated:"functor" %}
 {% set type2Concrete %}{% call getTypeName type2 "Output" "ParameterType" %}{% endset %}
 {% set type1Concrete %}{% call getTypeName type1 type2Concrete "" %}{% endset %}
-extension {{ type1.name }} where ParameterType: {{ type2.name }} {
-    public func mapT <Output> (_ transform: {% call checkEscaping2 type1 type2 %}(ParameterType.ParameterType) -> Output) -> {{ type1Concrete }} {
+public extension {{ type1.name }} where ParameterType: {{ type2.name }} {
+    func mapT <Output> (_ transform: {% call checkEscaping2 type1 type2 %}(ParameterType.ParameterType) -> Output) -> {{ type1Concrete }} {
         return {% call getMapName type1 %} { $0.{% call getMapName type2 %}(transform) }
     }
 }
