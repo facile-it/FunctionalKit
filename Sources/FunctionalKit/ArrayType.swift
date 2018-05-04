@@ -192,13 +192,3 @@ extension ArrayType {
 		return fmap(transform).joined()
 	}
 }
-
-// MARK: - Utility
-
-extension ArrayType {
-	public static func ++ (lhs: Self, rhs: ParameterType) -> Array<ParameterType> {
-		var m = lhs.run
-		m.append(rhs)
-		return m
-	}
-}

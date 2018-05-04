@@ -261,8 +261,8 @@ extension OptionalType {
 
 // MARK: - Utility
 
-extension OptionalType {
-	public func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
+public extension OptionalType {
+	func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
 		return bind { (element) -> Optional<ParameterType> in
 			if predicate(element) {
 				return .some(element)
@@ -272,26 +272,32 @@ extension OptionalType {
 		}
 	}
 
-	public func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
+	func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
 		return fold(
 			onNone: getElseValue,
 			onSome: f.identity)
 	}
 
-	public func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+	func toArray() -> Array<ParameterType> {
+		return fold(
+			onNone: f.pure([]),
+			onSome: { [$0] })
+	}
+
+	func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
 		return fold(
 			onNone: { Result.failure(getError()) },
 			onSome: Result.success)
 	}
 
-	public var isNil: Bool {
+	var isNil: Bool {
 		return fold(
 			onNone: f.pure(true),
 			onSome: f.pure(false))
 	}
 
 
-	public func ifNotNil(_ action: (ParameterType) -> ()) {
+	func ifNotNil(_ action: (ParameterType) -> ()) {
 		_ = fold(
 			onNone: f.ignore,
 			onSome: action)

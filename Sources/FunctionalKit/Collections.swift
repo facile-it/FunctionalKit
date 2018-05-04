@@ -26,6 +26,48 @@ extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == 
 	}
 }
 
+public extension RandomAccessCollection {
+	func destructured2(_ dropIfNeeded: Bool = false) -> (Element, Element)? {
+		let checkCount = dropIfNeeded ? { $0 >= 2 } : { $0 == 2 }
+
+		guard checkCount(count) else { return nil }
+
+		return (
+			self[startIndex],
+			self[index(after: startIndex)]
+		)
+	}
+
+	func destructured3(_ dropIfNeeded: Bool = false) -> (Element, Element, Element)? {
+		let checkCount = dropIfNeeded ? { $0 >= 3 } : { $0 == 3 }
+
+		guard checkCount(count) else { return nil }
+
+		return (
+			self[startIndex],
+			self[index(after: startIndex)],
+			self[index(after: index(after: startIndex))]
+		)
+	}
+}
+
+public extension RandomAccessCollection where Element: Equatable {
+	func divideIn2(atIndex index: Index) -> ([Element],[Element]) {
+		return Optional.pure(self)
+			.filter { $0.indices.contains(index) }
+			.map { (items: $0, object: $0[index]) }
+			.flatMap { tuple in
+				tuple.items.split(
+					separator: tuple.object,
+					maxSplits: 2,
+					omittingEmptySubsequences: false)
+					.destructured2()
+					.map { (Array($0), [tuple.object] + Array($1)) }
+			}
+			.get(or: (Array(self),[]))
+	}
+}
+
 // MARK: - Query
 
 extension Sequence {
@@ -48,7 +90,7 @@ extension Sequence where Iterator.Element == Bool {
 	}
 }
 
-extension Collection {
+extension RandomAccessCollection {
 	public func getSafely(at index: Index) -> Iterator.Element? {
 		guard indices.contains(index) else { return nil }
 		return self[index]
@@ -57,11 +99,15 @@ extension Collection {
 
 // MARK: - Construction
 
-extension RangeReplaceableCollection {
-	public func appending(_ newElement: Element) -> Self {
+public extension RangeReplaceableCollection {
+	func appending(_ newElement: Element) -> Self {
 		var m = self
 		m.append(newElement)
 		return m
+	}
+
+	static func ++ (lhs: Self, rhs: Element) -> Self {
+		return lhs.appending(rhs)
 	}
 }
 
