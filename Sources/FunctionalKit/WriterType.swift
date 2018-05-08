@@ -214,6 +214,11 @@ public extension WriterType {
         return Writer(log: log, value: (log,value))
     }
 
+	func tellValue(_ getValueLog: (ParameterType) -> LogType) -> Writer<LogType,ParameterType> {
+		let (_,value) = run
+		return mapLog { $0 <> getValueLog(value) }
+	}
+
 	func logValue<NewLog>(_ transform: (LogType,ParameterType) -> NewLog) -> Writer<NewLog,ParameterType> {
 		let (_,value) = run
 		return mapLog { log in transform(log,value) }

@@ -42,10 +42,16 @@ public extension Ref {
 			self.value = newValue
 		}
 	}
+
+	var modify: Coeffect<Endo<T>> {
+		return Coeffect<Endo<T>>.unfold { [unowned self] endo in
+			self.value = endo(self.value)
+		}
+	}
 }
 
 public extension Ref where T: Semigroup {
-	var modify: Coeffect<T> {
+	var append: Coeffect<T> {
 		return Coeffect<T>.unfold { [unowned self] newValue in
 			self.value = self.value <> newValue
 		}
