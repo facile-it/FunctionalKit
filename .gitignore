@@ -7,3 +7,5 @@ Carthage/Checkouts
 *.bcsymbolmap
 sourcery
 Sourcery.app
+Play.playground
+Play.xcworkspace
