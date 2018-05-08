@@ -10,11 +10,11 @@
 {% set type3Concrete %}{% call getTypeName type3 "Output" "ParameterType.ParameterType" %}{% endset %}
 {% set type2Concrete %}{% call getTypeName type2 type3Concrete "ParameterType" %}{% endset %}
 {% set type1Concrete %}{% call getTypeName type1 type2Concrete "" %}{% endset %}
-public extension {{ type1.name }} where ParameterType: {{ type2.name }}, ParameterType.ParameterType: {{ type3.name }} {
+/*public extension {{ type1.name }} where ParameterType: {{ type2.name }}, ParameterType.ParameterType: {{ type3.name }} {
     func mapTT <Output> (_ transform: {% call checkEscaping3 type1 type2 type3 %}(ParameterType.ParameterType.ParameterType) -> Output) -> {{ type1Concrete }} {
         return {% call getMapName type1 %} { $0.{% call getMapName type2 %} { $0.{% call getMapName type3 %}(transform) } }
     }
-}
+}*/
 
 {% endfor %}
 {% endfor %}

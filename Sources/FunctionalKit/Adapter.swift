@@ -29,25 +29,25 @@ public typealias Iso<Whole,Part> = Adapter<Whole,Whole,Part,Part>
 
 // MARK: - Utility
 
-public extension Writer {
-	enum iso {
-		public static var product: Iso<Writer,Product<L,A>> {
-			return Iso<Writer,Product<L,A>>.init(
-				from: { $0.toProduct() },
-				to: { $0.fold(Writer.init) })
-		}
-	}
-}
-
-public extension Result {
-	enum iso {
-		public static var coproduct: Iso<Result,Coproduct<E,T>> {
-			return Iso<Result,Coproduct<E,T>>.init(
-				from: { $0.toCoproduct() },
-				to: { $0.fold(onLeft: Result.failure, onRight: Result.success)})
-		}
-	}
-}
+//public extension Writer {
+//	enum iso {
+//		public static var product: Iso<Writer,Product<L,A>> {
+//			return Iso<Writer,Product<L,A>>.init(
+//				from: { $0.toProduct() },
+//				to: { $0.fold(Writer.init) })
+//		}
+//	}
+//}
+//
+//public extension Result {
+//	enum iso {
+//		public static var coproduct: Iso<Result,Coproduct<E,T>> {
+//			return Iso<Result,Coproduct<E,T>>.init(
+//				from: { $0.toCoproduct() },
+//				to: { $0.fold(onLeft: Result.failure, onRight: Result.success)})
+//		}
+//	}
+//}
 
 public extension AdapterType {
 	func compose <OtherAdapter> (_ other: OtherAdapter) -> Adapter<SType,TType,OtherAdapter.AType,OtherAdapter.BType> where OtherAdapter: AdapterType, OtherAdapter.SType == AType, OtherAdapter.TType == BType {

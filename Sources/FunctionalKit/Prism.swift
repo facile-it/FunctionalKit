@@ -86,17 +86,17 @@ public extension Optional {
 	}
 }
 
-extension Result {
-	public enum prism {
-		public static var failure: Prism<Result,E> {
-			return iso.coproduct >>> Coproduct.prism.left
-		}
-
-		public static var success: Prism<Result,T> {
-			return iso.coproduct >>> Coproduct.prism.right
-		}
-	}
-}
+//extension Result {
+//	public enum prism {
+//		public static var failure: Prism<Result,E> {
+//			return iso.coproduct >>> Coproduct.prism.left
+//		}
+//
+//		public static var success: Prism<Result,T> {
+//			return iso.coproduct >>> Coproduct.prism.right
+//		}
+//	}
+//}
 
 /*:
 ## Enforcing prism laws

@@ -16,9 +16,9 @@ public extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Elem
 		return dropFirst()
 	}
 
-	func decomposed() -> (Iterator.Element,SubSequence)? {
-		return Optional.zip(head, tail)
-	}
+//	func decomposed() -> (Iterator.Element,SubSequence)? {
+//		return Optional.zip(head, tail)
+//	}
 
 	func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
 		guard let nonOptHead = head, let nonOptTail = tail else { return head }
@@ -51,22 +51,22 @@ public extension RandomAccessCollection {
 	}
 }
 
-public extension RandomAccessCollection where Element: Equatable {
-	func divideIn2(atIndex index: Index) -> ([Element],[Element]) {
-		return Optional.pure(self)
-			.filter { $0.indices.contains(index) }
-			.map { (items: $0, object: $0[index]) }
-			.flatMap { tuple in
-				tuple.items.split(
-					separator: tuple.object,
-					maxSplits: 2,
-					omittingEmptySubsequences: false)
-					.destructured2()
-					.map { (Array($0), [tuple.object] + Array($1)) }
-			}
-			.get(or: (Array(self),[]))
-	}
-}
+//public extension RandomAccessCollection where Element: Equatable {
+//	func divideIn2(atIndex index: Index) -> ([Element],[Element]) {
+//		return Optional.pure(self)
+//			.filter { $0.indices.contains(index) }
+//			.map { (items: $0, object: $0[index]) }
+//			.flatMap { tuple in
+//				tuple.items.split(
+//					separator: tuple.object,
+//					maxSplits: 2,
+//					omittingEmptySubsequences: false)
+//					.destructured2()
+//					.map { (Array($0), [tuple.object] + Array($1)) }
+//			}
+//			.get(or: (Array(self),[]))
+//	}
+//}
 
 // MARK: - Query
 
