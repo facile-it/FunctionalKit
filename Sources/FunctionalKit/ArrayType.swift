@@ -74,6 +74,11 @@ public extension Array {
         }
     }
 
+    func traverse <A> (_ transform: (ParameterType) -> Optional<A>) -> Optional<Array<A>> {
+        return reduce(Optional<Array<A>>.pure([])) { previous, element in
+            Optional.pure(f.curry(++)) <*> previous <*> transform(element)
+        }
+    }
 }
 
 //

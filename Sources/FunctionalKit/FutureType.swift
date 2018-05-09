@@ -71,26 +71,38 @@ public extension Future {
 }
 
 extension Future: PureConstructible {
-    public static func pure(_ value: Parameter) -> Future {
+    public static func pure(_ value: ParameterType) -> Future {
         return Future.init { $0(value) }
     }
 }
 
 
 public extension Future {
-    func map <A> (_ transform: @escaping (Parameter) -> A) -> Future<A> {
+    func map <A> (_ transform: @escaping (ParameterType) -> A) -> Future<A> {
         return Generic.init { done in
             self.run { value in done(transform(value)) }
         }
     }
     
-    static func lift<A>(_ function: @escaping (Parameter) -> A) -> (Future) -> Future<A> {
+    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Future) -> Future<A> {
         return { $0.map(function) }
+    }
+    
+    static func lift<A,B>(_ function: @escaping (A, B) -> ParameterType) -> (Future<A>, Future<B>) -> Future {
+        return { (ap1, ap2) in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2
+        }
+    }
+    
+    static func lift<A,B,C>(_ function: @escaping (A, B, C) -> ParameterType) -> (Future<A>, Future<B>, Future<C>) -> Future {
+        return { (ap1, ap2, ap3) in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
+        }
     }
 }
 
 public extension Future {
-    static func zipParallel <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where Parameter == (A,B) {
+    static func zipParallel <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where ParameterType == (A,B) {
         return Generic.init { done in
             var tuple: (A?,B?) = (nil,nil)
             
@@ -108,7 +120,7 @@ public extension Future {
         }
     }
     
-    static func zipSerial <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where Parameter == (A,B) {
+    static func zipSerial <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where ParameterType == (A,B) {
         return first.flatMap { firstValue in
             second.map { secondValue in (firstValue, secondValue) }
         }
@@ -116,31 +128,31 @@ public extension Future {
 }
 
 public extension Future {
-    func applyParallel <A> (_ transform: Future<(Parameter) -> A>) -> Future<A> {
+    func applyParallel <A> (_ transform: Future<(ParameterType) -> A>) -> Future<A> {
         return Generic.zipParallel(self, transform).map { value, function in function(value) }
     }
     
-    func applySerial <A> (_ transform: Future<(Parameter) -> A>) -> Future<A> {
+    func applySerial <A> (_ transform: Future<(ParameterType) -> A>) -> Future<A> {
         return Generic.zipSerial(self, transform).map { value, function in function(value) }
     }
     
-    static func <*> <A> (lhs: Future<(Parameter) -> A>, rhs: Future) -> Future<A> {
+    static func <*> <A> (lhs: Future<(ParameterType) -> A>, rhs: Future) -> Future<A> {
         return rhs.applyParallel(lhs)
     }
 }
 
 public extension Future {
-    func joined <A> () -> Future<A> where Parameter == Future<A> {
+    func joined <A> () -> Future<A> where ParameterType == Future<A> {
         return Generic.init { done in self.run { $0.run(done) } }
     }
 
-    func flatMap <A> (_ transform: @escaping (Parameter) -> Future<A>) -> Future<A> {
+    func flatMap <A> (_ transform: @escaping (ParameterType) -> Future<A>) -> Future<A> {
         return map(transform).joined()
     }
 }
 
 public extension Future {
-    static func after(_ delay: Double, pure value: Parameter) -> Future {
+    static func after(_ delay: Double, pure value: ParameterType) -> Future {
         return Future.init { done in
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 done(value)
@@ -269,7 +281,7 @@ public extension Future {
 //            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
 //        }
 //    }
-//    
+//
 //    static func lift<A,Applicative2,Applicative3>(_ function: @escaping (ParameterType, Applicative2.ParameterType, Applicative3.ParameterType) -> A) -> (Self, Applicative2, Applicative3) -> Future<A> where Applicative2: FutureType, Applicative3: FutureType {
 //        return { ap1, ap2, ap3 in
 //            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3

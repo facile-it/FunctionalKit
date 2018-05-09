@@ -1,7 +1,165 @@
-//#if SWIFT_PACKAGE
-//    import Operadics
-//#endif
-//import Abstract
+#if SWIFT_PACKAGE
+    import Operadics
+#endif
+import Abstract
+
+extension Optional: TypeConstructor {
+    public typealias ParameterType = Wrapped
+}
+
+extension Optional: PureConstructible {
+    public static func pure(_ value: ParameterType) -> Optional {
+        return Optional(value)
+    }
+}
+
+public extension Optional {
+    typealias Generic<A> = Optional<A>
+}
+
+public extension Optional {
+    public func fold <A> (onNone: () -> A, onSome: (Wrapped) -> A) -> A {
+        switch self {
+        case .none:
+            return onNone()
+        case .some(let value):
+            return onSome(value)
+        }
+    }
+}
+
+public extension Optional{
+    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Optional) -> Optional<A> {
+        return { $0.map(function) }
+    }
+    
+    static func lift<A,B>(_ function: @escaping (A, B) -> ParameterType) -> (Optional<A>, Optional<B>) -> Optional {
+        return { (ap1, ap2) in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2
+        }
+    }
+    
+    static func lift<A,B,C>(_ function: @escaping (A, B, C) -> ParameterType) -> (Optional<A>, Optional<B>, Optional<C>) -> Optional {
+        return { (ap1, ap2, ap3) in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
+        }
+    }
+
+    static func zip <A,B> (_ first: Optional<A>, _ second: Optional<B>) -> Optional<(A,B)> where ParameterType == (A,B) {
+        switch (first,second) {
+        case let (firstValue?, secondValue?):
+            return .some((firstValue,secondValue))
+        default:
+            return .none
+        }
+    }
+    
+    func apply<A>(_ transform: Optional<(ParameterType) -> A>) -> Optional<A> {
+        return Generic.zip(self, transform).map { value, function in function(value) }
+    }
+    
+    static func <*> <A> (lhs: Optional<(ParameterType) -> A>, rhs: Optional) -> Optional<A> {
+        return Generic.zip(lhs, rhs).map { function, value in function(value) }
+    }
+    
+    func joined <A> () -> Optional<A> where ParameterType == Optional<A> {
+        switch self {
+        case let .some(value?):
+            return Generic.some(value)
+        default:
+            return .none
+        }
+    }
+    
+    func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Optional<A>> {
+        switch self {
+        case let value?:
+            return Array.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Array.pure(Optional<A>.none)
+        }
+    }
+    
+    func traverse <A> (_ transform: (ParameterType) -> Effect<A>) -> Effect<Optional<A>> {
+        switch self {
+        case let value?:
+            return Effect.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Effect.pure(Optional<A>.none)
+        }
+    }
+
+    func traverse <A> (_ transform: (ParameterType) -> Future<A>) -> Future<Optional<A>> {
+        switch self {
+        case let value?:
+            return Future.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Future.pure(Optional<A>.none)
+        }
+    }
+    
+    func traverse <A> (_ transform: (ParameterType) -> Optional<A>) -> Optional<Optional<A>> {
+        switch self {
+        case let value?:
+            return Generic.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Generic.pure(Optional<A>.none)
+        }
+    }
+
+    func filter(_ predicate: (ParameterType) -> Bool) -> Optional {
+        return flatMap { (element) -> Optional in
+            if predicate(element) {
+                return .some(element)
+            } else {
+                return .none
+            }
+        }
+    }
+    
+    func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
+        switch self {
+        case let value?:
+            return value
+        case .none:
+            return getElseValue()
+        }
+    }
+    
+    func toArray() -> Array<ParameterType> {
+        switch self {
+        case let value?:
+            return [value]
+        case .none:
+            return []
+        }
+    }
+    
+//    func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+//        return fold(
+//            onNone: { Result.failure(getError()) },
+//            onSome: Result.success)
+//    }
+    
+    var isNil: Bool {
+        switch self {
+        case .some:
+            return false
+        case .none:
+            return true
+        }
+    }
+    
+    func ifNotNil(_ action: (ParameterType) -> ()) {
+        switch self {
+        case let value?:
+            action(value)
+        case .none:
+            break
+        }
+    }
+}
+
 //
 //// MARK: - Definiton
 //
@@ -43,14 +201,14 @@
 //		return self
 //	}
 //
-//	public func fold<T>(onNone: () -> T, onSome: (Wrapped) -> T) -> T {
-//		switch self {
-//		case .none:
-//			return onNone()
-//		case .some(let value):
-//			return onSome(value)
-//		}
-//	}
+//    public func fold<T>(onNone: () -> T, onSome: (Wrapped) -> T) -> T {
+//        switch self {
+//        case .none:
+//            return onNone()
+//        case .some(let value):
+//            return onSome(value)
+//        }
+//    }
 //}
 //
 //// MARK: - Concrete
@@ -91,7 +249,7 @@
 //    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Self) -> Optional<A> {
 //        return { $0.fmap(function) }
 //    }
-//    
+//
 //    static func lift<A,Applicative2>(_ function: @escaping (ParameterType, Applicative2.ParameterType) -> A) -> (Self, Applicative2) -> Optional<A> where Applicative2: OptionalType {
 //        return { (ap1, ap2) in
 //            Concrete.pure(f.curry(function)) <*> ap1 <*> ap2
@@ -110,15 +268,15 @@
 //public extension OptionalType {
 //	typealias Zipped<O1,O2> = Optional<(O1.ParameterType,O2.ParameterType)> where O1: OptionalType, O2: OptionalType
 //
-//	static func zip <O1,O2> (_ first: O1, _ second: O2) -> Zipped<O1,O2> where O1: OptionalType, O2: OptionalType, ParameterType == (O1.ParameterType, O2.ParameterType) {
-//		return first.fold(
-//			onNone: f.pure(Zipped<O1,O2>.none),
-//			onSome: { value in
-//				second.fold(
-//					onNone: f.pure(Zipped<O1,O2>.none),
-//					onSome: { Zipped<O1,O2>.some((value,$0)) })
-//		})
-//	}
+//    static func zip <O1,O2> (_ first: O1, _ second: O2) -> Zipped<O1,O2> where O1: OptionalType, O2: OptionalType, ParameterType == (O1.ParameterType, O2.ParameterType) {
+//        return first.fold(
+//            onNone: f.pure(Zipped<O1,O2>.none),
+//            onSome: { value in
+//                second.fold(
+//                    onNone: f.pure(Zipped<O1,O2>.none),
+//                    onSome: { Zipped<O1,O2>.some((value,$0)) })
+//        })
+//    }
 //}
 //
 //// MARK: - Applicative
@@ -128,13 +286,13 @@
 //		return Optional<ParameterType>.init(value)
 //	}
 //
-//	func apply<O,T>(_ transform: O) -> Optional<T> where O: OptionalType, O.ParameterType == (ParameterType) -> T {
-//		return Optional.zip(self, transform).map { value, function in function(value) }
-//	}
+//    func apply<O,T>(_ transform: O) -> Optional<T> where O: OptionalType, O.ParameterType == (ParameterType) -> T {
+//        return Optional.zip(self, transform).map { value, function in function(value) }
+//    }
 //
-//	static func <*> <O,T> (lhs: O, rhs: Self) -> Optional<T> where O: OptionalType, O.ParameterType == (ParameterType) -> T {
-//		return Optional.zip(lhs, rhs).map { function, value in function(value) }
-//	}
+//    static func <*> <O,T> (lhs: O, rhs: Self) -> Optional<T> where O: OptionalType, O.ParameterType == (ParameterType) -> T {
+//        return Optional.zip(lhs, rhs).map { function, value in function(value) }
+//    }
 //}
 //
 //// MARK: - Traversable
@@ -142,17 +300,17 @@
 //public extension OptionalType {
 //	typealias Traversed<Applicative> = Optional<Applicative.ParameterType> where Applicative: TypeConstructor
 //
-//	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
-//		typealias Returned = [Traversed<Applicative>]
+//    func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> [Traversed<Applicative>] where Applicative: ArrayType {
+//        typealias Returned = [Traversed<Applicative>]
 //
-//		return fold(
-//			onNone: { () -> Returned in
-//				Returned.pure(Traversed<Applicative>.none)
-//		},
-//			onSome: { (value) -> Returned in
-//				Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
-//		})
-//	}
+//        return fold(
+//            onNone: { () -> Returned in
+//                Returned.pure(Traversed<Applicative>.none)
+//        },
+//            onSome: { (value) -> Returned in
+//                Applicative.Concrete.pure(Traversed<Applicative>.some) <*> transform(value)
+//        })
+//    }
 //
 //	func traverse<Applicative>(_ transform: (ParameterType) -> Applicative) -> Future<Traversed<Applicative>> where Applicative: FutureType {
 //		typealias Returned = Future<Traversed<Applicative>>
@@ -262,44 +420,44 @@
 //// MARK: - Utility
 //
 //public extension OptionalType {
-//	func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
-//		return bind { (element) -> Optional<ParameterType> in
-//			if predicate(element) {
-//				return .some(element)
-//			} else {
-//				return .none
-//			}
-//		}
-//	}
+//    func filter(_ predicate: (ParameterType) -> Bool) -> Optional<ParameterType> {
+//        return bind { (element) -> Optional<ParameterType> in
+//            if predicate(element) {
+//                return .some(element)
+//            } else {
+//                return .none
+//            }
+//        }
+//    }
 //
-//	func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
-//		return fold(
-//			onNone: getElseValue,
-//			onSome: f.identity)
-//	}
+//    func get(or getElseValue: @autoclosure () -> ParameterType) -> ParameterType {
+//        return fold(
+//            onNone: getElseValue,
+//            onSome: f.identity)
+//    }
 //
-//	func toArray() -> Array<ParameterType> {
-//		return fold(
-//			onNone: f.pure([]),
-//			onSome: { [$0] })
-//	}
+//    func toArray() -> Array<ParameterType> {
+//        return fold(
+//            onNone: f.pure([]),
+//            onSome: { [$0] })
+//    }
 //
-//	func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
-//		return fold(
-//			onNone: { Result.failure(getError()) },
-//			onSome: Result.success)
-//	}
+//    func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+//        return fold(
+//            onNone: { Result.failure(getError()) },
+//            onSome: Result.success)
+//    }
 //
-//	var isNil: Bool {
-//		return fold(
-//			onNone: f.pure(true),
-//			onSome: f.pure(false))
-//	}
+//    var isNil: Bool {
+//        return fold(
+//            onNone: f.pure(true),
+//            onSome: f.pure(false))
+//    }
 //
 //
-//	func ifNotNil(_ action: (ParameterType) -> ()) {
-//		_ = fold(
-//			onNone: f.ignore,
-//			onSome: action)
-//	}
+//    func ifNotNil(_ action: (ParameterType) -> ()) {
+//        _ = fold(
+//            onNone: f.ignore,
+//            onSome: action)
+//    }
 //}
