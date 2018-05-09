@@ -106,6 +106,15 @@ public extension Optional{
             return Generic.pure(Optional<A>.none)
         }
     }
+    
+    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Optional<A>> {
+        switch self {
+        case let value?:
+            return Reader.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Reader.pure(Optional<A>.none)
+        }
+    }
 
     func filter(_ predicate: (ParameterType) -> Bool) -> Optional {
         return flatMap { (element) -> Optional in

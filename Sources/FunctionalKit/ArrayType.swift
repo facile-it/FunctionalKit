@@ -79,6 +79,12 @@ public extension Array {
             Optional.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
+    
+    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Array<A>> {
+        return reduce(Reader<E,Array<A>>.pure([])) { previous, element in
+            Reader.pure(f.curry(++)) <*> previous <*> transform(element)
+        }
+    }
 }
 
 //
