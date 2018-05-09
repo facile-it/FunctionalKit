@@ -58,7 +58,7 @@ public extension Array {
 public extension Array {
 	func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Array<A>> {
 		return reduce(Array<Array<A>>.pure([])) { previous, element in
-			Array<A>.Generic.pure(f.curry(++)) <*> previous <*> transform(element)
+			Array.Generic.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
@@ -67,6 +67,12 @@ public extension Array {
 			Effect.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
+
+    func traverse <A> (_ transform: (ParameterType) -> Future<A>) -> Future<Array<A>> {
+        return reduce(Future<Array<A>>.pure([])) { previous, element in
+            Future.pure(f.curry(++)) <*> previous <*> transform(element)
+        }
+    }
 
 }
 
