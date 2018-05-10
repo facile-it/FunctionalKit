@@ -4,6 +4,8 @@
 import Abstract
 
 // sourcery: functor
+// sourcery: monad
+// sourcery: traversable
 extension Optional: TypeConstructor {
     public typealias ParameterType = Wrapped
 }
@@ -132,6 +134,15 @@ public extension Optional{
 			return State.pure(Optional<A>.some) <*> transform(value)
 		case .none:
 			return State.pure(Optional<A>.none)
+		}
+	}
+
+	func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Optional<A>> {
+		switch self {
+		case let value?:
+			return Writer.pure(Optional<A>.some) <*> transform(value)
+		case .none:
+			return Writer.pure(Optional<A>.none)
 		}
 	}
 

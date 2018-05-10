@@ -4,6 +4,14 @@
 import Abstract
 
 // sourcery: functor
+// sourcery: customMap = "fmap"
+// sourcery: monad
+// sourcery: traversable
+// sourcery: alternativeJoined = "flatMap(f.identity)"
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init([x])"
 extension Array: TypeConstructor {
 	public typealias ParameterType = Element
 }
@@ -35,6 +43,10 @@ public extension Array {
 }
 
 public extension Array {
+	func fmap <A> (_ transform: (ParameterType) -> A) -> Array<A> {
+		return map(transform)
+	}
+
 	func apply <A> (_ transform: Array<(ParameterType) -> A>) -> Array<A> {
 		return Generic.cartesian(self, transform).map { value, function in function(value) }
 	}

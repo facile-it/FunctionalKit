@@ -5,6 +5,8 @@ import Abstract
 
 // sourcery: functor
 // sourcery: secondaryParameter = "Failure"
+// sourcery: monad
+// sourcery: traversable
 public enum Result<Failure,Parameter> where Failure: Error {
     case success(Parameter)
     case failure(Failure)
@@ -188,6 +190,15 @@ public extension Result {
 			return State.pure(Generic.success) <*> transform(value)
 		case let .failure(error):
 			return State.pure(Generic.failure(error))
+		}
+	}
+
+	func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Result<Failure,A>> {
+		switch self {
+		case let .success(value):
+			return Writer.pure(Generic.success) <*> transform(value)
+		case let .failure(error):
+			return Writer.pure(Generic.failure(error))
 		}
 	}
 

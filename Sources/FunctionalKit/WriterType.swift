@@ -5,6 +5,8 @@ import Abstract
 
 // sourcery: functor
 // sourcery: secondaryParameter = "Log"
+// sourcery: monad
+// sourcery: traversable
 public struct Writer<Log,Parameter> where Log: Monoid {
 	public let log: Log
 	public let value: Parameter

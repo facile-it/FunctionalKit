@@ -5,6 +5,12 @@ import Abstract
 
 // sourcery: functor
 // sourcery: escapingHOF
+// sourcery: monad
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init { x }"
+// sourcery: testNeedsCommand = "run()"
 public struct Effect<Parameter> {
 	public let call: () -> Parameter
 	public init (_ call: @escaping () -> Parameter) {

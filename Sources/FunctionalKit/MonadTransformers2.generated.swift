@@ -1,228 +1,285 @@
-// Generated using Sourcery 0.10.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.11.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
-/*public extension ArrayType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Array<Array<Output>>) -> Array<Array<Output>> {
-        return bind { (value) -> Array<Array<Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+
+
+
+
+
+
+
+
+
+public extension Array {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Array<Array<Output>>) -> Array<Array<Output>> where ParameterType == Array<Input> {
+        return flatMap { (value) -> Array<Array<Output>> in
+			value.traverse(transform).fmap { $0.flatMap(f.identity) }
         }
     }
-}*/
 
-/*public extension ArrayType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Array<Optional<Output>>) -> Array<Optional<Output>> {
-        return bind { (value) -> Array<Optional<Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Array<Optional<Output>>) -> Array<Optional<Output>> where ParameterType == Optional<Input> {
+        return flatMap { (value) -> Array<Optional<Output>> in
+			value.traverse(transform).fmap { $0.joined() }
         }
     }
-}*/
 
-/*public extension ArrayType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Array<Result<ParameterType.ErrorType,Output>>) -> Array<Result<ParameterType.ErrorType,Output>> {
-        return bind { (value) -> Array<Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Array<Result<Secondary2,Output>>) -> Array<Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Array<Result<Secondary2,Output>> in
+			value.traverse(transform).fmap { $0.joined() }
         }
     }
-}*/
 
-/*public extension ArrayType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Array<Writer<ParameterType.LogType,Output>>) -> Array<Writer<ParameterType.LogType,Output>> {
-        return bind { (value) -> Array<Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Array<Writer<Secondary2,Output>>) -> Array<Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Array<Writer<Secondary2,Output>> in
+			value.traverse(transform).fmap { $0.joined() }
         }
     }
-}*/
+}
 
-/*public extension EffectType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Array<Output>>) -> Effect<Array<Output>> {
+
+
+
+public extension Effect {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> Effect<Array<Output>>) -> Effect<Array<Output>> where ParameterType == Array<Input> {
         return flatMap { (value) -> Effect<Array<Output>> in
-            value.traverse(transform).map { $0.joined() }
+			value.traverse(transform).map { $0.flatMap(f.identity) }
         }
     }
-}*/
 
-/*public extension EffectType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Optional<Output>>) -> Effect<Optional<Output>> {
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> Effect<Optional<Output>>) -> Effect<Optional<Output>> where ParameterType == Optional<Input> {
         return flatMap { (value) -> Effect<Optional<Output>> in
-            value.traverse(transform).map { $0.joined() }
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
 
-/*public extension EffectType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Result<ParameterType.ErrorType,Output>>) -> Effect<Result<ParameterType.ErrorType,Output>> {
-        return flatMap { (value) -> Effect<Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).map { $0.joined() }
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Effect<Result<Secondary2,Output>>) -> Effect<Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Effect<Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
 
-/*public extension EffectType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Effect<Writer<ParameterType.LogType,Output>>) -> Effect<Writer<ParameterType.LogType,Output>> {
-        return flatMap { (value) -> Effect<Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).map { $0.joined() }
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Effect<Writer<Secondary2,Output>>) -> Effect<Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Effect<Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
+}
 
-/*public extension FutureType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Future<Array<Output>>) -> Future<Array<Output>> {
+
+
+
+public extension Future {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> Future<Array<Output>>) -> Future<Array<Output>> where ParameterType == Array<Input> {
         return flatMap { (value) -> Future<Array<Output>> in
-            value.traverse(transform).map { $0.joined() }
+			value.traverse(transform).map { $0.flatMap(f.identity) }
         }
     }
-}*/
 
-/*public extension FutureType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Future<Optional<Output>>) -> Future<Optional<Output>> {
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> Future<Optional<Output>>) -> Future<Optional<Output>> where ParameterType == Optional<Input> {
         return flatMap { (value) -> Future<Optional<Output>> in
-            value.traverse(transform).map { $0.joined() }
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
 
-/*public extension FutureType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Future<Result<ParameterType.ErrorType,Output>>) -> Future<Result<ParameterType.ErrorType,Output>> {
-        return flatMap { (value) -> Future<Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension FutureType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Future<Writer<ParameterType.LogType,Output>>) -> Future<Writer<ParameterType.LogType,Output>> {
-        return flatMap { (value) -> Future<Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension OptionalType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Optional<Array<Output>>) -> Optional<Array<Output>> {
-        return bind { (value) -> Optional<Array<Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Future<Result<Secondary2,Output>>) -> Future<Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Future<Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
 
-/*public extension OptionalType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Optional<Optional<Output>>) -> Optional<Optional<Output>> {
-        return bind { (value) -> Optional<Optional<Output>> in
-            value.traverse(transform).fmap { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension OptionalType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Optional<Result<ParameterType.ErrorType,Output>>) -> Optional<Result<ParameterType.ErrorType,Output>> {
-        return bind { (value) -> Optional<Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).fmap { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension OptionalType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Optional<Writer<ParameterType.LogType,Output>>) -> Optional<Writer<ParameterType.LogType,Output>> {
-        return bind { (value) -> Optional<Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).fmap { $0.joined() }
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Future<Writer<Secondary2,Output>>) -> Future<Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Future<Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
+}
 
-/*public extension ResultType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Result<ErrorType,Array<Output>>) -> Result<ErrorType,Array<Output>> {
-        return flatMap { (value) -> Result<ErrorType,Array<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension ResultType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Result<ErrorType,Optional<Output>>) -> Result<ErrorType,Optional<Output>> {
-        return flatMap { (value) -> Result<ErrorType,Optional<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension ResultType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Result<ErrorType,Result<ParameterType.ErrorType,Output>>) -> Result<ErrorType,Result<ParameterType.ErrorType,Output>> {
-        return flatMap { (value) -> Result<ErrorType,Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension ResultType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Result<ErrorType,Writer<ParameterType.LogType,Output>>) -> Result<ErrorType,Writer<ParameterType.LogType,Output>> {
-        return flatMap { (value) -> Result<ErrorType,Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
+public extension Optional {
 
-/*public extension StateType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> State<StateParameterType,Array<Output>>) -> State<StateParameterType,Array<Output>> {
-        return flatMap { (value) -> State<StateParameterType,Array<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension StateType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> State<StateParameterType,Optional<Output>>) -> State<StateParameterType,Optional<Output>> {
-        return flatMap { (value) -> State<StateParameterType,Optional<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension StateType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> State<StateParameterType,Result<ParameterType.ErrorType,Output>>) -> State<StateParameterType,Result<ParameterType.ErrorType,Output>> {
-        return flatMap { (value) -> State<StateParameterType,Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension StateType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> State<StateParameterType,Writer<ParameterType.LogType,Output>>) -> State<StateParameterType,Writer<ParameterType.LogType,Output>> {
-        return flatMap { (value) -> State<StateParameterType,Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).map { $0.joined() }
+	func flatMapT <Input,Output> (_ transform: (Input) -> Optional<Array<Output>>) -> Optional<Array<Output>> where ParameterType == Array<Input> {
+        return flatMap { (value) -> Optional<Array<Output>> in
+			value.traverse(transform).map { $0.flatMap(f.identity) }
         }
     }
-}*/
 
-/*public extension WriterType where ParameterType: ArrayType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Writer<LogType,Array<Output>>) -> Writer<LogType,Array<Output>> {
-        return flatMap { (value) -> Writer<LogType,Array<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension WriterType where ParameterType: OptionalType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Writer<LogType,Optional<Output>>) -> Writer<LogType,Optional<Output>> {
-        return flatMap { (value) -> Writer<LogType,Optional<Output>> in
-            value.traverse(transform).map { $0.joined() }
-        }
-    }
-}*/
 
-/*public extension WriterType where ParameterType: ResultType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Writer<LogType,Result<ParameterType.ErrorType,Output>>) -> Writer<LogType,Result<ParameterType.ErrorType,Output>> {
-        return flatMap { (value) -> Writer<LogType,Result<ParameterType.ErrorType,Output>> in
-            value.traverse(transform).map { $0.joined() }
+	func flatMapT <Input,Output> (_ transform: (Input) -> Optional<Optional<Output>>) -> Optional<Optional<Output>> where ParameterType == Optional<Input> {
+        return flatMap { (value) -> Optional<Optional<Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
 
-/*public extension WriterType where ParameterType: WriterType {
-    func flatMapT <Output> (_ transform: (ParameterType.ParameterType) -> Writer<LogType,Writer<ParameterType.LogType,Output>>) -> Writer<LogType,Writer<ParameterType.LogType,Output>> {
-        return flatMap { (value) -> Writer<LogType,Writer<ParameterType.LogType,Output>> in
-            value.traverse(transform).map { $0.joined() }
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Result<Secondary2,Output>>) -> Optional<Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Optional<Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
         }
     }
-}*/
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Writer<Secondary2,Output>>) -> Optional<Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Optional<Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+}
+
+
+
+
+public extension Result {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Result<Failure,Array<Output>>) -> Result<Failure,Array<Output>> where ParameterType == Array<Input> {
+        return flatMap { (value) -> Result<Failure,Array<Output>> in
+			value.traverse(transform).map { $0.flatMap(f.identity) }
+        }
+    }
+
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Result<Failure,Optional<Output>>) -> Result<Failure,Optional<Output>> where ParameterType == Optional<Input> {
+        return flatMap { (value) -> Result<Failure,Optional<Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Result<Failure,Result<Secondary2,Output>>) -> Result<Failure,Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Result<Failure,Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Result<Failure,Writer<Secondary2,Output>>) -> Result<Failure,Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Result<Failure,Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+}
+
+
+
+
+public extension State {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> State<Model,Array<Output>>) -> State<Model,Array<Output>> where ParameterType == Array<Input> {
+        return flatMap { (value) -> State<Model,Array<Output>> in
+			value.traverse(transform).map { $0.flatMap(f.identity) }
+        }
+    }
+
+
+
+	func flatMapT <Input,Output> (_ transform: @escaping (Input) -> State<Model,Optional<Output>>) -> State<Model,Optional<Output>> where ParameterType == Optional<Input> {
+        return flatMap { (value) -> State<Model,Optional<Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> State<Model,Result<Secondary2,Output>>) -> State<Model,Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> State<Model,Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> State<Model,Writer<Secondary2,Output>>) -> State<Model,Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> State<Model,Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+}
+
+
+
+
+public extension Writer {
+
+
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Writer<Log,Array<Output>>) -> Writer<Log,Array<Output>> where ParameterType == Array<Input> {
+        return flatMap { (value) -> Writer<Log,Array<Output>> in
+			value.traverse(transform).map { $0.flatMap(f.identity) }
+        }
+    }
+
+
+
+	func flatMapT <Input,Output> (_ transform: (Input) -> Writer<Log,Optional<Output>>) -> Writer<Log,Optional<Output>> where ParameterType == Optional<Input> {
+        return flatMap { (value) -> Writer<Log,Optional<Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Writer<Log,Result<Secondary2,Output>>) -> Writer<Log,Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
+        return flatMap { (value) -> Writer<Log,Result<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+
+
+
+	func flatMapT <Secondary2,Input,Output> (_ transform: (Input) -> Writer<Log,Writer<Secondary2,Output>>) -> Writer<Log,Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
+        return flatMap { (value) -> Writer<Log,Writer<Secondary2,Output>> in
+			value.traverse(transform).map { $0.joined() }
+        }
+    }
+}
+
+
 

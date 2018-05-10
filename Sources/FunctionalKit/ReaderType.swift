@@ -6,6 +6,8 @@ import Abstract
 // sourcery: functor
 // sourcery: escapingHOF
 // sourcery: secondaryParameter = "Environment"
+// sourcery: monad
+// sourcery: customTransformer
 public struct Reader<Environment,Parameter> {
     public let call: (Environment) -> Parameter
     public init (_ call: @escaping (Environment) -> Parameter) {
