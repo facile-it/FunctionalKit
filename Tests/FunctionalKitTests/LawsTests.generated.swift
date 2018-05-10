@@ -86,6 +86,16 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
+
+
+
+
+
 //MARK: - Inclusive - Bifunctor
 
     func testInclusiveBifunctorIdentity() {
@@ -165,6 +175,21 @@ class LawsTests: XCTestCase {
             return ((fLifted >>> gLifted)(a) == a.bimap(f1.getArrow >>> g1.getArrow,f2.getArrow >>> g2.getArrow))
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

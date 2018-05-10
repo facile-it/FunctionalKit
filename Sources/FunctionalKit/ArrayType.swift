@@ -85,6 +85,19 @@ public extension Array {
             Reader.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
+
+	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Array<A>> {
+		return reduce(Result<F,Array<A>>.pure([])) { previous, element in
+			Result.pure(f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
+
+	func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Array<A>> {
+		return reduce(State<M,Array<A>>.pure([])) { previous, element in
+			State.pure(f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
+
 }
 
 //

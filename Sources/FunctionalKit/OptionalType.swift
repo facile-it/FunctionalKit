@@ -116,6 +116,24 @@ public extension Optional{
         }
     }
 
+	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Optional<A>> {
+		switch self {
+		case let value?:
+			return Result.pure(Optional<A>.some) <*> transform(value)
+		case .none:
+			return Result.pure(Optional<A>.none)
+		}
+	}
+
+	func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Optional<A>> {
+		switch self {
+		case let value?:
+			return State.pure(Optional<A>.some) <*> transform(value)
+		case .none:
+			return State.pure(Optional<A>.none)
+		}
+	}
+
     func filter(_ predicate: (ParameterType) -> Bool) -> Optional {
         return flatMap { (element) -> Optional in
             if predicate(element) {
@@ -144,11 +162,14 @@ public extension Optional{
         }
     }
     
-//    func toResult<E>(getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
-//        return fold(
-//            onNone: { Result.failure(getError()) },
-//            onSome: Result.success)
-//    }
+    func toResult <E> (getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+		switch self {
+		case let value?:
+			return .success(value)
+		case .none:
+			return .failure(getError())
+		}
+    }
     
     var isNil: Bool {
         switch self {

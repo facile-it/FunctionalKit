@@ -180,6 +180,15 @@ public extension Result {
 		}
 	}
 
+	func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Result<Failure,A>> {
+		switch self {
+		case let .success(value):
+			return State.pure(Generic.success) <*> transform(value)
+		case let .failure(error):
+			return State.pure(Generic.failure(error))
+		}
+	}
+
 	func toOptionalError() -> Failure? {
 		switch self {
 		case let .failure(error):
