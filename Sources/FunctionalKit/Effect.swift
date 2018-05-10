@@ -3,6 +3,8 @@
 #endif
 import Abstract
 
+// sourcery: functor
+// sourcery: escapingHOF
 public struct Effect<Parameter> {
 	public let call: () -> Parameter
 	public init (_ call: @escaping () -> Parameter) {

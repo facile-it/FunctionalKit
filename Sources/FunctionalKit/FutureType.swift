@@ -10,6 +10,8 @@ private enum FutureState<T> {
     case done(T)
 }
 
+// sourcery: functor
+// sourcery: escapingHOF
 public final class Future<Parameter> {
     private let continuation: (@escaping (Parameter) -> ()) -> ()
     public init(_ continuation: @escaping (@escaping (Parameter) -> ()) -> ()) {

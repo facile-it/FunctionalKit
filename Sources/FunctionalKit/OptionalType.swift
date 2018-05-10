@@ -3,6 +3,7 @@
 #endif
 import Abstract
 
+// sourcery: functor
 extension Optional: TypeConstructor {
     public typealias ParameterType = Wrapped
 }

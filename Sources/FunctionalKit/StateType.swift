@@ -3,6 +3,9 @@
 #endif
 import Abstract
 
+// sourcery: functor
+// sourcery: escapingHOF
+// sourcery: secondaryParameter = "Model"
 public struct State<Model,Parameter> {
 	public let call: (Model) -> (Model,Parameter)
 	public init(_ call: @escaping (Model) -> (Model,Parameter)) {

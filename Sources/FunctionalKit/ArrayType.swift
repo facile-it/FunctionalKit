@@ -3,6 +3,7 @@
 #endif
 import Abstract
 
+// sourcery: functor
 extension Array: TypeConstructor {
 	public typealias ParameterType = Element
 }

@@ -3,6 +3,8 @@
 #endif
 import Abstract
 
+// sourcery: functor
+// sourcery: secondaryParameter = "Log"
 public struct Writer<Log,Parameter> where Log: Monoid {
 	public let log: Log
 	public let value: Parameter

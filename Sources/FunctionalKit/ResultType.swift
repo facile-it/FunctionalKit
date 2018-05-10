@@ -3,6 +3,8 @@
 #endif
 import Abstract
 
+// sourcery: functor
+// sourcery: secondaryParameter = "Failure"
 public enum Result<Failure,Parameter> where Failure: Error {
     case success(Parameter)
     case failure(Failure)

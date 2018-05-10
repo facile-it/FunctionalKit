@@ -3,6 +3,9 @@
 #endif
 import Abstract
 
+// sourcery: functor
+// sourcery: escapingHOF
+// sourcery: secondaryParameter = "Environment"
 public struct Reader<Environment,Parameter> {
     public let call: (Environment) -> Parameter
     public init (_ call: @escaping (Environment) -> Parameter) {
