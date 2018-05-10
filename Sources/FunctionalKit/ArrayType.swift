@@ -57,47 +57,52 @@ public extension Array {
 
 public extension Array {
 	func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Array<A>> {
-		return reduce(Array<Array<A>>.pure([])) { previous, element in
-			Array.Generic.pure(f.curry(++)) <*> previous <*> transform(element)
+		return reduce(Generic.pure([])) { previous, element in
+			Generic.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
 	func traverse <A> (_ transform: (ParameterType) -> Effect<A>) -> Effect<Array<A>> {
-		return reduce(Effect<Array<A>>.pure([])) { previous, element in
+		return reduce(Effect.pure([])) { previous, element in
 			Effect.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
     func traverse <A> (_ transform: (ParameterType) -> Future<A>) -> Future<Array<A>> {
-        return reduce(Future<Array<A>>.pure([])) { previous, element in
+        return reduce(Future.pure([])) { previous, element in
             Future.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
 
     func traverse <A> (_ transform: (ParameterType) -> Optional<A>) -> Optional<Array<A>> {
-        return reduce(Optional<Array<A>>.pure([])) { previous, element in
+        return reduce(Optional.pure([])) { previous, element in
             Optional.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
     
     func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Array<A>> {
-        return reduce(Reader<E,Array<A>>.pure([])) { previous, element in
+        return reduce(Reader.pure([])) { previous, element in
             Reader.pure(f.curry(++)) <*> previous <*> transform(element)
         }
     }
 
 	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Array<A>> {
-		return reduce(Result<F,Array<A>>.pure([])) { previous, element in
+		return reduce(Result.pure([])) { previous, element in
 			Result.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
 	func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Array<A>> {
-		return reduce(State<M,Array<A>>.pure([])) { previous, element in
+		return reduce(State.pure([])) { previous, element in
 			State.pure(f.curry(++)) <*> previous <*> transform(element)
 		}
 	}
 
+	func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Array<A>> {
+		return reduce(Writer.pure([])) { previous, element in
+			Writer.pure(f.curry(++)) <*> previous <*> transform(element)
+		}
+	}
 }
 
 //

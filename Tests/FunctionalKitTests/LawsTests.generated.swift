@@ -230,6 +230,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
     static var allTests = [
         ("testCoproductBifunctorIdentity",testCoproductBifunctorIdentity),
         ("testCoproductBifunctorComposition",testCoproductBifunctorComposition),
