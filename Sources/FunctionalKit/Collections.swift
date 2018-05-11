@@ -51,22 +51,22 @@ public extension RandomAccessCollection {
 	}
 }
 
-//public extension RandomAccessCollection where Element: Equatable {
-//	func divideIn2(atIndex index: Index) -> ([Element],[Element]) {
-//		return Optional.pure(self)
-//			.filter { $0.indices.contains(index) }
-//			.map { (items: $0, object: $0[index]) }
-//			.flatMap { tuple in
-//				tuple.items.split(
-//					separator: tuple.object,
-//					maxSplits: 2,
-//					omittingEmptySubsequences: false)
-//					.destructured2()
-//					.map { (Array($0), [tuple.object] + Array($1)) }
-//			}
-//			.get(or: (Array(self),[]))
-//	}
-//}
+public extension RandomAccessCollection where Element: Equatable {
+	func divideIn2(atIndex index: Index) -> ([Element],[Element]) {
+		return Optional.pure(self)
+			.filter { $0.indices.contains(index) }
+			.map { (items: $0, object: $0[index]) }
+			.flatMap { tuple in
+				tuple.items.split(
+					separator: tuple.object,
+					maxSplits: 2,
+					omittingEmptySubsequences: false)
+					.destructured2()
+					.map { (Array($0), [tuple.object] + Array($1)) }
+			}
+			.get(or: (Array(self),[]))
+	}
+}
 
 // MARK: - Query
 
