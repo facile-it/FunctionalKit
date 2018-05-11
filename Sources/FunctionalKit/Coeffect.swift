@@ -10,7 +10,7 @@ public struct Coeffect<Parameter> {
 	}
 
 	public func run(_ environment: Parameter) {
-		call(environment)
+		_call(environment)
 	}
 }
 

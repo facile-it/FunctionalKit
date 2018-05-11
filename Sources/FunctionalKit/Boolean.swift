@@ -4,22 +4,29 @@
 import Abstract
 
 public extension Bool {
+	/// Method version of &&
 	func and(_ other: @autoclosure () -> Bool) -> Bool {
 		return self && other()
 	}
 
+	/// Method version of ||
 	func or(_ other: @autoclosure () -> Bool) -> Bool {
 		return self || other()
 	}
 
+	/// Computed property representing the negation (like the ! prefix, or "== false")
 	var not: Bool {
 		return self == false
 	}
 
+	/// Method version of =>
 	func implies(_ other: @autoclosure () -> Bool) -> Bool {
 		return self.not.or(other())
 	}
 
+	/// Logical implication
+	///
+	/// P => Q is equivalent to ¬PvQ
 	static func => (_ left: Bool, _ right: @autoclosure () -> Bool) -> Bool {
 		return left.implies(right())
 	}

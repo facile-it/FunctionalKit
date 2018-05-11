@@ -3,6 +3,12 @@
 #endif
 import Abstract
 
+/// AnyError
+///
+/// A concrete type wrapping Error
+///
+/// This can be useful for parametrized types/functions where a parameter is constrained to Error:
+/// since Error as a first-class type cannot be used in that position, the instance can be wrapped into AnyError.
 public struct AnyError: Wrapper, Error {
     public typealias WrappedType = Error
     public let unwrap: Error
