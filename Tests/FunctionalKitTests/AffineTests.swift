@@ -10,7 +10,7 @@ class AffineTests: XCTestCase {
 	static var allTests = [
 		("testArrayAffineWellBehaved", testArrayAffineWellBehaved),
 		("testComposedAffineWellBehaved", testComposedAffineWellBehaved),
-//		("testAffineZipWellBehaved", testAffineZipWellBehaved),
+		("testAffineZipWellBehaved", testAffineZipWellBehaved),
 		("testAffineFromLensWellBehaved", testAffineFromLensWellBehaved),
 		("testAffineFromPrismWellBehaved", testAffineFromPrismWellBehaved)
 	]
@@ -61,31 +61,31 @@ class AffineTests: XCTestCase {
 		}
 	}
 
-//	func testAffineZipWellBehaved() {
-//		property("TrySetTryGet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>, av: TestProduct<Int,Int>) in
-//			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
-//			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
-//			let zipped = Affine.zip(affine1, affine2)
-//
-//			return AffineLaw.trySetTryGet(affine: zipped, whole: a, part: av.unwrap.unwrap)
-//		}
-//
-//		property("TryGetTrySet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>) in
-//			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
-//			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
-//			let zipped = Affine.zip(affine1, affine2)
-//
-//			return AffineLaw.tryGetTrySet(affine: zipped, whole: a)
-//		}
-//
-//		property("TrySetTrySet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>, av: TestProduct<Int,Int>) in
-//			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
-//			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
-//			let zipped = Affine.zip(affine1, affine2)
-//
-//			return AffineLaw.trySetTrySet(affine: zipped, whole: a, part: av.unwrap.unwrap)
-//		}
-//	}
+	func testAffineZipWellBehaved() {
+		property("TrySetTryGet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>, av: TestProduct<Int,Int>) in
+			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
+			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
+			let zipped = Affine.zip(affine1, affine2)
+
+			return AffineLaw.trySetTryGet(affine: zipped, whole: a, part: av.unwrap.unwrap)
+		}
+
+		property("TryGetTrySet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>) in
+			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
+			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
+			let zipped = Affine.zip(affine1, affine2)
+
+			return AffineLaw.tryGetTrySet(affine: zipped, whole: a)
+		}
+
+		property("TrySetTrySet") <- forAll { (a: TestInclusive<TestInclusive<Int,Int>,TestInclusive<Int,Int>>, av: TestProduct<Int,Int>) in
+			let affine1 = type(of: a).affine.right >>> TestInclusive<Int,Int>.affine.left
+			let affine2 = type(of: a).affine.left >>> TestInclusive<Int,Int>.affine.right
+			let zipped = Affine.zip(affine1, affine2)
+
+			return AffineLaw.trySetTrySet(affine: zipped, whole: a, part: av.unwrap.unwrap)
+		}
+	}
 
 	func testAffineFromLensWellBehaved() {
 		property("TrySetTryGet") <- forAll { (a: TestProduct<Int,TestProduct<Int,Int>>, v: Int) in

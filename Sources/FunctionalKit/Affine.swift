@@ -102,13 +102,13 @@ public extension AffineType where TType == SType, AType == BType {
 		return { t in self.tryModify(transform)(t) ?? t }
 	}
 
-//	static func zip<A,B>(_ a: A, _ b: B) -> AffineFull<SType,TType,(A.AType,B.AType),(A.BType,B.BType)> where A: AffineType, B: AffineType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == (A.AType,B.AType), BType == (A.BType,B.BType)  {
-//		return AffineFull.init(
-//			tryGet: { s in Optional.zip(a.tryGet(s),b.tryGet(s)) },
-//			trySet: { tuple in
-//				{ s in a.trySet(tuple.0)(s).flatMap { newS in b.trySet(tuple.1)(newS) } }
-//		})
-//	}
+	static func zip<A,B>(_ a: A, _ b: B) -> AffineFull<SType,TType,(A.AType,B.AType),(A.BType,B.BType)> where A: AffineType, B: AffineType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == (A.AType,B.AType), BType == (A.BType,B.BType)  {
+		return AffineFull.init(
+			tryGet: { s in Optional.zip(a.tryGet(s),b.tryGet(s)) },
+			trySet: { tuple in
+				{ s in a.trySet(tuple.0)(s).flatMap { newS in b.trySet(tuple.1)(newS) } }
+		})
+	}
 }
 
 public extension Array {
@@ -159,10 +159,10 @@ public enum AffineLaw {
 		return affine.tryGet(newWhole).map { $0 == part } ?? false
 	}
 
-//	public static func trySetTryGet<Whole, Part, SomeAffine>(affine: SomeAffine, whole: Whole, part: Optional<Part>) -> Bool where Part: Equatable, SomeAffine: AffineType, SomeAffine.SType == Whole, SomeAffine.TType == Whole, SomeAffine.AType == Optional<Part>, SomeAffine.BType == Optional<Part> {
-//		guard let newWhole = affine.trySet(part)(whole) else { return true }
-//		return affine.tryGet(newWhole).joined() == part
-//	}
+	public static func trySetTryGet<Whole, Part, SomeAffine>(affine: SomeAffine, whole: Whole, part: Optional<Part>) -> Bool where Part: Equatable, SomeAffine: AffineType, SomeAffine.SType == Whole, SomeAffine.TType == Whole, SomeAffine.AType == Optional<Part>, SomeAffine.BType == Optional<Part> {
+		guard let newWhole = affine.trySet(part)(whole) else { return true }
+		return affine.tryGet(newWhole).joined() == part
+	}
 
 	public static func tryGetTrySet<Whole, SomeAffine>(affine: SomeAffine, whole: Whole) -> Bool where Whole: Equatable, SomeAffine: AffineType, SomeAffine.SType == Whole, SomeAffine.TType == Whole, SomeAffine.AType == SomeAffine.BType {
 		guard let gotPart = affine.tryGet(whole) else { return true }

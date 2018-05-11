@@ -83,12 +83,8 @@ public extension Effect {
 }
 
 public extension f {
-	static func effect <A> (_ execute: @escaping () -> A) -> Effect<A> {
-		return Effect<A>.init(execute)
-	}
-
 	static func lazily <A> (_ execute: @escaping @autoclosure () -> A) -> Effect<A> {
-		return effect(execute)
+		return Effect(execute)
 	}
 }
 

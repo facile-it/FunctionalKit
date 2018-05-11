@@ -10,6 +10,7 @@ class LensTests: XCTestCase {
 	static var allTests = [
 		("testOver", testOver),
 		("testComposedLensWellBehaved", testComposedLensWellBehaved),
+		("testLensFromKeyPathWellBehaved", testLensFromKeyPathWellBehaved),
 		("testZipLensWellBehaved", testZipLensWellBehaved),
 		("testDictLensWellBehaved", testDictLensWellBehaved)
 	]
@@ -139,46 +140,4 @@ class LensTests: XCTestCase {
 			return LensLaw.setSet(lens: lens, whole: dict, part: value)
 		}
 	}
-
-//	@available(*, deprecated)
-//    func testComposeLensOptional1() {
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<_,_> respects GetSet") <- forAll { (whole: TestProductOptional<Int,TestProduct<Int,Int>>, defaultPart: TestProduct<Int,Int>) in
-//            let lens = TestProductOptional<Int,TestProduct<Int,Int>>.lens.second.compose(TestProduct<Int,Int>.lens.first, defaulting: defaultPart)
-//            
-//			return LensLaw.getSet(lens: lens, whole: whole)
-//        }
-//
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<_,_> respects SetGet") <- forAll { (whole: TestProductOptional<Int,TestProduct<Int,Int>>, part: Optional<Int>, defaultPart: TestProduct<Int,Int>) in
-//			let lens = TestProductOptional<Int,TestProduct<Int,Int>>.lens.second.compose(TestProduct<Int,Int>.lens.first, defaulting: defaultPart)
-//
-//			return LensLaw.setGet(lens: lens, whole: whole, part: part)
-//        }
-//
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<_,_> respects SetSet") <- forAll { (whole: TestProductOptional<Int,TestProduct<Int,Int>>, part: Optional<Int>, defaultPart: TestProduct<Int,Int>) in
-//			let lens = TestProductOptional<Int,TestProduct<Int,Int>>.lens.second.compose(TestProduct<Int,Int>.lens.first, defaulting: defaultPart)
-//
-//			return LensLaw.setSet(lens: lens, whole: whole, part: part)
-//        }
-//    }
-//
-//	@available(*, deprecated)
-//    func testComposeLensOptional2() {
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<Optional,_> respects GetSet") <- forAll { (whole: TestProductOptional<Int,TestProductOptional<Int,Int>>, defaultPart: TestProductOptional<Int,Int>) in
-//			let lens = TestProductOptional<Int,TestProductOptional<Int,Int>>.lens.second.compose(TestProductOptional<Int,Int>.lens.first, defaulting: defaultPart)
-//
-//			return LensLaw.getSet(lens: lens, whole: whole)
-//        }
-//
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<Optional,_> respects GetSet") <- forAll { (whole: TestProductOptional<Int,TestProductOptional<Int,Int>>, part: Optional<Int>, defaultPart: TestProductOptional<Int,Int>) in
-//			let lens = TestProductOptional<Int,TestProductOptional<Int,Int>>.lens.second.compose(TestProductOptional<Int,Int>.lens.first, defaulting: defaultPart)
-//
-//			return LensLaw.setGet(lens: lens, whole: whole, part: part)
-//        }
-//
-//        property("Lens.compose for Lens<_,Optional> >>> Lens<Optional,_> respects SetSet") <- forAll { (whole: TestProductOptional<Int,TestProductOptional<Int,Int>>, part: Optional<Int>, defaultPart: TestProductOptional<Int,Int>) in
-//			let lens = TestProductOptional<Int,TestProductOptional<Int,Int>>.lens.second.compose(TestProductOptional<Int,Int>.lens.first, defaulting: defaultPart)
-//
-//			return LensLaw.setSet(lens: lens, whole: whole, part: part)
-//        }
-//    }
 }

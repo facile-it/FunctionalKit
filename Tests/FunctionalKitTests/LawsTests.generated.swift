@@ -33,6 +33,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Array - Functor
 
     func testArrayFunctorIdentity() {
@@ -116,6 +121,11 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
+
+
+
+
+
 
 
 
@@ -614,6 +624,16 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
+
+
+
+
+
 //MARK: - State - Functor
 
     func testStateFunctorIdentity() {
@@ -749,6 +769,16 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
