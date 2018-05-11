@@ -16,9 +16,9 @@ public extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Elem
 		return dropFirst()
 	}
 
-//	func decomposed() -> (Iterator.Element,SubSequence)? {
-//		return Optional.zip(head, tail)
-//	}
+	func decomposed() -> (Iterator.Element,SubSequence)? {
+		return Optional.zip(head, tail)
+	}
 
 	func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
 		guard let nonOptHead = head, let nonOptTail = tail else { return head }
