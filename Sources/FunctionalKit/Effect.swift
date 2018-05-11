@@ -7,7 +7,7 @@ import Abstract
 // sourcery: escapingHOF
 // sourcery: monad
 // sourcery: testFunctor
-// sourcery: testApplicative
+// sourcery: test_Applicative /// segfault
 // sourcery: testMonad
 // sourcery: testConstruct = "init { x }"
 // sourcery: testNeedsCommand = "run()"

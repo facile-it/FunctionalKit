@@ -13,6 +13,11 @@ private enum FutureState<T> {
 // sourcery: functor
 // sourcery: escapingHOF
 // sourcery: monad
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init { $0(x) }"
+// sourcery: testNeedsCommand = "start()"
 public final class Future<Parameter> {
     private let continuation: (@escaping (Parameter) -> ()) -> ()
     public init(_ continuation: @escaping (@escaping (Parameter) -> ()) -> ()) {

@@ -33,7 +33,7 @@ public extension Array {
 
 
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Array<Optional<Output>> where ParameterType == Optional<Input> {
-        return fmap { $0.map(transform) }
+        return fmap { $0.fmap(transform) }
     }
 
 
@@ -88,7 +88,7 @@ public extension Effect {
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 
@@ -143,7 +143,7 @@ public extension Future {
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 
@@ -180,49 +180,49 @@ public extension Optional {
 
 
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Optional<Array<Output>> where ParameterType == Array<Input> {
-        return map { $0.fmap(transform) }
+        return fmap { $0.fmap(transform) }
     }
 
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Effect<Output>> where ParameterType == Effect<Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Future<Output>> where ParameterType == Future<Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 
 
 
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Optional<Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.fmap(transform) }
     }
 
 
 
 	func mapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Reader<Secondary2,Output>> where ParameterType == Reader<Secondary2,Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 
 
 
 	func mapT <Secondary2,Input,Output> (_ transform: (Input) -> Output) -> Optional<Result<Secondary2,Output>> where ParameterType == Result<Secondary2,Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 
 
 
 	func mapT <Secondary2,Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<State<Secondary2,Output>> where ParameterType == State<Secondary2,Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 
 
 
 	func mapT <Secondary2,Input,Output> (_ transform: (Input) -> Output) -> Optional<Writer<Secondary2,Output>> where ParameterType == Writer<Secondary2,Input> {
-        return map { $0.map(transform) }
+        return fmap { $0.map(transform) }
     }
 }
 
@@ -253,7 +253,7 @@ public extension Reader {
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 
@@ -308,7 +308,7 @@ public extension Result {
 
 
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Result<Failure,Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 
@@ -363,7 +363,7 @@ public extension State {
 
 
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 
@@ -418,7 +418,7 @@ public extension Writer {
 
 
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Writer<Log,Optional<Output>> where ParameterType == Optional<Input> {
-        return map { $0.map(transform) }
+        return map { $0.fmap(transform) }
     }
 
 

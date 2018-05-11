@@ -7,6 +7,11 @@ import Abstract
 // sourcery: secondaryParameter = "Failure"
 // sourcery: monad
 // sourcery: traversable
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "success(x)"
+// sourcery: testSecondaryParameter
 public enum Result<Failure,Parameter> where Failure: Error {
     case success(Parameter)
     case failure(Failure)
@@ -28,6 +33,19 @@ public enum Result<Failure,Parameter> where Failure: Error {
             return onFailure(error)
         }
     }
+}
+
+extension Result: Equatable where Failure: Equatable, Parameter: Equatable {
+	public static func == (lhs: Result, rhs: Result) -> Bool {
+		switch (lhs,rhs) {
+		case let (.success(lhsValue),.success(rhsValue)):
+			return lhsValue == rhsValue
+		case let (.failure(lhsError),.failure(rhsError)):
+			return lhsError == rhsError
+		default:
+			return false
+		}
+	}
 }
 
 extension Result: TypeConstructor2 {

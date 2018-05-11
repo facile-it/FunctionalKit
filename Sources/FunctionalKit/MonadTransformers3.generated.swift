@@ -472,7 +472,7 @@ public extension Optional {
 
 	func flatMapTT <Input,Output> (_ transform: (Input) -> Optional<Array<Array<Output>>>) -> Optional<Array<Array<Output>>> where ParameterType == Array<Array<Input>> {
 		return flatMapT { (value) -> Optional<Array<Array<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
 		}
 	}
 
@@ -481,7 +481,7 @@ public extension Optional {
 
 	func flatMapTT <Input,Output> (_ transform: (Input) -> Optional<Array<Optional<Output>>>) -> Optional<Array<Optional<Output>>> where ParameterType == Array<Optional<Input>> {
 		return flatMapT { (value) -> Optional<Array<Optional<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -490,7 +490,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Input,Output> (_ transform: (Input) -> Optional<Array<Result<Secondary3,Output>>>) -> Optional<Array<Result<Secondary3,Output>>> where ParameterType == Array<Result<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Array<Result<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -499,7 +499,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Input,Output> (_ transform: (Input) -> Optional<Array<Writer<Secondary3,Output>>>) -> Optional<Array<Writer<Secondary3,Output>>> where ParameterType == Array<Writer<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Array<Writer<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -508,7 +508,7 @@ public extension Optional {
 
 	func flatMapTT <Input,Output> (_ transform: (Input) -> Optional<Optional<Array<Output>>>) -> Optional<Optional<Array<Output>>> where ParameterType == Optional<Array<Input>> {
 		return flatMapT { (value) -> Optional<Optional<Array<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
 		}
 	}
 
@@ -517,7 +517,7 @@ public extension Optional {
 
 	func flatMapTT <Input,Output> (_ transform: (Input) -> Optional<Optional<Optional<Output>>>) -> Optional<Optional<Optional<Output>>> where ParameterType == Optional<Optional<Input>> {
 		return flatMapT { (value) -> Optional<Optional<Optional<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -526,7 +526,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Input,Output> (_ transform: (Input) -> Optional<Optional<Result<Secondary3,Output>>>) -> Optional<Optional<Result<Secondary3,Output>>> where ParameterType == Optional<Result<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Optional<Result<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -535,7 +535,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Input,Output> (_ transform: (Input) -> Optional<Optional<Writer<Secondary3,Output>>>) -> Optional<Optional<Writer<Secondary3,Output>>> where ParameterType == Optional<Writer<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Optional<Writer<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -544,7 +544,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Result<Secondary2,Array<Output>>>) -> Optional<Result<Secondary2,Array<Output>>> where ParameterType == Result<Secondary2,Array<Input>> {
 		return flatMapT { (value) -> Optional<Result<Secondary2,Array<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
 		}
 	}
 
@@ -553,7 +553,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Result<Secondary2,Optional<Output>>>) -> Optional<Result<Secondary2,Optional<Output>>> where ParameterType == Result<Secondary2,Optional<Input>> {
 		return flatMapT { (value) -> Optional<Result<Secondary2,Optional<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -562,7 +562,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Secondary2,Input,Output> (_ transform: (Input) -> Optional<Result<Secondary2,Result<Secondary3,Output>>>) -> Optional<Result<Secondary2,Result<Secondary3,Output>>> where ParameterType == Result<Secondary2,Result<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Result<Secondary2,Result<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -571,7 +571,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Secondary2,Input,Output> (_ transform: (Input) -> Optional<Result<Secondary2,Writer<Secondary3,Output>>>) -> Optional<Result<Secondary2,Writer<Secondary3,Output>>> where ParameterType == Result<Secondary2,Writer<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Result<Secondary2,Writer<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -580,7 +580,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Writer<Secondary2,Array<Output>>>) -> Optional<Writer<Secondary2,Array<Output>>> where ParameterType == Writer<Secondary2,Array<Input>> {
 		return flatMapT { (value) -> Optional<Writer<Secondary2,Array<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.flatMap(f.identity) }
 		}
 	}
 
@@ -589,7 +589,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary2,Input,Output> (_ transform: (Input) -> Optional<Writer<Secondary2,Optional<Output>>>) -> Optional<Writer<Secondary2,Optional<Output>>> where ParameterType == Writer<Secondary2,Optional<Input>> {
 		return flatMapT { (value) -> Optional<Writer<Secondary2,Optional<Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -598,7 +598,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Secondary2,Input,Output> (_ transform: (Input) -> Optional<Writer<Secondary2,Result<Secondary3,Output>>>) -> Optional<Writer<Secondary2,Result<Secondary3,Output>>> where ParameterType == Writer<Secondary2,Result<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Writer<Secondary2,Result<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 
@@ -607,7 +607,7 @@ public extension Optional {
 
 	func flatMapTT <Secondary3,Secondary2,Input,Output> (_ transform: (Input) -> Optional<Writer<Secondary2,Writer<Secondary3,Output>>>) -> Optional<Writer<Secondary2,Writer<Secondary3,Output>>> where ParameterType == Writer<Secondary2,Writer<Secondary3,Input>> {
 		return flatMapT { (value) -> Optional<Writer<Secondary2,Writer<Secondary3,Output>>> in
-			value.traverse(transform).map { $0.traverse(f.identity) }.mapT { $0.joined() }
+			value.traverse(transform).fmap { $0.traverse(f.identity) }.mapT { $0.joined() }
 		}
 	}
 }

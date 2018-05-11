@@ -7,6 +7,12 @@ import Abstract
 // sourcery: escapingHOF
 // sourcery: secondaryParameter = "Model"
 // sourcery: monad
+// sourcery: testFunctor
+// sourcery: test_Applicative /// segfault
+// sourcery: testMonad
+// sourcery: testConstruct = "init { m in (m,x) }"
+// sourcery: testNeedsContext
+// sourcery: testSecondaryParameter
 public struct State<Model,Parameter> {
 	public let call: (Model) -> (Model,Parameter)
 	public init(_ call: @escaping (Model) -> (Model,Parameter)) {
@@ -33,8 +39,8 @@ extension State: EquatableInContext where Model: Equatable, Parameter: Equatable
 	public typealias Context = Model
 
 	public static func == (left: State, right: State) -> (Model) -> Bool {
-		return { s in
-			left.run(s) == right.run(s)
+		return { m in
+			left.run(m) == right.run(m)
 		}
 	}
 }

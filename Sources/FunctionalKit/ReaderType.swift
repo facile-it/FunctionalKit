@@ -8,6 +8,12 @@ import Abstract
 // sourcery: secondaryParameter = "Environment"
 // sourcery: monad
 // sourcery: customTransformer
+// sourcery: testFunctor
+// sourcery: test_Applicative /// segfault
+// sourcery: testMonad
+// sourcery: testConstruct = "init { _ in x }"
+// sourcery: testNeedsContext
+// sourcery: testSecondaryParameter
 public struct Reader<Environment,Parameter> {
     public let call: (Environment) -> Parameter
     public init (_ call: @escaping (Environment) -> Parameter) {
@@ -17,6 +23,16 @@ public struct Reader<Environment,Parameter> {
     public func run(_ environment: Environment) -> Parameter {
         return call(environment)
     }
+}
+
+extension Reader: EquatableInContext where Parameter: Equatable {
+	public typealias Context = Environment
+
+	public static func == (left: Reader, right: Reader) -> (Environment) -> Bool {
+		return { e in
+			left.run(e) == right.run(e)
+		}
+	}
 }
 
 extension Reader: TypeConstructor2 {

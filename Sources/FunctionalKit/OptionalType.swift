@@ -6,6 +6,11 @@ import Abstract
 // sourcery: functor
 // sourcery: monad
 // sourcery: traversable
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init(x)"
+// sourcery: customMap = "fmap"
 extension Optional: TypeConstructor {
     public typealias ParameterType = Wrapped
 }
@@ -32,6 +37,10 @@ public extension Optional {
 }
 
 public extension Optional{
+	func fmap <A> (_ transform: (ParameterType) -> A) -> Optional<A> {
+		return map(transform)
+	}
+
     static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Optional) -> Optional<A> {
         return { $0.map(function) }
     }

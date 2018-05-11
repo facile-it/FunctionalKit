@@ -7,6 +7,11 @@ import Abstract
 // sourcery: secondaryParameter = "Log"
 // sourcery: monad
 // sourcery: traversable
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testMonad
+// sourcery: testConstruct = "init(log: .empty, value: x)"
+// sourcery: testSecondaryParameter
 public struct Writer<Log,Parameter> where Log: Monoid {
 	public let log: Log
 	public let value: Parameter
@@ -14,6 +19,13 @@ public struct Writer<Log,Parameter> where Log: Monoid {
 	public init(log: Log, value: Parameter) {
 		self.log = log
 		self.value = value
+	}
+}
+
+extension Writer: Equatable where Log: Equatable, Parameter: Equatable {
+	public static func == (lhs: Writer, rhs: Writer) -> Bool {
+		return lhs.log == rhs.log
+			&& lhs.value == rhs.value
 	}
 }
 
