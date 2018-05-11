@@ -123,7 +123,6 @@
 		960989301FD43F180062ACDC /* WriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609892F1FD43F180062ACDC /* WriterTests.swift */; };
 		960989321FD443EA0062ACDC /* ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989311FD443EA0062ACDC /* ReaderTests.swift */; };
 		960989341FD449010062ACDC /* StateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989331FD449010062ACDC /* StateTests.swift */; };
-		AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */; };
 		AAAE2E0F1FCC4BA100D0D861 /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		OBJ_21 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_29 /* FunctionalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */; };
@@ -235,7 +234,6 @@
 		960989311FD443EA0062ACDC /* ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTests.swift; sourceTree = "<group>"; };
 		960989331FD449010062ACDC /* StateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTests.swift; sourceTree = "<group>"; };
 		AA51F0AF2029B3AE00B7B76E /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
-		AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/iOS/SwiftCheck.framework; sourceTree = "<group>"; };
 		AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		"FunctionalKit::FunctionalKit::Product" /* FunctionalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"FunctionalKit::FunctionalKitTests::Product" /* FunctionalKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = FunctionalKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,7 +255,6 @@
 			files = (
 				38F3C8261FBF40660014D30D /* Abstract.framework in Frameworks */,
 				OBJ_29 /* FunctionalKit.framework in Frameworks */,
-				AAAE2E0D1FCC4B6000D0D861 /* SwiftCheck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +371,6 @@
 		38F1799A1FBDA4EE00243994 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AAAE2E0C1FCC4B6000D0D861 /* SwiftCheck.framework */,
 				AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */,
 				38F3C8241FBF40600014D30D /* Abstract.framework */,
 				38F3C8231FBF40600014D30D /* Abstract.framework */,
