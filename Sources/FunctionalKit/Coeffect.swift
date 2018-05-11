@@ -3,57 +3,37 @@
 #endif
 import Abstract
 
-// MARK: - Definiton
+public struct Coeffect<Parameter> {
+	private let _call: (Parameter) -> ()
+	public init (_ call: @escaping (Parameter) -> ()) {
+		self._call = call
+	}
 
-public protocol CoeffectType: ExponentialType {
-	associatedtype EnvironmentType
-	static func from(concrete: Concrete<EnvironmentType>) -> Self
-	func run(_ environment: EnvironmentType)
-	static func unfold(_ function: @escaping (EnvironmentType) -> ()) -> Self
-}
-
-public extension CoeffectType {
-	func call(_ source: EnvironmentType) {
-		return run(source)
+	public func run(_ environment: Parameter) {
+		call(environment)
 	}
 }
 
-// MARK: - Data
-
-public struct Coeffect<A>: CoeffectType {
-	public typealias EnvironmentType = A
-
-	private let _call: (A) -> ()
-	private init (_ _call: @escaping (A) -> ()) {
-		self._call = _call
-	}
-
-	public static func from(concrete: Coeffect<A>) -> Coeffect<A> {
-		return concrete
-	}
-
-	public func run(_ environment: A) {
-		_call(environment)
-	}
-
-	public static func unfold(_ function: @escaping (A) -> ()) -> Coeffect<A> {
-		return Coeffect.init(function)
-	}
+extension Coeffect: TypeConstructor {
+	public typealias ParameterType = Parameter
 }
 
-// MARK: - Concrete
+extension Coeffect: ExponentialType {
+	public typealias SourceType = Parameter
+	public typealias TargetType = ()
 
-public extension CoeffectType {
-	typealias Concrete<T> = Coeffect<T>
+	public func call(_ source: Parameter) -> () {
+		run(source)
+	}
 }
 
 // MARK: - Algebra
 
 extension Coeffect: Magma {
 	public static func <> (lhs: Coeffect, rhs: Coeffect) -> Coeffect {
-		return Coeffect.unfold { environment in
-			lhs.run(environment)
-			rhs.run(environment)
+		return Coeffect.init { p in
+			lhs.run(p)
+			rhs.run(p)
 		}
 	}
 }
@@ -63,8 +43,8 @@ extension Coeffect: Magma {
 extension Coeffect: Semigroup {}
 
 extension Coeffect: Monoid {
-	public static var empty: Coeffect<A> {
-		return Coeffect.unfold { _ in }
+	public static var empty: Coeffect {
+		return Coeffect.init { _ in }
 	}
 }
 
@@ -72,33 +52,21 @@ extension Coeffect: Monoid {
 /// being side-effects those that are performed, guaranteeing commutativity
 /// or (even worse) idempotence would be too strong of an assumption.
 
-// MARK: - Contravariant Functor
-
-public extension CoeffectType {
-	func contramap <T> (_ transform: @escaping (T) -> EnvironmentType) -> Coeffect<T> {
-		return Coeffect<T>.unfold { self.run(transform($0)) }
+public extension Coeffect {
+	func contramap <A> (_ transform: @escaping (A) -> ParameterType) -> Coeffect<A> {
+		return Coeffect<A>.init { self.run(transform($0)) }
 	}
 
-	static func lift <T> (_ function: @escaping (T) -> EnvironmentType) -> (Self) -> Coeffect<T> {
+	static func lift <A> (_ function: @escaping (A) -> ParameterType) -> (Coeffect) -> Coeffect<A> {
 		return { $0.contramap(function) }
 	}
 }
 
-// MARK: - Cartesian
-
-public extension CoeffectType {
-	static func zip <R1,R2> (_ first: R1, _ second: R2) -> Coeffect<(R1.EnvironmentType,R2.EnvironmentType)> where R1: CoeffectType, R2: CoeffectType, EnvironmentType == (R1.EnvironmentType,R2.EnvironmentType) {
-		return Coeffect.unfold {
+public extension Coeffect {
+	static func zip <A,B> (_ first: Coeffect<A>, _ second: Coeffect<B>) -> Coeffect<(A,B)> where ParameterType == (A,B) {
+		return Coeffect<(A,B)>.init {
 			first.run($0.0)
 			second.run($0.1)
 		}
-	}
-}
-
-// MARK: - Utility
-
-public extension f {
-	static func coeffect <T> (_ execute: @escaping (T) -> ()) -> Coeffect<T> {
-		return Coeffect<T>.unfold(execute)
 	}
 }

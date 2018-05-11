@@ -21,19 +21,19 @@ class ReaderTests: XCTestCase {
     func testLiftOneArg() {
         let id: (Int) -> Int = {$0}
         let ap1 = TestReaderType.pure(1)
-        
+
         XCTAssertTrue((TestReaderType.lift(id)(ap1) == (TestReaderType.pure(id) <*> ap1))(environment))
         XCTAssertTrue((TestReaderType.lift(id)(ap1) == TestReaderType.pure(1))(environment))
     }
-    
+
     func testLiftTwoArgs() {
         let sum: (Int,Int) -> Int = {$0 + $1}
         let ap1 = TestReaderType.pure(1)
         let ap2 = TestReaderType.pure(2)
-        
+
         XCTAssertTrue((TestReaderType.lift(sum)(ap1, ap2) == TestReaderType.pure(3))(environment))
     }
-    
+
     func testLiftThreeArgs(){
         let sum: (Int,Int,Int) -> Int = {$0 + $1 + $2}
         let ap1 = TestReaderType.pure(1)
@@ -42,7 +42,7 @@ class ReaderTests: XCTestCase {
 
         XCTAssertTrue((TestReaderType.lift(sum)(ap1, ap2, ap3) == TestReaderType.pure(6))(environment))
     }
-    
+
     func testAsk() {
         expecting("testAsk") { (fulfill) in
             let r = TestReaderType<Int>.ask.map { environment -> (ReaderTests.Environment) in

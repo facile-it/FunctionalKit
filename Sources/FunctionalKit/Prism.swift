@@ -88,11 +88,11 @@ public extension Optional {
 
 extension Result {
 	public enum prism {
-		public static var failure: Prism<Result,E> {
+		public static var failure: Prism<Result,Failure> {
 			return iso.coproduct >>> Coproduct.prism.left
 		}
 
-		public static var success: Prism<Result,T> {
+		public static var success: Prism<Result,Parameter> {
 			return iso.coproduct >>> Coproduct.prism.right
 		}
 	}

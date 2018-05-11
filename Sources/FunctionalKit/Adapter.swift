@@ -31,9 +31,9 @@ public typealias Iso<Whole,Part> = Adapter<Whole,Whole,Part,Part>
 
 public extension Writer {
 	enum iso {
-		public static var product: Iso<Writer,Product<L,A>> {
-			return Iso<Writer,Product<L,A>>.init(
-				from: { $0.toProduct() },
+		public static var product: Iso<Writer,Product<Log,Parameter>> {
+			return Iso<Writer,Product<Log,Parameter>>.init(
+				from: { Product.init($0.log, $0.value) },
 				to: { $0.fold(Writer.init) })
 		}
 	}
@@ -41,10 +41,21 @@ public extension Writer {
 
 public extension Result {
 	enum iso {
-		public static var coproduct: Iso<Result,Coproduct<E,T>> {
-			return Iso<Result,Coproduct<E,T>>.init(
-				from: { $0.toCoproduct() },
-				to: { $0.fold(onLeft: Result.failure, onRight: Result.success)})
+		public static var coproduct: Iso<Result,Coproduct<Failure,Parameter>> {
+			return Iso<Result,Coproduct<Failure,Parameter>>.init(
+				from: {
+					switch $0 {
+					case let .success(value):
+						return .right(value)
+					case let .failure(error):
+						return .left(error)
+					}
+				},
+				to: {
+					$0.fold(
+						onLeft: Result.failure,
+						onRight: Result.success)
+			})
 		}
 	}
 }

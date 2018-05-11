@@ -49,7 +49,7 @@ class FutureTests: XCTestCase {
 
 	func testAsync() {
 		expecting("Future completes") { fulfill in
-			let f = Future<String>.unfold { done in
+			let f = Future<String>.init { done in
 				DispatchQueue.main.async {
 					done("test")
 					fulfill()
@@ -62,7 +62,7 @@ class FutureTests: XCTestCase {
 	func testMemoryLeak() {
 		expecting("Future completes","Future is dismissed") { fulfillComplete, fulfillDismiss in
 			let expectedText = "expectedText"
-			var f: Future<String>? = Future<String>.unfold { done in
+			var f: Future<String>? = Future<String>.init { done in
 				after(0.1) {
 					done(expectedText)
 				}

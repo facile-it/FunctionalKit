@@ -1,43 +1,72 @@
 {# GLOBAL MACROS #}
+
+{% macro getSecondaryParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{ level }},{% else %}{% endif %}{% endmacro %}
+
+{% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
+
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
-{% macro getTypeName type parameter preSecondaryParameter %}{{ type.annotations.concrete }}<{% if type|annotated:"secondaryParameter" %}{% if preSecondaryParameter %}{{ preSecondaryParameter }}.{% endif %}{{ type.annotations.secondaryParameter }},{% endif %}{{ parameter }}>{% endmacro %}
+
+{% macro getTypeName type parameter secondaryParameter %}{{ type.name }}<{{ secondaryParameter }}{{ parameter }}>{% endmacro %}
+
 {% macro checkEscaping2 type1 type2 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
+
 {% macro checkEscaping3 type1 type2 type3 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
+
 {% macro checkEscaping4 type1 type2 type3 type4 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% elif type4.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
+
 {# TRANSFORMERS #}
-{% for type1 in types.protocols|annotated:"monad" %}
-{% set type1Concrete %}{% call getTypeName type1 "Output" "ParameterType" %}{% endset %}
-public extension ReaderType where ParameterType: {{ type1.name }} {
-    func flatMapT <Output> (_ transform: @escaping (ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
-        return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
-            self.run(environment).{% call getFlatMapName type1 %} { transform($0).run(environment) }
-        }
-    }
-}
 
-{% for type2 in types.protocols|annotated:"monad"|annotated:"traversable" %}
-{% set type2Concrete %}{% call getTypeName type2 "Output" "ParameterType.ParameterType" %}{% endset %}
-{% set type1Concrete %}{% call getTypeName type1 type2Concrete "ParameterType" %}{% endset %}
-public extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }} {
-    func flatMapTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
-        return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
-            self.run(environment).flatMapT { transform($0).run(environment) }
-        }
-    }
-}
+public extension Reader {
 
-{% for type3 in types.protocols|annotated:"monad"|annotated:"traversable" %}
-{% set type3Concrete %}{% call getTypeName type3 "Output" "ParameterType.ParameterType.ParameterType" %}{% endset %}
-{% set type2Concrete %}{% call getTypeName type2 type3Concrete "ParameterType.ParameterType" %}{% endset %}
-{% set type1Concrete %}{% call getTypeName type1 type2Concrete "ParameterType" %}{% endset %}
-public extension ReaderType where ParameterType: {{ type1.name }}, ParameterType.ParameterType: {{ type2.name }}, ParameterType.ParameterType.ParameterType: {{ type3.name }} {
-    func flatMapTTT <Output> (_ transform: @escaping (ParameterType.ParameterType.ParameterType.ParameterType) -> Reader<EnvironmentType,{{ type1Concrete }}>) -> Reader<EnvironmentType,{{ type1Concrete }}> {
-        return Reader<EnvironmentType,{{ type1Concrete }}>.unfold { environment in
-            self.run(environment).flatMapTT { transform($0).run(environment) }
+{% for type1 in types.all|annotated:"monad" %}
+
+{% set type1Secondary %}{% call getSecondaryParameter type1 "1" %}{% endset %}
+{% set type1Constraint %}{% call getTypeName type1 "Input" type1Secondary %}{% endset %}
+{% set type1Concrete %}{% call getTypeName type1 "Output" type1Secondary %}{% endset %}
+
+    func flatMapT <{{ type1Secondary }}Input,Output> (_ transform: @escaping (Input) -> Reader<Environment,{{ type1Concrete }}>) -> Reader<Environment,{{ type1Concrete }}> where ParameterType == {{ type1Constraint }} {
+        return Reader<Environment,{{ type1Concrete }}>.init { e in
+            self.run(e).{% call getFlatMapName type1 %} { transform($0).run(e) }
         }
     }
-}
+
+{% for type2 in types.all|annotated:"monad"|annotated:"traversable" %}
+
+{% set type2Secondary %}{% call getSecondaryParameter type2 "2" %}{% endset %}
+{% set type2Constraint %}{% call getTypeName type2 "Input" type2Secondary %}{% endset %}
+{% set type2Concrete %}{% call getTypeName type2 "Output" type2Secondary %}{% endset %}
+
+{% set type1Secondary %}{% call getSecondaryParameter type1 "1" %}{% endset %}
+{% set type1Constraint %}{% call getTypeName type1 type2Constraint type1Secondary %}{% endset %}
+{% set type1Concrete %}{% call getTypeName type1 type2Concrete type1Secondary %}{% endset %}
+
+	func flatMapTT <{{ type2Secondary }}{{ type1Secondary }}Input,Output> (_ transform: @escaping (Input) -> Reader<Environment,{{ type1Concrete }}>) -> Reader<Environment,{{ type1Concrete }}> where ParameterType == {{ type1Constraint }} {
+		return Reader<Environment,{{ type1Concrete }}>.init { e in
+			self.run(e).flatMapT { transform($0).run(e) }
+		}
+	}
+
+{% for type3 in types.all|annotated:"monad"|annotated:"traversable" %}
+
+{% set type3Secondary %}{% call getSecondaryParameter type3 "3" %}{% endset %}
+{% set type3Constraint %}{% call getTypeName type3 "Input" type3Secondary %}{% endset %}
+{% set type3Concrete %}{% call getTypeName type3 "Output" type3Secondary %}{% endset %}
+
+{% set type2Secondary %}{% call getSecondaryParameter type2 "2" %}{% endset %}
+{% set type2Constraint %}{% call getTypeName type2 type3Constraint type2Secondary %}{% endset %}
+{% set type2Concrete %}{% call getTypeName type2 type3Concrete type2Secondary %}{% endset %}
+
+{% set type1Secondary %}{% call getSecondaryParameter type1 "1" %}{% endset %}
+{% set type1Constraint %}{% call getTypeName type1 type2Constraint type1Secondary %}{% endset %}
+{% set type1Concrete %}{% call getTypeName type1 type2Concrete type1Secondary %}{% endset %}
+
+	func flatMapTTT <{{ type3Secondary }}{{ type2Secondary }}{{ type1Secondary }}Input,Output> (_ transform: @escaping (Input) -> Reader<Environment,{{ type1Concrete }}>) -> Reader<Environment,{{ type1Concrete }}> where ParameterType == {{ type1Constraint }} {
+		return Reader<Environment,{{ type1Concrete }}>.init { e in
+			self.run(e).flatMapTT { transform($0).run(e) }
+		}
+	}
 
 {% endfor %}
 {% endfor %}
 {% endfor %}
+}

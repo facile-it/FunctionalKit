@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.10.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.11.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -18,6 +18,11 @@ import SwiftCheck
 import Abstract
 
 class LawsTests: XCTestCase {
+
+
+
+
+
 
 
 
@@ -97,14 +102,14 @@ class LawsTests: XCTestCase {
         property("Array - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a = Array<String>.pure(x)
             let a_ma: (String) -> Array<String> = { y in Array<String>.pure(af.getArrow(y)) }
-            return (a.bind(a_ma) == a_ma(x))
+            return (a.flatMap(a_ma) == a_ma(x))
         }
     }
 
     func testArrayMonadRightIdentity() {
         property("Array - Monad Laws - Right Identity") <- forAll { (x: String) in
             let a = Array<String>.pure(x)
-            return (a.bind(Array<String>.pure) == a)
+            return (a.flatMap(Array<String>.pure) == a)
         }
     }
 
@@ -113,7 +118,7 @@ class LawsTests: XCTestCase {
             let a = Array<String>.pure(x)
             let a_ma1: (String) -> Array<String> = { y in Array<String>.pure(af.getArrow(y)) }
             let a_ma2: (String) -> Array<String> = { y in Array<String>.pure(ag.getArrow(y)) }
-            return (a.bind(a_ma1).bind(a_ma2) == a.bind{ y in a_ma1(y).bind(a_ma2) })
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
 
@@ -163,14 +168,14 @@ class LawsTests: XCTestCase {
 
     func testEffectFunctorIdentity() {
         property("Effect - Functor Laws - Identity") <- forAll { (x: String) in
-            let a = Effect<String>.unfold { x }
+            let a = Effect<String>.init { x }
             return (a.map(f.identity).run() == a.run())
         }
     }
 
     func testEffectFunctorComposition() {
         property("Effect - Functor Laws - Composition") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-            let a = Effect<String>.unfold { x }
+            let a = Effect<String>.init { x }
             let fLifted = f.flip(Effect<String>.map)(af.getArrow)
             let gLifted = f.flip(Effect<String>.map)(ag.getArrow)
             return ((fLifted >>> gLifted)(a).run() == a.map(af.getArrow >>> ag.getArrow).run())
@@ -179,43 +184,6 @@ class LawsTests: XCTestCase {
 
 
 
-//MARK: - Effect - Applicative
-
-    func testEffectApplicativeIdentity() {
-        property("Effect - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Effect<Endo<String>>.pure(f.identity)
-            let a = Effect<String>.pure(x)
-            return ((a_a <*> a).run() == a.run())
-        }
-    }
-
-    func testEffectApplicativeHomomorphism() {
-        property("Effect - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
-            let a_a = Effect<Endo<String>>.pure(af.getArrow)
-            let a1 = Effect<String>.pure(x)
-            let a2 = Effect<String>.pure(af.getArrow(x))
-            return ((a_a <*> a1).run() == a2.run())
-        }
-    }
-
-    func testEffectApplicativeInterchange() {
-        property("Effect - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-            let a_a = Effect<Endo<String>>.pure(af.getArrow)
-            let a = Effect<String>.pure(x)
-            let a_a_a = Effect<(@escaping Endo<String>) -> String>.pure { $0(x) }
-            return ((a_a <*> a).run() == (a_a_a <*> a_a).run())
-        }
-    }
-
-    func testEffectApplicativeComposition() {
-        property("Effect - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-            let a = Effect<String>.pure(x)
-            let a_a1 = Effect<Endo<String>>.pure(af.getArrow)
-            let a_a2 = Effect<Endo<String>>.pure(ag.getArrow)
-            let a_a_a = Effect<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-            return ((a_a_a <*> a_a1 <*> a_a2 <*> a).run() == (a_a2 <*> (a_a1 <*> a)).run())
-        }
-    }
 
 //MARK: - Effect - Monad
 
@@ -252,14 +220,14 @@ class LawsTests: XCTestCase {
 
     func testFutureFunctorIdentity() {
         property("Future - Functor Laws - Identity") <- forAll { (x: String) in
-            let a = Future<String>.unfold { $0(x) }
+            let a = Future<String>.init { $0(x) }
             return (a.map(f.identity).start() == a.start())
         }
     }
 
     func testFutureFunctorComposition() {
         property("Future - Functor Laws - Composition") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-            let a = Future<String>.unfold { $0(x) }
+            let a = Future<String>.init { $0(x) }
             let fLifted = f.flip(Future<String>.map)(af.getArrow)
             let gLifted = f.flip(Future<String>.map)(ag.getArrow)
             return ((fLifted >>> gLifted)(a).start() == a.map(af.getArrow >>> ag.getArrow).start())
@@ -448,14 +416,14 @@ class LawsTests: XCTestCase {
         property("Optional - Monad Laws - Left Identity") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a = Optional<String>.pure(x)
             let a_ma: (String) -> Optional<String> = { y in Optional<String>.pure(af.getArrow(y)) }
-            return (a.bind(a_ma) == a_ma(x))
+            return (a.flatMap(a_ma) == a_ma(x))
         }
     }
 
     func testOptionalMonadRightIdentity() {
         property("Optional - Monad Laws - Right Identity") <- forAll { (x: String) in
             let a = Optional<String>.pure(x)
-            return (a.bind(Optional<String>.pure) == a)
+            return (a.flatMap(Optional<String>.pure) == a)
         }
     }
 
@@ -464,7 +432,7 @@ class LawsTests: XCTestCase {
             let a = Optional<String>.pure(x)
             let a_ma1: (String) -> Optional<String> = { y in Optional<String>.pure(af.getArrow(y)) }
             let a_ma2: (String) -> Optional<String> = { y in Optional<String>.pure(ag.getArrow(y)) }
-            return (a.bind(a_ma1).bind(a_ma2) == a.bind{ y in a_ma1(y).bind(a_ma2) })
+            return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
 
@@ -519,14 +487,14 @@ class LawsTests: XCTestCase {
 
     func testReaderFunctorIdentity() {
         property("Reader - Functor Laws - Identity") <- forAll { (x: String, c: String) in
-            let a = Reader<String,String>.unfold { _ in x }
+            let a = Reader<String,String>.init { _ in x }
             return (a.map(f.identity) == a)(c)
         }
     }
 
     func testReaderFunctorComposition() {
         property("Reader - Functor Laws - Composition") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
-            let a = Reader<String,String>.unfold { _ in x }
+            let a = Reader<String,String>.init { _ in x }
             let fLifted = f.flip(Reader<String,String>.map)(af.getArrow)
             let gLifted = f.flip(Reader<String,String>.map)(ag.getArrow)
             return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow))(c)
@@ -535,43 +503,6 @@ class LawsTests: XCTestCase {
 
 
 
-//MARK: - Reader - Applicative
-
-    func testReaderApplicativeIdentity() {
-        property("Reader - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
-            let a_a = Reader<String,Endo<String>>.pure(f.identity)
-            let a = Reader<String,String>.pure(x)
-            return ((a_a <*> a) == a)(c)
-        }
-    }
-
-    func testReaderApplicativeHomomorphism() {
-        property("Reader - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
-            let a_a = Reader<String,Endo<String>>.pure(af.getArrow)
-            let a1 = Reader<String,String>.pure(x)
-            let a2 = Reader<String,String>.pure(af.getArrow(x))
-            return ((a_a <*> a1) == a2)(c)
-        }
-    }
-
-    func testReaderApplicativeInterchange() {
-        property("Reader - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
-            let a_a = Reader<String,Endo<String>>.pure(af.getArrow)
-            let a = Reader<String,String>.pure(x)
-            let a_a_a = Reader<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
-            return ((a_a <*> a) == (a_a_a <*> a_a))(c)
-        }
-    }
-
-    func testReaderApplicativeComposition() {
-        property("Reader - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
-            let a = Reader<String,String>.pure(x)
-            let a_a1 = Reader<String,Endo<String>>.pure(af.getArrow)
-            let a_a2 = Reader<String,Endo<String>>.pure(ag.getArrow)
-            let a_a_a = Reader<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))(c)
-        }
-    }
 
 //MARK: - Reader - Monad
 
@@ -707,14 +638,14 @@ class LawsTests: XCTestCase {
 
     func testStateFunctorIdentity() {
         property("State - Functor Laws - Identity") <- forAll { (x: String, c: String) in
-            let a = State<String,String>.unfold { s in (s,x) }
+            let a = State<String,String>.init { m in (m,x) }
             return (a.map(f.identity) == a)(c)
         }
     }
 
     func testStateFunctorComposition() {
         property("State - Functor Laws - Composition") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
-            let a = State<String,String>.unfold { s in (s,x) }
+            let a = State<String,String>.init { m in (m,x) }
             let fLifted = f.flip(State<String,String>.map)(af.getArrow)
             let gLifted = f.flip(State<String,String>.map)(ag.getArrow)
             return ((fLifted >>> gLifted)(a) == a.map(af.getArrow >>> ag.getArrow))(c)
@@ -723,43 +654,6 @@ class LawsTests: XCTestCase {
 
 
 
-//MARK: - State - Applicative
-
-    func testStateApplicativeIdentity() {
-        property("State - Applicative Laws - Identity") <- forAll { (x: String, c: String) in
-            let a_a = State<String,Endo<String>>.pure(f.identity)
-            let a = State<String,String>.pure(x)
-            return ((a_a <*> a) == a)(c)
-        }
-    }
-
-    func testStateApplicativeHomomorphism() {
-        property("State - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
-            let a_a = State<String,Endo<String>>.pure(af.getArrow)
-            let a1 = State<String,String>.pure(x)
-            let a2 = State<String,String>.pure(af.getArrow(x))
-            return ((a_a <*> a1) == a2)(c)
-        }
-    }
-
-    func testStateApplicativeInterchange() {
-        property("State - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String, c: String) in
-            let a_a = State<String,Endo<String>>.pure(af.getArrow)
-            let a = State<String,String>.pure(x)
-            let a_a_a = State<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
-            return ((a_a <*> a) == (a_a_a <*> a_a))(c)
-        }
-    }
-
-    func testStateApplicativeComposition() {
-        property("State - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String, c: String) in
-            let a = State<String,String>.pure(x)
-            let a_a1 = State<String,Endo<String>>.pure(af.getArrow)
-            let a_a2 = State<String,Endo<String>>.pure(ag.getArrow)
-            let a_a_a = State<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))(c)
-        }
-    }
 
 //MARK: - State - Monad
 
@@ -906,10 +800,6 @@ class LawsTests: XCTestCase {
         ("testCoproductBifunctorComposition",testCoproductBifunctorComposition),
         ("testEffectFunctorIdentity",testEffectFunctorIdentity),
         ("testEffectFunctorComposition",testEffectFunctorComposition),
-        ("testEffectApplicativeIdentity",testEffectApplicativeIdentity),
-        ("testEffectApplicativeHomomorphism",testEffectApplicativeHomomorphism),
-        ("testEffectApplicativeInterchange",testEffectApplicativeInterchange),
-        ("testEffectApplicativeComposition",testEffectApplicativeComposition),
         ("testEffectMonadLeftIdentity",testEffectMonadLeftIdentity),
         ("testEffectMonadRightIdentity",testEffectMonadRightIdentity),
         ("testEffectMonadAssociativity",testEffectMonadAssociativity),
@@ -937,10 +827,6 @@ class LawsTests: XCTestCase {
         ("testProductBifunctorComposition",testProductBifunctorComposition),
         ("testReaderFunctorIdentity",testReaderFunctorIdentity),
         ("testReaderFunctorComposition",testReaderFunctorComposition),
-        ("testReaderApplicativeIdentity",testReaderApplicativeIdentity),
-        ("testReaderApplicativeHomomorphism",testReaderApplicativeHomomorphism),
-        ("testReaderApplicativeInterchange",testReaderApplicativeInterchange),
-        ("testReaderApplicativeComposition",testReaderApplicativeComposition),
         ("testReaderMonadLeftIdentity",testReaderMonadLeftIdentity),
         ("testReaderMonadRightIdentity",testReaderMonadRightIdentity),
         ("testReaderMonadAssociativity",testReaderMonadAssociativity),
@@ -955,10 +841,6 @@ class LawsTests: XCTestCase {
         ("testResultMonadAssociativity",testResultMonadAssociativity),
         ("testStateFunctorIdentity",testStateFunctorIdentity),
         ("testStateFunctorComposition",testStateFunctorComposition),
-        ("testStateApplicativeIdentity",testStateApplicativeIdentity),
-        ("testStateApplicativeHomomorphism",testStateApplicativeHomomorphism),
-        ("testStateApplicativeInterchange",testStateApplicativeInterchange),
-        ("testStateApplicativeComposition",testStateApplicativeComposition),
         ("testStateMonadLeftIdentity",testStateMonadLeftIdentity),
         ("testStateMonadRightIdentity",testStateMonadRightIdentity),
         ("testStateMonadAssociativity",testStateMonadAssociativity),

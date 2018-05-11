@@ -2,6 +2,10 @@ public protocol TypeConstructor {
 	associatedtype ParameterType
 }
 
+public protocol TypeConstructor2: TypeConstructor {
+    associatedtype SecondaryType
+}
+
 public protocol PureConstructible: TypeConstructor {
     static func pure(_ value: ParameterType) -> Self
 }

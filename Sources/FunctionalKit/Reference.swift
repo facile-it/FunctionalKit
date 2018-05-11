@@ -32,19 +32,19 @@ public final class Ref<T> {
 
 public extension Ref {
 	var retrieve: Effect<T> {
-		return Effect<T>.unfold { [unowned self] in
+		return Effect<T>.init { [unowned self] in
 			self.value
 		}
 	}
 
 	var update: Coeffect<T> {
-		return Coeffect<T>.unfold { [unowned self] newValue in
+		return Coeffect<T>.init { [unowned self] newValue in
 			self.value = newValue
 		}
 	}
 
 	var modify: Coeffect<Endo<T>> {
-		return Coeffect<Endo<T>>.unfold { [unowned self] endo in
+		return Coeffect<Endo<T>>.init { [unowned self] endo in
 			self.value = endo(self.value)
 		}
 	}
@@ -52,7 +52,7 @@ public extension Ref {
 
 public extension Ref where T: Semigroup {
 	var append: Coeffect<T> {
-		return Coeffect<T>.unfold { [unowned self] newValue in
+		return Coeffect<T>.init { [unowned self] newValue in
 			self.value = self.value <> newValue
 		}
 	}
