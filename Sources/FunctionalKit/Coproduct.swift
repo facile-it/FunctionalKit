@@ -48,49 +48,6 @@ extension CoproductType where LeftType: Equatable, RightType: Equatable {
 
 extension Coproduct: Equatable where A: Equatable, B: Equatable {}
 
-// MARK: Algebra
-
-/// A Coproduct of semirings forms a Semiring where the "+" operation is biased towards the right case,
-/// while the "*" operation is biased towards the left case.
-extension Coproduct: Semiring where A: Semiring, B: Semiring {
-	public typealias Additive = A.Additive
-	public typealias Multiplicative = B.Multiplicative
-
-	public static func <>+ (left: Coproduct<A, B>, right: Coproduct<A, B>) -> Coproduct<A, B> {
-		switch (left, right) {
-		case let (.left(lhsValue), .left(rhsValue)):
-			return .left(lhsValue <>+ rhsValue)
-		case let (.left(_), .right(rhsValue)):
-			return .right(rhsValue)
-		case let (.right(lhsValue), .left(_)):
-			return .right(lhsValue)
-		case let (.right(lhsValue), .right(rhsValue)):
-			return .right(lhsValue <>* rhsValue)
-		}
-	}
-
-	public static func <>* (left: Coproduct<A, B>, right: Coproduct<A, B>) -> Coproduct<A, B> {
-		switch (left, right) {
-		case let (.left(lhsValue), .left(rhsValue)):
-			return .left(lhsValue <>* rhsValue)
-		case let (.left(lhsValue), .right(_)):
-			return .left(lhsValue)
-		case let (.right(_), .left(rhsValue)):
-			return .left(rhsValue)
-		case let (.right(lhsValue), .right(rhsValue)):
-			return .right(lhsValue <>+ rhsValue)
-		}
-	}
-
-	public static var zero: Coproduct<A, B> {
-		return .left(.zero)
-	}
-
-	public static var one: Coproduct<A, B> {
-		return .right(.one)
-	}
-}
-
 // MARK: - Projections
 
 public extension CoproductType {

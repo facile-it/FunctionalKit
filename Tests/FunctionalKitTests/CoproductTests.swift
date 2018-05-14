@@ -17,12 +17,6 @@ class CoproductTests: XCTestCase {
 		TestType.right("42").tryRight()==!
 	}
 
-	func testAlgebra() {
-		property("Coproduct<A: Semiring,B: Semiring> is a Semiring") <- forAll { (a: Coproduct<Bool,Bool>, b: Coproduct<Bool,Bool>, c: Coproduct<Bool,Bool>) in
-			Law.multiplicationIsDistributiveOverAddition(a, b, c) && Law.zeroAnnihiliatesTheMultiplicative(a)
-		}
-	}
-
 	func testFold() {
 		TestType.left(42).fold(onLeft: f.pure(true), onRight: f.pure(false)) ==! true
 		TestType.right("42").fold(onLeft: f.pure(false), onRight: f.pure(true)) ==! true
@@ -44,7 +38,6 @@ class CoproductTests: XCTestCase {
 
 	static var allTests = [
 		("testTry", testTry),
-		("testAlgebra", testAlgebra),
 		("testFold", testFold),
 		("testMap", testMap),
 		]
