@@ -357,6 +357,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Optional - Functor
 
     func testOptionalFunctorIdentity() {
