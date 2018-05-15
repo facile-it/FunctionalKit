@@ -245,7 +245,7 @@ public extension Result {
 		}
 	}
 
-	static func getFromThrowing(getError: @escaping (Error) -> Failure) -> (() throws -> ParameterType) -> Result {
+	static func fromThrowing(getError: @escaping (Error) -> Failure) -> (() throws -> ParameterType) -> Result {
 		return { throwing in
 			do {
 				return try .success(throwing())

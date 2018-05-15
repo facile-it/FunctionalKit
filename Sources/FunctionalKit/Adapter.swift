@@ -125,18 +125,6 @@ public enum IsoLaw {
 		return (part |> iso.to |> iso.from) == part
 	}
 
-	public static func toFrom <S,X> (part: Optional<X>, iso: Iso<S,Optional<X>>) -> Bool where X: Equatable {
-		return (part |> iso.to |> iso.from) == part
-	}
-
-	public static func toFrom <S,X> (part: Array<X>, iso: Iso<S,Array<X>>) -> Bool where X: Equatable {
-		return (part |> iso.to |> iso.from) == part
-	}
-
-	public static func toFrom <S,X> (part: Dictionary<String,X>, iso: Iso<S,Dictionary<String,X>>) -> Bool where X: Equatable {
-		return (part |> iso.to |> iso.from) == part
-	}
-
 	public static func toFrom <S,X,Y> (part: (X,Y), iso: Iso<S,(X,Y)>) -> Bool where X: Equatable, Y: Equatable {
 		return (part |> iso.to |> iso.from) == part
 	}
