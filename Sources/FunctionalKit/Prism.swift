@@ -4,20 +4,7 @@
 import Abstract
 
 /// A Prism is a reference to a component of a coproduct
-
-public protocol PrismType: OpticsType {
-	var tryGet: (SType) -> AType? { get }
-	var inject: (BType) -> TType { get }
-
-	init(tryGet: @escaping (SType) -> AType?, inject: @escaping (BType) -> TType)
-}
-
-public struct PrismFull<S,T,A,B>: PrismType {
-	public typealias SType = S
-	public typealias TType = T
-    public typealias AType = A
-    public typealias BType = B
-
+public struct PrismFull<S,T,A,B> {
 	public let tryGet: (S) -> A? /// get the part, if possible
 	public let inject: (B) -> T /// changes the value to reflect the part that's injected in
 
@@ -29,31 +16,31 @@ public struct PrismFull<S,T,A,B>: PrismType {
 
 public typealias Prism<Whole,Part> = PrismFull<Whole,Whole,Part,Part>
 
-public extension PrismType {
-	func tryModify(_ transform: @escaping (AType) -> BType) -> (SType) -> TType? {
+public extension PrismFull {
+	func tryModify(_ transform: @escaping (A) -> B) -> (S) -> T? {
         return { s in
             guard let a = self.tryGet(s) else { return nil }
             return self.inject(transform(a))
         }
 	}
     
-    func isCase(_ whole: SType) -> Bool {
+    func isCase(_ whole: S) -> Bool {
         return tryGet(whole) != nil
     }
 
-	func compose<OtherPrism>(_ other: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
-		return PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> (
+	func compose <C,D> (_ other: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
+		return PrismFull<S,T,C,D>.init (
 			tryGet: { self.tryGet($0).flatMap(other.tryGet) },
 			inject: { self.inject(other.inject($0)) })
 	}
 
-	static func >>> <OtherPrism>(left: Self, right: OtherPrism) -> PrismFull<Self.SType,Self.TType,OtherPrism.AType,OtherPrism.BType> where OtherPrism: PrismType, OtherPrism.SType == Self.AType, OtherPrism.TType == Self.BType {
+	static func >>> <C,D> (left: PrismFull, right: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
 		return left.compose(right)
 	}
 }
 
-public extension PrismType where SType == TType, AType == BType {
-	func modifyOrUnchanged(_ transform: @escaping (AType) -> BType) -> (SType) -> TType {
+public extension Prism where S == T, A == B {
+	func modifyOrUnchanged(_ transform: @escaping (A) -> B) -> (S) -> T {
 		return { s in
 			guard let a = self.tryGet(s) else { return s }
 			return self.inject(transform(a))
@@ -61,22 +48,22 @@ public extension PrismType where SType == TType, AType == BType {
 	}
 
 	/// zipped prisms will hold the laws only if the involved prisms are focusing on different parts
-	static func zip<A,B>(_ a: A, _ b: B) -> PrismFull<SType,TType,Coproduct<A.AType,B.AType>,Coproduct<A.BType,B.BType>> where A: PrismType, B: PrismType, A.SType == SType, B.SType == SType, A.TType == TType, B.TType == TType, AType == Coproduct<A.AType,B.AType>, BType == Coproduct<A.BType,B.BType> {
-		return PrismFull.init(
+	static func zip <X,Y> (_ a: Prism<S,X>, _ b: Prism<S,Y>) -> Prism<S,Coproduct<X,Y>> where A == Coproduct<X,Y> {
+		return Prism<S,Coproduct<X,Y>>.init(
 			tryGet: { a.tryGet($0).map(Coproduct.left) ?? b.tryGet($0).map(Coproduct.right) },
 			inject: { $0.fold(onLeft: a.inject, onRight: b.inject) })
 	}
 }
 
-// MARK: - Utilities
-
-public extension PrismType {
-	static func typecast <Part> (to: Part.Type) -> Prism<Any,Part> where SType == Any, TType == Any, AType == Part, BType == Part {
-		return Prism<Any,Part>.init(
-			tryGet: { $0 as? Part },
+public extension Prism where S == T, A == B, S == Any {
+	static func typecast (to: A.Type) -> Prism<Any,A> {
+		return Prism<Any,A>.init(
+			tryGet: { $0 as? A },
 			inject: { $0 as Any })
 	}
 }
+
+// MARK: - Utilities
 
 public extension Optional {
 	static var prism: Prism<Optional,Wrapped> {
@@ -113,47 +100,12 @@ When defining a Prism, it's important to test it after these laws with a propert
 
 public enum PrismLaw {
 
-	public static func injectTryGet<Whole, Part, SomePrism>(prism: SomePrism, part: Part) -> Bool where Part: Equatable, SomePrism: PrismType, SomePrism.SType == Whole, SomePrism.TType == SomePrism.SType, SomePrism.AType == Part, SomePrism.BType == SomePrism.AType {
+	public static func injectTryGet <S,A> (prism: Prism<S,A>, part: A) -> Bool where A: Equatable {
 		guard let got = prism.tryGet(prism.inject(part)) else { return false }
 		return  got == part
 	}
 
-	public static func injectTryGet<Whole, Part, SomePrism>(prism: SomePrism, part: Optional<Part>) -> Bool where Part: Equatable, SomePrism: PrismType, SomePrism.SType == Whole, SomePrism.TType == SomePrism.SType, SomePrism.AType == Optional<Part>, SomePrism.BType == SomePrism.AType {
-		guard let got = prism.tryGet(prism.inject(part)) else { return false }
-		return  got == part
-	}
-
-	public static func injectTryGet<Whole, Part, SomePrism>(prism: SomePrism, part: Array<Part>) -> Bool where Part: Equatable, SomePrism: PrismType, SomePrism.SType == Whole, SomePrism.TType == SomePrism.SType, SomePrism.AType == Array<Part>, SomePrism.BType == SomePrism.AType {
-		guard let got = prism.tryGet(prism.inject(part)) else { return false }
-		return  got == part
-	}
-
-	public static func injectTryGet<Whole, Part, SomePrism>(prism: SomePrism, part: Dictionary<String,Part>) -> Bool where Part: Equatable, SomePrism: PrismType, SomePrism.SType == Whole, SomePrism.TType == SomePrism.SType, SomePrism.AType == Dictionary<String,Part>, SomePrism.BType == SomePrism.AType {
-		guard let got = prism.tryGet(prism.inject(part)) else { return false }
-		return  got == part
-	}
-
-	public static func tryGetInject<Whole, SomePrism>(prism: SomePrism, whole: Whole) -> Bool where Whole: Equatable, SomePrism: PrismType, SomePrism.SType == Whole, SomePrism.TType == SomePrism.SType, SomePrism.BType == SomePrism.AType {
-		guard let value = prism.tryGet(whole) else { return true }
-		return prism.inject(value) == whole
-	}
-
-	public static func tryGetInject<Whole, SomePrism>(prism: SomePrism, whole: Optional<Whole>) -> Bool where Whole: Equatable, SomePrism: PrismType, SomePrism.SType == Optional<Whole>, SomePrism.TType == SomePrism.SType, SomePrism.BType == SomePrism.AType {
-		guard let value = prism.tryGet(whole) else { return true }
-		return prism.inject(value) == whole
-	}
-
-	public static func tryGetInject<Whole, SomePrism>(prism: SomePrism, whole: Array<Whole>) -> Bool where Whole: Equatable, SomePrism: PrismType, SomePrism.SType == Array<Whole>, SomePrism.TType == SomePrism.SType, SomePrism.BType == SomePrism.AType {
-		guard let value = prism.tryGet(whole) else { return true }
-		return prism.inject(value) == whole
-	}
-
-	public static func tryGetInject<Whole, SomePrism>(prism: SomePrism, whole: Dictionary<String,Whole>) -> Bool where Whole: Equatable, SomePrism: PrismType, SomePrism.SType == Dictionary<String,Whole>, SomePrism.TType == SomePrism.SType, SomePrism.BType == SomePrism.AType {
-		guard let value = prism.tryGet(whole) else { return true }
-		return prism.inject(value) == whole
-	}
-
-	public static func tryGetInject<Whole1, Whole2, SomePrism>(prism: SomePrism, whole: (Whole1,Whole2)) -> Bool where Whole1: Equatable, Whole2: Equatable, SomePrism: PrismType, SomePrism.SType == (Whole1,Whole2), SomePrism.TType == SomePrism.SType, SomePrism.BType == SomePrism.AType {
+	public static func tryGetInject <S, A> (prism: Prism<S,A>, whole: S) -> Bool where S: Equatable {
 		guard let value = prism.tryGet(whole) else { return true }
 		return prism.inject(value) == whole
 	}

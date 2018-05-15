@@ -452,6 +452,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Product - Bifunctor
 
     func testProductBifunctorIdentity() {
