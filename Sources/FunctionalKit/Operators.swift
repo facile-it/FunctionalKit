@@ -21,8 +21,8 @@ infix operator => : LogicalImplicationPrecedence
 
 /// This operator simply adds a value to and array,
 /// so it's equivalent to "lhs + [rhs]".
-infix operator ++: AdditionPrecedence
+infix operator ++ : AdditionPrecedence
 
 /// This is the "inject" operator: it takes a function in the form
 /// "(A) -> (B) -> C" and passes the "B" value in, to produce "(A) -> C"
-infix operator ><: RightApplyPrecedence
+infix operator >< : RightApplyPrecedence
