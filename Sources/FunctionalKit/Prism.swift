@@ -28,14 +28,14 @@ public extension PrismFull {
         return tryGet(whole) != nil
     }
 
-	func compose <C,D> (_ other: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
+	func then <C,D> (_ other: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
 		return PrismFull<S,T,C,D>.init (
 			tryGet: { self.tryGet($0).flatMap(other.tryGet) },
 			inject: { self.inject(other.inject($0)) })
 	}
 
 	static func >>> <C,D> (left: PrismFull, right: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
-		return left.compose(right)
+		return left.then(right)
 	}
 }
 

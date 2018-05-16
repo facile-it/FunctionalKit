@@ -21,7 +21,7 @@ public extension LensFull {
         return { s in self.set(transform(self.get(s)))(s) }
     }
     
-    func compose <C,D> (_ other: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
+    func then <C,D> (_ other: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
         return LensFull<S,T,C,D>.init(
             get: { other.get(self.get($0)) },
             set: { bp in
@@ -32,7 +32,7 @@ public extension LensFull {
     }
 
 	static func >>> <C,D> (left: LensFull, right: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
-		return left.compose(right)
+		return left.then(right)
 	}
 }
 

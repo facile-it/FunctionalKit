@@ -24,7 +24,7 @@ public extension AffineFull {
 		}
 	}
 
-	func compose <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+	func then <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
 		return AffineFull<S,T,C,D>.init(
 			tryGet: { s in self.tryGet(s).flatMap(other.tryGet) },
 			trySet: { bp in
@@ -35,7 +35,23 @@ public extension AffineFull {
 	}
 
 	static func >>> <C,D> (lhs: AffineFull, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.compose(rhs)
+		return lhs.then(rhs)
+	}
+
+	func then <C,D> (_ other: LensFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return then(other.toAffine())
+	}
+
+	static func >>> <C,D> (lhs: AffineFull, rhs: LensFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+
+	func then <C,D> (_ other: PrismFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return then(other.toAffine())
+	}
+
+	static func >>> <C,D> (lhs: AffineFull, rhs: PrismFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
 	}
 }
 
@@ -46,16 +62,20 @@ public extension LensFull {
 			trySet: self.set)
 	}
 
-	static func >>> <C,D> (lhs: LensFull, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.toAffine() >>> rhs
+	func then <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return toAffine().then(other)
 	}
 
-	static func >>> <Q,R> (lhs: AffineFull<Q,R,S,T>, rhs: LensFull) -> AffineFull<Q,R,A,B> {
-		return lhs >>> rhs.toAffine()
+	static func >>> <C,D> (lhs: LensFull, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+
+	func then <C,D> (_ other: PrismFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return toAffine().then(other.toAffine())
 	}
 
 	static func >>> <C,D> (lhs: LensFull, rhs: PrismFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.toAffine() >>> rhs.toAffine()
+		return lhs.then(rhs)
 	}
 }
 
@@ -66,16 +86,20 @@ public extension PrismFull {
 			trySet: f.pure >>> self.tryModify)
 	}
 
-	static func >>> <C,D> (lhs: PrismFull, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.toAffine() >>> rhs
+	func then <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return toAffine().then(other)
 	}
 
-	static func >>> <Q,R> (lhs: AffineFull<Q,R,S,T>, rhs: PrismFull) -> AffineFull<Q,R,A,B> {
-		return lhs >>> rhs.toAffine()
+	static func >>> <C,D> (lhs: PrismFull, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+
+	func then <C,D> (_ other: LensFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return toAffine().then(other.toAffine())
 	}
 
 	static func >>> <C,D> (lhs: PrismFull, rhs: LensFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.toAffine() >>> rhs.toAffine()
+		return lhs.then(rhs)
 	}
 }
 

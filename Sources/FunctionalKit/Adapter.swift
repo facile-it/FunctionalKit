@@ -51,14 +51,14 @@ public extension Result {
 }
 
 public extension Adapter {
-	func compose <C,D> (_ other: Adapter<A,B,C,D>) -> Adapter<S,T,C,D> {
+	func then <C,D> (_ other: Adapter<A,B,C,D>) -> Adapter<S,T,C,D> {
 		return Adapter<S,T,C,D>.init(
 			from: from >>> other.from,
 			to: other.to >>> to)
 	}
 
 	static func >>> <C,D> (lhs: Adapter, rhs: Adapter<A,B,C,D>) -> Adapter<S,T,C,D> {
-		return lhs.compose(rhs)
+		return lhs.then(rhs)
 	}
 
 	func inverted() -> Adapter<B,A,T,S> {
@@ -73,36 +73,66 @@ public extension Adapter {
 		return LensFull.init(get: from, set: to >>> f.pure)
 	}
 
-	static func >>> <C,D> (lhs: Adapter, rhs: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
-		return lhs.toLens().compose(rhs)
+	func then <C,D> (_ other: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
+		return toLens().then(other)
 	}
 
-	static func >>> <Q,R> (lhs: LensFull<Q,R,S,T>, rhs: Adapter) -> LensFull<Q,R,A,B> {
-		return lhs.compose(rhs.toLens())
+	static func >>> <C,D> (lhs: Adapter, rhs: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
+		return lhs.then(rhs)
 	}
 
 	func toPrism() -> PrismFull<S,T,A,B> {
 		return PrismFull.init(tryGet: from, inject: to)
 	}
 
-	static func >>> <C,D> (lhs: Adapter, rhs: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
-		return lhs.toPrism().compose(rhs)
+	func then <C,D> (_ other: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
+		return toPrism().then(other)
 	}
 
-	static func >>> <Q,R> (lhs: PrismFull<Q,R,S,T>, rhs: Adapter) -> PrismFull<Q,R,A,B> {
-		return lhs.compose(rhs.toPrism())
+	static func >>> <C,D> (lhs: Adapter, rhs: PrismFull<A,B,C,D>) -> PrismFull<S,T,C,D> {
+		return lhs.then(rhs)
 	}
 
 	func toAffine() -> AffineFull<S,T,A,B> {
 		return AffineFull.init(tryGet: from, trySet: to >>> f.pure)
 	}
 
-	static func >>> <C,D> (lhs: Adapter, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
-		return lhs.toAffine().compose(rhs)
+	func then <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return toAffine().then(other)
 	}
 
-	static func >>> <Q,R> (lhs: AffineFull<Q,R,S,T>, rhs: Adapter) -> AffineFull<Q,R,A,B> {
-		return lhs.compose(rhs.toAffine())
+	static func >>> <C,D> (lhs: Adapter, rhs: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+}
+
+public extension LensFull {
+	func then <C,D> (_ other: Adapter<A,B,C,D>) -> LensFull<S,T,C,D> {
+		return then(other.toLens())
+	}
+
+	static func >>> <C,D> (lhs: LensFull, rhs: Adapter<A,B,C,D>) -> LensFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+}
+
+public extension PrismFull {
+	func then <C,D> (_ other: Adapter<A,B,C,D>) -> PrismFull<S,T,C,D> {
+		return then(other.toPrism())
+	}
+
+	static func >>> <C,D> (lhs: PrismFull, rhs: Adapter<A,B,C,D>) -> PrismFull<S,T,C,D> {
+		return lhs.then(rhs)
+	}
+}
+
+public extension AffineFull {
+	func then <C,D> (_ other: Adapter<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return then(other.toAffine())
+	}
+
+	static func >>> <C,D> (lhs: AffineFull, rhs: Adapter<A,B,C,D>) -> AffineFull<S,T,C,D> {
+		return lhs.then(rhs)
 	}
 }
 
