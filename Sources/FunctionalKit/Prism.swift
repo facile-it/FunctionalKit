@@ -63,6 +63,14 @@ public extension Prism where S == T, A == B, S == Any {
 	}
 }
 
+public extension Prism where S == T, A == B, S == Error, A: Error {
+	static func typecast (to: A.Type) -> Prism<Error,A> {
+		return Prism<Error,A>.init(
+			tryGet: { $0 as? A },
+			inject: { $0 as Error })
+	}
+}
+
 // MARK: - Utilities
 
 public extension Optional {

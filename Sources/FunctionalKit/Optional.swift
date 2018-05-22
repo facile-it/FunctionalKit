@@ -76,6 +76,15 @@ public extension Optional{
             return .none
         }
     }
+
+	static func zip <A,B,C> (_ first: Optional<A>, _ second: Optional<B>, _ third: Optional<C>) -> Optional<(A,B,C)> where ParameterType == (A,B,C) {
+		switch (first,second,third) {
+		case let (firstValue?, secondValue?, thirdValue?):
+			return .some((firstValue,secondValue,thirdValue))
+		default:
+			return .none
+		}
+	}
     
     func apply<A>(_ transform: Optional<(ParameterType) -> A>) -> Optional<A> {
         return Generic.zip(self, transform).map { value, function in function(value) }
