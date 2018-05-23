@@ -5,7 +5,7 @@ XCTMain([
     testCase(BooleanTests.allTests),
 	testCase(CombinatorsTests.allTests),
 	testCase(CoproductTests.allTests),
-	testCase(ExponentialTests.allTests),
+	testCase(FunctionTests.allTests),
 	testCase(FixedTests.allTests),
 	testCase(InclusiveTests.allTests),
 	testCase(ProductTests.allTests),

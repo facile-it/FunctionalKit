@@ -8,6 +8,7 @@ public protocol CoproductType {
 	associatedtype RightType
 
 	func fold<T>(onLeft: (LeftType) -> T, onRight: (RightType) -> T) -> T
+	static func from(coproduct: Coproduct<LeftType,RightType>) -> Self
 }
 
 // sourcery: testBifunctor
@@ -15,6 +16,10 @@ public protocol CoproductType {
 extension Coproduct: CoproductType {
 	public typealias LeftType = A
 	public typealias RightType = B
+
+	static public func from(coproduct: Coproduct<A, B>) -> Coproduct<A, B> {
+		return coproduct
+	}
 }
 
 extension Coproduct: Error where A: Error, B: Error {}

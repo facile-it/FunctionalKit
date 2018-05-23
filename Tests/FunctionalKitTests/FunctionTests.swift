@@ -3,7 +3,7 @@ import XCTest
 import SwiftCheck
 import Abstract
 
-class ExponentialTests: XCTestCase {
+class FunctionTests: XCTestCase {
 	func testMap() {
 		let times2 = { (x: Int) -> Int in x*2 }
 		let exp = Function<Int,Int>.init(times2)

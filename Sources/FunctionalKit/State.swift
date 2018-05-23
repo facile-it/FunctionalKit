@@ -24,13 +24,17 @@ public struct State<Model,Parameter> {
 	}
 }
 
-extension State: ExponentialType {
+extension State: FunctionType {
 	public typealias SourceType = Model
 
 	public typealias TargetType = (Model,Parameter)
 
 	public func call(_ source: Model) -> (Model, Parameter) {
 		return run(source)
+	}
+
+	public static func from(function: Function<Model, (Model, Parameter)>) -> State<Model, Parameter> {
+		return State.init(function.call)
 	}
 }
 

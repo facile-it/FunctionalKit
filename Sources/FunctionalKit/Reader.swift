@@ -25,12 +25,16 @@ public struct Reader<Environment,Parameter> {
     }
 }
 
-extension Reader: ExponentialType {
+extension Reader: FunctionType {
 	public typealias SourceType = Environment
 	public typealias TargetType = Parameter
 
 	public func call(_ source: Environment) -> Parameter {
 		return run(source)
+	}
+
+	public static func from(function: Function<Environment, Parameter>) -> Reader<Environment, Parameter> {
+		return Reader.init(function.call)
 	}
 }
 

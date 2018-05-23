@@ -31,6 +31,10 @@ extension Writer: ProductType {
 	public func fold<T>(_ transform: (Log, Parameter) -> T) -> T {
 		return transform(log,value)
 	}
+
+	public static func from(product: Product<Log, Parameter>) -> Writer<Log, Parameter> {
+		return Writer.init(log: product.first, value: product.second)
+	}
 }
 
 extension Writer: TypeConstructor2 {

@@ -45,6 +45,15 @@ extension Optional: CoproductType {
 			onNone: { onLeft(()) },
 			onSome: onRight)
 	}
+
+	public static func from(coproduct: Coproduct<(), Wrapped>) -> Optional<Wrapped> {
+		switch coproduct {
+		case .left:
+			return .none
+		case let .right(value):
+			return .some(value)
+		}
+	}
 }
 
 public extension Optional{

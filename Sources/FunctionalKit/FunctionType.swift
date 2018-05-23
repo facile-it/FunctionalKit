@@ -3,18 +3,23 @@
 #endif
 import Abstract
 
-public protocol ExponentialType {
+public protocol FunctionType {
 	associatedtype SourceType
 	associatedtype TargetType
 
 	func call(_ source: SourceType) -> TargetType
+	static func from(function: Function<SourceType,TargetType>) -> Self
 }
 
-extension Function: ExponentialType {}
+extension Function: FunctionType {
+	public static func from(function: Function<A, B>) -> Function<A, B> {
+		return function
+	}
+}
 
 // MARK: - Functor
 
-public extension ExponentialType {
+public extension FunctionType {
 	func dimap<A,B>(_ source: @escaping (A) -> SourceType, _ target: @escaping (TargetType) -> B) -> Function<A,B> {
 		return Function<A,B>.init { value in target(self.call(source(value))) }
 	}
@@ -34,7 +39,7 @@ public extension ExponentialType {
 
 //MARK: - Equatable
 
-public extension ExponentialType where TargetType: Equatable {
+public extension FunctionType where TargetType: Equatable {
     static func == (lhs: Self, rhs: Self) -> (SourceType) -> Bool {
        return lhs.toFunction() == rhs.toFunction()
     }
@@ -42,7 +47,7 @@ public extension ExponentialType where TargetType: Equatable {
 
 //MARK: - PredicateSet
 
-public extension ExponentialType where TargetType == Bool {
+public extension FunctionType where TargetType == Bool {
 	static var universe: Function<SourceType,Bool> {
 		return Function<SourceType,Bool> { _ in true }
 	}
@@ -89,7 +94,7 @@ public extension ExponentialType where TargetType == Bool {
 
 //MARK: - Utility
 
-public extension ExponentialType where SourceType == TargetType {
+public extension FunctionType where SourceType == TargetType {
 	static var identity: Function<SourceType,TargetType> {
 		return Function.init { $0 }
 	}

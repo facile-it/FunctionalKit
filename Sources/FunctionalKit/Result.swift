@@ -44,6 +44,15 @@ extension Result: CoproductType {
 	public func fold<T>(onLeft: (Failure) -> T, onRight: (Parameter) -> T) -> T {
 		return fold(onSuccess: onRight, onFailure: onLeft)
 	}
+
+	public static func from(coproduct: Coproduct<Failure, Parameter>) -> Result<Failure, Parameter> {
+		switch coproduct {
+		case let .left(error):
+			return .failure(error)
+		case let .right(value):
+			return .success(value)
+		}
+	}
 }
 
 extension Result: TypeConstructor2 {

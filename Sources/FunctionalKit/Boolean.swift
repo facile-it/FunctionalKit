@@ -50,6 +50,15 @@ public extension Bool {
 
 extension Bool: CoproductType {
 	public func fold<T>(onLeft: (()) -> T, onRight: (()) -> T) -> T {
-		return fold(onTrue: onLeft(()), onFalse: onLeft(()))
+		return fold(onTrue: onRight(()), onFalse: onLeft(()))
+	}
+
+	public static func from(coproduct: Coproduct<(), ()>) -> Bool {
+		switch coproduct {
+		case .left:
+			return false
+		case .right:
+			return true
+		}
 	}
 }

@@ -8,6 +8,7 @@ public protocol ProductType {
 	associatedtype SecondType
 
 	func fold<T>(_ transform: (FirstType,SecondType) -> T) -> T
+	static func from(product: Product<FirstType,SecondType>) -> Self
 }
 
 // sourcery: testBifunctor
@@ -15,6 +16,10 @@ public protocol ProductType {
 extension Product: ProductType {
 	public typealias FirstType = A
 	public typealias SecondType = B
+
+	public static func from(product: Product<A, B>) -> Product<A, B> {
+		return product
+	}
 }
 
 extension Product: Error where A: Error, B: Error {}
@@ -49,18 +54,18 @@ public extension ProductType {
 
 // MARK: - Evaluation
 
-public extension ProductType where FirstType: ExponentialType, FirstType.SourceType == SecondType {
+public extension ProductType where FirstType: FunctionType, FirstType.SourceType == SecondType {
 	func eval() -> FirstType.TargetType {
-		return fold { (exponential, value) -> FirstType.TargetType in
-			exponential.call(value)
+		return fold { (function, value) -> FirstType.TargetType in
+			function.call(value)
 		}
 	}
 }
 
-public extension ProductType where SecondType: ExponentialType, SecondType.SourceType == FirstType {
+public extension ProductType where SecondType: FunctionType, SecondType.SourceType == FirstType {
 	func eval() -> SecondType.TargetType {
-		return fold { (value, exponential) -> SecondType.TargetType in
-			exponential.call(value)
+		return fold { (value, function) -> SecondType.TargetType in
+			function.call(value)
 		}
 	}
 }

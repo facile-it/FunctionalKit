@@ -8,6 +8,7 @@ public protocol InclusiveType {
 	associatedtype RightType
 
 	func fold<T>(onLeft: @escaping (LeftType) -> T, onCenter: @escaping (LeftType,RightType) -> T, onRight: @escaping (RightType) -> T) -> T
+	static func from(inclusive: Inclusive<LeftType,RightType>) -> Self
 }
 
 // sourcery: testBifunctor
@@ -15,6 +16,10 @@ public protocol InclusiveType {
 extension Inclusive: InclusiveType {
 	public typealias LeftType = A
 	public typealias RightType = B
+
+	public static func from(inclusive: Inclusive<A, B>) -> Inclusive<A, B> {
+		return inclusive
+	}
 }
 
 extension Inclusive: Error where A: Error, B: Error {}

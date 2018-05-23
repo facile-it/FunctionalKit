@@ -22,12 +22,16 @@ public struct Effect<Parameter> {
 	}
 }
 
-extension Effect: ExponentialType {
+extension Effect: FunctionType {
 	public typealias SourceType = ()
 	public typealias TargetType = Parameter
 
 	public func call(_ source: ()) -> Parameter {
 		return run()
+	}
+
+	public static func from(function: Function<(), Parameter>) -> Effect<Parameter> {
+		return Effect.init(function.call)
 	}
 }
 

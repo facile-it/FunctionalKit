@@ -18,12 +18,16 @@ extension Coeffect: TypeConstructor {
 	public typealias ParameterType = Parameter
 }
 
-extension Coeffect: ExponentialType {
+extension Coeffect: FunctionType {
 	public typealias SourceType = Parameter
 	public typealias TargetType = ()
 
 	public func call(_ source: Parameter) -> () {
 		run(source)
+	}
+
+	public static func from(function: Function<Parameter, ()>) -> Coeffect<Parameter> {
+		return Coeffect.init(function.call)
 	}
 }
 
