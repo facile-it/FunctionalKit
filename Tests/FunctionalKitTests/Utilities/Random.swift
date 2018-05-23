@@ -1,5 +1,6 @@
 @testable import FunctionalKit
 import SwiftCheck
+import Abstract
 
 extension CoproductType where LeftType == RightType {
     static func random(_ left: LeftType, _ right: RightType) -> Coproduct<LeftType,RightType> {

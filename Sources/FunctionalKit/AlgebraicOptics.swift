@@ -1,3 +1,5 @@
+import Abstract
+
 extension Product {
 	public enum lens {
 		public static func firstFull<T>(to: T.Type) -> LensFull<Product<A,B>,Product<T,B>,A,T> {

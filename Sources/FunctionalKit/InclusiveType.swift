@@ -12,45 +12,31 @@ public protocol InclusiveType {
 
 // sourcery: testBifunctor
 // sourcery: testConstruct = "random(x,y)"
-public enum Inclusive<A,B>: InclusiveType {
-	case left(A)
-	case center(A,B)
-	case right(B)
-
-	public func fold<T>(onLeft: @escaping (A) -> T, onCenter: @escaping (A,B) -> T, onRight: @escaping (B) -> T) -> T {
-		switch self {
-		case .left(let a):
-			return onLeft(a)
-		case .center(let a, let b):
-			return onCenter(a,b)
-		case .right(let b):
-			return onRight(b)
-		}
-	}
+extension Inclusive: InclusiveType {
+	public typealias LeftType = A
+	public typealias RightType = B
 }
 
 extension Inclusive: Error where A: Error, B: Error {}
 
 // MARK: - Equatable
 
-extension Inclusive: Equatable where A: Equatable, B: Equatable {
-	public static func == (lhs: Inclusive, rhs: Inclusive) -> Bool {
-		switch (lhs, rhs) {
-		case let (.left(lhsValue),.left(rhsValue)):
-			return lhsValue == rhsValue
-		case let (.center(lhsValue),.center(rhsValue)):
-			return lhsValue == rhsValue
-		case let (.right(lhsValue),.right(rhsValue)):
-			return lhsValue == rhsValue
-		default:
-			return false
-		}
+extension InclusiveType where LeftType: Equatable, RightType: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
+		return lhs.toInclusive() == rhs.toInclusive()
 	}
 }
 
 // MARK: - Projections
 
 public extension InclusiveType {
+	func toInclusive() -> Inclusive<LeftType,RightType> {
+		return fold(
+			onLeft: Inclusive.left,
+			onCenter: Inclusive.center,
+			onRight: Inclusive.right)
+	}
+
 	func tryToProduct() -> Product<LeftType,RightType>? {
 		return fold(
 			onLeft: f.pure(nil),
@@ -106,36 +92,6 @@ public extension InclusiveType where LeftType == RightType, LeftType: Semigroup 
 		return merged(composing: <>)
 	}
 }
-
-// MARK: - Algebra
-
-extension Inclusive: Magma where A: Magma, B: Magma {
-	public static func <> (left: Inclusive<A, B>, right: Inclusive<A, B>) -> Inclusive<A, B> {
-		switch (left, right) {
-		case let (.left(lhsValue),.left(rhsValue)):
-			return .left(lhsValue <> rhsValue)
-		case let (.left(lhsValue),.center(rhsValue)):
-			return .center(lhsValue <> rhsValue.0, rhsValue.1)
-		case let (.left(lhsValue),.right(rhsValue)):
-			return .center(lhsValue, rhsValue)
-		case let (.center(lhsValue),.left(rhsValue)):
-			return .center(lhsValue.0 <> rhsValue, lhsValue.1)
-		case let (.center(lhsValue),.center(rhsValue)):
-			return .center(lhsValue.0 <> rhsValue.0, lhsValue.1 <> rhsValue.1)
-		case let (.center(lhsValue),.right(rhsValue)):
-			return .center(lhsValue.0, lhsValue.1 <> rhsValue)
-		case let (.right(lhsValue),.left(rhsValue)):
-			return .center(rhsValue, lhsValue)
-		case let (.right(lhsValue),.center(rhsValue)):
-			return .center(rhsValue.0, lhsValue <> rhsValue.1)
-		case let (.right(lhsValue),.right(rhsValue)):
-			return .right(lhsValue <> rhsValue)
-		}
-	}
-}
-
-/// Inclusive is a lovely semigroup. Unfortunately, it's not a Monoid.
-extension Inclusive: Semigroup where A: Semigroup, B: Semigroup {}
 
 // MARK: - Functor
 

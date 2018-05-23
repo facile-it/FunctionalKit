@@ -36,9 +36,7 @@ public extension ExponentialType {
 
 public extension ExponentialType where TargetType: Equatable {
     static func == (lhs: Self, rhs: Self) -> (SourceType) -> Bool {
-        return { source in
-            lhs.call(source) == rhs.call(source)
-        }
+       return lhs.toFunction() == rhs.toFunction()
     }
 }
 

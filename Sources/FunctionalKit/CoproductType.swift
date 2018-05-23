@@ -12,41 +12,22 @@ public protocol CoproductType {
 
 // sourcery: testBifunctor
 // sourcery: testConstruct = "random(x,y)"
-public enum Coproduct<A,B>: CoproductType {
-	case left(A)
-	case right(B)
-
-	public func fold<T>(onLeft: (A) -> T, onRight: (B) -> T) -> T {
-		switch self {
-		case .left(let a):
-			return onLeft(a)
-		case .right(let b):
-			return onRight(b)
-		}
-	}
+extension Coproduct: CoproductType {
+	public typealias LeftType = A
+	public typealias RightType = B
 }
 
 extension Coproduct: Error where A: Error, B: Error {}
 
 // MARK: - Equatable
-
+//
 extension CoproductType where LeftType: Equatable, RightType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold(
-			onLeft: { value in
-				rhs.fold(
-					onLeft: { value == $0 },
-					onRight: { _ in false })
-		},
-			onRight: { value in
-				rhs.fold(
-					onLeft: { _ in false },
-					onRight: { value == $0 })
-		})
+		return lhs.toCoproduct() == rhs.toCoproduct()
 	}
 }
 
-extension Coproduct: Equatable where A: Equatable, B: Equatable {}
+//extension Coproduct: Equatable where A: Equatable, B: Equatable {}
 
 // MARK: - Projections
 

@@ -12,18 +12,9 @@ public protocol ProductType {
 
 // sourcery: testBifunctor
 // sourcery: testConstruct = "init(x,y)"
-public struct Product<A,B>: ProductType {
-	private let _first: A
-	private let _second: B
-
-	public init(_ first: A, _ second: B) {
-		self._first = first
-		self._second = second
-	}
-
-	public func fold<T>(_ transform: (A, B) -> T) -> T {
-		return transform(_first,_second)
-	}
+extension Product: ProductType {
+	public typealias FirstType = A
+	public typealias SecondType = B
 }
 
 extension Product: Error where A: Error, B: Error {}
@@ -32,15 +23,11 @@ extension Product: Error where A: Error, B: Error {}
 
 extension ProductType where FirstType: Equatable, SecondType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Bool {
-		return lhs.fold { lhsFirst, lhsSecond in
-			rhs.fold { rhsFirst, rhsSecond in
-				lhsFirst == rhsFirst && lhsSecond == rhsSecond
-			}
-		}
+		return lhs.toProduct() == rhs.toProduct()
 	}
 }
 
-extension Product: Equatable where A: Equatable, B: Equatable {}
+//extension Product: Equatable where A: Equatable, B: Equatable {}
 
 // MARK: - Projections
 
@@ -77,53 +64,6 @@ public extension ProductType where SecondType: ExponentialType, SecondType.Sourc
 		return fold { (value, exponential) -> SecondType.TargetType in
 			exponential.call(value)
 		}
-	}
-}
-
-// MARK: - Algebra
-
-extension Product: Magma where A: Magma, B: Magma {
-	public static func <> (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
-		return Product<A,B>.init(
-			left.first <> right.first,
-			left.second <> right.second)
-	}
-}
-
-extension Product: Semigroup where A: Semigroup, B: Semigroup {}
-
-extension Product: Monoid where A: Monoid, B: Monoid {
-	public static var empty: Product<A, B> {
-		return Product<A,B>.init(.empty, .empty)
-	}
-}
-
-extension Product: CommutativeMonoid where A: CommutativeMonoid, B: CommutativeMonoid {}
-
-extension Product: BoundedSemilattice where A: BoundedSemilattice, B: BoundedSemilattice {}
-
-extension Product: Semiring where A: Semiring, B: Semiring {
-	public typealias Additive = Product<A.Additive,B.Additive>
-	public typealias Multiplicative = Product<A.Multiplicative,B.Multiplicative>
-
-	public static func <>+ (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
-		return Product<A,B>.init(
-			left.first <>+ right.first,
-			left.second <>+ right.second)
-	}
-
-	public static func <>* (left: Product<A, B>, right: Product<A, B>) -> Product<A, B> {
-		return Product<A,B>.init(
-			left.first <>* right.first,
-			left.second <>* right.second)
-	}
-
-	public static var zero: Product<A, B> {
-		return Product<A,B>.init(.zero, .zero)
-	}
-
-	public static var one: Product<A, B> {
-		return Product<A,B>.init(.one, .one)
 	}
 }
 
