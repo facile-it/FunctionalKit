@@ -27,8 +27,6 @@ extension CoproductType where LeftType: Equatable, RightType: Equatable {
 	}
 }
 
-//extension Coproduct: Equatable where A: Equatable, B: Equatable {}
-
 // MARK: - Projections
 
 public extension CoproductType {

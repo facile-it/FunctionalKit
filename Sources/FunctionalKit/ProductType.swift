@@ -27,8 +27,6 @@ extension ProductType where FirstType: Equatable, SecondType: Equatable {
 	}
 }
 
-//extension Product: Equatable where A: Equatable, B: Equatable {}
-
 // MARK: - Projections
 
 public extension ProductType {

@@ -6,17 +6,17 @@
         "repositoryURL": "https://github.com/typelift/Abstract.git",
         "state": {
           "branch": null,
-          "revision": "2db616224c8b49366e7bbb561cbcdc9712a0acbc",
-          "version": "0.0.1"
+          "revision": "77f2902ff68f218daa8040251c148c328be82845",
+          "version": "0.1.0"
         }
       },
       {
         "package": "FileCheck",
-        "repositoryURL": "https://github.com/trill-lang/FileCheck.git",
+        "repositoryURL": "https://github.com/llvm-swift/FileCheck.git",
         "state": {
           "branch": null,
-          "revision": "1c966580c83cf2e41be802992d46fe2edfc5c95f",
-          "version": "0.0.5"
+          "revision": "e5871587ddf85c0bcf84f773925655f2f83ef336",
+          "version": "0.0.7"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/typelift/SwiftCheck.git",
         "state": {
           "branch": null,
-          "revision": "df82fb889864945c64458f38846702af729b3ee4",
-          "version": "0.9.1"
+          "revision": "43ffe7ab48366c36a697c54bcdd257876edd6fc6",
+          "version": "0.10.0"
         }
       }
     ]
