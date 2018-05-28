@@ -122,12 +122,23 @@ public extension Result {
 			.map { value, function in function(value) }
 	}
 
+	func call <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B {
+		return Generic.zip(self, value)
+			.map { function, value in function(value) }
+			.mapError { $0.left }
+	}
+
+	func callMerged <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B, Failure: Semigroup {
+		return Generic.zipMerged(self, value)
+			.map { function, value in function(value) }
+	}
+
 	static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> {
-		return rhs.apply(lhs)
+		return lhs.call(rhs)
 	}
 
 	static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> where Failure: Semigroup {
-		return rhs.applyMerged(lhs)
+		return lhs.callMerged(rhs)
 	}
 
 	static func lift <A,B> (_ function: @escaping (A, B) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>) -> Result {
