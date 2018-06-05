@@ -104,3 +104,25 @@ public extension f {
 		return Effect(execute)
 	}
 }
+
+// MARK: - Algebra
+
+extension Effect: Magma where Parameter: Magma {
+	public static func <> (lhs: Effect, rhs: Effect) -> Effect {
+		return Effect.init { lhs.run() <> rhs.run() }
+	}
+}
+
+/// This is a strong assumption: we need associativity for side effects,
+/// otherwise there's no possibility of reasoning about them locally.
+extension Effect: Semigroup where Parameter: Semigroup {}
+
+extension Effect: Monoid where Parameter: Monoid {
+	public static var empty: Effect {
+		return Effect.init { .empty }
+	}
+}
+
+/// We cannot empower Effect with algebraic definitions any further:
+/// being side-effects those that are performed, guaranteeing commutativity
+/// or (even worse) idempotence would be too strong of an assumption.

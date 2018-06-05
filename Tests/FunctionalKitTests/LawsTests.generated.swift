@@ -43,6 +43,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Array - Functor
 
     func testArrayFunctorIdentity() {

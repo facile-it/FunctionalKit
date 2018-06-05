@@ -122,3 +122,13 @@ public extension InclusiveType {
 			onRight: { Inclusive<LeftType,T>.right(transform($0)) })
 	}
 }
+
+// MARK: - Algebra
+
+/// Default definitions for inclusive types
+
+public extension InclusiveType where LeftType: Magma, RightType: Magma {
+	static func <> (lhs: Self, rhs: Self) -> Self {
+		return Self.from(inclusive: lhs.toInclusive() <> rhs.toInclusive())
+	}
+}

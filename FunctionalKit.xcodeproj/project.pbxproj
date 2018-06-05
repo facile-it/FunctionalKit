@@ -66,6 +66,8 @@
 		38939BA51FC32CB200012794 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38939BA31FC32CB200012794 /* Optional.swift */; };
 		38B70BEE2064158700559E28 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B70BED2064158700559E28 /* Effect.swift */; };
 		38B70BEF2064158700559E28 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B70BED2064158700559E28 /* Effect.swift */; };
+		38CA236A20C662F400806615 /* Accessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CA236920C662F400806615 /* Accessor.swift */; };
+		38CA236B20C662F400806615 /* Accessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CA236920C662F400806615 /* Accessor.swift */; };
 		38CB0E04208A4CEE00E3049F /* InclusiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CB0E03208A4CEE00E3049F /* InclusiveTests.swift */; };
 		38DA20781FD549740010AAEC /* LawsTests.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20771FD549740010AAEC /* LawsTests.generated.swift */; };
 		38DA20881FD5A2930010AAEC /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DA20841FD5A2930010AAEC /* Random.swift */; };
@@ -183,6 +185,7 @@
 		38939BA01FC2DC3100012794 /* TypeConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeConstructor.swift; sourceTree = "<group>"; };
 		38939BA31FC32CB200012794 /* Optional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
 		38B70BED2064158700559E28 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
+		38CA236920C662F400806615 /* Accessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessor.swift; sourceTree = "<group>"; };
 		38CB0E03208A4CEE00E3049F /* InclusiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InclusiveTests.swift; sourceTree = "<group>"; };
 		38DA20761FD549420010AAEC /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
 		38DA20771FD549740010AAEC /* LawsTests.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LawsTests.generated.swift; sourceTree = "<group>"; };
@@ -317,6 +320,7 @@
 		38B9E7EF1FD8388A00E55BE3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				38CA236920C662F400806615 /* Accessor.swift */,
 				385370681FC40D86004096EB /* Array.swift */,
 				38616DAA20650BD10008F0EE /* Coeffect.swift */,
 				38B70BED2064158700559E28 /* Effect.swift */,
@@ -641,6 +645,7 @@
 				388AACBA2020CD2D00FBE3FA /* Adapter.swift in Sources */,
 				38B70BEF2064158700559E28 /* Effect.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
+				38CA236B20C662F400806615 /* Accessor.swift in Sources */,
 				388AACC22020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
@@ -723,6 +728,7 @@
 				388AACB92020CD2D00FBE3FA /* Adapter.swift in Sources */,
 				38B70BEE2064158700559E28 /* Effect.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
+				38CA236A20C662F400806615 /* Accessor.swift in Sources */,
 				388AACC12020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,

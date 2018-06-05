@@ -107,3 +107,19 @@ public extension ProductType where SecondType: CoproductType {
 		}
 	}
 }
+
+// MARK: - Algebra
+
+/// Default implementations for product types
+
+public extension ProductType where FirstType: Magma, SecondType: Magma {
+	static func <> (lhs: Self, rhs: Self) -> Self {
+		return Self.from(product: lhs.toProduct() <> rhs.toProduct())
+	}
+}
+
+public extension ProductType where FirstType: Monoid, SecondType: Monoid {
+	static var empty: Self {
+		return Self.from(product: .empty)
+	}
+}

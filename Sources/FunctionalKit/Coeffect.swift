@@ -31,6 +31,25 @@ extension Coeffect: FunctionType {
 	}
 }
 
+public extension Coeffect {
+	func contramap <A> (_ transform: @escaping (A) -> ParameterType) -> Coeffect<A> {
+		return Coeffect<A>.init { self.run(transform($0)) }
+	}
+
+	static func lift <A> (_ function: @escaping (A) -> ParameterType) -> (Coeffect) -> Coeffect<A> {
+		return { $0.contramap(function) }
+	}
+}
+
+public extension Coeffect {
+	static func zip <A,B> (_ first: Coeffect<A>, _ second: Coeffect<B>) -> Coeffect<(A,B)> where ParameterType == (A,B) {
+		return Coeffect<(A,B)>.init {
+			first.run($0.0)
+			second.run($0.1)
+		}
+	}
+}
+
 // MARK: - Algebra
 
 extension Coeffect: Magma {
@@ -55,22 +74,3 @@ extension Coeffect: Monoid {
 /// We cannot empower Coeffect with algebraic definitions any further:
 /// being side-effects those that are performed, guaranteeing commutativity
 /// or (even worse) idempotence would be too strong of an assumption.
-
-public extension Coeffect {
-	func contramap <A> (_ transform: @escaping (A) -> ParameterType) -> Coeffect<A> {
-		return Coeffect<A>.init { self.run(transform($0)) }
-	}
-
-	static func lift <A> (_ function: @escaping (A) -> ParameterType) -> (Coeffect) -> Coeffect<A> {
-		return { $0.contramap(function) }
-	}
-}
-
-public extension Coeffect {
-	static func zip <A,B> (_ first: Coeffect<A>, _ second: Coeffect<B>) -> Coeffect<(A,B)> where ParameterType == (A,B) {
-		return Coeffect<(A,B)>.init {
-			first.run($0.0)
-			second.run($0.1)
-		}
-	}
-}
