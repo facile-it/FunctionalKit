@@ -10,7 +10,7 @@ class ReaderTests: XCTestCase {
     struct Environment: Equatable {
         var environment = "Production"
         
-        static func ==(lhs: ReaderTests.Environment, rhs: ReaderTests.Environment) -> Bool {
+        static func == (lhs: ReaderTests.Environment, rhs: ReaderTests.Environment) -> Bool {
             return lhs.environment == rhs.environment
         }
     }
@@ -53,6 +53,52 @@ class ReaderTests: XCTestCase {
 			r.run(Environment(environment: "Test")) ==! Environment(environment: "Test")
         }
     }
+
+	func testReaderTransformerAsync() {
+		var currentValue = 0
+
+		let environment = Accessor<Int>.init(
+			get: Effect.init { currentValue },
+			set: Coeffect.init { currentValue = $0 })
+
+		typealias Tested = Reader<Accessor<Int>,Future<Int>>
+
+		func envCall(makeCall: @escaping (Int) -> Future<Int>) -> Tested {
+			return Tested.init { env in
+				makeCall(env.get.run())
+					.run { value in
+						env.set.run(value)
+				}
+			}
+		}
+
+		let future1 = envCall { value in
+			Future<Int>.init { done in
+				after(0.2, {
+					done(value + 5)
+				})
+			}
+		}
+
+		let getFuture2: (Int) -> Tested = { value1 in
+			envCall { value2 in
+				Future<Int>.init { done in
+					after(0.2, {
+						done(value1 + value2)
+					})
+				}
+			}
+		}
+
+		let newExpectation = expectation(description: "newExpectation")
+
+		_ = future1.flatMapT(getFuture2).run(environment).run { value in
+			value ==! 10
+			newExpectation.fulfill()
+		}
+
+		waitForExpectations(timeout: 1, handler: nil)
+	}
     
     static var allTests = [
         ("testLiftOneArg", testLiftOneArg),

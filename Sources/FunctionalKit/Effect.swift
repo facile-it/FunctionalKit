@@ -74,6 +74,11 @@ public extension Effect {
 		return Generic.zip(self, transform).map { value, function in function(value) }
 	}
 
+	func call <A,B> (_ value: Effect<A>) -> Effect<B> where ParameterType == (A) -> B {
+		return Generic.zip(self, value)
+			.map { function, value in function(value) }
+	}
+
 	static func <*> <A> (lhs: Effect<(ParameterType) -> A>, rhs: Effect) -> Effect<A> {
 		return rhs.apply(lhs)
 	}

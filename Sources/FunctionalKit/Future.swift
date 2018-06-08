@@ -143,9 +143,19 @@ public extension Future {
     func applySerial <A> (_ transform: Future<(ParameterType) -> A>) -> Future<A> {
         return Generic.zipSerial(self, transform).map { value, function in function(value) }
     }
+
+	func callParallel <A,B> (_ value: Future<A>) -> Future<B> where ParameterType == (A) -> B {
+		return Generic.zipParallel(self, value)
+			.map { function, value in function(value) }
+	}
+
+	func callSerial <A,B> (_ value: Future<A>) -> Future<B> where ParameterType == (A) -> B {
+		return Generic.zipSerial(self, value)
+			.map { function, value in function(value) }
+	}
     
     static func <*> <A> (lhs: Future<(ParameterType) -> A>, rhs: Future) -> Future<A> {
-        return rhs.applyParallel(lhs)
+        return lhs.callSerial(rhs)
     }
 }
 

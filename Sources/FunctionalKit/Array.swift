@@ -51,8 +51,13 @@ public extension Array {
 		return Generic.cartesian(self, transform).map { value, function in function(value) }
 	}
 
+	func call <A,B> (_ value: Array<A>) -> Array<B> where ParameterType == (A) -> B {
+		return Generic.cartesian(self, value)
+			.map { function, value in function(value) }
+	}
+
 	static func <*> <A> (lhs: Array<(ParameterType) -> A>, rhs: Array) -> Array<A> {
-		return rhs.apply(lhs)
+		return lhs.call(rhs)
 	}
 
 	static func lift <A,T1> (_ function: @escaping (ParameterType, T1) -> A) -> (Array, Array<T1>) -> Array<A> {
