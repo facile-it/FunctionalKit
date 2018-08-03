@@ -51,6 +51,14 @@ public extension f {
 	static func filter <A> (_ predicate: @escaping (A) throws -> Bool) -> ([A]) throws -> [A] {
 		return { try $0.filter(predicate) }
 	}
+
+	static func or <A, B> (_ fallback: @escaping (A) -> B) -> (@escaping (A) -> B?) -> (A) -> B {
+		return { original in
+			{ a in
+				original(a).get(or: fallback(a))
+			}
+		}
+	}
 }
 
 public func <<< <A,B,C> (second: @escaping (B) -> C, first: @escaping (A) -> B) -> (A) -> C {
