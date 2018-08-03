@@ -136,6 +136,38 @@ public extension Array {
 	}
 }
 
+public extension Affine where S == T, A == B {
+	static func zip <X,Y> (_ a: Affine<S,X>, _ b: Affine<S,Y>) -> Affine<S,Inclusive<X,Y>> where A == Inclusive<X,Y>  {
+		return Affine<S,Inclusive<X,Y>>.init(
+			tryGet: { s in
+				switch (a.tryGet(s), b.tryGet(s)) {
+				case let (.some(aValue), .some(bValue)):
+					return .some(.center(aValue, bValue))
+				case let (.some(aValue), .none):
+					return .some(.left(aValue))
+				case let (.none, .some(bValue)):
+					return .some(.right(bValue))
+				case (.none, .none):
+					return .none
+				}
+		},
+			trySet: { inclusive in
+				{ s in
+					switch inclusive {
+					case let .left(value):
+						return a.trySet(value)(s)
+					case let .right(value):
+						return b.trySet(value)(s)
+					case let .center(aValue, bValue):
+						return Optional.pure(s)
+							.flatMap(a.trySet(aValue))
+							.flatMap(b.trySet(bValue))
+					}
+				}
+		})
+	}
+}
+
 // MARK: - Affine Laws
 
 /*:

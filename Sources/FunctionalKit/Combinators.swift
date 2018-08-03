@@ -35,6 +35,22 @@ public extension f {
 	static func flip<A,B,C>(_ function: @escaping (A) throws -> (B) throws -> C) -> (B) throws -> (A) throws -> C {
 		return { b in { a in try function(a)(b) } }
 	}
+
+	static func map <A, B> (_ transform: @escaping (A) -> B) -> ([A]) -> [B] {
+		return  { $0.map(transform) }
+	}
+
+	static func map <A, B> (_ transform: @escaping (A) throws -> B) -> ([A]) throws -> [B] {
+		return  { try $0.map(transform) }
+	}
+
+	static func filter <A> (_ predicate: @escaping (A) -> Bool) -> ([A]) -> [A] {
+		return { $0.filter(predicate) }
+	}
+
+	static func filter <A> (_ predicate: @escaping (A) throws -> Bool) -> ([A]) throws -> [A] {
+		return { try $0.filter(predicate) }
+	}
 }
 
 public func <<< <A,B,C> (second: @escaping (B) -> C, first: @escaping (A) -> B) -> (A) -> C {

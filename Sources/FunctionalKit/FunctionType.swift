@@ -32,6 +32,12 @@ public extension FunctionType {
 		return dimap(transform, f.identity)
 	}
 
+	func carryOver() -> Function<SourceType, Product<SourceType, TargetType>> {
+		return Function<SourceType, Product<SourceType, TargetType>>.init { source in
+			Product.init(source, self.call(source))
+		}
+	}
+
 	func toFunction() -> Function<SourceType,TargetType> {
 		return dimap(f.identity, f.identity)
 	}

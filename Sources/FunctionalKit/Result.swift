@@ -275,5 +275,28 @@ public extension Result {
 			}
 		}
 	}
+
+	func `do`(onSuccess: (Parameter) -> Void, onFailure: (Failure) -> Void) -> Result {
+		switch self {
+		case let .success(value):
+			onSuccess(value)
+		case let .failure(error):
+			onFailure(error)
+		}
+
+		return self
+	}
+
+	func orNil() -> Result<Failure, Optional<ParameterType>> {
+		return self
+			.map(Optional.init)
+			.fallback(to: nil)
+	}
+
+	func coalesce(_ other: @autoclosure () -> Result) -> Result {
+		return self.fold(
+			onSuccess: Result.success,
+			onFailure: { _ in other() })
+	}
 }
 

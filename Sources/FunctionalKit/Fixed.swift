@@ -124,4 +124,16 @@ public extension f {
     static func asTuple <A,B,C> (_ function: @escaping (A,B) -> C) -> ((A,B)) -> C {
         return { function($0.0,$0.1) }
     }
+
+	static func embedFirst <A,B> (_ a: A) -> (B) -> (A,B) {
+		return { b in
+			(a,b)
+		}
+	}
+
+	static func embedSecond <A,B> (_ b: B) -> (A) -> (A,B) {
+		return { a in
+			(a,b)
+		}
+	}
 }

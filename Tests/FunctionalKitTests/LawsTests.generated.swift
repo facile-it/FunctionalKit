@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.11.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.13.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -18,6 +18,16 @@ import SwiftCheck
 import Abstract
 
 class LawsTests: XCTestCase {
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -357,11 +367,6 @@ class LawsTests: XCTestCase {
 
 
 
-
-
-
-
-
 //MARK: - Optional - Functor
 
     func testOptionalFunctorIdentity() {
@@ -445,11 +450,6 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
-
-
-
-
-
 
 
 

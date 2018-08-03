@@ -90,6 +90,19 @@ public extension Sequence where Iterator.Element == Bool {
 	}
 }
 
+public extension Sequence where Iterator.Element: CoproductType {
+	func partition() -> Product<[Iterator.Element.LeftType], [Iterator.Element.RightType]> {
+
+		let initial = Product<[Iterator.Element.LeftType], [Iterator.Element.RightType]>.init([], [])
+
+		return self.reduce(initial) { reducer, coproduct in
+			return coproduct.fold(
+				onLeft: { left in reducer.mapFirst { $0.appending(left) }},
+				onRight: { right in reducer.mapSecond { $0.appending(right) }})
+		}
+	}
+}
+
 public extension RandomAccessCollection {
 	func getSafely(at index: Index) -> Iterator.Element? {
 		guard indices.contains(index) else { return nil }
