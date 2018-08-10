@@ -70,7 +70,7 @@ extension Inclusive {
 					{ inclusive in
 						inclusive.fold(
 							onLeft: f.pure(nil),
-							onCenter: f.pure(.center(tu.0,tu.1)),
+							onCenter: f.pure2(.center(tu.0,tu.1)),
 							onRight: f.pure(nil))
 					}
 			})

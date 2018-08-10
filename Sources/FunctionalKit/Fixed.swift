@@ -17,7 +17,7 @@ public extension f {
 		return (a,b,c)
 	}
 
-	static func pure <A> (_ a : A) -> () -> A {
+	static func pure0 <A> (_ a : A) -> () -> A {
 		return { a }
 	}
 
@@ -25,11 +25,11 @@ public extension f {
 		return { _ in a }
 	}
 
-	static func pure <A,B,C> (_ a : A) -> (B,C) -> A {
+	static func pure2 <A,B,C> (_ a : A) -> (B,C) -> A {
 		return { _, _ in a }
 	}
 
-	static func pure <A,B,C,D> (_ a : A) -> (B,C,D) -> A {
+	static func pure3 <A,B,C,D> (_ a : A) -> (B,C,D) -> A {
 		return { _, _, _ in a }
 	}
 

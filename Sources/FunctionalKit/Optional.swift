@@ -238,5 +238,17 @@ public extension Optional{
             break
         }
     }
+
+	@discardableResult
+	func `do`(onSome: (Wrapped) -> Void, onNone: () -> Void) -> Optional {
+		switch self {
+		case let .some(value):
+			onSome(value)
+		case .none:
+			onNone()
+		}
+
+		return self
+	}
 }
 

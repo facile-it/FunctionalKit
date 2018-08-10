@@ -265,6 +265,16 @@ public extension Result {
 		}
 	}
 
+	func filter(_ predicate: (Parameter) -> Bool, or onFalse: @autoclosure () -> Failure) -> Result {
+		return flatMap {
+			if predicate($0) {
+				return .success($0)
+			} else {
+				return .failure(onFalse())
+			}
+		}
+	}
+
 	static func fromThrowing(getError: @escaping (Error) -> Failure) -> (() throws -> ParameterType) -> Result {
 		return { throwing in
 			do {
@@ -276,6 +286,7 @@ public extension Result {
 		}
 	}
 
+	@discardableResult
 	func `do`(onSuccess: (Parameter) -> Void, onFailure: (Failure) -> Void) -> Result {
 		switch self {
 		case let .success(value):

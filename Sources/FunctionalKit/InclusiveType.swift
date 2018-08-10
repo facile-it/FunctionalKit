@@ -52,7 +52,7 @@ public extension InclusiveType {
 	func tryToCoproduct() -> Coproduct<LeftType,RightType>? {
 		return fold(
 			onLeft: Coproduct.left,
-			onCenter: f.pure(nil),
+			onCenter: f.pure2(nil),
 			onRight: Coproduct.right)
 	}
 
