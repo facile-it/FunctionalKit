@@ -19,7 +19,7 @@ private enum FutureState<T> {
 // sourcery: testConstruct = "init { $0(x) }"
 // sourcery: testNeedsCommand = "start()"
 public final class Future<Parameter> {
-    private let continuation: (@escaping (Parameter) -> ()) -> ()
+    private var continuation: ((@escaping (Parameter) -> ()) -> ())?
     public init(_ continuation: @escaping (@escaping (Parameter) -> ()) -> ()) {
         self.continuation = continuation
     }
@@ -29,13 +29,14 @@ public final class Future<Parameter> {
     
     @discardableResult
     public func start() -> Future {
-        guard case .idle = currentState else { return self }
+        guard case .idle = currentState, let currentContinuation = continuation else { return self }
         currentState = .running
-        continuation { value in
+        currentContinuation { value in
             self.currentState = .done(value)
             self.callbacks.forEach { $0(value) }
             self.callbacks.removeAll()
         }
+		self.continuation = nil
         return self
     }
     
