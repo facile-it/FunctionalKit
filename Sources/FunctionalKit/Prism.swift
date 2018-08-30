@@ -16,6 +16,11 @@ public struct PrismFull<S,T,A,B> {
 
 public typealias Prism<Whole,Part> = PrismFull<Whole,Whole,Part,Part>
 
+public extension PrismFull where S == T, A == B {
+	typealias Whole = S
+	typealias Part = A
+}
+
 public extension PrismFull {
 	func tryModify(_ transform: @escaping (A) -> B) -> (S) -> T? {
         return { s in

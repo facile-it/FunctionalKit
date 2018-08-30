@@ -17,11 +17,20 @@ public struct AffineFull<S,T,A,B> {
 
 public typealias Affine<Whole,Part> = AffineFull<Whole,Whole,Part,Part>
 
+public extension AffineFull where S == T, A == B {
+	typealias Whole = S
+	typealias Part = A
+}
+
 public extension AffineFull {
 	func tryModify(_ transform: @escaping (A) -> B) -> (S) -> T? {
 		return { s in
 			self.tryGet(s).map(transform).flatMap { b in self.trySet(b)(s) }
 		}
+	}
+
+	func hasPart(_ whole: S) -> Bool {
+		return tryGet(whole) != nil
 	}
 
 	func then <C,D> (_ other: AffineFull<A,B,C,D>) -> AffineFull<S,T,C,D> {

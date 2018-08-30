@@ -17,6 +17,11 @@ public struct Adapter<S,T,A,B> {
 
 public typealias Iso<Whole,Part> = Adapter<Whole,Whole,Part,Part>
 
+public extension Adapter where S == T, A == B {
+	typealias Whole = S
+	typealias Part = A
+}
+
 // MARK: - Utility
 
 public extension Writer {

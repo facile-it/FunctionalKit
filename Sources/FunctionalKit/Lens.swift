@@ -16,6 +16,11 @@ public struct LensFull<S,T,A,B> {
 
 public typealias Lens<Whole,Part> = LensFull<Whole,Whole,Part,Part>
 
+public extension LensFull where S == T, A == B {
+	typealias Whole = S
+	typealias Part = A
+}
+
 public extension LensFull {
     func modify(_ transform: @escaping (A) -> B) -> (S) -> T {
         return { s in self.set(transform(self.get(s)))(s) }
