@@ -256,6 +256,12 @@ public extension Result {
 		}
 	}
 
+	func get(or fromFailure: (Failure) -> Parameter) -> Parameter {
+		return fold(
+			onSuccess: f.identity,
+			onFailure: fromFailure)
+	}
+
 	func fallback(to defaultValue: @autoclosure () -> ParameterType) -> Result {
 		switch self {
 		case let .success(value):
