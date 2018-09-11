@@ -143,6 +143,22 @@ public extension Array {
 				}
 		})
 	}
+
+	static func affineForFirst(where predicate: @escaping (Element) -> Bool) -> Affine<Array,Element> {
+		return Affine<Array,Element>(
+			tryGet: { $0.first(where: predicate) },
+			trySet: { newElement in
+				{ array in array
+					.index(where: predicate)
+					.map { (index) -> Array in
+						var m_array = array
+						m_array.remove(at: index)
+						m_array.insert(newElement, at: index)
+						return m_array
+					}
+				}
+		})
+	}
 }
 
 public extension Affine where S == T, A == B {
