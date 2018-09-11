@@ -256,7 +256,7 @@ public extension Result {
 		}
 	}
 
-	func get(or fromFailure: (Failure) -> Parameter) -> Parameter {
+	func getOr(_ fromFailure: (Failure) -> Parameter) -> Parameter {
 		return fold(
 			onSuccess: f.identity,
 			onFailure: fromFailure)
