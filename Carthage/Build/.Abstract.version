@@ -1,15 +1,27 @@
 {
-  "commitish" : "0.1.0",
   "Mac" : [
     {
       "name" : "Abstract",
-      "hash" : "3b514dd68a066f7f118bb3e2994ccaccfb312ea11bf941b37d76ae3f403fb7ac"
+      "hash" : "4c727bf96bda4aab442456a58c37730cc232710cd5516c8a0769c5fa272d87fe"
     }
   ],
+  "watchOS" : [
+    {
+      "name" : "Abstract",
+      "hash" : "718700bae8d563871447143e0b639f4253577c172c132c631abd974e149a9b74"
+    }
+  ],
+  "tvOS" : [
+    {
+      "name" : "Abstract",
+      "hash" : "e2a6a7ef113d330f1e2d4147d574bd75999dedfa0671fb7b948378fe478d88e7"
+    }
+  ],
+  "commitish" : "0.1.0",
   "iOS" : [
     {
       "name" : "Abstract",
-      "hash" : "b325626d6f3d553937f781b933f750430f8549a2725e946e83b1955e0331b596"
+      "hash" : "322247c3a2e47b5d80f8f765ce001713465f5158be1cb93f505cdf939b49e7d2"
     }
   ]
 }
