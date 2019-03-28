@@ -617,7 +617,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#echo \"Checking for Sourcery...\"\n#if [ -x \"$(command -v sourcery)\" ]; then\n#    echo \"Sourcery found.\"\n#    echo \"Generating source files...\"\n#    sourcery --sources \"Sources\" --templates \"Templates/Sources\" --output \"Sources/FunctionalKit\"\n#    echo \"Generating test files...\"\n#    sourcery --sources \"Sources\" --templates \"Templates/Tests\" --output \"Tests/FunctionalKitTests\"\n#else\n#    echo \"Sourcery is not installed, ignoring.\"\n#fi\n";
+			shellScript = "echo \"Checking for Sourcery...\"\nif [ -x \"$(command -v sourcery)\" ]; then\n    echo \"Sourcery found.\"\n    echo \"Generating source files...\"\n    sourcery --sources \"Sources\" --templates \"Templates/Sources\" --output \"Sources/FunctionalKit\"\n    echo \"Generating test files...\"\n    sourcery --sources \"Sources\" --templates \"Templates/Tests\" --output \"Tests/FunctionalKitTests\"\nelse\n    echo \"Sourcery is not installed, ignoring.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
