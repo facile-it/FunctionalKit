@@ -102,9 +102,9 @@ public extension Writer {
         return map(transform).joined()
     }
 
-//    func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Writer<Log,A>> {
-//        return Array.pure(f.curry(Generic.init)) <*> Array.pure(log) <*> transform(value)
-//    }
+    func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Writer<Log,A>> {
+        return Array.pure(f.curry(Generic.init)) <*> Array.pure(log) <*> transform(value)
+    }
 
     func traverse <A> (_ transform: (ParameterType) -> Effect<A>) -> Effect<Writer<Log,A>> {
         return Effect.pure(f.curry(Generic.init)) <*> Effect.pure(log) <*> transform(value)
@@ -118,9 +118,9 @@ public extension Writer {
         return Optional.pure(f.curry(Generic.init)) <*> Optional.pure(log) <*> transform(value)
     }
 
-//    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Writer<Log,A>> {
-//        return Reader.pure(f.curry(Generic.init)) <*> Reader.pure(log) <*> transform(value)
-//    }
+    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Writer<Log,A>> {
+        return Reader.pure(f.curry(Generic.init)) <*> Reader.pure(log) <*> transform(value)
+    }
 
 //    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Writer<Log,A>> {
 //        return Result.pure(f.curry(Generic.init)) <*> Result.pure(log) <*> transform(value)
