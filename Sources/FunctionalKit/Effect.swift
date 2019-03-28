@@ -58,7 +58,7 @@
 //        return Effect<A>.init { transform(self.run()) }
 //    }
 //
-//    public static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Effect) -> Effect<A> {
+//    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Effect) -> Effect<A> {
 //        return { $0.map(function) }
 //    }
 //}
