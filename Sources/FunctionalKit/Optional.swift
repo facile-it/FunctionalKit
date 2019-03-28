@@ -148,15 +148,15 @@ public extension Optional{
         }
     }
     
-//    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Optional<A>> {
-//        switch self {
-//        case let value?:
-//            return Reader.pure(Optional<A>.some) <*> transform(value)
-//        case .none:
-//            return Reader.pure(Optional<A>.none)
-//        }
-//    }
-//
+    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Optional<A>> {
+        switch self {
+        case let value?:
+            return Reader.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Reader.pure(Optional<A>.none)
+        }
+    }
+
 //    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Optional<A>> {
 //        switch self {
 //        case let value?:
@@ -175,14 +175,14 @@ public extension Optional{
         }
     }
 
-//    func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Optional<A>> {
-//        switch self {
-//        case let value?:
-//            return Writer.pure(Optional<A>.some) <*> transform(value)
-//        case .none:
-//            return Writer.pure(Optional<A>.none)
-//        }
-//    }
+    func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Optional<A>> {
+        switch self {
+        case let value?:
+            return Writer.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Writer.pure(Optional<A>.none)
+        }
+    }
 
     func filter(_ predicate: (ParameterType) -> Bool) -> Optional {
         return flatMap { (element) -> Optional in
@@ -212,14 +212,14 @@ public extension Optional{
         }
     }
     
-//    func toResult <E> (getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
-//        switch self {
-//        case let value?:
-//            return .success(value)
-//        case .none:
-//            return .failure(getError())
-//        }
-//    }
+    func toResult <E> (getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+        switch self {
+        case let value?:
+            return .success(value)
+        case .none:
+            return .failure(getError())
+        }
+    }
     
     var isNil: Bool {
         switch self {
