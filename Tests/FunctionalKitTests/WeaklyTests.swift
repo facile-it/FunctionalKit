@@ -19,7 +19,7 @@ class WeaklyTests: XCTestCase {
 		var ref = Optional.some(Ref<Int>.init(42))
 		ref = nil
 
-		42 |> f.weakly(ref) { _, _ in
+		42 |> f.weakly(ref) { _, _ in
 			notExpected()
 		}
 	}
