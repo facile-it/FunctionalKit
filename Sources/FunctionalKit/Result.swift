@@ -98,19 +98,36 @@ public extension Result {
         switch (first, second) {
         case let (.success(leftValue), .success(rightValue)):
             return .success((leftValue,rightValue))
+            
         case let (.failure(leftError), .failure(rightError)):
             return .failure(.center(leftError,rightError))
+            
         case let (.failure(error), _):
             return .failure(.left(error))
+            
         case let (_, .failure(error)):
             return .failure(.right(error))
         }
     }
 
-//    static func zipMerged <A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup, ParameterType == (A,B) {
+    static func zipMerged <Failure,A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup, ParameterType == (A,B) {
+        switch (first, second) {
+        case let (.success(leftValue), .success(rightValue)):
+            return .success((leftValue,rightValue))
+            
+        case let (.failure(leftError), .failure(rightError)):
+            return .failure(leftError <> rightError)
+            
+        case let (.failure(error), _):
+            return .failure(error)
+            
+        case let (_, .failure(error)):
+            return .failure(error)
+        }
+        
 //        return Generic.zip(first, second).mapError { $0.merged() }
-//    }
-//
+    }
+
 //    func apply <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> {
 //        return Generic.zip(self, transform)
 //            .map { value, function in function(value) }
@@ -136,7 +153,7 @@ public extension Result {
 //    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> {
 //        return lhs.call(rhs)
 //    }
-//}
+//
 //    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> where Failure: Semigroup {
 //        return lhs.callMerged(rhs)
 //    }
