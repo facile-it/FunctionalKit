@@ -31,7 +31,7 @@ extension Effect: FunctionType {
     }
 
     public static func from(function: Function<(), Parameter>) -> Effect<Parameter> {
-        return Effect.init(function.call)
+        return Effect { function.call(()) }
     }
 }
 
