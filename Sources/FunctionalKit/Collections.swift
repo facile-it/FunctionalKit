@@ -4,27 +4,27 @@ import Foundation
 #endif
 import Abstract
 
-//// MARK: - Decomposition
-//
-//public extension Sequence where SubSequence: Sequence, SubSequence.Iterator.Element == Iterator.Element {
-//    var head: Iterator.Element? {
-//        return first { _ in true }
-//    }
-//
-//    var tail: SubSequence? {
-//        guard head != nil else { return nil }
-//        return dropFirst()
-//    }
-//
-//    func decomposed() -> (Iterator.Element,SubSequence)? {
-//        return Optional.zip(head, tail)
-//    }
-//
-//    func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
-//        guard let nonOptHead = head, let nonOptTail = tail else { return head }
-//        return try nonOptTail.reduce(nonOptHead, combine)
-//    }
-//}
+// MARK: - Decomposition
+
+public extension Collection {
+    var head: Iterator.Element? {
+        return first { _ in true }
+    }
+
+    var tail: SubSequence? {
+        guard head != nil else { return nil }
+        return dropFirst()
+    }
+
+    func decomposed() -> (Iterator.Element,SubSequence)? {
+        return Optional.zip(head, tail)
+    }
+
+    func folded(combine: (Iterator.Element, Iterator.Element) throws -> Iterator.Element) rethrows -> Iterator.Element? {
+        guard let nonOptHead = head, let nonOptTail = tail else { return head }
+        return try nonOptTail.reduce(nonOptHead, combine)
+    }
+}
 
 public extension RandomAccessCollection {
     func destructured2(_ dropIfNeeded: Bool = false) -> (Element, Element)? {
