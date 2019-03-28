@@ -110,7 +110,7 @@ public extension Result {
         }
     }
 
-    static func zipMerged <Failure,A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup, ParameterType == (A,B) {
+    static func zipMerged <A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup {
         switch (first, second) {
         case let (.success(leftValue), .success(rightValue)):
             return .success((leftValue,rightValue))
@@ -128,48 +128,72 @@ public extension Result {
 //        return Generic.zip(first, second).mapError { $0.merged() }
     }
 
-//    func apply <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> {
+    func apply <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> {
+        switch (self, transform) {
+        case let (.success(leftValue), .success(rightValue)):
+            return .success(rightValue(leftValue))
+            
+        case let (.failure(leftError), .failure):
+            return .failure(leftError)
+            
+        case let (.failure(error), _):
+            return .failure(error)
+            
+        case let (_, .failure(error)):
+            return .failure(error)
+        }
+        
 //        return Generic.zip(self, transform)
 //            .map { value, function in function(value) }
 //            .mapError { $0.left }
-//    }
-//
-//    func applyMerged <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> where Failure: Semigroup {
-//        return Generic.zipMerged(self, transform)
-//            .map { value, function in function(value) }
-//    }
-//
-//    func call <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B {
+    }
+
+    func applyMerged <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> where Failure: Semigroup {
+        return Result<Failure, (Parameter, (Parameter) -> A)>.zipMerged(self, transform)
+            .map { value, function in function(value) }
+    }
+
+    func call <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B {
+        switch (value, self) {
+        case let (.success(leftValue),.success(rightValue)):
+            return .success(rightValue(leftValue))
+        case let (.failure(leftError), .failure):
+            return .failure(leftError)
+        case let (.failure(error), _):
+            return .failure(error)
+        case let (_, .failure(error)):
+            return .failure(error)
+        }
 //        return Generic.zip(self, value)
 //            .map { function, value in function(value) }
 //            .mapError { $0.left }
-//    }
-//
-//    func callMerged <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B, Failure: Semigroup {
-//        return Generic.zipMerged(self, value)
-//            .map { function, value in function(value) }
-//    }
-//
-//    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> {
-//        return lhs.call(rhs)
-//    }
-//
-//    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> where Failure: Semigroup {
-//        return lhs.callMerged(rhs)
-//    }
-//
-//    static func lift <A,B> (_ function: @escaping (A, B) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>) -> Result {
-//        return { ap1, ap2 in
-//            Generic.pure(f.curry(function)) <*> ap1 <*> ap2
-//        }
-//    }
-//
-//    static func lift <A,B,C> (_ function: @escaping (A, B, C) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>, Result<Failure,C>) -> Result {
-//        return { ap1, ap2, ap3 in
-//            Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
-//        }
-//    }
-//
+    }
+
+    func callMerged <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B, Failure: Semigroup {
+        return Result<Failure, ((A) -> B, A)>.zipMerged(self, value)
+            .map { function, value in function(value) }
+    }
+
+    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> {
+        return lhs.call(rhs)
+    }
+
+    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> where Failure: Semigroup {
+        return lhs.callMerged(rhs)
+    }
+
+    static func lift <A,B> (_ function: @escaping (A, B) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>) -> Result {
+        return { ap1, ap2 in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2
+        }
+    }
+
+    static func lift <A,B,C> (_ function: @escaping (A, B, C) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>, Result<Failure,C>) -> Result {
+        return { ap1, ap2, ap3 in
+            Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
+        }
+    }
+
     func joined<A>() -> Result<Failure,A> where ParameterType == Result<Failure,A> {
         switch self {
         case let .success(value):
@@ -228,14 +252,14 @@ public extension Result {
         }
     }
 
-//    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Result<Failure,A>> {
-//        switch self {
-//        case let .success(value):
-//            return Generic.pure(Generic.success) <*> transform(value)
-//        case let .failure(error):
-//            return Generic.pure(Generic.failure(error))
-//        }
-//    }
+    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Result<Failure,A>> {
+        switch self {
+        case let .success(value):
+            return Generic.pure(Generic.success) <*> transform(value)
+        case let .failure(error):
+            return Generic.pure(Generic.failure(error))
+        }
+    }
 
     func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Result<Failure,A>> {
         switch self {
