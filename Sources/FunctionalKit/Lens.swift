@@ -7,7 +7,7 @@
 //public struct LensFull<S,T,A,B> {
 //    public let get: (S) -> A
 //    public let set: (B) -> (S) -> T
-//    
+//
 //    public init(get: @escaping (S) -> A, set: @escaping (B) -> (S) -> T) {
 //        self.get = get
 //        self.set = set
@@ -25,7 +25,7 @@
 //    func modify(_ transform: @escaping (A) -> B) -> (S) -> T {
 //        return { s in self.set(transform(self.get(s)))(s) }
 //    }
-//    
+//
 //    func then <C,D> (_ other: LensFull<A,B,C,D>) -> LensFull<S,T,C,D> {
 //        return LensFull<S,T,C,D>.init(
 //            get: { other.get(self.get($0)) },
@@ -50,7 +50,7 @@
 //                { s in b.set(tuple.1)(a.set(tuple.0)(s)) }
 //        })
 //    }
-//    
+//
 //    static func zip <X,Y,Z> (_ a: Lens<S,X>, _ b: Lens<S,Y>, _ c: Lens<S,Z>) -> Lens<S,(X,Y,Z)> where A == (X,Y,Z)  {
 //        return Lens<S,(X,Y,Z)>.init(
 //            get: { s in (a.get(s),b.get(s),c.get(s)) },
