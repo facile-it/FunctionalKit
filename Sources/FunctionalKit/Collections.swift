@@ -110,16 +110,16 @@
 //    }
 //}
 //
-//// MARK: - Construction
-//
-//public extension RangeReplaceableCollection {
-//    func appending(_ newElement: Element) -> Self {
-//        var m = self
-//        m.append(newElement)
-//        return m
-//    }
-//
-//    static func ++ (lhs: Self, rhs: Element) -> Self {
-//        return lhs.appending(rhs)
-//    }
-//}
+// MARK: - Construction
+
+public extension RangeReplaceableCollection {
+    func appending(_ newElement: Element) -> Self {
+        var m = self
+        m.append(newElement)
+        return m
+    }
+
+    static func ++ (lhs: Self, rhs: Element) -> Self {
+        return lhs.appending(rhs)
+    }
+}

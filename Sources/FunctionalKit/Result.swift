@@ -15,7 +15,7 @@
 //public enum Result<Failure,Parameter> where Failure: Error {
 //    case success(Parameter)
 //    case failure(Failure)
-//    
+//
 //    public func run() throws -> Parameter {
 //        switch self {
 //        case .success(let value):
@@ -24,7 +24,7 @@
 //            throw error
 //        }
 //    }
-//    
+//
 //    public func fold <A> (onSuccess: (Parameter) -> A, onFailure: (Failure) -> A) -> A {
 //        switch self {
 //        case .success(let value):
@@ -79,7 +79,7 @@
 //            return .failure(error)
 //        }
 //    }
-//    
+//
 //    func mapError <A> (_ transform: (Failure) -> A) -> Result<A,ParameterType> {
 //        switch self {
 //        case let .success(value):
@@ -89,11 +89,11 @@
 //        }
 //
 //    }
-//    
+//
 //    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Result) -> Result<Failure,A> {
 //        return { $0.map(function) }
 //    }
-//    
+//
 //    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<Inclusive<F1,F2>,(A,B)> where Failure == Inclusive<F1,F2>, ParameterType == (A,B) {
 //        switch (first, second) {
 //        case let (.success(leftValue), .success(rightValue)):
