@@ -157,14 +157,14 @@ public extension Optional{
         }
     }
 
-//    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Optional<A>> {
-//        switch self {
-//        case let value?:
-//            return Result.pure(Optional<A>.some) <*> transform(value)
-//        case .none:
-//            return Result.pure(Optional<A>.none)
-//        }
-//    }
+    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Optional<A>> {
+        switch self {
+        case let value?:
+            return Result.pure(Optional<A>.some) <*> transform(value)
+        case .none:
+            return Result.pure(Optional<A>.none)
+        }
+    }
 
     func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Optional<A>> {
         switch self {

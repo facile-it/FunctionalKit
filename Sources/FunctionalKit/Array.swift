@@ -104,11 +104,11 @@ public extension Array {
         }
     }
 
-//    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Array<A>> {
-//        return reduce(Result.pure([])) { previous, element in
-//            Result.pure(f.curry(++)) <*> previous <*> transform(element)
-//        }
-//    }
+    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Array<A>> {
+        return reduce(Result.pure([])) { previous, element in
+            Result.pure(f.curry(++)) <*> previous <*> transform(element)
+        }
+    }
 
     func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Array<A>> {
         return reduce(State.pure([])) { previous, element in
