@@ -26,7 +26,7 @@ public extension Optional {
 }
 
 public extension Optional {
-    public func fold <A> (onNone: () -> A, onSome: (Wrapped) -> A) -> A {
+    func fold <A> (onNone: () -> A, onSome: (Wrapped) -> A) -> A {
         switch self {
         case .none:
             return onNone()
