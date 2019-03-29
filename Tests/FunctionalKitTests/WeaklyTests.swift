@@ -15,14 +15,14 @@ class WeaklyTests: XCTestCase {
         }()
     }
 
-//    func testWeaklyNoneIO() {
-//        var ref = Optional.some(Ref<Int>.init(42))
-//        ref = nil
-//
-//        42 |> f.weakly(ref) { _, _ in
-//            notExpected()
-//        }
-//    }
+    func testWeaklyNoneIO() {
+        var ref = Optional.some(Ref<Int>.init(42))
+        ref = nil
+
+        42 |> f.weakly(ref) { _, _ in
+            notExpected()
+        }
+    }
 
 
     func testWeaklySomeIO() {
@@ -35,7 +35,7 @@ class WeaklyTests: XCTestCase {
 
     static var allTests = [
         ("testWeaklyNone", testWeaklyNone),
-//        ("testWeaklyNoneIO", testWeaklyNoneIO),
+        ("testWeaklyNoneIO", testWeaklyNoneIO),
         ("testWeaklySomeIO", testWeaklySomeIO),
         ]
 }
