@@ -92,6 +92,7 @@
         }
     }
 
+/*
     func test{{ type.name }}ApplicativeInterchange() {
         property("{{ type.name }} - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String{% if type|annotated:"testNeedsContext" %}, c: String{% endif%}) in
             let a_a = {% call getTypeName type "Endo<String>" %}.pure(af.getArrow)
@@ -110,6 +111,7 @@
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a){% call getCommandCall type %} == (a_a2 <*> (a_a1 <*> a)){% call getCommandCall type %}){% call getContextCall type %}
         }
     }
+*/
 {% endmacro %}
 
 {# MONAD MACROS #}
@@ -158,8 +160,8 @@
 {% if type|annotated:"testApplicative" %}
         ("test{{ type.name }}ApplicativeIdentity",test{{ type.name }}ApplicativeIdentity),
         ("test{{ type.name }}ApplicativeHomomorphism",test{{ type.name }}ApplicativeHomomorphism),
-        ("test{{ type.name }}ApplicativeInterchange",test{{ type.name }}ApplicativeInterchange),
-        ("test{{ type.name }}ApplicativeComposition",test{{ type.name }}ApplicativeComposition),
+        //("test{{ type.name }}ApplicativeInterchange",test{{ type.name }}ApplicativeInterchange),
+        //("test{{ type.name }}ApplicativeComposition",test{{ type.name }}ApplicativeComposition),
 {% endif %}
 {% if type|annotated:"testMonad" %}
         ("test{{ type.name }}MonadLeftIdentity",test{{ type.name }}MonadLeftIdentity),

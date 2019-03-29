@@ -97,25 +97,27 @@ class LawsTests: XCTestCase {
         }
     }
 
-//    func testArrayApplicativeInterchange() {
-//        property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-//            let a_a = Array<Endo<String>>.pure(af.getArrow)
-//            let a = Array<String>.pure(x)
-//            let a_a_a = Array<(@escaping Endo<String>) -> String>.pure { $0(x) }
-//            return ((a_a <*> a) == (a_a_a <*> a_a))
-//        }
-//    }
-//
-//    func testArrayApplicativeComposition() {
-//        property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-//            let a = Array<String>.pure(x)
-//            let a_a1 = Array<Endo<String>>.pure(af.getArrow)
-//            let a_a2 = Array<Endo<String>>.pure(ag.getArrow)
-//            let a_a_a = Array<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-//            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
-//        }
-//    }
-//
+/*
+    func testArrayApplicativeInterchange() {
+        property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Array<Endo<String>>.pure(af.getArrow)
+            let a = Array<String>.pure(x)
+            let a_a_a = Array<(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
+    func testArrayApplicativeComposition() {
+        property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Array<String>.pure(x)
+            let a_a1 = Array<Endo<String>>.pure(af.getArrow)
+            let a_a2 = Array<Endo<String>>.pure(ag.getArrow)
+            let a_a_a = Array<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
+        }
+    }
+*/
+
 //MARK: - Array - Monad
 
     func testArrayMonadLeftIdentity() {
@@ -280,24 +282,26 @@ class LawsTests: XCTestCase {
         }
     }
 
-//    func testFutureApplicativeInterchange() {
-//        property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-//            let a_a = Future<Endo<String>>.pure(af.getArrow)
-//            let a = Future<String>.pure(x)
-//            let a_a_a = Future<(@escaping Endo<String>) -> String>.pure { $0(x) }
-//            return ((a_a <*> a).start() == (a_a_a <*> a_a).start())
-//        }
-//    }
-//
-//    func testFutureApplicativeComposition() {
-//        property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-//            let a = Future<String>.pure(x)
-//            let a_a1 = Future<Endo<String>>.pure(af.getArrow)
-//            let a_a2 = Future<Endo<String>>.pure(ag.getArrow)
-//            let a_a_a = Future<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-//            return ((a_a_a <*> a_a1 <*> a_a2 <*> a).start() == (a_a2 <*> (a_a1 <*> a)).start())
-//        }
-//    }
+/*
+    func testFutureApplicativeInterchange() {
+        property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Future<Endo<String>>.pure(af.getArrow)
+            let a = Future<String>.pure(x)
+            let a_a_a = Future<(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a).start() == (a_a_a <*> a_a).start())
+        }
+    }
+
+    func testFutureApplicativeComposition() {
+        property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Future<String>.pure(x)
+            let a_a1 = Future<Endo<String>>.pure(af.getArrow)
+            let a_a2 = Future<Endo<String>>.pure(ag.getArrow)
+            let a_a_a = Future<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a).start() == (a_a2 <*> (a_a1 <*> a)).start())
+        }
+    }
+*/
 
 //MARK: - Future - Monad
 
@@ -411,6 +415,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testOptionalApplicativeInterchange() {
         property("Optional - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Optional<Endo<String>>.pure(af.getArrow)
@@ -429,6 +434,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }
+*/
 
 //MARK: - Optional - Monad
 
@@ -594,25 +600,27 @@ class LawsTests: XCTestCase {
         }
     }
 
-//    func testResultApplicativeInterchange() {
-//        property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-//            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
-//            let a = Result<String,String>.pure(x)
-//            let a_a_a = Result<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
-//            return ((a_a <*> a) == (a_a_a <*> a_a))
-//        }
-//    }
-//
-//    func testResultApplicativeComposition() {
-//        property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-//            let a = Result<String,String>.pure(x)
-//            let a_a1 = Result<String,Endo<String>>.pure(af.getArrow)
-//            let a_a2 = Result<String,Endo<String>>.pure(ag.getArrow)
-//            let a_a_a = Result<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-//            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
-//        }
-//    }
-//
+/*
+    func testResultApplicativeInterchange() {
+        property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
+            let a = Result<String,String>.pure(x)
+            let a_a_a = Result<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
+    func testResultApplicativeComposition() {
+        property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Result<String,String>.pure(x)
+            let a_a1 = Result<String,Endo<String>>.pure(af.getArrow)
+            let a_a2 = Result<String,Endo<String>>.pure(ag.getArrow)
+            let a_a_a = Result<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
+        }
+    }
+*/
+
 //MARK: - Result - Monad
 
     func testResultMonadLeftIdentity() {
@@ -745,25 +753,27 @@ class LawsTests: XCTestCase {
         }
     }
 
-//    func testWriterApplicativeInterchange() {
-//        property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-//            let a_a = Writer<String,Endo<String>>.pure(af.getArrow)
-//            let a = Writer<String,String>.pure(x)
-//            let a_a_a = Writer<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
-//            return ((a_a <*> a) == (a_a_a <*> a_a))
-//        }
-//    }
-//
-//    func testWriterApplicativeComposition() {
-//        property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
-//            let a = Writer<String,String>.pure(x)
-//            let a_a1 = Writer<String,Endo<String>>.pure(af.getArrow)
-//            let a_a2 = Writer<String,Endo<String>>.pure(ag.getArrow)
-//            let a_a_a = Writer<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
-//            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
-//        }
-//    }
-//
+/*
+    func testWriterApplicativeInterchange() {
+        property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
+            let a_a = Writer<String,Endo<String>>.pure(af.getArrow)
+            let a = Writer<String,String>.pure(x)
+            let a_a_a = Writer<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            return ((a_a <*> a) == (a_a_a <*> a_a))
+        }
+    }
+
+    func testWriterApplicativeComposition() {
+        property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
+            let a = Writer<String,String>.pure(x)
+            let a_a1 = Writer<String,Endo<String>>.pure(af.getArrow)
+            let a_a2 = Writer<String,Endo<String>>.pure(ag.getArrow)
+            let a_a_a = Writer<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
+            return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
+        }
+    }
+*/
+
 //MARK: - Writer - Monad
 
     func testWriterMonadLeftIdentity() {
@@ -811,8 +821,8 @@ class LawsTests: XCTestCase {
         ("testArrayFunctorComposition",testArrayFunctorComposition),
         ("testArrayApplicativeIdentity",testArrayApplicativeIdentity),
         ("testArrayApplicativeHomomorphism",testArrayApplicativeHomomorphism),
-//        ("testArrayApplicativeInterchange",testArrayApplicativeInterchange),
-//        ("testArrayApplicativeComposition",testArrayApplicativeComposition),
+        //("testArrayApplicativeInterchange",testArrayApplicativeInterchange),
+        //("testArrayApplicativeComposition",testArrayApplicativeComposition),
         ("testArrayMonadLeftIdentity",testArrayMonadLeftIdentity),
         ("testArrayMonadRightIdentity",testArrayMonadRightIdentity),
         ("testArrayMonadAssociativity",testArrayMonadAssociativity),
@@ -827,8 +837,8 @@ class LawsTests: XCTestCase {
         ("testFutureFunctorComposition",testFutureFunctorComposition),
         ("testFutureApplicativeIdentity",testFutureApplicativeIdentity),
         ("testFutureApplicativeHomomorphism",testFutureApplicativeHomomorphism),
-//        ("testFutureApplicativeInterchange",testFutureApplicativeInterchange),
-//        ("testFutureApplicativeComposition",testFutureApplicativeComposition),
+        //("testFutureApplicativeInterchange",testFutureApplicativeInterchange),
+        //("testFutureApplicativeComposition",testFutureApplicativeComposition),
         ("testFutureMonadLeftIdentity",testFutureMonadLeftIdentity),
         ("testFutureMonadRightIdentity",testFutureMonadRightIdentity),
         ("testFutureMonadAssociativity",testFutureMonadAssociativity),
@@ -838,8 +848,8 @@ class LawsTests: XCTestCase {
         ("testOptionalFunctorComposition",testOptionalFunctorComposition),
         ("testOptionalApplicativeIdentity",testOptionalApplicativeIdentity),
         ("testOptionalApplicativeHomomorphism",testOptionalApplicativeHomomorphism),
-        ("testOptionalApplicativeInterchange",testOptionalApplicativeInterchange),
-        ("testOptionalApplicativeComposition",testOptionalApplicativeComposition),
+        //("testOptionalApplicativeInterchange",testOptionalApplicativeInterchange),
+        //("testOptionalApplicativeComposition",testOptionalApplicativeComposition),
         ("testOptionalMonadLeftIdentity",testOptionalMonadLeftIdentity),
         ("testOptionalMonadRightIdentity",testOptionalMonadRightIdentity),
         ("testOptionalMonadAssociativity",testOptionalMonadAssociativity),
@@ -854,8 +864,8 @@ class LawsTests: XCTestCase {
         ("testResultFunctorComposition",testResultFunctorComposition),
         ("testResultApplicativeIdentity",testResultApplicativeIdentity),
         ("testResultApplicativeHomomorphism",testResultApplicativeHomomorphism),
-//        ("testResultApplicativeInterchange",testResultApplicativeInterchange),
-//        ("testResultApplicativeComposition",testResultApplicativeComposition),
+        //("testResultApplicativeInterchange",testResultApplicativeInterchange),
+        //("testResultApplicativeComposition",testResultApplicativeComposition),
         ("testResultMonadLeftIdentity",testResultMonadLeftIdentity),
         ("testResultMonadRightIdentity",testResultMonadRightIdentity),
         ("testResultMonadAssociativity",testResultMonadAssociativity),
@@ -868,8 +878,8 @@ class LawsTests: XCTestCase {
         ("testWriterFunctorComposition",testWriterFunctorComposition),
         ("testWriterApplicativeIdentity",testWriterApplicativeIdentity),
         ("testWriterApplicativeHomomorphism",testWriterApplicativeHomomorphism),
-//        ("testWriterApplicativeInterchange",testWriterApplicativeInterchange),
-//        ("testWriterApplicativeComposition",testWriterApplicativeComposition),
+        //("testWriterApplicativeInterchange",testWriterApplicativeInterchange),
+        //("testWriterApplicativeComposition",testWriterApplicativeComposition),
         ("testWriterMonadLeftIdentity",testWriterMonadLeftIdentity),
         ("testWriterMonadRightIdentity",testWriterMonadRightIdentity),
         ("testWriterMonadAssociativity",testWriterMonadAssociativity),
