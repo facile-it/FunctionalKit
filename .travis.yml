@@ -2,7 +2,7 @@ language: objective-c
 osx_image: xcode10.2
 xcode_project: FunctionalKit.xcodeproj
 xcode_scheme: FunctionalKit
-xcode_sdk: macosx10.14
+xcode_sdk: macosx10.14.4
 
 script:
   - xcodebuild clean build test -project "FunctionalKit.xcodeproj" -scheme "FunctionalKit" -destination 'generic/platform=macOS'
