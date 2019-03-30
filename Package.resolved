@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/llvm-swift/FileCheck.git",
         "state": {
           "branch": null,
-          "revision": "e5871587ddf85c0bcf84f773925655f2f83ef336",
-          "version": "0.0.7"
+          "revision": "bd9cb30ceee1f21c02f51a7168f58471449807d8",
+          "version": "0.1.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/typelift/Operadics.git",
         "state": {
           "branch": null,
-          "revision": "c2a14919b3653a39a9bf268c1ae0bf71ad6833fe",
-          "version": "0.3.0"
+          "revision": "ef9c00e70ac4e5fba046f4eae3bd4e4e8f058648",
+          "version": "0.4.0"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/typelift/SwiftCheck.git",
         "state": {
           "branch": null,
-          "revision": "43ffe7ab48366c36a697c54bcdd257876edd6fc6",
-          "version": "0.10.0"
+          "revision": "077c096c3ddfc38db223ac8e525ad16ffb987138",
+          "version": "0.12.0"
         }
       }
     ]

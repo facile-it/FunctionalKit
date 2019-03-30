@@ -149,7 +149,7 @@ public extension Array {
 			tryGet: { $0.first(where: predicate) },
 			trySet: { newElement in
 				{ array in array
-					.index(where: predicate)
+					.firstIndex(where: predicate)
 					.map { (index) -> Array in
 						var m_array = array
 						m_array.remove(at: index)
