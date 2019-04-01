@@ -31,7 +31,7 @@ extension Effect: FunctionType {
 	}
 
 	public static func from(function: Function<(), Parameter>) -> Effect<Parameter> {
-		return Effect.init(function.call)
+        return Effect { function.call(()) }
 	}
 }
 
@@ -58,7 +58,7 @@ public extension Effect {
 		return Effect<A>.init { transform(self.run()) }
 	}
 
-	public static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Effect) -> Effect<A> {
+    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Effect) -> Effect<A> {
 		return { $0.map(function) }
 	}
 }

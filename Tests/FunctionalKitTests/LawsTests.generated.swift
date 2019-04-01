@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.13.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.15.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -97,6 +97,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testArrayApplicativeInterchange() {
         property("Array - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Array<Endo<String>>.pure(af.getArrow)
@@ -115,6 +116,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }
+*/
 
 //MARK: - Array - Monad
 
@@ -141,6 +143,11 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2) == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) })
         }
     }
+
+
+
+
+
 
 
 
@@ -275,6 +282,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testFutureApplicativeInterchange() {
         property("Future - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Future<Endo<String>>.pure(af.getArrow)
@@ -293,6 +301,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a).start() == (a_a2 <*> (a_a1 <*> a)).start())
         }
     }
+*/
 
 //MARK: - Future - Monad
 
@@ -406,6 +415,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testOptionalApplicativeInterchange() {
         property("Optional - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Optional<Endo<String>>.pure(af.getArrow)
@@ -424,6 +434,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }
+*/
 
 //MARK: - Optional - Monad
 
@@ -589,6 +600,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testResultApplicativeInterchange() {
         property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Result<String,Endo<String>>.pure(af.getArrow)
@@ -607,6 +619,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }
+*/
 
 //MARK: - Result - Monad
 
@@ -740,6 +753,7 @@ class LawsTests: XCTestCase {
         }
     }
 
+/*
     func testWriterApplicativeInterchange() {
         property("Writer - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
             let a_a = Writer<String,Endo<String>>.pure(af.getArrow)
@@ -758,6 +772,7 @@ class LawsTests: XCTestCase {
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }
+*/
 
 //MARK: - Writer - Monad
 
@@ -806,8 +821,8 @@ class LawsTests: XCTestCase {
         ("testArrayFunctorComposition",testArrayFunctorComposition),
         ("testArrayApplicativeIdentity",testArrayApplicativeIdentity),
         ("testArrayApplicativeHomomorphism",testArrayApplicativeHomomorphism),
-        ("testArrayApplicativeInterchange",testArrayApplicativeInterchange),
-        ("testArrayApplicativeComposition",testArrayApplicativeComposition),
+//        ("testArrayApplicativeInterchange",testArrayApplicativeInterchange),
+//        ("testArrayApplicativeComposition",testArrayApplicativeComposition),
         ("testArrayMonadLeftIdentity",testArrayMonadLeftIdentity),
         ("testArrayMonadRightIdentity",testArrayMonadRightIdentity),
         ("testArrayMonadAssociativity",testArrayMonadAssociativity),
@@ -822,8 +837,8 @@ class LawsTests: XCTestCase {
         ("testFutureFunctorComposition",testFutureFunctorComposition),
         ("testFutureApplicativeIdentity",testFutureApplicativeIdentity),
         ("testFutureApplicativeHomomorphism",testFutureApplicativeHomomorphism),
-        ("testFutureApplicativeInterchange",testFutureApplicativeInterchange),
-        ("testFutureApplicativeComposition",testFutureApplicativeComposition),
+//        ("testFutureApplicativeInterchange",testFutureApplicativeInterchange),
+//        ("testFutureApplicativeComposition",testFutureApplicativeComposition),
         ("testFutureMonadLeftIdentity",testFutureMonadLeftIdentity),
         ("testFutureMonadRightIdentity",testFutureMonadRightIdentity),
         ("testFutureMonadAssociativity",testFutureMonadAssociativity),
@@ -833,8 +848,8 @@ class LawsTests: XCTestCase {
         ("testOptionalFunctorComposition",testOptionalFunctorComposition),
         ("testOptionalApplicativeIdentity",testOptionalApplicativeIdentity),
         ("testOptionalApplicativeHomomorphism",testOptionalApplicativeHomomorphism),
-        ("testOptionalApplicativeInterchange",testOptionalApplicativeInterchange),
-        ("testOptionalApplicativeComposition",testOptionalApplicativeComposition),
+//        ("testOptionalApplicativeInterchange",testOptionalApplicativeInterchange),
+//        ("testOptionalApplicativeComposition",testOptionalApplicativeComposition),
         ("testOptionalMonadLeftIdentity",testOptionalMonadLeftIdentity),
         ("testOptionalMonadRightIdentity",testOptionalMonadRightIdentity),
         ("testOptionalMonadAssociativity",testOptionalMonadAssociativity),
@@ -849,8 +864,8 @@ class LawsTests: XCTestCase {
         ("testResultFunctorComposition",testResultFunctorComposition),
         ("testResultApplicativeIdentity",testResultApplicativeIdentity),
         ("testResultApplicativeHomomorphism",testResultApplicativeHomomorphism),
-        ("testResultApplicativeInterchange",testResultApplicativeInterchange),
-        ("testResultApplicativeComposition",testResultApplicativeComposition),
+//        ("testResultApplicativeInterchange",testResultApplicativeInterchange),
+//        ("testResultApplicativeComposition",testResultApplicativeComposition),
         ("testResultMonadLeftIdentity",testResultMonadLeftIdentity),
         ("testResultMonadRightIdentity",testResultMonadRightIdentity),
         ("testResultMonadAssociativity",testResultMonadAssociativity),
@@ -863,8 +878,8 @@ class LawsTests: XCTestCase {
         ("testWriterFunctorComposition",testWriterFunctorComposition),
         ("testWriterApplicativeIdentity",testWriterApplicativeIdentity),
         ("testWriterApplicativeHomomorphism",testWriterApplicativeHomomorphism),
-        ("testWriterApplicativeInterchange",testWriterApplicativeInterchange),
-        ("testWriterApplicativeComposition",testWriterApplicativeComposition),
+//        ("testWriterApplicativeInterchange",testWriterApplicativeInterchange),
+//        ("testWriterApplicativeComposition",testWriterApplicativeComposition),
         ("testWriterMonadLeftIdentity",testWriterMonadLeftIdentity),
         ("testWriterMonadRightIdentity",testWriterMonadRightIdentity),
         ("testWriterMonadAssociativity",testWriterMonadAssociativity),
