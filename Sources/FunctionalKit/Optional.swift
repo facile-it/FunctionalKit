@@ -25,14 +25,24 @@ public extension Optional {
     typealias Generic<A> = Optional<A>
 }
 
-extension Optional {
-    public func fold <A> (onNone: () -> A, onSome: (Wrapped) -> A) -> A {
+public extension Optional {
+    func fold <A> (onNone: () -> A, onSome: (Wrapped) -> A) -> A {
         switch self {
         case .none:
             return onNone()
         case .some(let value):
             return onSome(value)
         }
+    }
+    
+    func ifNil(_ function: () -> Void) -> Optional {
+        switch self {
+        case .some:
+            break
+        case .none:
+            function()
+        }
+        return self
     }
 }
 
