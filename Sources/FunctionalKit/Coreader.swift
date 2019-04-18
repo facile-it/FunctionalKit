@@ -4,6 +4,11 @@ import Abstract
 public struct Coreader<Environment, Parameter> {
     let environment: Environment
     private let value: Parameter
+    
+    init(environment: Environment, value: Parameter) {
+        self.environment = environment
+        self.value = value
+    }
 }
 
 public extension Coreader {
