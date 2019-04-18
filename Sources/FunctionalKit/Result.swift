@@ -383,3 +383,28 @@ public extension Result {
         return self.flatMapExtend { _, value in transform(value) }
     }
 }
+
+extension First: Error where A: Error {}
+
+extension Result: Magma where Failure: Magma, Parameter: Magma {
+    public static func <> (lhs: Result, rhs: Result) -> Result {
+        switch (lhs, rhs) {
+        case (.success(let lhsValue), .success(let rhsValue)):
+            return .success(lhsValue <> rhsValue)
+        case (.failure(let lhsValue), .failure(let rhsValue)):
+            return .failure(lhsValue <> rhsValue)
+        case (.success, .failure):
+            return rhs
+        case (.failure, .success):
+            return lhs
+        }
+    }
+}
+
+extension Result: Semigroup where Failure: Semigroup, Parameter: Semigroup {}
+
+extension Result: Monoid where Failure: Semigroup, Parameter: Monoid {
+    public static var empty: Result<Failure, Parameter> {
+        return .success(.empty)
+    }
+}

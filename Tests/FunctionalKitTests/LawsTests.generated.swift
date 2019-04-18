@@ -248,6 +248,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Future - Functor
 
     func testFutureFunctorIdentity() {
