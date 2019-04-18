@@ -116,6 +116,8 @@
 		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38FB725620065C6C003F1424 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB725520065C6C003F1424 /* Collections.swift */; };
 		38FB725720065C6C003F1424 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB725520065C6C003F1424 /* Collections.swift */; };
+		65D7C2212268AB49003C9E22 /* Coreader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C21F2268AB39003C9E22 /* Coreader.swift */; };
+		65D7C2222268AB4A003C9E22 /* Coreader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C21F2268AB39003C9E22 /* Coreader.swift */; };
 		960989221FD2F8310062ACDC /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989211FD2F8310062ACDC /* OptionalTests.swift */; };
 		960989241FD305440062ACDC /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989231FD305440062ACDC /* ArrayTests.swift */; };
 		960989261FD3064A0062ACDC /* ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960989251FD3064A0062ACDC /* ResultTests.swift */; };
@@ -226,6 +228,7 @@
 		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
 		38FB725520065C6C003F1424 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		65D7C21F2268AB39003C9E22 /* Coreader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coreader.swift; sourceTree = "<group>"; };
 		960989211FD2F8310062ACDC /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		960989231FD305440062ACDC /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		960989251FD3064A0062ACDC /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
@@ -326,6 +329,7 @@
 				38B70BED2064158700559E28 /* Effect.swift */,
 				3853706E1FC46BA4004096EB /* Future.swift */,
 				38939BA31FC32CB200012794 /* Optional.swift */,
+				65D7C21F2268AB39003C9E22 /* Coreader.swift */,
 				3853706B1FC44178004096EB /* Reader.swift */,
 				38F3C81D1FBEF71D0014D30D /* Result.swift */,
 				385370711FC48927004096EB /* State.swift */,
@@ -668,6 +672,7 @@
 				38F179BC1FBDA7B500243994 /* Boolean.swift in Sources */,
 				380C6FF41FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179BA1FBDA7B500243994 /* CoproductType.swift in Sources */,
+				65D7C2222268AB4A003C9E22 /* Coreader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +756,7 @@
 				38F179C71FBDA7B500243994 /* ProductType.swift in Sources */,
 				380C6FF31FDC1D9100DA01FB /* FunctorTransformers3.generated.swift in Sources */,
 				38F179C51FBDA7B500243994 /* FunctionType.swift in Sources */,
+				65D7C2212268AB49003C9E22 /* Coreader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
