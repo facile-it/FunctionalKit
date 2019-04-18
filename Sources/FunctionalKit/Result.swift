@@ -356,4 +356,30 @@ public extension Result {
             onSuccess: Result.success,
             onFailure: { _ in other() })
     }
+    
+    func extractT <E, A> () -> Result<Failure, A> where Parameter == Coreader<E, A> {
+        return self.map { $0.extract }
+    }
+    
+    func mapExtend <E, P, A> (_ transform: @escaping (E, P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.map {
+            $0.extend(transform)
+        }
+    }
+    
+    func mapExtract <E, P, A> (_ transform: @escaping (P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.mapExtend { _, value in transform(value) }
+    }
+    
+    func flatMapExtend <E, P, A> (_ transform: @escaping (E, P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.flatMap { old in
+            return old.extend(transform).extract.map { new in
+                old.map { _ in new }
+            }
+        }
+    }
+    
+    func flatMapExtract <E, P, A> (_ transform: @escaping (P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.flatMapExtend { _, value in transform(value) }
+    }
 }
