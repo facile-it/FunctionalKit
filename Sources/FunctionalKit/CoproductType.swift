@@ -25,7 +25,7 @@ extension Coproduct: CoproductType {
 extension Coproduct: Error where A: Error, B: Error {}
 
 // MARK: - Equatable
-//
+
 extension CoproductType where LeftType: Equatable, RightType: Equatable {
 	public static func == (lhs: Self, rhs: Self) -> Bool {
 		return lhs.toCoproduct() == rhs.toCoproduct()
@@ -54,6 +54,12 @@ public extension CoproductType {
 	func foldToRight(_ transform: (LeftType) -> RightType) -> RightType {
 		return fold(onLeft: transform, onRight: f.identity)
 	}
+    
+    func toBool() -> Bool {
+        return fold(
+            onLeft: f.pure(false),
+            onRight: f.pure(true))
+    }
 }
 
 public extension CoproductType where LeftType == RightType {

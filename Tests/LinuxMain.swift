@@ -11,4 +11,5 @@ XCTMain([
 	testCase(ProductTests.allTests),
 	testCase(ReferenceTests.allTests),
 	testCase(WeaklyTests.allTests),
+    testCase(CoreaderTests.allTests),
 ])

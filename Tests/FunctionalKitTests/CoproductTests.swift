@@ -8,6 +8,10 @@ import SwiftCheck
 
 typealias TestType = Coproduct<Int,String>
 
+typealias False = Bool
+typealias True = Bool
+typealias TestTypeBool = Coproduct<False,True>
+
 class CoproductTests: XCTestCase {
 	func testTry() {
 		TestType.left(42).tryLeft()==!
@@ -36,9 +40,18 @@ class CoproductTests: XCTestCase {
 		TestType.right("42").mapRight { $0 + "!" }.tryRight()! ==! "42!"
 	}
 
+    func testToBool() {
+        TestTypeBool.left(false).tryLeft()==!
+        TestTypeBool.left(false).tryRight()==?
+        
+        TestTypeBool.right(true).tryLeft()==?
+        TestTypeBool.right(true).tryRight()==!
+    }
+    
 	static var allTests = [
 		("testTry", testTry),
 		("testFold", testFold),
 		("testMap", testMap),
+        ("testToBool", testToBool)
 		]
 }

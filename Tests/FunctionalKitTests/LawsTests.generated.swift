@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.15.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.16.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 
@@ -191,6 +191,11 @@ class LawsTests: XCTestCase {
 
 
 
+
+
+
+
+
 //MARK: - Effect - Functor
 
     func testEffectFunctorIdentity() {
@@ -237,6 +242,11 @@ class LawsTests: XCTestCase {
             return (a.flatMap(a_ma1).flatMap(a_ma2).run() == a.flatMap{ y in a_ma1(y).flatMap(a_ma2) }.run())
         }
     }
+
+
+
+
+
 
 
 

@@ -356,4 +356,55 @@ public extension Result {
             onSuccess: Result.success,
             onFailure: { _ in other() })
     }
+    
+    func extractT <E, A> () -> Result<Failure, A> where Parameter == Coreader<E, A> {
+        return self.map { $0.extract }
+    }
+    
+    func mapExtend <E, P, A> (_ transform: @escaping (E, P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.map {
+            $0.extend(transform)
+        }
+    }
+    
+    func mapExtract <E, P, A> (_ transform: @escaping (P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.mapExtend { _, value in transform(value) }
+    }
+    
+    func flatMapExtend <E, P, A> (_ transform: @escaping (E, P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.flatMap { old in
+            return old.extend(transform).extract.map { new in
+                old.map { _ in new }
+            }
+        }
+    }
+    
+    func flatMapExtract <E, P, A> (_ transform: @escaping (P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+        return self.flatMapExtend { _, value in transform(value) }
+    }
+}
+
+extension First: Error where A: Error {}
+
+extension Result: Magma where Failure: Magma, Parameter: Magma {
+    public static func <> (lhs: Result, rhs: Result) -> Result {
+        switch (lhs, rhs) {
+        case (.success(let lhsValue), .success(let rhsValue)):
+            return .success(lhsValue <> rhsValue)
+        case (.failure(let lhsValue), .failure(let rhsValue)):
+            return .failure(lhsValue <> rhsValue)
+        case (.success, .failure):
+            return rhs
+        case (.failure, .success):
+            return lhs
+        }
+    }
+}
+
+extension Result: Semigroup where Failure: Semigroup, Parameter: Semigroup {}
+
+extension Result: Monoid where Failure: Semigroup, Parameter: Monoid {
+    public static var empty: Result<Failure, Parameter> {
+        return .success(.empty)
+    }
 }
