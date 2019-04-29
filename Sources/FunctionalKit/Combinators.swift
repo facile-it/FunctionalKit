@@ -122,5 +122,5 @@ public func <| <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
 }
 
 public func <*> <A,B> (function: (A) throws -> B, value: A) rethrows -> B {
-	return try function(value)
+    return try function(value)
 }

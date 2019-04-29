@@ -22,7 +22,35 @@ extension Inclusive: InclusiveType {
 	}
 }
 
-extension Inclusive: Error where A: Error, B: Error {}
+public enum InclusiveError<LeftError,RightError>: Error where LeftError: Error, RightError: Error {
+    case left(LeftError)
+    case center(LeftError, RightError)
+    case right(RightError)
+    
+    func toInclusive() -> Inclusive<LeftError,RightError> {
+        switch self {
+        case let .left(value):
+            return .left(value)
+        case let .right(value):
+            return .right(value)
+        case let .center(leftValue,rightValue):
+            return .center(leftValue,rightValue)
+        }
+    }
+}
+
+extension Inclusive where A: Error, B: Error {
+    func toError() -> InclusiveError<A,B> {
+        switch self {
+        case let .left(value):
+            return .left(value)
+        case let .right(value):
+            return .right(value)
+        case let .center(leftValue,rightValue):
+            return .center(leftValue,rightValue)
+        }
+    }
+}
 
 // MARK: - Equatable
 
