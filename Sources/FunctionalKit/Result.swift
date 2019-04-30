@@ -94,7 +94,7 @@ public extension Result {
         return { $0.map(function) }
     }
     
-    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<InclusiveError<F1,F2>,(A,B)> where F1: Error, F2: Error, Failure == InclusiveError<F1,F2>, ParameterType == (A,B) {
+    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<InclusiveError<F1,F2>,(A,B)> where Failure == InclusiveError<F1,F2>, ParameterType == (A,B) {
         switch (first, second) {
         case let (.success(leftValue), .success(rightValue)):
             return .success((leftValue,rightValue))
