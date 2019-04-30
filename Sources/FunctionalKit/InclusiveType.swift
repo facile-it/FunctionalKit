@@ -27,7 +27,7 @@ public enum InclusiveError<LeftError,RightError>: Error where LeftError: Error, 
     case center(LeftError, RightError)
     case right(RightError)
     
-    func toInclusive() -> Inclusive<LeftError,RightError> {
+    public func toInclusive() -> Inclusive<LeftError,RightError> {
         switch self {
         case let .left(value):
             return .left(value)
@@ -39,7 +39,27 @@ public enum InclusiveError<LeftError,RightError>: Error where LeftError: Error, 
     }
 }
 
-extension Inclusive where A: Error, B: Error {
+extension InclusiveError: InclusiveType {
+    public typealias LeftType = LeftError
+    public typealias RightType = RightError
+    
+    public func fold<T>(onLeft: @escaping (LeftError) -> T, onCenter: @escaping (LeftError, RightError) -> T, onRight: @escaping (RightError) -> T) -> T {
+        switch self {
+        case let .left(value):
+            return onLeft(value)
+        case let .center(leftValue, rightValue):
+            return onCenter(leftValue, rightValue)
+        case let .right(value):
+            return onRight(value)
+        }
+    }
+    
+    public static func from(inclusive: Inclusive<LeftError, RightError>) -> InclusiveError<LeftError, RightError> {
+        return inclusive.toError()
+    }
+}
+
+public extension Inclusive where A: Error, B: Error {
     func toError() -> InclusiveError<A,B> {
         switch self {
         case let .left(value):
