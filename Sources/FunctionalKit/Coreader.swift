@@ -5,7 +5,7 @@ public struct Coreader<Environment, Parameter> {
     let environment: Environment
     private let value: Parameter
     
-    init(environment: Environment, value: Parameter) {
+    public init(environment: Environment, value: Parameter) {
         self.environment = environment
         self.value = value
     }

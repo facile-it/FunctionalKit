@@ -94,7 +94,7 @@ public extension Result {
         return { $0.map(function) }
     }
     
-    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<Inclusive<F1,F2>,(A,B)> where Failure == Inclusive<F1,F2>, ParameterType == (A,B) {
+    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<InclusiveError<F1,F2>,(A,B)> where Failure == InclusiveError<F1,F2>, ParameterType == (A,B) {
         switch (first, second) {
         case let (.success(leftValue), .success(rightValue)):
             return .success((leftValue,rightValue))
@@ -111,41 +111,13 @@ public extension Result {
     }
     
     static func zipMerged <A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup {
-        switch (first, second) {
-        case let (.success(leftValue), .success(rightValue)):
-            return .success((leftValue,rightValue))
-            
-        case let (.failure(leftError), .failure(rightError)):
-            return .failure(leftError <> rightError)
-            
-        case let (.failure(error), _):
-            return .failure(error)
-            
-        case let (_, .failure(error)):
-            return .failure(error)
-        }
-        
-        //        return Generic.zip(first, second).mapError { $0.merged() }
+        return Generic.zip(first, second).mapError { $0.toInclusive().merged() }
     }
     
     func apply <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> {
-        switch (self, transform) {
-        case let (.success(leftValue), .success(rightValue)):
-            return .success(rightValue(leftValue))
-            
-        case let (.failure(leftError), .failure):
-            return .failure(leftError)
-            
-        case let (.failure(error), _):
-            return .failure(error)
-            
-        case let (_, .failure(error)):
-            return .failure(error)
-        }
-        
-        //        return Generic.zip(self, transform)
-        //            .map { value, function in function(value) }
-        //            .mapError { $0.left }
+        return Generic.zip(self, transform)
+            .map { value, function in function(value) }
+            .mapError { $0.toInclusive().left }
     }
     
     func applyMerged <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> where Failure: Semigroup {
@@ -154,19 +126,9 @@ public extension Result {
     }
     
     func call <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B {
-        switch (value, self) {
-        case let (.success(leftValue),.success(rightValue)):
-            return .success(rightValue(leftValue))
-        case let (.failure(leftError), .failure):
-            return .failure(leftError)
-        case let (.failure(error), _):
-            return .failure(error)
-        case let (_, .failure(error)):
-            return .failure(error)
-        }
-        //        return Generic.zip(self, value)
-        //            .map { function, value in function(value) }
-        //            .mapError { $0.left }
+        return Generic.zip(self, value)
+            .map { function, value in function(value) }
+            .mapError { $0.toInclusive().left }
     }
     
     func callMerged <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B, Failure: Semigroup {
