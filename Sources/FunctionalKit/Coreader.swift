@@ -2,7 +2,7 @@ import Foundation
 import Abstract
 
 public struct Coreader<Environment, Parameter> {
-    let environment: Environment
+    public let environment: Environment
     private let value: Parameter
     
     public init(environment: Environment, value: Parameter) {
