@@ -104,7 +104,7 @@ public extension Array {
         }
     }
 
-	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Array<A>> {
+	func traverse <A,F> (_ transform: (ParameterType) -> Result<A,F>) -> Result<Array<A>,F> {
 		return reduce(Result.pure([])) { previous, element in
 			Result.pure(f.curry(++)) <*> previous <*> transform(element)
 		}

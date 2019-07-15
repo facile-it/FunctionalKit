@@ -167,7 +167,7 @@ public extension Optional{
         }
     }
 
-	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Optional<A>> {
+	func traverse <A,F> (_ transform: (ParameterType) -> Result<A,F>) -> Result<Optional<A>,F> {
 		switch self {
 		case let value?:
 			return Result.pure(Optional<A>.some) <*> transform(value)
@@ -222,7 +222,7 @@ public extension Optional{
         }
     }
     
-    func toResult <E> (getError: @autoclosure () -> E) -> Result<E,ParameterType> where E: Error {
+    func toResult <E> (getError: @autoclosure () -> E) -> Result<ParameterType,E> where E: Error {
 		switch self {
 		case let value?:
 			return .success(value)

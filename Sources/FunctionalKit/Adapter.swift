@@ -36,8 +36,8 @@ public extension Writer {
 
 public extension Result {
 	enum iso {
-		public static var coproduct: Iso<Result,Coproduct<Failure,Parameter>> {
-			return Iso<Result,Coproduct<Failure,Parameter>>.init(
+		public static var coproduct: Iso<Result,Coproduct<Failure,Success>> {
+			return Iso<Result,Coproduct<Failure,Success>>.init(
 				from: {
 					switch $0 {
 					case let .success(value):

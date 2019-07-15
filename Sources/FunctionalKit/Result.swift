@@ -12,11 +12,9 @@ import Abstract
 // sourcery: testMonad
 // sourcery: testConstruct = "success(x)"
 // sourcery: testSecondaryParameter
-public enum Result<Failure,Parameter> where Failure: Error {
-    case success(Parameter)
-    case failure(Failure)
+extension Result {
     
-    public func run() throws -> Parameter {
+    public func run() throws -> Success {
         switch self {
         case .success(let value):
             return value
@@ -25,7 +23,7 @@ public enum Result<Failure,Parameter> where Failure: Error {
         }
     }
     
-    public func fold <A> (onSuccess: (Parameter) -> A, onFailure: (Failure) -> A) -> A {
+    public func fold <A> (onSuccess: (Success) -> A, onFailure: (Failure) -> A) -> A {
         switch self {
         case .success(let value):
             return onSuccess(value)
@@ -35,17 +33,15 @@ public enum Result<Failure,Parameter> where Failure: Error {
     }
 }
 
-extension Result: Equatable where Failure: Equatable, Parameter: Equatable {}
-
 extension Result: CoproductType {
     public typealias LeftType = Failure
-    public typealias RightType = Parameter
+    public typealias RightType = Success
     
-    public func fold<T>(onLeft: (Failure) -> T, onRight: (Parameter) -> T) -> T {
+    public func fold<T>(onLeft: (Failure) -> T, onRight: (Success) -> T) -> T {
         return fold(onSuccess: onRight, onFailure: onLeft)
     }
     
-    public static func from(coproduct: Coproduct<Failure, Parameter>) -> Result<Failure, Parameter> {
+    public static func from(coproduct: Coproduct<Failure, Success>) -> Result<Success, Failure> {
         switch coproduct {
         case let .left(error):
             return .failure(error)
@@ -56,7 +52,7 @@ extension Result: CoproductType {
 }
 
 extension Result: TypeConstructor2 {
-    public typealias ParameterType = Parameter
+    public typealias ParameterType = Success
     public typealias SecondaryType = Failure
 }
 
@@ -67,34 +63,16 @@ extension Result: PureConstructible {
 }
 
 public extension Result {
-    typealias Generic<F,A> = Result<F,A> where F: Error
+    typealias Generic<F,A> = Result<A,F> where F: Error
 }
 
 public extension Result {
-    func map <A> (_ transform: (ParameterType) -> A) -> Result<Failure,A> {
-        switch self {
-        case let .success(value):
-            return .success(transform(value))
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
     
-    func mapError <A> (_ transform: (Failure) -> A) -> Result<A,ParameterType> {
-        switch self {
-        case let .success(value):
-            return .success(value)
-        case let .failure(error):
-            return .failure(transform(error))
-        }
-        
-    }
-    
-    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Result) -> Result<Failure,A> {
+    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Result) -> Result<A,Failure> {
         return { $0.map(function) }
     }
     
-    static func zip <F1,A,F2,B> (_ first: Result<F1,A>, _ second: Result<F2,B>) -> Result<InclusiveError<F1,F2>,(A,B)> where Failure == InclusiveError<F1,F2>, ParameterType == (A,B) {
+    static func zip <A,F1,B,F2> (_ first: Result<A, F1>, _ second: Result<B, F2>) -> Result<(A,B),InclusiveError<F1,F2>> where Failure == InclusiveError<F1,F2>, ParameterType == (A,B) {
         switch (first, second) {
         case let (.success(leftValue), .success(rightValue)):
             return .success((leftValue,rightValue))
@@ -110,53 +88,53 @@ public extension Result {
         }
     }
     
-    static func zipMerged <A,B> (_ first: Result<Failure,A>, _ second: Result<Failure,B>) -> Result<Failure,(A,B)> where Failure: Semigroup {
+    static func zipMerged <A,B> (_ first: Result<A, Failure>, _ second: Result<B, Failure>) -> Result<(A,B), Failure> where Failure: Semigroup {
         return Generic.zip(first, second).mapError { $0.toInclusive().merged() }
     }
     
-    func apply <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> {
+    func apply <A> (_ transform: Result<(ParameterType) -> A, Failure>) -> Result<A, Failure> {
         return Generic.zip(self, transform)
             .map { value, function in function(value) }
             .mapError { $0.toInclusive().left }
     }
     
-    func applyMerged <A> (_ transform: Result<Failure,(ParameterType) -> A>) -> Result<Failure,A> where Failure: Semigroup {
-        return Result<Failure, (Parameter, (Parameter) -> A)>.zipMerged(self, transform)
+    func applyMerged <A> (_ transform: Result<(ParameterType) -> A, Failure>) -> Result<A, Failure> where Failure: Semigroup {
+        return Result<(Success, (Success) -> A), Failure>.zipMerged(self, transform)
             .map { value, function in function(value) }
     }
     
-    func call <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B {
+    func call <A,B> (_ value: Result<A, Failure>) -> Result<B, Failure> where ParameterType == (A) -> B {
         return Generic.zip(self, value)
             .map { function, value in function(value) }
             .mapError { $0.toInclusive().left }
     }
     
-    func callMerged <A,B> (_ value: Result<Failure,A>) -> Result<Failure,B> where ParameterType == (A) -> B, Failure: Semigroup {
-        return Result<Failure, ((A) -> B, A)>.zipMerged(self, value)
+    func callMerged <A,B> (_ value: Result<A, Failure>) -> Result<B, Failure> where ParameterType == (A) -> B, Failure: Semigroup {
+        return Result<((A) -> B, A), Failure>.zipMerged(self, value)
             .map { function, value in function(value) }
     }
     
-    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> {
+    static func <*> <A> (lhs: Result<(ParameterType) -> A, Failure>, rhs: Result) -> Result<A, Failure> {
         return lhs.call(rhs)
     }
     
-    static func <*> <A> (lhs: Result<Failure,(ParameterType) -> A>, rhs: Result) -> Result<Failure,A> where Failure: Semigroup {
+    static func <*> <A> (lhs: Result<(ParameterType) -> A,Failure>, rhs: Result) -> Result<A, Failure> where Failure: Semigroup {
         return lhs.callMerged(rhs)
     }
     
-    static func lift <A,B> (_ function: @escaping (A, B) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>) -> Result {
+    static func lift <A,B> (_ function: @escaping (A, B) -> ParameterType) -> (Result<A,Failure>, Result<B,Failure>) -> Result {
         return { ap1, ap2 in
             Generic.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
-    static func lift <A,B,C> (_ function: @escaping (A, B, C) -> ParameterType) -> (Result<Failure,A>, Result<Failure,B>, Result<Failure,C>) -> Result {
+    static func lift <A,B,C> (_ function: @escaping (A, B, C) -> ParameterType) -> (Result<A, Failure>, Result<B, Failure>, Result<C, Failure>) -> Result {
         return { ap1, ap2, ap3 in
             Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
     }
     
-    func joined<A>() -> Result<Failure,A> where ParameterType == Result<Failure,A> {
+    func joined<A>() -> Result<A, Failure> where ParameterType == Result<A, Failure> {
         switch self {
         case let .success(value):
             return value
@@ -165,11 +143,7 @@ public extension Result {
         }
     }
     
-    func flatMap <A> (_ transform: (ParameterType) -> Result<Failure,A>) -> Result<Failure,A> {
-        return map(transform).joined()
-    }
-    
-    func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Result<Failure,A>> {
+    func traverse <A> (_ transform: (ParameterType) -> Array<A>) -> Array<Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Array.pure(Generic.success) <*> transform(value)
@@ -178,7 +152,7 @@ public extension Result {
         }
     }
     
-    func traverse <A> (_ transform: (ParameterType) -> Effect<A>) -> Effect<Result<Failure,A>> {
+    func traverse <A> (_ transform: (ParameterType) -> Effect<A>) -> Effect<Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Effect.pure(Generic.success) <*> transform(value)
@@ -187,7 +161,7 @@ public extension Result {
         }
     }
     
-    func traverse <A> (_ transform: (ParameterType) -> Future<A>) -> Future<Result<Failure,A>> {
+    func traverse <A> (_ transform: (ParameterType) -> Future<A>) -> Future<Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Future.pure(Generic.success) <*> transform(value)
@@ -196,7 +170,7 @@ public extension Result {
         }
     }
     
-    func traverse <A> (_ transform: (ParameterType) -> Optional<A>) -> Optional<Result<Failure,A>> {
+    func traverse <A> (_ transform: (ParameterType) -> Optional<A>) -> Optional<Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Optional.pure(Generic.success) <*> transform(value)
@@ -205,7 +179,7 @@ public extension Result {
         }
     }
     
-    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Result<Failure,A>> {
+    func traverse <A,E> (_ transform: (ParameterType) -> Reader<E,A>) -> Reader<E,Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Reader.pure(Generic.success) <*> transform(value)
@@ -214,7 +188,7 @@ public extension Result {
         }
     }
     
-    func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Result<Failure,A>> {
+    func traverse <A,F> (_ transform: (ParameterType) -> Result<A, F>) -> Result<Result<A, Failure>, F> {
         switch self {
         case let .success(value):
             return Generic.pure(Generic.success) <*> transform(value)
@@ -223,7 +197,7 @@ public extension Result {
         }
     }
     
-    func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Result<Failure,A>> {
+    func traverse <A,M> (_ transform: (ParameterType) -> State<M,A>) -> State<M,Result<A, Failure>> {
         switch self {
         case let .success(value):
             return State.pure(Generic.success) <*> transform(value)
@@ -232,7 +206,7 @@ public extension Result {
         }
     }
     
-    func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Result<Failure,A>> {
+    func traverse <A,L> (_ transform: (ParameterType) -> Writer<L,A>) -> Writer<L,Result<A, Failure>> {
         switch self {
         case let .success(value):
             return Writer.pure(Generic.success) <*> transform(value)
@@ -259,7 +233,7 @@ public extension Result {
         }
     }
     
-    func getOr(_ fromFailure: (Failure) -> Parameter) -> Parameter {
+    func getOr(_ fromFailure: (Failure) -> Success) -> Success {
         return fold(
             onSuccess: f.identity,
             onFailure: fromFailure)
@@ -274,7 +248,7 @@ public extension Result {
         }
     }
     
-    func filter(_ predicate: (Parameter) -> Bool, or onFalse: @autoclosure () -> Failure) -> Result {
+    func filter(_ predicate: (Success) -> Bool, or onFalse: @autoclosure () -> Failure) -> Result {
         return flatMap {
             if predicate($0) {
                 return .success($0)
@@ -296,7 +270,7 @@ public extension Result {
     }
     
     @discardableResult
-    func `do`(onSuccess: (Parameter) -> Void, onFailure: (Failure) -> Void) -> Result {
+    func `do`(onSuccess: (Success) -> Void, onFailure: (Failure) -> Void) -> Result {
         switch self {
         case let .success(value):
             onSuccess(value)
@@ -307,7 +281,7 @@ public extension Result {
         return self
     }
     
-    func orNil() -> Result<Failure, Optional<ParameterType>> {
+    func orNil() -> Result<Optional<ParameterType>, Failure> {
         return self
             .map(Optional.init)
             .fallback(to: nil)
@@ -319,21 +293,21 @@ public extension Result {
             onFailure: { _ in other() })
     }
     
-    func extractT <E, A> () -> Result<Failure, A> where Parameter == Coreader<E, A> {
+    func extractT <E, A> () -> Result<A, Failure> where Success == Coreader<E, A> {
         return self.map { $0.extract }
     }
     
-    func mapExtend <E, P, A> (_ transform: @escaping (E, P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+    func mapExtend <E, P, A> (_ transform: @escaping (E, P) -> A) -> Result<Coreader<E, A>, Failure> where Success == Coreader<E, P> {
         return self.map {
             $0.extend(transform)
         }
     }
     
-    func mapExtract <E, P, A> (_ transform: @escaping (P) -> A) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+    func mapExtract <E, P, A> (_ transform: @escaping (P) -> A) -> Result<Coreader<E, A>, Failure> where Success == Coreader<E, P> {
         return self.mapExtend { _, value in transform(value) }
     }
     
-    func flatMapExtend <E, P, A> (_ transform: @escaping (E, P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+    func flatMapExtend <E, P, A> (_ transform: @escaping (E, P) -> Result<A, Failure>) -> Result<Coreader<E, A>, Failure> where Success == Coreader<E, P> {
         return self.flatMap { old in
             return old.extend(transform).extract.map { new in
                 old.map { _ in new }
@@ -341,14 +315,14 @@ public extension Result {
         }
     }
     
-    func flatMapExtract <E, P, A> (_ transform: @escaping (P) -> Result<Failure, A>) -> Result<Failure, Coreader<E, A>> where Parameter == Coreader<E, P> {
+    func flatMapExtract <E, P, A> (_ transform: @escaping (P) -> Result<A, Failure>) -> Result<Coreader<E, A>, Failure> where Success == Coreader<E, P> {
         return self.flatMapExtend { _, value in transform(value) }
     }
 }
 
 extension First: Error where A: Error {}
 
-extension Result: Magma where Failure: Magma, Parameter: Magma {
+extension Result: Magma where Failure: Magma, Success: Magma {
     public static func <> (lhs: Result, rhs: Result) -> Result {
         switch (lhs, rhs) {
         case (.success(let lhsValue), .success(let rhsValue)):
@@ -363,10 +337,10 @@ extension Result: Magma where Failure: Magma, Parameter: Magma {
     }
 }
 
-extension Result: Semigroup where Failure: Semigroup, Parameter: Semigroup {}
+extension Result: Semigroup where Failure: Semigroup, Success: Semigroup {}
 
-extension Result: Monoid where Failure: Semigroup, Parameter: Monoid {
-    public static var empty: Result<Failure, Parameter> {
+extension Result: Monoid where Failure: Semigroup, Success: Monoid {
+    public static var empty: Result<Success, Failure> {
         return .success(.empty)
     }
 }

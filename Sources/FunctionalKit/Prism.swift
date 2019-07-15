@@ -92,7 +92,7 @@ extension Result {
 			return iso.coproduct >>> Coproduct.prism.left
 		}
 
-		public static var success: Prism<Result,Parameter> {
+		public static var success: Prism<Result,Success> {
 			return iso.coproduct >>> Coproduct.prism.right
 		}
 	}

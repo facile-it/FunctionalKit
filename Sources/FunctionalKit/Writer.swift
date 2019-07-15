@@ -122,7 +122,7 @@ public extension Writer {
 		return Reader.pure(f.curry(Generic.init)) <*> Reader.pure(log) <*> transform(value)
 	}
 
-	func traverse <A,F> (_ transform: (ParameterType) -> Result<F,A>) -> Result<F,Writer<Log,A>> {
+	func traverse <A,F> (_ transform: (ParameterType) -> Result<A,F>) -> Result<Writer<Log,A>,F> {
 		return Result.pure(f.curry(Generic.init)) <*> Result.pure(log) <*> transform(value)
 	}
 
