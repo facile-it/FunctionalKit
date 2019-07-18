@@ -1,11 +1,10 @@
 {# GLOBAL MACROS #}
-
-{% macro getSecondaryParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{ level }},{% else %}{% endif %}{% endmacro %}
-
+{% macro getComma type %}{% if type.annotations.secondaryParameter %},{% else %}{% endif %}{% endmacro %}
+{% macro getDefinitionGenericParameter type %}{% if type.annotations.secondaryParameter %}Secondary{% else %}{% endif %}{% endmacro %}
+{% macro getInputConstraint type primary %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{% macro getPrimaryGenericConcreteParameter type primary %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{% macro getOutputConcreteType type1 type2 primary %}{% if type1.annotations.secondaryParameter and type1.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type1.name }}<{% call getPrimaryGenericConcreteParameter type2 primary %}{% call getComma type1 %}{{ type1.annotations.secondaryParameter }}>{% elif type1.annotations.secondaryParameter %}{{ type1.name }}<{{ type1.annotations.secondaryParameter }}{% call getComma type1 %}{% call getPrimaryGenericConcreteParameter type2 primary %}>{% else %}{{type1.name}}<{% call getPrimaryGenericConcreteParameter type2 primary %}>{% endif %}{% endmacro %}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
-
-{% macro getTypeName type parameter secondaryParameter %}{{ type.name }}<{{ secondaryParameter }}{{ parameter }}>{% endmacro %}
-
 {% macro checkEscaping2 type1 type2 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
 
 {# TRANSFORMERS #}
@@ -13,22 +12,15 @@
 {% for type1 in types.all|annotated:"functor" %}
 
 public extension {{ type1.name }} {
-
 {% for type2 in types.all|annotated:"functor" %}
 
-{% set type2Secondary %}{% call getSecondaryParameter type2 "2" %}{% endset %}
-{% set type2Constraint %}{% call getTypeName type2 "Input" type2Secondary %}{% endset %}
-{% set type2Concrete %}{% call getTypeName type2 "Output" type2Secondary %}{% endset %}
-
-{% set type1Secondary %}{% if type1.annotations.secondaryParameter %}{{ type1.annotations.secondaryParameter }},{% else %}{% endif %}{% endset %}
-{% set type1Concrete %}{% call getTypeName type1 type2Concrete type1Secondary %}{% endset %}
-
-	func mapT <{{ type2Secondary }}Input,Output> (_ transform: {% call checkEscaping2 type1 type2 %}(Input) -> Output) -> {{ type1Concrete }} where ParameterType == {{ type2Constraint }} {
+{% set genericSecondaryParameter %}{% call getDefinitionGenericParameter type2 %}{% call getComma type2 %}{% endset %}
+{% set inputConstraint %}{% call getInputConstraint type2 "Input" %}{% endset %}
+{% set outputType %}{% call getOutputConcreteType type1 type2 "Output" %}{% endset %}
+	func mapT <{{ genericSecondaryParameter }}Input,Output> (_ transform: {% call checkEscaping2 type1 type2 %}(Input) -> Output) -> {{ outputType }} where ParameterType == {{ inputConstraint }} {
         return {% call getMapName type1 %} { $0.{% call getMapName type2 %}(transform) }
     }
+
 {% endfor %}
 }
-
-
-
 {% endfor %}

@@ -3,15 +3,9 @@ import Operadics
 #endif
 import Abstract
 
-// sourcery: functor
-// sourcery: secondaryParameter = "Failure"
-// sourcery: monad
-// sourcery: traversable
-// sourcery: testFunctor
-// sourcery: testApplicative
-// sourcery: testMonad
-// sourcery: testConstruct = "success(x)"
-// sourcery: testSecondaryParameter
+//sourcery: functor
+//sourcery: secondaryParameter = "Failure"
+//sourcery: secondaryParameterOnRight = true
 extension Result {
     
     public func run() throws -> Success {
