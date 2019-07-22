@@ -1,30 +1,22 @@
 {# GLOBAL MACROS #}
-
 {% macro checkEscaping3 type1 type2 type3 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
 {% macro getComma type %}{% if type.annotations.secondaryParameter %},{% else %}{% endif %}{% endmacro %}
-
 {# GENERIC PARAMETER #}
 {% macro getDefinitionGenericParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{level}}{% else %}{% endif %}{% endmacro %}
-
 {# INPUT TYPE CONSTRAINT #}
 {% macro getFirstLevelInputConstraint type primary level %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type level %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type level %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
 {% macro getSecondLevelInputConstraint outerType outerLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}{% call getComma outerType %}{% call getDefinitionGenericParameter outerType outerLevel %}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{% call getDefinitionGenericParameter outerType outerLevel %}{% call getComma outerType %}{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
-
 {# OUTPUT TYPE CONCRETE #}
 {% macro getFirstLevelOutputConstraint type primary level %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type level %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type level %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
 {% macro getSecondLevelOutputConstraint outerType outerLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}{% call getComma outerType %}{% call getDefinitionGenericParameter outerType outerLevel %}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{% call getDefinitionGenericParameter outerType outerLevel %}{% call getComma outerType %}{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
 {% macro getThirdLevelOutputConstraint outerType middleType middleLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}{% call getComma outerType %}{{ outerType.annotations.secondaryParameter }}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{{ outerType.annotations.secondaryParameter }}{% call getComma outerType %}{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
 
 {# TRANSFORMERS #}
-
 {% for type1 in types.all|annotated:"functor" %}
-
 public extension {{ type1.name }} {
-
 {% for type2 in types.all|annotated:"functor" %}
 {% for type3 in types.all|annotated:"functor" %}
-
 {% set genericSecondSecondaryParameter %}{% call getDefinitionGenericParameter type3 "3" %}{% call getComma type %}{% endset %}
 {% set genericFirstSecondaryParameter %}{% call getDefinitionGenericParameter type2 "2" %}{% call getComma type %}{% endset %}
 {% set inputConstraint %}{% call getSecondLevelInputConstraint type2 "2" type3 "Input" "3" %}{% endset %}
