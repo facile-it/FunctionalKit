@@ -6,6 +6,10 @@ import Abstract
 //sourcery: functor
 //sourcery: secondaryParameter = "Failure"
 //sourcery: secondaryParameterOnRight = true
+// sourcery: testFunctor
+// sourcery: testApplicative
+// sourcery: testConstruct = "success(x)"
+// sourcery: testSecondaryParameter
 extension Result {
     
     public func run() throws -> Success {
