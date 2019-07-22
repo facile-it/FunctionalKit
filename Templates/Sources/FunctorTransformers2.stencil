@@ -20,7 +20,6 @@ public extension {{ type1.name }} {
 	func mapT <{{ genericSecondaryParameter }}Input,Output> (_ transform: {% call checkEscaping2 type1 type2 %}(Input) -> Output) -> {{ outputType }} where ParameterType == {{ inputConstraint }} {
         return {% call getMapName type1 %} { $0.{% call getMapName type2 %}(transform) }
     }
-
 {% endfor %}
 }
 {% endfor %}
