@@ -24,6 +24,7 @@ public extension {{ type1.name }} {
 	func mapTT <{{ genericSecondSecondaryParameter }}{% call getComma type3 %}{{ genericFirstSecondaryParameter }}{% call getComma type2 %}Input,Output> (_ transform: {% call checkEscaping3 type1 type2 type3 %}(Input) -> Output) -> {{ outputConcreteType }} where ParameterType == {{ inputConstraint }}  {
 		return {% call getMapName type1 %} { $0.{% call getMapName type2 %} { $0.{% call getMapName type3 %}(transform) } }
 	}
+	
 {% endfor %}
 {% endfor %}
 }

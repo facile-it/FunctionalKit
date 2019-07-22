@@ -11,7 +11,7 @@ class ResultTests: XCTestCase {
         case error
     }
     
-    typealias TestResultType<T> = Result<TestErrorType, T>
+    typealias TestResultType<T> = Result<T,TestErrorType>
     
     func testLiftOneArg() {
         let id: (Int) -> Int = {$0}

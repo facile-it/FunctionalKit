@@ -1,40 +1,29 @@
 {# GLOBAL MACROS #}
-
-{% macro getSecondaryParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{ level }},{% else %}{% endif %}{% endmacro %}
-
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
-
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
-
-{% macro getTypeName type parameter secondaryParameter %}{{ type.name }}<{{ secondaryParameter }}{{ parameter }}>{% endmacro %}
-
 {% macro checkEscaping2 type1 type2 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
-
 {% macro getJoinedName type %}{% if type.annotations.alternativeJoined %}{{ type.annotations.alternativeJoined }}{% else %}joined(){% endif %}{% endmacro %}
+{% macro getComma type %}{% if type.annotations.secondaryParameter %},{% else %}{% endif %}{% endmacro %}
+{# GENERIC PARAMETER #}
+{% macro getDefinitionGenericParameter type %}{% if type.annotations.secondaryParameter %}Secondary{% else %}{% endif %}{% endmacro %}
+{# INPUT TYPE CONSTRAINT #}
+{% macro getInputConstraint type primary %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{# OUTPUT TYPE CONCRETE #}
+{% macro getPrimaryGenericConcreteParameter type primary %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{% macro getOutputConcreteType type1 type2 primary %}{% if type1.annotations.secondaryParameter and type1.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type1.name }}<{% call getPrimaryGenericConcreteParameter type2 primary %}{% call getComma type1 %}{{ type1.annotations.secondaryParameter }}>{% elif type1.annotations.secondaryParameter %}{{ type1.name }}<{{ type1.annotations.secondaryParameter }}{% call getComma type1 %}{% call getPrimaryGenericConcreteParameter type2 primary %}>{% else %}{{type1.name}}<{% call getPrimaryGenericConcreteParameter type2 primary %}>{% endif %}{% endmacro %}
 
 {# TRANSFORMERS #}
-
 {% for type1 in types.all|annotated:"functor"|annotated:"monad"|!annotated:"customTransformer" %}
-
 public extension {{ type1.name }} {
-
 {% for type2 in types.all|annotated:"functor"|annotated:"monad"|annotated:"traversable" %}
-
-{% set type2Secondary %}{% call getSecondaryParameter type2 "2" %}{% endset %}
-{% set type2Constraint %}{% call getTypeName type2 "Input" type2Secondary %}{% endset %}
-{% set type2Concrete %}{% call getTypeName type2 "Output" type2Secondary %}{% endset %}
-
-{% set type1Secondary %}{% if type1.annotations.secondaryParameter %}{{ type1.annotations.secondaryParameter }},{% else %}{% endif %}{% endset %}
-{% set type1Concrete %}{% call getTypeName type1 type2Concrete type1Secondary %}{% endset %}
-
-	func flatMapT <{{ type2Secondary }}Input,Output> (_ transform: {% call checkEscaping2 type1 type2 %}(Input) -> {{ type1Concrete }}) -> {{ type1Concrete }} where ParameterType == {{ type2Constraint }} {
-        return {% call getFlatMapName type1 %} { (value) -> {{ type1Concrete }} in
+{% set genericSecondaryParameter %}{% call getDefinitionGenericParameter type2 %}{% call getComma type2 %}{% endset %}
+{% set inputConstraint %}{% call getInputConstraint type2 "Input" %}{% endset %}
+{% set outputType %}{% call getOutputConcreteType type1 type2 "Output" %}{% endset %}
+	func flatMapT <{{ genericSecondaryParameter }}Input,Output> (_ transform: {% call checkEscaping2 type1 type2 %}(Input) -> {{ outputType }}) -> {{ outputType }} where ParameterType == {{ inputConstraint }} {
+        return {% call getFlatMapName type1 %} { (value) -> {{ outputType }} in
 			value.traverse(transform).{% call getMapName type1 %} { $0.{% call getJoinedName type2 %} }
         }
     }
 {% endfor %}
 }
-
-
-
 {% endfor %}

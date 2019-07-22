@@ -3,11 +3,14 @@ import Operadics
 #endif
 import Abstract
 
-//sourcery: functor
-//sourcery: secondaryParameter = "Failure"
-//sourcery: secondaryParameterOnRight = true
+// sourcery: functor
+// sourcery: secondaryParameter = "Failure"
+// sourcery: secondaryParameterOnRight = true
+// sourcery: monad
+// sourcery: traversable
 // sourcery: testFunctor
 // sourcery: testApplicative
+// sourcery: testMonad
 // sourcery: testConstruct = "success(x)"
 // sourcery: testSecondaryParameter
 extension Result {
