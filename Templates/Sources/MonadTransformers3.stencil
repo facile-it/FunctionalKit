@@ -1,39 +1,30 @@
 {# GLOBAL MACROS #}
-
-{% macro getSecondaryParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{ level }},{% else %}{% endif %}{% endmacro %}
-
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
-
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
-
-{% macro getTypeName type parameter secondaryParameter %}{{ type.name }}<{{ secondaryParameter }}{{ parameter }}>{% endmacro %}
-
 {% macro checkEscaping3 type1 type2 type3 %}{% if type1.annotations.escapingHOF %}@escaping {% elif type2.annotations.escapingHOF %}@escaping {% elif type3.annotations.escapingHOF %}@escaping {% endif %}{% endmacro %}
-
 {% macro getJoinedName type %}{% if type.annotations.alternativeJoined %}{{ type.annotations.alternativeJoined }}{% else %}joined(){% endif %}{% endmacro %}
+{% macro getComma type %}{% if type.annotations.secondaryParameter %},{% else %}{% endif %}{% endmacro %}
+{# GENERIC PARAMETER #}
+{% macro getDefinitionGenericParameter type level %}{% if type.annotations.secondaryParameter %}Secondary{{level}}{% else %}{% endif %}{% endmacro %}
+{# INPUT TYPE CONSTRAINT #}
+{% macro getFirstLevelInputConstraint type primary level %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type level %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type level %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{% macro getSecondLevelInputConstraint outerType outerLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}{% call getComma outerType %}{% call getDefinitionGenericParameter outerType outerLevel %}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{% call getDefinitionGenericParameter outerType outerLevel %}{% call getComma outerType %}{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getFirstLevelInputConstraint innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
+{# OUTPUT TYPE CONCRETE #}
+{% macro getFirstLevelOutputConstraint type primary level %}{% if type.annotations.secondaryParameter and type.annotations.secondaryParameterOnRight|annotated:"true" %}{{ type.name }}<{{ primary }}{% call getComma type %}{% call getDefinitionGenericParameter type level %}>{% elif type.annotations.secondaryParameter %}{{ type.name }}<{% call getDefinitionGenericParameter type level %}{% call getComma type %}{{ primary }}>{% else %}{{ type.name }}<{{ primary }}>{% endif %}{% endmacro %}
+{% macro getSecondLevelOutputConstraint outerType outerLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}{% call getComma outerType %}{% call getDefinitionGenericParameter outerType outerLevel %}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{% call getDefinitionGenericParameter outerType outerLevel %}{% call getComma outerType %}{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getFirstLevelOutputConstraint innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
+{% macro getThirdLevelOutputConstraint outerType middleType middleLevel innerType innerPrimary innerLevel %}{% if outerType.annotations.secondaryParameter and outerType.annotations.secondaryParameterOnRight|annotated:"true" %}{{ outerType.name }}<{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}{% call getComma outerType %}{{ outerType.annotations.secondaryParameter }}>{% elif outerType.annotations.secondaryParameter %}{{ outerType.name }}<{{ outerType.annotations.secondaryParameter }}{% call getComma outerType %}{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}>{% else %}{{ outerType.name }}<{% call getSecondLevelOutputConstraint middleType middleLevel innerType innerPrimary innerLevel %}>{% endif %}{% endmacro %}
 
 {# TRANSFORMERS #}
-
 {% for type1 in types.all|annotated:"functor"|annotated:"monad"|!annotated:"customTransformer" %}
-
 public extension {{ type1.name }} {
-
 {% for type2 in types.all|annotated:"functor"|annotated:"monad"|annotated:"traversable" %}
 {% for type3 in types.all|annotated:"functor"|annotated:"monad"|annotated:"traversable" %}
-
-{% set type3Secondary %}{% call getSecondaryParameter type3 "3" %}{% endset %}
-{% set type3Constraint %}{% call getTypeName type3 "Input" type3Secondary %}{% endset %}
-{% set type3Concrete %}{% call getTypeName type3 "Output" type3Secondary %}{% endset %}
-
-{% set type2Secondary %}{% call getSecondaryParameter type2 "2" %}{% endset %}
-{% set type2Constraint %}{% call getTypeName type2 type3Constraint type2Secondary %}{% endset %}
-{% set type2Concrete %}{% call getTypeName type2 type3Concrete type2Secondary %}{% endset %}
-
-{% set type1Secondary %}{% if type1.annotations.secondaryParameter %}{{ type1.annotations.secondaryParameter }},{% else %}{% endif %}{% endset %}
-{% set type1Concrete %}{% call getTypeName type1 type2Concrete type1Secondary %}{% endset %}
-
-	func flatMapTT <{{ type3Secondary }}{{ type2Secondary }}Input,Output> (_ transform: {% call checkEscaping3 type1 type2 type3 %}(Input) -> {{ type1Concrete }}) -> {{ type1Concrete }} where ParameterType == {{ type2Constraint }} {
-		return flatMapT { (value) -> {{ type1Concrete }} in
+{% set genericSecondSecondaryParameter %}{% call getDefinitionGenericParameter type3 "3" %}{% call getComma type %}{% endset %}
+{% set genericFirstSecondaryParameter %}{% call getDefinitionGenericParameter type2 "2" %}{% call getComma type %}{% endset %}
+{% set inputConstraint %}{% call getSecondLevelInputConstraint type2 "2" type3 "Input" "3" %}{% endset %}
+{% set outputConcreteType %}{% call getThirdLevelOutputConstraint type1 type2 "2" type3 "Output" "3"%}{% endset %}
+	func flatMapTT <{{ genericSecondSecondaryParameter }}{% call getComma type3 %}{{ genericFirstSecondaryParameter }}{% call getComma type2 %}Input,Output> (_ transform: {% call checkEscaping3 type1 type2 type3 %}(Input) -> {{ outputConcreteType }}) -> {{ outputConcreteType }} where ParameterType == {{ inputConstraint }} {
+		return flatMapT { (value) -> {{ outputConcreteType }} in
 			value.traverse(transform).{% call getMapName type1 %} { $0.traverse(f.identity) }.mapT { $0.{% call getJoinedName type3 %} }
 		}
 	}

@@ -600,7 +600,7 @@ class LawsTests: XCTestCase {
 
     func testResultApplicativeIdentity() {
         property("Result - Applicative Laws - Identity") <- forAll { (x: String) in
-            let a_a = Result<String,Endo<String>>.pure(f.identity)
+            let a_a = Result<Endo<String>,String>.pure(f.identity)
             let a = Result<String,String>.pure(x)
             return ((a_a <*> a) == a)
         }
@@ -608,7 +608,7 @@ class LawsTests: XCTestCase {
 
     func testResultApplicativeHomomorphism() {
         property("Result - Applicative Laws - Homomorphism") <- forAll { (af: ArrowOf<String,String>, x: String) in
-            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
+            let a_a = Result<Endo<String>,String>.pure(af.getArrow)
             let a1 = Result<String,String>.pure(x)
             let a2 = Result<String,String>.pure(af.getArrow(x))
             return ((a_a <*> a1) == a2)
@@ -618,9 +618,9 @@ class LawsTests: XCTestCase {
 /*
     func testResultApplicativeInterchange() {
         property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, x: String) in
-            let a_a = Result<String,Endo<String>>.pure(af.getArrow)
+            let a_a = Result<Endo<String>,String>.pure(af.getArrow)
             let a = Result<String,String>.pure(x)
-            let a_a_a = Result<String,(@escaping Endo<String>) -> String>.pure { $0(x) }
+            let a_a_a = Result<(@escaping Endo<String>) -> String,String>.pure { $0(x) }
             return ((a_a <*> a) == (a_a_a <*> a_a))
         }
     }
@@ -628,9 +628,9 @@ class LawsTests: XCTestCase {
     func testResultApplicativeComposition() {
         property("Result - Applicative Laws - Interchange") <- forAll { (af: ArrowOf<String,String>, ag: ArrowOf<String,String>, x: String) in
             let a = Result<String,String>.pure(x)
-            let a_a1 = Result<String,Endo<String>>.pure(af.getArrow)
-            let a_a2 = Result<String,Endo<String>>.pure(ag.getArrow)
-            let a_a_a = Result<String,(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>>.pure(f.curry(f.compose))
+            let a_a1 = Result<Endo<String>,String>.pure(af.getArrow)
+            let a_a2 = Result<Endo<String>,String>.pure(ag.getArrow)
+            let a_a_a = Result<(@escaping Endo<String>) -> (@escaping Endo<String>) -> Endo<String>,String>.pure(f.curry(f.compose))
             return ((a_a_a <*> a_a1 <*> a_a2 <*> a) == (a_a2 <*> (a_a1 <*> a)))
         }
     }

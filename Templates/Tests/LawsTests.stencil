@@ -1,5 +1,5 @@
 {# GLOBAL MACROS #}
-{% macro getTypeName type parameter %}{{ type.name }}<{% if type|annotated:"testSecondaryParameter" %}String,{% endif %}{{ parameter }}>{% endmacro %}
+{% macro getTypeName type parameter %}{{ type.name }}{% if type|annotated:"testSecondaryParameter" and type.annotations.secondaryParameterOnRight|annotated:"true"%}<{{ parameter }},String>{% elif type|annotated:"testSecondaryParameter" %}<String,{{ parameter }}>{% else %}<{{ parameter }}>{% endif %}{% endmacro %}
 {% macro getMapName type %}{% if type|annotated:"customMap" %}{{ type.annotations.customMap }}{% else %}map{% endif %}{% endmacro %}
 {% macro getFlatMapName type %}{% if type|annotated:"customFlatMap" %}{{ type.annotations.customFlatMap }}{% else %}flatMap{% endif %}{% endmacro %}
 {% macro getCommandCall type %}{% if type|annotated:"testNeedsCommand" %}.{{ type.annotations.testNeedsCommand }}{% endif %}{% endmacro %}
