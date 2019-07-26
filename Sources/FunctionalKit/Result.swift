@@ -15,15 +15,6 @@ import Abstract
 // sourcery: testSecondaryParameter
 extension Result {
     
-    public func run() throws -> Success {
-        switch self {
-        case .success(let value):
-            return value
-        case .failure(let error):
-            throw error
-        }
-    }
-    
     public func fold <A> (onSuccess: (Success) -> A, onFailure: (Failure) -> A) -> A {
         switch self {
         case .success(let value):
@@ -35,18 +26,18 @@ extension Result {
 }
 
 extension Result: CoproductType {
-    public typealias LeftType = Failure
-    public typealias RightType = Success
+    public typealias RightType = Failure
+    public typealias LeftType = Success
     
-    public func fold<T>(onLeft: (Failure) -> T, onRight: (Success) -> T) -> T {
-        return fold(onSuccess: onRight, onFailure: onLeft)
+    public func fold<T>(onLeft: (Success) -> T, onRight: (Failure) -> T) -> T {
+        return fold(onSuccess: onLeft, onFailure: onRight)
     }
     
-    public static func from(coproduct: Coproduct<Failure, Success>) -> Result<Success, Failure> {
+    public static func from(coproduct: Coproduct<Success, Failure>) -> Result<Success, Failure> {
         switch coproduct {
-        case let .left(error):
+        case let .right(error):
             return .failure(error)
-        case let .right(value):
+        case let .left(value):
             return .success(value)
         }
     }
@@ -64,7 +55,7 @@ extension Result: PureConstructible {
 }
 
 public extension Result {
-    typealias Generic<F,A> = Result<A,F> where F: Error
+    typealias Generic<A,F> = Result<A,F> where F: Error
 }
 
 public extension Result {
