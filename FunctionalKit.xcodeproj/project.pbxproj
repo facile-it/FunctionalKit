@@ -116,6 +116,8 @@
 		38F3C8281FBF40760014D30D /* Abstract.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F3C8241FBF40600014D30D /* Abstract.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38FB725620065C6C003F1424 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB725520065C6C003F1424 /* Collections.swift */; };
 		38FB725720065C6C003F1424 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FB725520065C6C003F1424 /* Collections.swift */; };
+		655948CC235F0F9C00E019AB /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655948CA235F0EBA00E019AB /* ArrayExtensions.swift */; };
+		655948CD235F0F9E00E019AB /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655948CA235F0EBA00E019AB /* ArrayExtensions.swift */; };
 		65D7C2212268AB49003C9E22 /* Coreader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C21F2268AB39003C9E22 /* Coreader.swift */; };
 		65D7C2222268AB4A003C9E22 /* Coreader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C21F2268AB39003C9E22 /* Coreader.swift */; };
 		65D7C2252268D6E2003C9E22 /* CoreaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D7C2232268D369003C9E22 /* CoreaderTests.swift */; };
@@ -229,6 +231,7 @@
 		38F3C8231FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/iOS/Abstract.framework; sourceTree = "<group>"; };
 		38F3C8241FBF40600014D30D /* Abstract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Abstract.framework; path = Carthage/Build/Mac/Abstract.framework; sourceTree = "<group>"; };
 		38FB725520065C6C003F1424 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		655948CA235F0EBA00E019AB /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		65D7C21F2268AB39003C9E22 /* Coreader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coreader.swift; sourceTree = "<group>"; };
 		65D7C2232268D369003C9E22 /* CoreaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreaderTests.swift; sourceTree = "<group>"; };
 		960989211FD2F8310062ACDC /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
@@ -397,6 +400,14 @@
 			name = Docs;
 			sourceTree = "<group>";
 		};
+		655948C7235F0E5C00E019AB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				655948CA235F0EBA00E019AB /* ArrayExtensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,6 +483,7 @@
 		OBJ_8 /* FunctionalKit */ = {
 			isa = PBXGroup;
 			children = (
+				655948C7235F0E5C00E019AB /* Extensions */,
 				381B2C3120A59DFA00F3C13A /* Utility */,
 				38B9E7EB1FD8381200E55BE3 /* Algebra */,
 				38B9E7EF1FD8388A00E55BE3 /* Category */,
@@ -660,6 +672,7 @@
 				38B70BEF2064158700559E28 /* Effect.swift in Sources */,
 				38F179B81FBDA7B500243994 /* Weakly.swift in Sources */,
 				38CA236B20C662F400806615 /* Accessor.swift in Sources */,
+				655948CD235F0F9E00E019AB /* ArrayExtensions.swift in Sources */,
 				388AACC22020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD978A1FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF81FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
@@ -745,6 +758,7 @@
 				38B70BEE2064158700559E28 /* Effect.swift in Sources */,
 				38F179C91FBDA7B500243994 /* Reference.swift in Sources */,
 				38CA236A20C662F400806615 /* Accessor.swift in Sources */,
+				655948CC235F0F9C00E019AB /* ArrayExtensions.swift in Sources */,
 				388AACC12020CD2D00FBE3FA /* Affine.swift in Sources */,
 				38DD97891FDC2D0A00C67DFB /* ReaderTransformer.generated.swift in Sources */,
 				380C6FF71FDC1D9100DA01FB /* FunctorTransformers2.generated.swift in Sources */,
