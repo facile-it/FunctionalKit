@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/SwiftCheck-Swift.h</key>
 		<data>
-		a4NiJD/x9H9LBjaV+mUustRRPFw=
+		cg+wr33Y82bI+iSZYEg3fY2FUS0=
 		</data>
 		<key>Headers/SwiftCheck.h</key>
 		<data>
@@ -14,23 +14,31 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		z1oJ/nx45x0AyQGRu8pcHAvnudk=
+		qdFDrquVmjjtX6uRp4lh5k/Yi4Q=
+		</data>
+		<key>Modules/SwiftCheck.swiftmodule/Project/x86_64-apple-tvos-simulator.swiftsourceinfo</key>
+		<data>
+		YUZmhA3FemvNrBNPS96myT3Bczo=
+		</data>
+		<key>Modules/SwiftCheck.swiftmodule/Project/x86_64.swiftsourceinfo</key>
+		<data>
+		YUZmhA3FemvNrBNPS96myT3Bczo=
 		</data>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<data>
-		Hm1qYxoUJXbW7GNaYAjFPh/vtgA=
+		2kMLUSv6s4xtmqoCrQETaR1PSzU=
 		</data>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<data>
-		17DzEvxrbxEzLTksHy0rvdnJ6p4=
+		L0M/A/zzhp77/hSWq7hGO0LpoZM=
 		</data>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		Hm1qYxoUJXbW7GNaYAjFPh/vtgA=
+		2kMLUSv6s4xtmqoCrQETaR1PSzU=
 		</data>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		17DzEvxrbxEzLTksHy0rvdnJ6p4=
+		L0M/A/zzhp77/hSWq7hGO0LpoZM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,11 +51,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			a4NiJD/x9H9LBjaV+mUustRRPFw=
+			cg+wr33Y82bI+iSZYEg3fY2FUS0=
 			</data>
 			<key>hash2</key>
 			<data>
-			6DoUrBFVICrRiaqw3TQK5yRMI0u7/2TFMgm4PF1bOO0=
+			ARKWAOOPa5VgHHoOT9xxXzogbGgInron6di/e25sZu4=
 			</data>
 		</dict>
 		<key>Headers/SwiftCheck.h</key>
@@ -61,48 +69,70 @@
 			ctWCqEgW3vJeRhIHOiH7oTUvBORoJdN98+VgCQpUanw=
 			</data>
 		</dict>
+		<key>Modules/SwiftCheck.swiftmodule/Project/x86_64-apple-tvos-simulator.swiftsourceinfo</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YUZmhA3FemvNrBNPS96myT3Bczo=
+			</data>
+			<key>hash2</key>
+			<data>
+			Jfns4PoPUfDAYfMpBgqsdJOzrYzjRAsR1NvvacvMKV0=
+			</data>
+		</dict>
+		<key>Modules/SwiftCheck.swiftmodule/Project/x86_64.swiftsourceinfo</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YUZmhA3FemvNrBNPS96myT3Bczo=
+			</data>
+			<key>hash2</key>
+			<data>
+			Jfns4PoPUfDAYfMpBgqsdJOzrYzjRAsR1NvvacvMKV0=
+			</data>
+		</dict>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Hm1qYxoUJXbW7GNaYAjFPh/vtgA=
+			2kMLUSv6s4xtmqoCrQETaR1PSzU=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZSbskodGSTt+o3ovhIPBRUnNf1l7WkrzpsZ0wt9bPqM=
+			CNR7p+UtmINBrOkbYw5Q3fhnOBmb6F+DUIycBTMcszk=
 			</data>
 		</dict>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			17DzEvxrbxEzLTksHy0rvdnJ6p4=
+			L0M/A/zzhp77/hSWq7hGO0LpoZM=
 			</data>
 			<key>hash2</key>
 			<data>
-			l63SZuTku7EiQCX8kYKi9w4B/XKZclOnboX4qcFApHw=
+			g4mF63JGaJvdc4DM4oiDiGlFse0CLt3M+jg//U8d6Ws=
 			</data>
 		</dict>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Hm1qYxoUJXbW7GNaYAjFPh/vtgA=
+			2kMLUSv6s4xtmqoCrQETaR1PSzU=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZSbskodGSTt+o3ovhIPBRUnNf1l7WkrzpsZ0wt9bPqM=
+			CNR7p+UtmINBrOkbYw5Q3fhnOBmb6F+DUIycBTMcszk=
 			</data>
 		</dict>
 		<key>Modules/SwiftCheck.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			17DzEvxrbxEzLTksHy0rvdnJ6p4=
+			L0M/A/zzhp77/hSWq7hGO0LpoZM=
 			</data>
 			<key>hash2</key>
 			<data>
-			l63SZuTku7EiQCX8kYKi9w4B/XKZclOnboX4qcFApHw=
+			g4mF63JGaJvdc4DM4oiDiGlFse0CLt3M+jg//U8d6Ws=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
