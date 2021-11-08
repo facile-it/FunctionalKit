@@ -231,6 +231,7 @@
 		38FB725520065C6C003F1424 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		65D7C21F2268AB39003C9E22 /* Coreader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coreader.swift; sourceTree = "<group>"; };
 		65D7C2232268D369003C9E22 /* CoreaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreaderTests.swift; sourceTree = "<group>"; };
+		835D30B227395FF5004C9DCB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		960989211FD2F8310062ACDC /* OptionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		960989231FD305440062ACDC /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		960989251FD3064A0062ACDC /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
@@ -377,6 +378,7 @@
 		38F1799A1FBDA4EE00243994 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				835D30B227395FF5004C9DCB /* XCTest.framework */,
 				AAAE2E0E1FCC4BA100D0D861 /* SwiftCheck.framework */,
 				38F3C8241FBF40600014D30D /* Abstract.framework */,
 				38F3C8231FBF40600014D30D /* Abstract.framework */,
