@@ -1,1 +1,2 @@
-github "typelift/SwiftCheck"
+# SwiftCheck by typelift seems to be abandoned by their creators on May 2019. Since then, no more releases have been shared with the community. But, occasionally, `master` branch is still on development on time to time. We decided to specify the last `master` commit that we tested to be (really) stable and update manually, so that we'll be able to avoid possible errors in CI.
+github "typelift/SwiftCheck" "7494bedfa42972431004a5d478dbf1fc2655e1e6"
