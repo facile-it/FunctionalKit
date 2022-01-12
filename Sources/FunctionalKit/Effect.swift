@@ -48,9 +48,19 @@ public extension Effect {
 }
 
 extension Effect: PureConstructible {
+    /**
+     Creates an `Effect` that returns a value frozen in time. This is different from `init` method, that needs a closure, not a value.
+     
+     `pure` means "always return this value".
+     
+     `pure` is different from `init`, since `init` needs a closure, where is the closure itself that has the responbility to track a mutable variable and its mutations.
+     
+     For this reason, use `pure` every time you need an `Effect` that returns and keep a value frozen in time. This is perfect for literal values and constants.
+     */
 	public static func pure(_ value: Parameter) -> Effect {
 		return Effect.init { value }
 	}
+    
 }
 
 public extension Effect {
