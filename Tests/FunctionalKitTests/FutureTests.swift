@@ -9,7 +9,7 @@ import Abstract
 class FutureTests: XCTestCase {
     
     func testLiftOneArg() {
-        let id: (Int) -> Int = {$0}
+        let id: @Sendable (Int) -> Int = {$0}
         let ap1 = Future.pure(1)
         
         expecting("testLiftOneArg") { (fulfill) in
@@ -21,7 +21,7 @@ class FutureTests: XCTestCase {
     }
     
     func testLiftTwoArgs() {
-        let sum: (Int,Int) -> Int = {$0 + $1}
+        let sum: @Sendable (Int,Int) -> Int = {$0 + $1}
         let ap1 = Future.pure(1)
         let ap2 = Future.pure(2)
         
@@ -34,7 +34,7 @@ class FutureTests: XCTestCase {
     }
     
     func testLiftThreeArgs(){
-        let sum: (Int,Int, Int) -> Int = {$0 + $1 + $2}
+        let sum: @Sendable (Int,Int, Int) -> Int = {$0 + $1 + $2}
         let ap1 = Future.pure(1)
         let ap2 = Future.pure(2)
         let ap3 = Future.pure(3)
