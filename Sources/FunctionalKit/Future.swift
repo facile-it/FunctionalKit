@@ -19,8 +19,8 @@ private enum FutureState<T> {
 // sourcery: testConstruct = "init { $0(x) }"
 // sourcery: testNeedsCommand = "start()"
 public final class Future<Parameter> {
-    private var continuation: ((@escaping (Parameter) -> ()) -> ())?
-    public init(_ continuation: @escaping (@escaping (Parameter) -> ()) -> ()) {
+    private var continuation: ((@Sendable @escaping (Parameter) -> ()) -> ())?
+    public init(_ continuation: @escaping (@Sendable @escaping (Parameter) -> ()) -> ()) {
         self.continuation = continuation
     }
     
@@ -41,7 +41,7 @@ public final class Future<Parameter> {
     }
     
     @discardableResult
-    public func run(_ callback: @escaping (Parameter) -> ()) -> Future {
+    public func run(_ callback: @Sendable @escaping (Parameter) -> ()) -> Future {
         switch currentState {
         case .idle:
             callbacks.append(callback)
@@ -87,23 +87,23 @@ extension Future: PureConstructible {
 
 
 public extension Future {
-    func map <A> (_ transform: @escaping (ParameterType) -> A) -> Future<A> {
+    func map <A> (_ transform: @Sendable @escaping (ParameterType) -> A) -> Future<A> {
         return Generic.init { done in
             self.run { value in done(transform(value)) }
         }
     }
     
-    static func lift<A>(_ function: @escaping (ParameterType) -> A) -> (Future) -> Future<A> {
+    static func lift<A>(_ function: @Sendable @escaping (ParameterType) -> A) -> (Future) -> Future<A> {
         return { $0.map(function) }
     }
     
-    static func lift<A,B>(_ function: @escaping (A, B) -> ParameterType) -> (Future<A>, Future<B>) -> Future {
+    static func lift<A,B>(_ function: @Sendable @escaping (A, B) -> ParameterType) -> (Future<A>, Future<B>) -> Future {
         return { (ap1, ap2) in
             Generic.pure(f.curry(function)) <*> ap1 <*> ap2
         }
     }
     
-    static func lift<A,B,C>(_ function: @escaping (A, B, C) -> ParameterType) -> (Future<A>, Future<B>, Future<C>) -> Future {
+    static func lift<A,B,C>(_ function: @Sendable @escaping (A, B, C) -> ParameterType) -> (Future<A>, Future<B>, Future<C>) -> Future {
         return { (ap1, ap2, ap3) in
             Generic.pure(f.curry(function)) <*> ap1 <*> ap2 <*> ap3
         }
@@ -114,13 +114,13 @@ public extension Future {
     static func zipParallel <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where ParameterType == (A,B) {
         return Generic.init { done in
             var tuple: (A?,B?) = (nil,nil)
-            
+
             first.run { value in
                 tuple.0 = value
                 guard let first = tuple.0, let second = tuple.1 else { return }
                 done((first,second))
             }
-            
+
             second.run { value in
                 tuple.1 = value
                 guard let first = tuple.0, let second = tuple.1 else { return }
@@ -165,7 +165,7 @@ public extension Future {
         return Generic.init { done in self.run { $0.run(done) } }
     }
 
-    func flatMap <A> (_ transform: @escaping (ParameterType) -> Future<A>) -> Future<A> {
+    func flatMap <A> (_ transform: @Sendable @escaping (ParameterType) -> Future<A>) -> Future<A> {
         return map(transform).joined()
     }
 }
@@ -179,7 +179,7 @@ public extension Future {
         }
     }
 
-	static func after(_ delay: Double, call: @escaping () -> ParameterType) -> Future {
+	static func after(_ delay: Double, call: @Sendable @escaping () -> ParameterType) -> Future {
 		return Future.init { done in
 			DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
 				done(call())
