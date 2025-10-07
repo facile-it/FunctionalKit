@@ -1,7 +1,7 @@
 import Foundation
 import Abstract
 
-public struct Coreader<Environment, Parameter> {
+public struct Coreader<Environment, Parameter>: Sendable {
     public let environment: Environment
     private let value: Parameter
     
