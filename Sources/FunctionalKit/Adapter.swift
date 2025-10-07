@@ -5,7 +5,7 @@ import Abstract
 
 /// An Adapter establishes a one-to-one relationship from the Whole values to the Part values; the simplified case is an Iso, i.e. an isomorphism, and should behave as such.
 
-public struct Adapter<S,T,A,B> {
+public struct Adapter<S,T,A,B>: Sendable {
 	public let from: (S) -> A
 	public let to: (B) -> T
 
