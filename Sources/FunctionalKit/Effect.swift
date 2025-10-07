@@ -11,7 +11,7 @@ import Abstract
 // sourcery: testMonad
 // sourcery: testConstruct = "init { x }"
 // sourcery: testNeedsCommand = "run()"
-public struct Effect<Parameter> {
+public struct Effect<Parameter>: Sendable {
 	private let _call: () -> Parameter
 	public init (_ call: @escaping () -> Parameter) {
 		self._call = call
