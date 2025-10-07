@@ -18,7 +18,7 @@ private enum FutureState<T> {
 // sourcery: testMonad
 // sourcery: testConstruct = "init { $0(x) }"
 // sourcery: testNeedsCommand = "start()"
-public final class Future<Parameter> {
+public final class Future<Parameter>: Sendable {
     private var continuation: ((@Sendable @escaping (Parameter) -> ()) -> ())?
     public init(_ continuation: @escaping (@Sendable @escaping (Parameter) -> ()) -> ()) {
         self.continuation = continuation

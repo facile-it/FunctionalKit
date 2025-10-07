@@ -14,7 +14,7 @@ import Abstract
 // sourcery: testConstruct = "init { _ in x }"
 // sourcery: testNeedsContext
 // sourcery: testSecondaryParameter
-public struct Reader<Environment,Parameter> {
+public struct Reader<Environment,Parameter>: Sendable {
     private let _call: (Environment) -> Parameter
     public init (_ call: @escaping (Environment) -> Parameter) {
         self._call = call
