@@ -3,7 +3,7 @@
 #endif
 import Abstract
 
-public struct Coeffect<Parameter> {
+public struct Coeffect<Parameter>: Sendable {
 	private let _call: (Parameter) -> ()
 	public init (_ call: @escaping (Parameter) -> ()) {
 		self._call = call
