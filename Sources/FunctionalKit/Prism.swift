@@ -5,10 +5,10 @@ import Abstract
 
 /// A Prism is a reference to a component of a coproduct
 public struct PrismFull<S,T,A,B> {
-	public let tryGet: (S) -> A? /// get the part, if possible
-	public let inject: (B) -> T /// changes the value to reflect the part that's injected in
+	public let tryGet: @Sendable (S) -> A? /// get the part, if possible
+	public let inject: @Sendable (B) -> T /// changes the value to reflect the part that's injected in
 
-	public init(tryGet: @escaping (S) -> A?, inject: @escaping (B) -> T) {
+	public init(tryGet: @Sendable @escaping (S) -> A?, inject: @Sendable @escaping (B) -> T) {
 		self.tryGet = tryGet
 		self.inject = inject
 	}
@@ -22,7 +22,7 @@ public extension PrismFull where S == T, A == B {
 }
 
 public extension PrismFull {
-	func tryModify(_ transform: @escaping (A) -> B) -> (S) -> T? {
+	@Sendable func tryModify(_ transform: @Sendable @escaping (A) -> B) -> @Sendable (S) -> T? {
         return { s in
             guard let a = self.tryGet(s) else { return nil }
             return self.inject(transform(a))
@@ -82,7 +82,7 @@ public extension Optional {
 	static var prism: Prism<Optional,Wrapped> {
 		return Prism<Optional,Wrapped>.init(
 			tryGet: f.identity,
-			inject: Optional.some)
+            inject: { Optional.some($0) })
 	}
 }
 

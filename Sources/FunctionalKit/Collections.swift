@@ -69,11 +69,11 @@ public extension RandomAccessCollection where Element: Equatable {
 
 // MARK: - Query
 public extension Sequence {
-    func all(conformTo predicate: @escaping (Element) -> Bool) -> Bool {
+    func all(conformTo predicate: @Sendable @escaping (Element) -> Bool) -> Bool {
         return map(predicate >>> And.init(_:)).concatenated().unwrap
     }
     
-    func any(conformsTo predicate: @escaping (Element) -> Bool) -> Bool {
+    func any(conformsTo predicate: @Sendable @escaping (Element) -> Bool) -> Bool {
         return map(predicate >>> Or.init(_:)).concatenated().unwrap
     }
 }

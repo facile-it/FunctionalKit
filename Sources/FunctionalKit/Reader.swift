@@ -15,12 +15,12 @@ import Abstract
 // sourcery: testNeedsContext
 // sourcery: testSecondaryParameter
 public struct Reader<Environment,Parameter>: Sendable {
-    private let _call: (Environment) -> Parameter
-    public init (_ call: @escaping (Environment) -> Parameter) {
+    private let _call: @Sendable (Environment) -> Parameter
+    public init (_ call: @Sendable @escaping (Environment) -> Parameter) {
         self._call = call
     }
     
-    public func run(_ environment: Environment) -> Parameter {
+    @Sendable public func run(_ environment: Environment) -> Parameter {
         return _call(environment)
     }
 }
@@ -34,7 +34,7 @@ extension Reader: FunctionType {
 	}
 
 	public static func from(function: Function<Environment, Parameter>) -> Reader<Environment, Parameter> {
-		return Reader.init(function.call)
+        return Reader { function.call($0) }
 	}
 }
 
@@ -49,7 +49,7 @@ extension Reader: TypeConstructor2 {
 
 extension Reader: PureConstructible {
     public static func pure(_ value: ParameterType) -> Reader {
-        return Reader.init(f.pure(value))
+        return Reader(f.pure(value))
     }
 }
 
@@ -58,19 +58,19 @@ extension Reader {
 }
 
 extension Reader {
-    func dimap <A,B> (from: @escaping (A) -> Environment, to: @escaping (ParameterType) -> B) -> Reader<A,B> {
+    func dimap <A,B> (from: @Sendable @escaping (A) -> Environment, to: @Sendable @escaping (ParameterType) -> B) -> Reader<A,B> {
         return Generic.init(from >>> self.run >>> to)
     }
     
-    func map <A> (_ transform: @escaping (ParameterType) -> A) -> Reader<Environment,A> {
+    func map <A> (_ transform: @Sendable @escaping (ParameterType) -> A) -> Reader<Environment,A> {
         return dimap(from: { $0 }, to: transform)
     }
     
-    func contramap <A> (_ transform: @escaping (A) -> Environment) -> Reader<A,ParameterType> {
+    func contramap <A> (_ transform: @Sendable @escaping (A) -> Environment) -> Reader<A,ParameterType> {
         return dimap(from: transform, to: { $0 })
     }
     
-    static func lift <A> (_ function: @escaping (ParameterType) -> A) -> (Reader) -> Reader<Environment, A> {
+    static func lift <A> (_ function: @Sendable @escaping (ParameterType) -> A) -> (Reader) -> Reader<Environment, A> {
         return { $0.map(function) }
     }
     
@@ -106,7 +106,7 @@ extension Reader {
             return Generic.init { e in self.run(e).run(e) }
         }
     
-        func flatMap <A> (_ transform: @escaping (ParameterType) -> Reader<Environment,A>) -> Reader<Environment,A> {
+        func flatMap <A> (_ transform: @Sendable @escaping (ParameterType) -> Reader<Environment,A>) -> Reader<Environment,A> {
             return map(transform).joined()
         }
 

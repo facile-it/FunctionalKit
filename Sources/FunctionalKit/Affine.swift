@@ -6,10 +6,10 @@ import Abstract
 /// an Affine is a reference to some part of a data structure, where setting is failable when the data structure is not in appropriate state for that set
 
 public struct AffineFull<S,T,A,B> {
-	public let tryGet: (S) -> A? /// get the part, if possible
-	public let trySet: (B) -> (S) -> T? /// set the part, if possible
+	public let tryGet: @Sendable (S) -> A? /// get the part, if possible
+	public let trySet: @Sendable (B) -> @Sendable (S) -> T? /// set the part, if possible
 
-	public init(tryGet: @escaping (S) -> A?, trySet: @escaping (B) -> (S) -> T?) {
+	public init(tryGet: @Sendable @escaping (S) -> A?, trySet: @Sendable @escaping (B) -> @Sendable (S) -> T?) {
 		self.tryGet = tryGet
 		self.trySet = trySet
 	}

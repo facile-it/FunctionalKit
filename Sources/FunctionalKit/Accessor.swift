@@ -44,7 +44,7 @@ extension Accessor: FunctionType {
 	public static func from(function: Function<Parameter?, Parameter>) -> Accessor<Parameter> {
 		return Accessor.init(
 			get: Effect.init { function.call(nil) },
-			set: Coeffect.init(function.call >>> f.ignore))
+            set: Coeffect.init { f.ignore(function.call($0)) })
 	}
 }
 

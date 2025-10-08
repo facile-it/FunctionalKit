@@ -5,10 +5,10 @@ import Abstract
 
 /// A Lens is a reference to a subpart of some data structure
 public struct LensFull<S,T,A,B> {
-    public let get: (S) -> A
-    public let set: (B) -> (S) -> T
-    
-    public init(get: @escaping (S) -> A, set: @escaping (B) -> (S) -> T) {
+    public let get: @Sendable (S) -> A
+    public let set: @Sendable (B) -> @Sendable (S) -> T
+
+    public init(get: @Sendable @escaping (S) -> A, set: @Sendable @escaping (B) -> @Sendable (S) -> T) {
         self.get = get
         self.set = set
     }

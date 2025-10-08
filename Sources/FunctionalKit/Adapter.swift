@@ -6,10 +6,10 @@ import Abstract
 /// An Adapter establishes a one-to-one relationship from the Whole values to the Part values; the simplified case is an Iso, i.e. an isomorphism, and should behave as such.
 
 public struct Adapter<S,T,A,B>: Sendable {
-	public let from: (S) -> A
-	public let to: (B) -> T
+	public let from: @Sendable (S) -> A
+	public let to: @Sendable (B) -> T
 
-	public init(from: @escaping (S) -> A, to: @escaping (B) -> T) {
+	public init(from: @Sendable @escaping (S) -> A, to: @Sendable @escaping (B) -> T) {
 		self.from = from
 		self.to = to
 	}
@@ -70,7 +70,7 @@ public extension Adapter {
 		return Adapter<B,A,T,S>.init(from: to, to: from)
 	}
 
-	func under(_ transform: @escaping (T) -> S) -> (B) -> A {
+	func under(_ transform: @Sendable @escaping (T) -> S) -> (B) -> A {
 		return to >>> transform >>> from
 	}
 

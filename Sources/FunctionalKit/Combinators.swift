@@ -4,19 +4,19 @@
 import Abstract
 
 public extension f {
-	static func compose <A,B,C> (_ firstFunction: @escaping (A) -> B, _ secondFunction: @escaping (B) -> C) -> (A) -> C {
+	static func compose <A,B,C> (_ firstFunction: @Sendable @escaping (A) -> B, _ secondFunction: @Sendable @escaping (B) -> C) -> @Sendable (A) -> C {
 		return { secondFunction(firstFunction($0)) }
 	}
 
-	static func compose <A,B,C> (_ firstFunction: @escaping (A) throws -> B, _ secondFunction: @escaping (B) -> C) -> (A) throws -> C {
+	static func compose <A,B,C> (_ firstFunction: @Sendable @escaping (A) throws -> B, _ secondFunction: @Sendable @escaping (B) -> C) -> @Sendable (A) throws -> C {
 		return { try secondFunction(firstFunction($0)) }
 	}
 
-	static func compose <A,B,C> (_ firstFunction: @escaping (A) -> B, _ secondFunction: @escaping (B) throws -> C) -> (A) throws -> C {
+	static func compose <A,B,C> (_ firstFunction: @Sendable @escaping (A) -> B, _ secondFunction: @Sendable @escaping (B) throws -> C) -> @Sendable (A) throws -> C {
 		return { try secondFunction(firstFunction($0)) }
 	}
 
-	static func compose <A,B,C> (_ firstFunction: @escaping (A) throws -> B, _ secondFunction: @escaping (B) throws -> C) -> (A) throws -> C {
+	static func compose <A,B,C> (_ firstFunction: @Sendable @escaping (A) throws -> B, _ secondFunction: @Sendable @escaping (B) throws -> C) -> @Sendable (A) throws -> C {
 		return { try secondFunction(firstFunction($0)) }
 	}
 
@@ -61,35 +61,35 @@ public extension f {
 	}
 }
 
-public func <<< <A,B,C> (second: @escaping (B) -> C, first: @escaping (A) -> B) -> (A) -> C {
+public func <<< <A,B,C> (second: @Sendable @escaping (B) -> C, first: @Sendable @escaping (A) -> B) -> @Sendable (A) -> C {
 	return f.compose(first, second)
 }
 
-public func <<< <A,B,C> (second: @escaping (B) -> C, first: @escaping (A) throws -> B) -> (A) throws -> C {
+public func <<< <A,B,C> (second: @Sendable @escaping (B) -> C, first: @Sendable @escaping (A) throws -> B) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 
-public func <<< <A,B,C> (second: @escaping (B) throws -> C, first: @escaping (A) -> B) -> (A) throws -> C {
+public func <<< <A,B,C> (second: @Sendable @escaping (B) throws -> C, first: @Sendable @escaping (A) -> B) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 
-public func <<< <A,B,C> (second: @escaping (B) throws -> C, first: @escaping (A) throws -> B) -> (A) throws -> C {
+public func <<< <A,B,C> (second: @Sendable @escaping (B) throws -> C, first: @Sendable @escaping (A) throws -> B) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 
-public func >>> <A,B,C> (first: @escaping (A) -> B, second: @escaping (B) -> C) -> (A) -> C {
+public func >>> <A,B,C> (first: @Sendable @escaping (A) -> B, second: @Sendable @escaping (B) -> C) -> @Sendable (A) -> C {
 	return f.compose(first, second)
 }
 
-public func >>> <A,B,C> (first: @escaping (A) throws -> B, second: @escaping (B) -> C) -> (A) throws -> C {
+public func >>> <A,B,C> (first: @Sendable @escaping (A) throws -> B, second: @Sendable @escaping (B) -> C) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 
-public func >>> <A,B,C> (first: @escaping (A) -> B, second: @escaping (B) throws -> C) -> (A) throws -> C {
+public func >>> <A,B,C> (first: @Sendable @escaping (A) -> B, second: @Sendable @escaping (B) throws -> C) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 
-public func >>> <A,B,C> (first: @escaping (A) throws -> B, second: @escaping (B) throws -> C) -> (A) throws -> C {
+public func >>> <A,B,C> (first: @Sendable @escaping (A) throws -> B, second: @Sendable @escaping (B) throws -> C) -> @Sendable (A) throws -> C {
 	return f.compose(first, second)
 }
 

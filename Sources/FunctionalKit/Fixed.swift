@@ -5,7 +5,7 @@ import Abstract
 
 public extension f {
 
-	static func identity <A> (_ a: A) -> A {
+	@Sendable static func identity <A> (_ a: A) -> A {
 		return a
 	}
 
@@ -21,7 +21,7 @@ public extension f {
 		return { a }
 	}
 
-	static func pure <A,B> (_ a : A) -> (B) -> A {
+	@Sendable static func pure <A,B> (_ a : A) -> @Sendable (B) -> A {
 		return { _ in a }
 	}
 
@@ -43,7 +43,7 @@ public extension f {
 
 	static func ignore () {}
 
-	static func ignore <A> (_ a: A) {}
+	@Sendable static func ignore <A> (_ a: A) {}
 
 	static func ignore <A,B> (_ a: A, _ b: B) {}
 

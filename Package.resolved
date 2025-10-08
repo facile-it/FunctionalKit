@@ -1,43 +1,33 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Abstract",
-        "repositoryURL": "https://github.com/typelift/Abstract.git",
-        "state": {
-          "branch": null,
-          "revision": "77f2902ff68f218daa8040251c148c328be82845",
-          "version": "0.1.0"
-        }
-      },
-      {
-        "package": "FileCheck",
-        "repositoryURL": "https://github.com/llvm-swift/FileCheck.git",
-        "state": {
-          "branch": null,
-          "revision": "bd9cb30ceee1f21c02f51a7168f58471449807d8",
-          "version": "0.1.0"
-        }
-      },
-      {
-        "package": "Operadics",
-        "repositoryURL": "https://github.com/typelift/Operadics.git",
-        "state": {
-          "branch": null,
-          "revision": "ef9c00e70ac4e5fba046f4eae3bd4e4e8f058648",
-          "version": "0.4.0"
-        }
-      },
-      {
-        "package": "SwiftCheck",
-        "repositoryURL": "https://github.com/typelift/SwiftCheck.git",
-        "state": {
-          "branch": null,
-          "revision": "077c096c3ddfc38db223ac8e525ad16ffb987138",
-          "version": "0.12.0"
-        }
+  "originHash" : "d0b83eb18e36f127670883fabf93361ff6d9c54430ef9860621a766936aa685d",
+  "pins" : [
+    {
+      "identity" : "filecheck",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/llvm-swift/FileCheck.git",
+      "state" : {
+        "revision" : "bd9cb30ceee1f21c02f51a7168f58471449807d8",
+        "version" : "0.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "operadics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/typelift/Operadics.git",
+      "state" : {
+        "revision" : "ef9c00e70ac4e5fba046f4eae3bd4e4e8f058648",
+        "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "swiftcheck",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/typelift/SwiftCheck.git",
+      "state" : {
+        "revision" : "077c096c3ddfc38db223ac8e525ad16ffb987138",
+        "version" : "0.12.0"
+      }
+    }
+  ],
+  "version" : 3
 }

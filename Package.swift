@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,8 +12,9 @@ let package = Package(
             targets: ["FunctionalKit"]),
     ],
     dependencies: [
-		.package(url: "https://github.com/typelift/Abstract.git",
-				 from: Version(0,0,0)),
+        .package(path: "../abstract"),
+//		.package(url: "https://gitlab.facile.it/mobile-apps/abstract.git",
+//				 from: Version(0,0,0)),
 		.package(url: "https://github.com/typelift/Operadics.git",
 				 from: Version(0,0,0)),
         .package(url: "https://github.com/typelift/SwiftCheck.git",
@@ -24,9 +25,18 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "FunctionalKit",
-            dependencies: ["Abstract","Operadics"]),
+            dependencies: [
+                .product(name: "Abstract", package: "abstract"),
+                "Operadics"
+            ]
+        ),
         .testTarget(
             name: "FunctionalKitTests",
-            dependencies: ["FunctionalKit","SwiftCheck","Abstract","Operadics"]),
+            dependencies: [
+                "FunctionalKit",
+                "SwiftCheck",
+                .product(name: "Abstract", package: "abstract"),
+                "Operadics"
+            ]),
     ]
 )
