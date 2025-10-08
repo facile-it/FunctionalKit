@@ -22,7 +22,7 @@ extension Product: ProductType {
 	}
 }
 
-extension Product: Error where A: Error, B: Error {}
+extension Product: @retroactive Error where A: Error, B: Error {}
 
 // MARK: - Equatable
 

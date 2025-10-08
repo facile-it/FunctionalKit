@@ -312,9 +312,9 @@ public extension Result {
     }
 }
 
-extension First: Error where A: Error {}
+extension First: @retroactive Error where A: Error {}
 
-extension Result: Magma where Failure: Magma, Success: Magma {
+extension Result: @retroactive Magma where Failure: Magma, Success: Magma {
     public static func <> (lhs: Result, rhs: Result) -> Result {
         switch (lhs, rhs) {
         case (.success(let lhsValue), .success(let rhsValue)):
@@ -329,9 +329,9 @@ extension Result: Magma where Failure: Magma, Success: Magma {
     }
 }
 
-extension Result: Semigroup where Failure: Semigroup, Success: Semigroup {}
+extension Result: @retroactive Semigroup where Failure: Semigroup, Success: Semigroup {}
 
-extension Result: Monoid where Failure: Semigroup, Success: Monoid {
+extension Result: @retroactive Monoid where Failure: Semigroup, Success: Monoid {
     public static var empty: Result<Success, Failure> {
         return .success(.empty)
     }
