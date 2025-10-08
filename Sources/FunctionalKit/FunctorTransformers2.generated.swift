@@ -9,13 +9,13 @@ public extension Array {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Array<Effect<Output>> where ParameterType == Effect<Input> {
         return fmap { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Array<Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Array<Future<Output>> where ParameterType == Future<Input> {
         return fmap { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Array<Optional<Output>> where ParameterType == Optional<Input> {
         return fmap { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Array<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Array<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return fmap { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: (Input) -> Output) -> Array<Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -35,13 +35,13 @@ public extension Effect {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Effect<Output>> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Effect<Future<Output>> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Optional<Output>> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Effect<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Effect<Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -61,13 +61,13 @@ public extension Future {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Effect<Output>> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Future<Future<Output>> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Optional<Output>> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Future<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Future<Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -87,13 +87,13 @@ public extension Optional {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Effect<Output>> where ParameterType == Effect<Input> {
         return fmap { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Optional<Future<Output>> where ParameterType == Future<Input> {
         return fmap { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Optional<Optional<Output>> where ParameterType == Optional<Input> {
         return fmap { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Optional<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Optional<Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return fmap { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: (Input) -> Output) -> Optional<Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -113,13 +113,13 @@ public extension Reader {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Effect<Output>> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Reader<Environment,Future<Output>> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Optional<Output>> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Reader<Environment,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Reader<Environment,Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -139,13 +139,13 @@ public extension Result {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Result<Effect<Output>,Failure> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Result<Future<Output>,Failure> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Result<Future<Output>,Failure> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Result<Optional<Output>,Failure> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Result<Reader<Secondary,Output>,Failure> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Result<Reader<Secondary,Output>,Failure> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: (Input) -> Output) -> Result<Result<Output,Secondary>,Failure> where ParameterType == Result<Input,Secondary> {
@@ -165,13 +165,13 @@ public extension State {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Effect<Output>> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> State<Model,Future<Output>> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Optional<Output>> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> State<Model,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> State<Model,Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
@@ -191,13 +191,13 @@ public extension Writer {
 	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Writer<Log,Effect<Output>> where ParameterType == Effect<Input> {
         return map { $0.map(transform) }
     }
-	func mapT <Input,Output> (_ transform: @escaping (Input) -> Output) -> Writer<Log,Future<Output>> where ParameterType == Future<Input> {
+	func mapT <Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Writer<Log,Future<Output>> where ParameterType == Future<Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Input,Output> (_ transform: (Input) -> Output) -> Writer<Log,Optional<Output>> where ParameterType == Optional<Input> {
         return map { $0.fmap(transform) }
     }
-	func mapT <Secondary,Input,Output> (_ transform: @escaping (Input) -> Output) -> Writer<Log,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
+	func mapT <Secondary,Input,Output> (_ transform: @Sendable @escaping (Input) -> Output) -> Writer<Log,Reader<Secondary,Output>> where ParameterType == Reader<Secondary,Input> {
         return map { $0.map(transform) }
     }
 	func mapT <Secondary,Input,Output> (_ transform: (Input) -> Output) -> Writer<Log,Result<Output,Secondary>> where ParameterType == Result<Input,Secondary> {
