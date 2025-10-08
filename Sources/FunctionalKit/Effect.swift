@@ -12,8 +12,8 @@ import Abstract
 // sourcery: testConstruct = "init { x }"
 // sourcery: testNeedsCommand = "run()"
 public struct Effect<Parameter>: Sendable {
-	private let _call: () -> Parameter
-	public init (_ call: @escaping () -> Parameter) {
+	private let _call: @Sendable () -> Parameter
+	public init (_ call: @Sendable @escaping () -> Parameter) {
 		self._call = call
 	}
 
@@ -115,7 +115,7 @@ public extension Effect {
 }
 
 public extension f {
-	static func lazily <A> (_ execute: @escaping @autoclosure () -> A) -> Effect<A> {
+	static func lazily <A> (_ execute: @Sendable @escaping @autoclosure () -> A) -> Effect<A> {
 		return Effect(execute)
 	}
 }
