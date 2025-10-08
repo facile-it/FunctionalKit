@@ -22,7 +22,7 @@ extension Coproduct: CoproductType {
 	}
 }
 
-extension Coproduct: Error where A: Error, B: Error {}
+extension Coproduct: @retroactive Error where A: Error, B: Error {}
 
 // MARK: - Equatable
 

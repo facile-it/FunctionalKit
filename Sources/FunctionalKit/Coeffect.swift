@@ -4,8 +4,8 @@
 import Abstract
 
 public struct Coeffect<Parameter>: Sendable {
-	private let _call: (Parameter) -> ()
-	public init (_ call: @escaping (Parameter) -> ()) {
+	private let _call: @Sendable (Parameter) -> ()
+	public init (_ call: @Sendable @escaping (Parameter) -> ()) {
 		self._call = call
 	}
 
