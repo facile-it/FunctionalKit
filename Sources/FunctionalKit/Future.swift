@@ -18,7 +18,7 @@ private enum FutureState<T> {
 // sourcery: testMonad
 // sourcery: testConstruct = "init { $0(x) }"
 // sourcery: testNeedsCommand = "start()"
-public final class Future<Parameter>: Sendable {
+public final class Future<Parameter> {
     private var continuation: ((@Sendable @escaping (Parameter) -> ()) -> ())?
     public init(_ continuation: @escaping (@Sendable @escaping (Parameter) -> ()) -> ()) {
         self.continuation = continuation
@@ -111,24 +111,6 @@ public extension Future {
 }
 
 public extension Future {
-    static func zipParallel <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where ParameterType == (A,B) {
-        return Generic.init { done in
-            var tuple: (A?,B?) = (nil,nil)
-
-            first.run { value in
-                tuple.0 = value
-                guard let first = tuple.0, let second = tuple.1 else { return }
-                done((first,second))
-            }
-
-            second.run { value in
-                tuple.1 = value
-                guard let first = tuple.0, let second = tuple.1 else { return }
-                done((first,second))
-            }
-        }
-    }
-    
     static func zipSerial <A,B> (_ first: Future<A>, _ second: Future<B>) -> Future<(A,B)> where ParameterType == (A,B) {
         return first.flatMap { firstValue in
             second.map { secondValue in (firstValue, secondValue) }
@@ -136,19 +118,10 @@ public extension Future {
     }
 }
 
-public extension Future {
-    func applyParallel <A> (_ transform: Future<(ParameterType) -> A>) -> Future<A> {
-        return Generic.zipParallel(self, transform).map { value, function in function(value) }
-    }
-    
+public extension Future {    
     func applySerial <A> (_ transform: Future<(ParameterType) -> A>) -> Future<A> {
         return Generic.zipSerial(self, transform).map { value, function in function(value) }
     }
-
-	func callParallel <A,B> (_ value: Future<A>) -> Future<B> where ParameterType == (A) -> B {
-		return Generic.zipParallel(self, value)
-			.map { function, value in function(value) }
-	}
 
 	func callSerial <A,B> (_ value: Future<A>) -> Future<B> where ParameterType == (A) -> B {
 		return Generic.zipSerial(self, value)
